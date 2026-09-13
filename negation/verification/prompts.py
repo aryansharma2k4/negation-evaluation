@@ -21,10 +21,20 @@ rewrite. And **the base sentence is not under judgement** -- several families
 take an already-negated base, and a model left to itself will mark a variant
 wrong because it dislikes the input it was derived from.
 
-The few-shot examples are chosen to span the three outcomes the model has to
-keep apart: a clean pass, a fluent sentence in the wrong family, and an
-ungrammatical one. All three are hand-written rather than drawn from the corpus,
-so no evaluated record appears in its own prompt.
+The few-shot examples span the four outcomes the model has to keep apart: a
+clean pass, a fluent sentence in the wrong family, a **grammatical sentence that
+is semantically implausible**, and an ungrammatical one. All are hand-written
+rather than drawn from the corpus, so no evaluated record appears in its own
+prompt.
+
+The third of those was added after measurement, not by design. With only the
+first, second and fourth, ``qwen2.5:7b`` collapsed the three questions into one
+global "is this odd?" judgement -- it marked *"None of the students passed."*
+and *"The parser fails to run with a cache."* ungrammatical, and returned
+identical values for all three fields on 20/20 records. The missing case was
+precisely the one it was getting wrong: nothing in the prompt showed it what
+"grammatical but implausible" looks like. See ``reports/verifier_validation.md``
+for the before-and-after.
 """
 
 from __future__ import annotations
@@ -33,6 +43,12 @@ import json
 from typing import Any, Sequence
 
 from ..schema import FAMILIES
+
+#: Bumped whenever the prompt changes in a way that could change a verdict.
+#: It travels into the cache key via the backend's name: a cached verdict is no
+#: more interchangeable across prompts than across models, and reusing v1
+#: answers after a v2 rewrite would silently report the old behaviour.
+PROMPT_VERSION = "p2"
 
 #: The families the model may suggest. Passed explicitly: a model asked to name
 #: a category without a closed list invents plausible-sounding ones, and a
@@ -113,6 +129,30 @@ _FEW_SHOT: tuple[dict[str, Any], ...] = (
     {
         "item": {
             "id": 2,
+            "base_sentence": "The score increased.",
+            "variant": "The score neglected to increase.",
+            "family": "F_implicit",
+            "subtype": "neglects_to",
+            "operation": "negate",
+            "net_negation": 1,
+        },
+        "verdict": {
+            "id": 2,
+            "grammatical": True,
+            "semantically_valid": False,
+            "category_correct": True,
+            "suggested_family": None,
+            "confidence": 0.8,
+        },
+        "why": (
+            "the form is impeccable -- subject, verb, infinitive complement -- so "
+            "grammatical is TRUE even though a score cannot neglect anything. The "
+            "oddity is semantic, and it is recorded there and nowhere else"
+        ),
+    },
+    {
+        "item": {
+            "id": 3,
             "base_sentence": "She has finished the report.",
             "variant": "She has not finished not the report.",
             "family": "A_syntactic",
@@ -121,7 +161,7 @@ _FEW_SHOT: tuple[dict[str, Any], ...] = (
             "net_negation": 1,
         },
         "verdict": {
-            "id": 2,
+            "id": 3,
             "grammatical": False,
             "semantically_valid": False,
             "category_correct": False,
@@ -180,9 +220,15 @@ from it, and the labels the generator assigned.
 
 For each item answer exactly three questions:
 
-1. "grammatical": Is the VARIANT, on its own, well-formed English?
-   Judge only form. A sentence can be grammatical and still be wrong elsewhere.
-   Marked or old-fashioned phrasing is still grammatical.
+1. "grammatical": Is the VARIANT, on its own, well-formed English SYNTAX?
+   Judge ONLY word order, agreement and morphology. Nothing else.
+   A sentence is GRAMMATICAL even if it is: strange, implausible, factually
+   false, stilted, old-fashioned, or something nobody would ever say.
+   "The score neglected to increase" is GRAMMATICAL. "Colourless green ideas
+   sleep furiously" is GRAMMATICAL. Only mark it false if the words cannot be
+   parsed as an English sentence at all -- a stray word, a missing verb, a
+   broken agreement.
+   Oddness belongs in question 2, never here.
 
 2. "semantically_valid": Does the VARIANT stand in the claimed relation to the
    BASE SENTENCE, given "operation"?
@@ -199,9 +245,12 @@ FAMILY REFERENCE:
 
 RULES:
 - Judge ONLY these three questions. Do NOT rewrite, correct or improve any sentence.
+- When "category_correct" is false you MUST give a "suggested_family" from the
+  list, unless the variant belongs to no family at all.
 - The BASE SENTENCE is NOT under judgement. It may itself already contain a
   negation; that is expected and is not a fault in the VARIANT.
-- If "grammatical" is false, the other two are almost always false too.
+- The three answers are INDEPENDENT. Do not copy one into the others. Most
+  items that fail do so on exactly one of the three.
 - "confidence" is your confidence in the whole verdict, from 0.0 to 1.0.
 - Output one verdict per item, with the same "id". Output every id from 0 to
   {len(items) - 1}.
