@@ -53,6 +53,7 @@ from ..nlp_core import (
     matches_case,
     root_of,
     subject_of,
+    third_person_singular,
 )
 from ..schema import (
     FAM_AFFIXAL,
@@ -344,6 +345,21 @@ class RemoveCopulaNegation(Affirmation):
 # ---------------------------------------------------------------------------
 
 
+#: Negative quantifiers that take a singular noun but whose positive
+#: counterpart takes a plural one.
+_PLURALISING_FLIPS: frozenset[str] = frozenset({"both"})
+
+
+def _pluralised_head(determiner: Token, flip: str) -> Optional[tuple[Token, str]]:
+    """``(noun, plural form)`` when ``flip`` forces its head noun plural."""
+    if flip not in _PLURALISING_FLIPS:
+        return None
+    head = determiner.head
+    if head.pos_ != "NOUN" or head.tag_ in ("NNS", "NNPS"):
+        return None
+    return head, matches_case(third_person_singular(head.lemma_), head)
+
+
 @register
 class QuantifierFlip(Affirmation):
     """*"No students passed"* -> *"Some students passed"*.
@@ -380,10 +396,17 @@ class QuantifierFlip(Affirmation):
         if target is None:
             return []
         token, end, flip = target
-        edit = Edit.replace(token.idx, end, lower_initial(flip))
+        edits = [Edit.replace(token.idx, end, lower_initial(flip))]
+        plural = _pluralised_head(token, flip)
+        if plural is not None:
+            # *neither* takes a singular noun and *both* a plural one, so the
+            # determiner cannot be swapped on its own: "Neither test passed"
+            # affirms to "Both tests passed", not "*Both test passed".
+            head, surface = plural
+            edits.append(Edit.replace(head.idx, head.idx + len(head.text), surface))
         record = self.build_affirmation(
             doc,
-            [edit],
+            edits,
             token.i,
             subtype=f"{token.lower_}_to_{flip.replace(' ', '_')}",
             scope_target=scope_target_for(token),

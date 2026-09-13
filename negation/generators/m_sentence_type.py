@@ -273,6 +273,10 @@ class ImperativeContractedNegation(SentenceTypeGenerator):
 # ---------------------------------------------------------------------------
 
 
+#: Pre-head slots *no* takes over rather than stacking in front of.
+_NP_LEFT_EDGE_DEPS = frozenset({"det", "predet", "nummod"})
+
+
 def _existential_complement(doc: Doc) -> Optional[Token]:
     """The NP an existential asserts the existence of."""
     root = root_of(doc)
@@ -309,11 +313,16 @@ class ExistentialNegation(SentenceTypeGenerator):
         complement = _existential_complement(doc)
         if complement is None:
             return None
-        determiner = next(
-            (c for c in complement.children if c.dep_ == "det" and c.i < complement.i),
-            None,
+        # *no* occupies the NP's left edge, so that is where it goes -- not
+        # immediately before the head noun, which would give "*There are stale
+        # no entries".  Whatever already holds that slot, if it is a determiner
+        # or a numeral, is what *no* replaces: "three solutions" -> "no
+        # solutions", never "*three no solutions".
+        left = min(complement.subtree, key=lambda t: t.i)
+        replaced = (
+            left if left.dep_ in _NP_LEFT_EDGE_DEPS and left.i < complement.i else None
         )
-        return complement, determiner
+        return left, replaced
 
     def applies(self, doc: Doc) -> bool:
         return self._affirmative(doc) and self._target(doc) is not None
@@ -322,13 +331,13 @@ class ExistentialNegation(SentenceTypeGenerator):
         target = self._target(doc)
         if target is None:
             return []
-        complement, determiner = target
-        if determiner is not None:
+        anchor, replaced = target
+        if replaced is not None:
             edit = Edit.replace(
-                determiner.idx, determiner.idx + len(determiner.text), "no", cue=True
+                replaced.idx, replaced.idx + len(replaced.text), "no", cue=True
             )
         else:
-            edit = Edit.insert(complement.idx, "no ", cue=True)
+            edit = Edit.insert(anchor.idx, "no ", cue=True)
         record = self.build(
             doc,
             [edit],
@@ -427,6 +436,14 @@ def _comparative_head(doc: Doc) -> Optional[Token]:
         if token.tag_ not in ("JJR", "RBR"):
             continue
         if any(c.lower_ == "than" for c in token.children):
+            return token
+        # Periphrastic comparatives put the degree word and the standard on
+        # different heads: in "more robust than X" the parser hangs *more* off
+        # *robust* and *than* off *robust* too, so *more* never sees it.
+        # *no* still belongs in front of *more*.
+        if token.dep_ == "advmod" and any(
+            c.lower_ == "than" for c in token.head.children
+        ):
             return token
     return None
 
