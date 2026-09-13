@@ -26,7 +26,11 @@ from typing import Optional
 
 from spacy.tokens import Doc, Token
 
-from .lexicons import CONTRACTED_NEGATIVE_AUX
+from .lexicons import (
+    CONTRACTED_NEGATIVE_AUX,
+    IRREGULAR_AUX_CONTRACTIONS,
+    UNCONTRACTABLE_AUX,
+)
 from .nlp_core import finite_aux, subject_of, third_person_singular
 from .splice import Edit, Piece
 
@@ -59,6 +63,22 @@ class ClauseFrame:
     def finite_slot(self) -> Token:
         """The token carrying finiteness: the auxiliary, else the head itself."""
         return self.aux if self.aux is not None else self.head
+
+
+def contracted_negative(aux_text: str) -> Optional[str]:
+    """The ``n't`` form of an auxiliary, or ``None`` when it has none.
+
+    Mostly a suffix, but not always: *can* contracts to *can't* rather than
+    ``*cann't``, *will* to *won't*, and *am* has no standard contraction at all.
+    Casing is copied from the input so a fronted *Does* yields *Doesn't*.
+    """
+    lowered = aux_text.lower()
+    if lowered in UNCONTRACTABLE_AUX:
+        return None
+    contracted = IRREGULAR_AUX_CONTRACTIONS.get(lowered, lowered + "n't")
+    if aux_text[:1].isupper():
+        return contracted[:1].upper() + contracted[1:]
+    return contracted
 
 
 def _do_form_for(head: Token) -> Optional[str]:

@@ -26,14 +26,18 @@ def parse():
 
 @pytest.fixture(scope="session")
 def run_family():
-    """``run_family(doc, "A_syntactic")`` -> records that family licenses."""
+    """``run_family(doc, "A_syntactic")`` -> records that family licenses.
+
+    Gated by ``licensed_for`` as well as ``applies``, exactly as the driver is,
+    so a test never sees output the pipeline would not produce.
+    """
 
     def _run(doc: Doc, family: str) -> list:
         out = []
         for generator in registry():
             if generator.family != family:
                 continue
-            if generator.applies(doc):
+            if generator.licensed_for(doc) and generator.applies(doc):
                 out.extend(generator.generate(doc))
         return out
 
@@ -47,7 +51,8 @@ def run_generator():
     def _run(doc: Doc, name: str) -> list:
         for generator in registry():
             if generator.name == name:
-                return generator.generate(doc) if generator.applies(doc) else []
+                licensed = generator.licensed_for(doc) and generator.applies(doc)
+                return generator.generate(doc) if licensed else []
         raise AssertionError(f"no generator named {name!r}")
 
     return _run
