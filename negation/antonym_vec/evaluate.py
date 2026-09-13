@@ -156,6 +156,11 @@ class Scored:
     rank: Optional[int]
     gold: str
     returned: list[str]
+    #: Cosine of the top candidate and of the runner-up, so the confidence
+    #: score the deployed fallback computes can be checked against whether the
+    #: answer was actually right.
+    top_score: float = 0.0
+    runner_up_score: float = 0.0
 
 
 def score_pairs(
@@ -208,8 +213,46 @@ def score_pairs(
                 rank=None if rank is None else min(rank, RANK_CEILING),
                 gold=sorted(gold)[0],
                 returned=words[:5],
+                top_score=float(ranked[0][1]),
+                runner_up_score=float(ranked[1][1]) if len(ranked) > 1 else 0.0,
             )
         )
+    return out
+
+
+def reliability(scored: Sequence[Scored], bins: int = 5) -> list[dict]:
+    """Is a confident prediction more likely to be right?
+
+    Buckets queries by the margin between the top candidate and the runner-up --
+    the same quantity :mod:`negation.antonym_vec.api` turns into its confidence
+    score -- and reports precision@1 within each bucket. A usable confidence
+    would show precision rising monotonically across buckets; a flat profile
+    means the score carries no information about correctness and no threshold on
+    it can be justified.
+    """
+    fired = [s for s in scored if s.fired]
+    if not fired:
+        return []
+    margins = sorted(s.top_score - s.runner_up_score for s in fired)
+    edges = [margins[int(len(margins) * i / bins)] for i in range(1, bins)]
+
+    def bucket_of(item: Scored) -> int:
+        margin = item.top_score - item.runner_up_score
+        return sum(1 for edge in edges if margin >= edge)
+
+    out = []
+    for index in range(bins):
+        members = [s for s in fired if bucket_of(s) == index]
+        if not members:
+            continue
+        out.append({
+            "bucket": index,
+            "n": len(members),
+            "margin_lo": round(min(s.top_score - s.runner_up_score for s in members), 4),
+            "margin_hi": round(max(s.top_score - s.runner_up_score for s in members), 4),
+            "p@1": round(sum(s.hit_1 for s in members) / len(members), 4),
+            "synonym@1": round(sum(s.synonym_1 for s in members) / len(members), 4),
+        })
     return out
 
 
