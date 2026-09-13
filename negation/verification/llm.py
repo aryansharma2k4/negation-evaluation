@@ -31,7 +31,7 @@ import urllib.request
 from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
-from .prompts import FAMILY_LIST, build_prompt, build_single_prompt
+from .prompts import FAMILY_LIST, PROMPT_VERSION, build_prompt, build_single_prompt
 from .schema import (
     REASON_PARSE_FAILURE,
     REASON_UNAVAILABLE,
@@ -69,7 +69,7 @@ class OllamaBackend:
     name: str = field(init=False)
 
     def __post_init__(self) -> None:
-        self.name = f"ollama/{self.model}"
+        self.name = f"ollama/{self.model}+{PROMPT_VERSION}"
 
     def available(self) -> bool:
         try:
@@ -118,7 +118,7 @@ class LlamaCppBackend:
     def __post_init__(self) -> None:
         if not _is_local(self.url):
             raise ValueError(f"refusing a non-local LLM endpoint: {self.url}")
-        self.name = f"llamacpp/{self.model}"
+        self.name = f"llamacpp/{self.model}+{PROMPT_VERSION}"
 
     def available(self) -> bool:
         for path in ("/health", "/v1/models"):

@@ -421,9 +421,37 @@ def test_prompt_forbids_rewriting_and_protects_the_base():
     assert "BASE SENTENCE is NOT under judgement" in prompt
 
 
-def test_prompt_carries_three_few_shot_examples():
+def test_prompt_carries_all_four_few_shot_outcomes():
+    """Including grammatical-but-implausible, which qwen2.5:7b needs shown."""
     prompt = build_prompt([make_record()])
-    assert prompt.count("VERDICT:") == 3
+    assert prompt.count("VERDICT:") == 4
+
+
+def test_few_shot_covers_grammatical_but_semantically_invalid():
+    """The case whose absence made the model collapse the three questions."""
+    from negation.verification.prompts import _FEW_SHOT
+
+    combinations = {
+        (s["verdict"]["grammatical"], s["verdict"]["semantically_valid"],
+         s["verdict"]["category_correct"])
+        for s in _FEW_SHOT
+    }
+    assert (True, False, True) in combinations
+    assert (True, True, False) in combinations
+    assert (False, False, False) in combinations
+    assert (True, True, True) in combinations
+
+
+def test_prompt_tells_the_model_the_answers_are_independent():
+    assert "INDEPENDENT" in build_prompt([make_record()])
+
+
+def test_prompt_version_is_part_of_the_cache_identity():
+    """A prompt change must not silently reuse verdicts from the old prompt."""
+    from negation.verification.llm import OllamaBackend
+    from negation.verification.prompts import PROMPT_VERSION
+
+    assert PROMPT_VERSION in OllamaBackend(model="m").name
 
 
 def test_prompt_lists_the_closed_family_set():
