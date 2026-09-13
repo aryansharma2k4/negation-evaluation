@@ -14,6 +14,15 @@ Every generated record runs this gauntlet before it reaches the output:
 
 The ordering matters: step 3 is the only expensive one, and it only ever sees
 records that already passed 1 and 2.
+
+Step 3 also carries the **operation-depth guardrail**.  It is not a filter: a
+record whose variant carries more cues than ``input_cue_count + op_depth``
+raises :class:`~negation.schema.DepthViolation` rather than being dropped,
+because a generator that miscounts its own operations is a bug and a silent
+drop would hide it.  The check belongs here because it needs the variant
+*parsed* -- counting cues by string matching is exactly the mistake the
+classifier exists to avoid -- and this is the one place the variants are
+already parsed.
 """
 
 from __future__ import annotations
@@ -26,9 +35,10 @@ from typing import Iterable, Optional
 
 from spacy.tokens import Doc
 
+from .classify import classify_input
 from .lexicons import BLACKLIST_PATTERNS
 from .nlp_core import parse_batch, roots, tree_depth
-from .schema import NegationVariant
+from .schema import DepthViolation, NegationVariant
 
 #: Maximum allowed difference in parse-tree depth between variant and base.
 MAX_DEPTH_DELTA = 3
@@ -122,17 +132,41 @@ def parse_is_valid(variant_doc: Doc, base_depth: int) -> Optional[str]:
     return None
 
 
+def check_operation_depth(record: NegationVariant, variant_doc: Doc) -> None:
+    """Raise unless ``record`` stayed within ``input_cue_count + op_depth`` cues.
+
+    Both sides of the comparison are counted by
+    :func:`negation.classify.classify_input`, so "how many cues does the input
+    have" and "how many does the output have" mean the same thing -- a multiword
+    cue such as *by no means* counts once on both sides, even though it occupies
+    three ``cue_char_spans``.
+    """
+    observed = classify_input(variant_doc).existing_count
+    if observed > record.max_output_cues:
+        raise DepthViolation(
+            f"{record.generator} declared op_depth={record.op_depth} on an input "
+            f"carrying {record.input_cue_count} cue(s), so its variant may carry at "
+            f"most {record.max_output_cues}; {observed} found in "
+            f"{record.variant!r} (base: {record.base_sentence!r})"
+        )
+
+
 def apply_parse_check(
     records: list[NegationVariant],
     base_depths: dict[str, int],
     report: FilterReport,
 ) -> list[NegationVariant]:
-    """Re-parse every candidate in one batched pass and keep the well-formed ones."""
+    """Re-parse every candidate in one batched pass and keep the well-formed ones.
+
+    Also the point at which the operation-depth guardrail fires; see the module
+    docstring for why it raises instead of dropping.
+    """
     if not records:
         return []
     docs = parse_batch(r.variant for r in records)
     out: list[NegationVariant] = []
     for record, doc in zip(records, docs):
+        check_operation_depth(record, doc)
         reason = parse_is_valid(doc, base_depths.get(record.base_id, 0))
         if reason is not None:
             report.drop(f"parse:{reason}")

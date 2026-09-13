@@ -76,6 +76,9 @@ class LexicalCancellation(Generator):
     family = FAM_CANCELLATION
     name = "k1_lexical_cancel_v1"
     depth = 2
+    #: The input already carries the lexical negative, so only one operation --
+    #: inserting the clausal negator -- is applied to the sentence we were given.
+    op_depth = 1
 
     def _target(self, doc: Doc) -> Optional[tuple[ClauseFrame, Token]]:
         root = root_of(doc)
@@ -149,6 +152,8 @@ class AffixalCancellation(Generator):
     family = FAM_CANCELLATION
     name = "k1_affixal_cancel_v1"
     depth = 2
+    #: Derives the affixal negative *and* inserts the clausal negator.
+    op_depth = 2
 
     def _targets(self, doc: Doc) -> list[Token]:
         root = root_of(doc)
@@ -208,6 +213,8 @@ class TriggerCancellation(Generator):
     family = FAM_CANCELLATION
     name = "k1_trigger_cancel_v1"
     depth = 2
+    #: Restructures the predicate under a trigger *and* inserts "never".
+    op_depth = 2
 
     #: Only the ``to_inf`` triggers read naturally under *never*.
     _TRIGGERS = tuple(t for t in IMPLICIT_TRIGGERS if t.frame == "to_inf")
@@ -284,6 +291,8 @@ class CompoundClauseNegation(Generator):
     family = FAM_COMPOUND
     name = "k2_clause_pair_v1"
     depth = 2
+    #: One negator per clause: two operations.
+    op_depth = 2
 
     def _frames(self, doc: Doc) -> list[ClauseFrame]:
         frames = _clause_frames(doc)
@@ -336,6 +345,8 @@ class CrossClauseCompound(Generator):
     family = FAM_COMPOUND
     name = "k2_cross_clause_v1"
     depth = 2
+    #: One clausal negator plus one affixal derivation.
+    op_depth = 2
 
     def _pairs(self, doc: Doc) -> list[tuple[ClauseFrame, Token]]:
         frames = _clause_frames(doc)

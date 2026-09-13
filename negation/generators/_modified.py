@@ -34,6 +34,9 @@ class ModifiedNegation(Generator):
     """Base class: apply each declared :class:`Modifier` to the root clause frame."""
 
     depth = 2
+    #: A hedge or intensifier composes *over* a clausal negation, so two
+    #: operations separate the output from an affirmative input.
+    op_depth = 2
     #: Populated by subclasses.
     modifiers: tuple[Modifier, ...] = ()
     intensity: str = ""
