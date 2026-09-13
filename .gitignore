@@ -16,3 +16,7 @@ data/external/
 
 # word embeddings, fetched not vendored
 data/embeddings/
+
+# stage 2 verification artefacts
+variants_verified.jsonl
+.verification_cache.sqlite*

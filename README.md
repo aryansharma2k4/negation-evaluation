@@ -388,6 +388,54 @@ variants, and every one of them is still present in the full corpus. The
 baseline lives with the tests rather than reading `data/sample_sentences.txt`,
 which is a scratch file meant to be edited.
 
+## Stage 2: verification
+
+`negation/verification/` reads stage 1's JSONL (every record carrying
+`verified = null`) and writes it back with a verdict and the evidence behind it.
+Generator code is untouched — records are handled as dicts, so a re-run of
+verification cannot invalidate a stage-1 artefact.
+
+```bash
+./venv/bin/python -m negation.verification.cli \
+    --input variants.jsonl --output variants_verified.jsonl \
+    --model qwen2.5:7b --cola-threshold 0.3 --batch-size 32 --resume
+```
+
+**Two tiers, cheap first.** A CoLA classifier scores acceptability on everything
+(seconds for the corpus); only survivors reach the LLM at ~9s/record on CPU. The
+threshold is reported rather than guessed — every run prints what each candidate
+threshold would have cut — and defaults low at 0.30, because tier 1 is the one
+irreversible step.
+
+**Three narrow questions, never one vague one.** `grammatical`,
+`semantically_valid` and `category_correct`, each answered separately, with
+`suggested_family` when the third is false. Strict JSON via Ollama's
+`format=json`, three few-shot examples spanning pass / miscategorised /
+ungrammatical, and explicit instructions not to rewrite anything and not to judge
+the base sentence.
+
+**Local only.** Ollama by default, llama.cpp fallback; `LlamaCppBackend` refuses
+a non-local URL and there is no code path to a hosted API.
+
+**Never crashes.** Malformed JSON is retried with backoff, then the batch is
+split to one record per request, then the record is marked `verified = null`
+with `llm_parse_failure`. `null` means *not judged* and is kept distinct from
+`false` (*judged and rejected*) throughout — collapsing them would launder
+infrastructure flakiness into training signal.
+
+**Resumable.** Verdicts cache to SQLite keyed by
+`sha256(base + variant + family)`, with the model checked on read since verdicts
+are not interchangeable across models. Output is written per batch.
+
+Two reports come out of a run:
+
+- [`reports/verification_disagreements.md`](reports/verification_disagreements.md)
+  — records judged miscategorised, clustered by `(labelled → suggested)`. A
+  cluster is a generator bug with a return address, not a set of bad rows.
+- [`reports/verifier_validation.md`](reports/verifier_validation.md) — agreement
+  between the verifier and two reference sets, gated on Cohen's kappa ≥ 0.6.
+  **Run this first**; the full pass is ~45 minutes of CPU inference.
+
 ## Antonym vectors (negative result)
 
 `negation/antonym_vec/` asks whether a learned map over word embeddings can
