@@ -388,6 +388,35 @@ variants, and every one of them is still present in the full corpus. The
 baseline lives with the tests rather than reading `data/sample_sentences.txt`,
 which is a scratch file meant to be edited.
 
+## Antonym vectors (negative result)
+
+`negation/antonym_vec/` asks whether a learned map over word embeddings can
+produce a word's opposite, to cover the ~50% of `E_antonym`-eligible tokens
+WordNet has no antonym for. Six approaches, lemma-disjoint split, GloVe and
+BERT.
+
+**It does not work.** Best method 0.198 precision@1 against WordNet's 0.999;
+three quarters of its top-1 answers are neither the antonym nor a synonym.
+It wins on coverage alone (100% vs 16.6% of frequent words), which at that
+precision is not worth having.
+
+```
+ornate    -> elegant, adorned, sleek      (synonyms — the dangerous failure)
+crimson   -> purple, pink, blue           (co-hyponyms)
+sluggish  -> enough, so, very             (drift to the frequency centre)
+f(v) = -v -> 0.000 P@1                    (the baseline; exactly zero)
+```
+
+The module is complete and tested but **disabled by default** — set
+`NEGATION_ANTONYM_VEC=1` to enable. It runs only where WordNet returns nothing,
+tags its records `generator="antonym_vec_v1"` with a `confidence`, and vetoes
+any candidate WordNet calls a synonym. With the veto and the confidence floor it
+declines nearly everything, which is the right behaviour.
+
+Full analysis, including why counter-fitting cannot help here and why
+morphological pairs turned out *harder* than suppletive ones:
+[`docs/antonym_vectors.md`](docs/antonym_vectors.md).
+
 ## Notes
 
 `neg.py` and `result.txt` are the earlier itertools prototype and are not used
