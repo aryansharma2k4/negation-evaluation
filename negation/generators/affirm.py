@@ -28,7 +28,7 @@ from typing import Optional
 from spacy.tokens import Doc, Token
 
 from ..affixes import negative_base_forms
-from ..base import Generator, register, scope_target_for
+from ..base import Generator, mark_cue_tokens, register, scope_target_for
 from ..classify import COPULA_BE, InputProfile, classify_input
 from ..frames import COPULA, DO_SUPPORT, agreeing_finite, detect_frame
 from ..lexicons import (
@@ -84,25 +84,16 @@ def retain_surviving_cues(
 ) -> list[Edit]:
     """Flag every cue except ``removed`` so the record reports what is left.
 
-    A cue the edits already cover -- the lexical verb of *"does not fail to
-    sort"* is both the do-support target and a surviving implicit trigger -- has
-    its existing edit re-flagged rather than gaining a second, overlapping one.
+    The lexical verb of *"does not fail to sort"* is both the do-support target
+    and a surviving implicit trigger, so the shared marker re-flags the edit
+    that already covers it rather than adding an overlapping one.
     """
-    out = list(edits)
-    for cue in profile.existing_cues:
-        if cue.token_idx == removed:
-            continue
-        token = doc[cue.token_idx]
-        start, end = token.idx, token.idx + len(token.text)
-        for position, edit in enumerate(out):
-            if edit.start <= start < edit.end:
-                out[position] = Edit(
-                    edit.start, edit.end, tuple((t, True) for t, _ in edit.pieces)
-                )
-                break
-        else:
-            out.append(Edit.replace(start, end, token.text, cue=True))
-    return out
+    surviving = [
+        doc[cue.token_idx]
+        for cue in profile.existing_cues
+        if cue.token_idx != removed
+    ]
+    return mark_cue_tokens(surviving, edits)
 
 
 class Affirmation(Generator):

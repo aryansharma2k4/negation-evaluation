@@ -336,6 +336,45 @@ def clause_heads(doc: Doc) -> list[Token]:
     return sorted(heads, key=lambda t: t.i)
 
 
+def clause_index_at(doc: Doc, char_offset: int) -> int:
+    """Index into :func:`clause_heads` of the clause covering ``char_offset``.
+
+    Used to fill a record's ``target_clause_idx`` from the edit it spliced, so
+    every generator reports which clause it touched without having to be told.
+    Walks up from the token at the offset to the first token that heads a
+    clause; falls back to the ROOT's clause when the chain reaches nothing else.
+    """
+    heads = clause_heads(doc)
+    if not heads:
+        return 0
+    positions = {head.i: index for index, head in enumerate(heads)}
+
+    token = None
+    for candidate in doc:
+        if candidate.idx <= char_offset < candidate.idx + len(candidate.text):
+            token = candidate
+            break
+        if candidate.idx >= char_offset:
+            token = candidate
+            break
+    if token is None:
+        token = doc[-1]
+
+    seen = {token.i}
+    cur = token
+    while True:
+        if cur.i in positions:
+            return positions[cur.i]
+        if cur.head.i == cur.i:
+            break
+        cur = cur.head
+        if cur.i in seen:  # pragma: no cover - malformed parse guard
+            break
+        seen.add(cur.i)
+    root = root_of(doc)
+    return positions.get(root.i, 0) if root is not None else 0
+
+
 def tree_depth(doc: Doc) -> int:
     """Maximum head-chain length in the parse, or ``-1`` on a malformed tree."""
     best = 0

@@ -25,6 +25,7 @@ from .schema import (
     SCOPE_PREDICATE,
     SCOPE_SUBJECT,
 )
+from .nlp_core import clause_index_at
 from .splice import Edit, apply_edits, normalize_spacing, recase_like
 
 # The base sentence id travels on the Doc so that generators keep the
@@ -115,7 +116,7 @@ class Generator(abc.ABC):
         family: Optional[str] = None,
         depth: Optional[int] = None,
         operation: Optional[str] = None,
-        target_clause_idx: int = 0,
+        target_clause_idx: Optional[int] = None,
         modality: Optional[str] = None,
     ) -> Optional[NegationVariant]:
         """Splice ``edits`` into ``doc``'s text and wrap the result in a record.
@@ -138,6 +139,8 @@ class Generator(abc.ABC):
         keeps degenerate rules from emitting copies of the base sentence.
         """
         profile: InputProfile = classify_input(doc)
+        if not edits:
+            return None
         text, cues = apply_edits(doc.text, edits)
         text, cues = normalize_spacing(text, cues)
         text = recase_like(doc.text, text)
@@ -167,9 +170,40 @@ class Generator(abc.ABC):
             clause_type=profile.clause_type,
             voice=profile.voice,
             modality=modality or profile.modality,
-            target_clause_idx=target_clause_idx,
+            target_clause_idx=(
+                target_clause_idx
+                if target_clause_idx is not None
+                else clause_index_at(doc, min(e.start for e in edits))
+            ),
             op_depth=self.op_depth,
         )
+
+
+def mark_cue_tokens(tokens: list[Token], edits: list[Edit]) -> list[Edit]:
+    """Re-splice ``tokens`` as themselves, flagged as cues.
+
+    A cue already in the input does not move, so nothing would record where it
+    landed in the output.  Splicing it in as itself makes the splicer report it
+    alongside the new material, with correct post-edit offsets and no manual
+    arithmetic -- the trick :class:`~negation.generators.k_double.LexicalCancellation`
+    uses, shared here because affirmation, rescoping and clause targeting all
+    need it.
+
+    A token an edit already covers has that edit's pieces flagged instead, so no
+    second, overlapping edit is produced.
+    """
+    out = list(edits)
+    for token in tokens:
+        start, end = token.idx, token.idx + len(token.text)
+        for position, edit in enumerate(out):
+            if edit.start <= start < edit.end:
+                out[position] = Edit(
+                    edit.start, edit.end, tuple((t, True) for t, _ in edit.pieces)
+                )
+                break
+        else:
+            out.append(Edit.replace(start, end, token.text, cue=True))
+    return out
 
 
 # ---------------------------------------------------------------------------
