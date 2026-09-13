@@ -37,7 +37,7 @@ from typing import Optional
 import numpy as np
 
 from .embeddings import EmbeddingsNotFetched, load_static
-from .methods import Candidates, LinearMap, Reflection
+from .methods import Candidates, LinearMap
 
 #: Set to "1" to allow the fallback to load. Off by default.
 ENABLE_ENV = "NEGATION_ANTONYM_VEC"
@@ -55,6 +55,12 @@ MIN_CONFIDENCE = 0.15
 #: Candidate pool size. Large enough to be a realistic retrieval problem, small
 #: enough to keep the fallback's latency tolerable inside a generator.
 POOL_SIZE = 50_000
+
+#: Ridge strength for the deployed map. The value ``tune_ridge_alpha`` selects
+#: on a split of the training pairs, recorded here so the deployed model is the
+#: one ``docs/antonym_vectors.md`` measured rather than a differently
+#: regularised one. Re-run the experiment if the training data changes.
+RIDGE_ALPHA = 10.0
 
 
 @dataclass
@@ -141,7 +147,7 @@ def _load_model() -> Optional[AntonymVecModel]:
 
         # Fitted on training pairs only, so the deployed model is the one the
         # report measured rather than a stronger one fitted on everything.
-        method = LinearMap(alpha=100.0)
+        method = LinearMap(alpha=RIDGE_ALPHA)
         method.fit(dataset.train, source)
         if method.W is None:
             return None
