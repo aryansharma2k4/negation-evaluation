@@ -29,7 +29,13 @@ from spacy.tokens import Doc, Token
 
 from ..affixes import negative_base_forms
 from ..base import Generator, mark_cue_tokens, register, scope_target_for
-from ..classify import COPULA_BE, InputProfile, classify_input
+from ..classify import (
+    CLAUSE_INTERROGATIVE,
+    CLAUSE_TYPES,
+    COPULA_BE,
+    InputProfile,
+    classify_input,
+)
 from ..frames import COPULA, DO_SUPPORT, agreeing_finite, detect_frame
 from ..lexicons import (
     DO_FORM_TAGS,
@@ -46,6 +52,7 @@ from ..nlp_core import (
     match_inflection,
     matches_case,
     root_of,
+    subject_of,
 )
 from ..schema import (
     FAM_AFFIXAL,
@@ -102,6 +109,11 @@ class Affirmation(Generator):
     stage = 2
     op_depth = 1
     operation = OP_AFFIRM
+    #: Every clause type, unlike the default.  The restriction exists because
+    #: *placing* a negator depends on clause type; taking one out does not, and
+    #: *"Does it not compile?"* affirms to *"Does it compile?"* by the same rule
+    #: a declarative does.
+    clause_types = CLAUSE_TYPES
 
     def profile(self, doc: Doc) -> InputProfile:
         return classify_input(doc)
@@ -160,6 +172,12 @@ def _plain_aux_of(neg: Token) -> Optional[Token]:
     return min(auxes, key=lambda t: t.i) if auxes else None
 
 
+def _is_inverted(aux: Token, verb: Token) -> bool:
+    """True when ``aux`` has been fronted past its subject, as in a question."""
+    subject = subject_of(verb)
+    return subject is not None and aux.i < subject.i
+
+
 def clausal_negator_removal(neg: Token) -> Optional[list[Edit]]:
     """Edits that take the clausal negator ``neg`` out of its clause.
 
@@ -174,11 +192,19 @@ def clausal_negator_removal(neg: Token) -> Optional[list[Edit]]:
     verb = neg.head
     aux = _do_aux_of(neg)
     if aux is not None and aux.i < neg.i:
+        if _is_inverted(aux, verb):
+            # In a question the auxiliary is not just carrying the negator, it
+            # is carrying the inversion: "Does it not compile?" affirms to
+            # "Does it compile?", not to "*It compiles?".  So the do-support
+            # collapse is suppressed and only the negator comes out.
+            return [_delete(neg)]
         restored = inflect_verb(verb.lemma_, DO_FORM_TAGS[aux.lower_])
+        # Two separate deletions rather than one cut across the whole span:
+        # anything sitting between the auxiliary and the negator belongs to the
+        # sentence, and the spacing filter closes the gaps they leave.
         return [
-            # One cut from the auxiliary through the negator; the lexical verb
-            # is a separate edit because material may sit between them.
-            Edit.replace(aux.idx, neg.idx + len(neg.text), ""),
+            _delete(aux),
+            _delete(neg),
             Edit.replace(verb.idx, verb.idx + len(verb.text), restored),
         ]
     plain = _plain_aux_of(neg)
