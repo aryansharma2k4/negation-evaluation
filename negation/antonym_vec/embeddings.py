@@ -118,6 +118,46 @@ def _iter_text_vectors(path: Path) -> Iterable[tuple[str, np.ndarray]]:
             yield from parse(handle)
 
 
+def _cache_paths(path: Path) -> tuple[Path, Path]:
+    """Matrix and vocabulary cache files for a vector set."""
+    return (
+        path.with_suffix(path.suffix + ".cache.npy"),
+        path.with_suffix(path.suffix + ".cache.vocab"),
+    )
+
+
+def _load_cached(path: Path):
+    """Whole-file cache, so a 1 GB text parse happens once per vector set.
+
+    The matrix goes to ``.npy`` and the vocabulary to a plain newline-delimited
+    file, rather than both into one ``.npz``.  A list of strings in an ``.npz``
+    becomes an object array, which can only be read back with ``allow_pickle``,
+    and a cache that requires unpickling is a cache that executes whatever is in
+    it.  Two files and no pickle is the cheaper answer.
+    """
+    matrix_cache, vocab_cache = _cache_paths(path)
+    fresh = (
+        matrix_cache.exists()
+        and vocab_cache.exists()
+        and min(matrix_cache.stat().st_mtime, vocab_cache.stat().st_mtime)
+        >= path.stat().st_mtime
+    )
+    if fresh:
+        words = vocab_cache.read_text(encoding="utf-8").split("\n")
+        matrix = np.load(matrix_cache, allow_pickle=False, mmap_mode="r")
+        if len(words) == matrix.shape[0]:
+            return words, matrix
+
+    words, rows = [], []
+    for word, vector in _iter_text_vectors(path):
+        words.append(word)
+        rows.append(vector)
+    matrix = np.stack(rows)
+    np.save(matrix_cache, matrix, allow_pickle=False)
+    vocab_cache.write_text("\n".join(words), encoding="utf-8")
+    return words, matrix
+
+
 def load_static(
     filename: str = "glove.6B.300d.txt",
     *,
@@ -140,18 +180,19 @@ def load_static(
             f"    ./venv/bin/python -m negation.antonym_vec.fetch"
         )
     wanted = {w.lower() for w in restrict_to} if restrict_to is not None else None
+    all_words, all_matrix = _load_cached(path)
 
-    words: list[str] = []
-    rows: list[np.ndarray] = []
-    for position, (word, vector) in enumerate(_iter_text_vectors(path)):
-        in_head = max_vocab is None or position < max_vocab
-        if in_head or (wanted is not None and word in wanted):
-            words.append(word)
-            rows.append(vector)
-    if not rows:
+    keep = [
+        position
+        for position, word in enumerate(all_words)
+        if (max_vocab is None or position < max_vocab)
+        or (wanted is not None and word in wanted)
+    ]
+    if not keep:
         raise EmbeddingsNotFetched(f"{path} yielded no vectors")
 
-    matrix = np.stack(rows)
+    words = [all_words[i] for i in keep]
+    matrix = np.asarray(all_matrix[keep], dtype=np.float32)
     index = {w: i for i, w in enumerate(words)}
     return StaticEmbeddings(name or path.stem, matrix, index)
 

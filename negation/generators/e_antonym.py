@@ -9,6 +9,16 @@ derivationally-related hops, which drift semantically fast.  The retrieved
 antonym is a citation form, so it is re-inflected to fill exactly the
 morphological slot the original token vacated (*"increases"* -> *"decreases"*,
 *"increased"* -> *"decreased"*).
+
+Where WordNet has no antonym at all, :mod:`negation.antonym_vec` can be asked
+instead.  It is a **fallback, not a supplement**: it is consulted only for
+tokens WordNet draws a blank on, never to add alternatives to a token WordNet
+already answered, so it cannot displace or dilute a gold link.  Its records are
+tagged ``generator="antonym_vec_v1"`` and carry a ``confidence``, because unlike
+everything else in this package it comes from a model whose output is graded
+rather than a rule that is either right or absent -- and, on the evidence in
+``docs/antonym_vectors.md``, a model whose precision is low.  It stays off
+unless ``NEGATION_ANTONYM_VEC=1`` is set.
 """
 
 from __future__ import annotations
@@ -32,6 +42,10 @@ _BLOCKED_TAGS = frozenset({"JJR", "JJS", "RBR", "RBS"})
 
 #: Cap per token so a highly polysemous word cannot flood the output.
 MAX_ANTONYMS_PER_TOKEN = 2
+
+#: Name every vector-derived record carries, so they can be filtered downstream
+#: without re-deriving which generator produced them.
+VECTOR_GENERATOR = "antonym_vec_v1"
 
 
 def eligible(token: Token) -> bool:
@@ -74,19 +88,55 @@ class AntonymSubstitution(Generator):
                 continue
             found = antonyms(token.lemma_.lower(), pos)[:MAX_ANTONYMS_PER_TOKEN]
             for antonym in found:
-                surface = matches_case(match_inflection(antonym, token), token)
-                if surface.lower() == token.lower_:
-                    continue
-                edit = Edit.replace(
-                    token.idx, token.idx + len(token.text), surface, cue=True
-                )
-                record = self.build(
-                    doc,
-                    [edit],
-                    subtype=f"antonym_{token.pos_.lower()}",
-                    net_negation=1,
-                    scope_target=scope_target_for(token),
-                )
+                record = self._substitute(doc, token, antonym)
+                if record:
+                    out.append(record)
+            if not found:
+                record = self._vector_fallback(doc, token, pos)
                 if record:
                     out.append(record)
         return out
+
+    def _substitute(
+        self,
+        doc: Doc,
+        token: Token,
+        antonym: str,
+        *,
+        generator: str | None = None,
+        confidence: float | None = None,
+    ):
+        """Splice ``antonym`` into ``token``'s slot, matching its inflection."""
+        surface = matches_case(match_inflection(antonym, token), token)
+        if surface.lower() == token.lower_:
+            return None
+        edit = Edit.replace(token.idx, token.idx + len(token.text), surface, cue=True)
+        return self.build(
+            doc,
+            [edit],
+            subtype=f"antonym_{token.pos_.lower()}",
+            net_negation=1,
+            scope_target=scope_target_for(token),
+            generator=generator,
+            confidence=confidence,
+        )
+
+    def _vector_fallback(self, doc: Doc, token: Token, pos: str):
+        """Ask the embedding model, but only where WordNet said nothing.
+
+        Imported lazily and failing soft: the model needs a vector file that is
+        not vendored, and a generator in this pipeline must keep working without
+        it.  ``generate_antonym`` returns ``None`` rather than a guess whenever
+        it is unavailable, out of vocabulary, or below its confidence floor.
+        """
+        try:
+            from ..antonym_vec.api import generate_antonym
+        except ImportError:  # pragma: no cover - optional dependency
+            return None
+        suggestion = generate_antonym(token.lemma_.lower(), pos)
+        if suggestion is None:
+            return None
+        word, confidence = suggestion
+        return self._substitute(
+            doc, token, word, generator=VECTOR_GENERATOR, confidence=confidence
+        )

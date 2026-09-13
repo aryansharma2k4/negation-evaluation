@@ -118,6 +118,8 @@ class Generator(abc.ABC):
         operation: Optional[str] = None,
         target_clause_idx: Optional[int] = None,
         modality: Optional[str] = None,
+        generator: Optional[str] = None,
+        confidence: Optional[float] = None,
     ) -> Optional[NegationVariant]:
         """Splice ``edits`` into ``doc``'s text and wrap the result in a record.
 
@@ -162,7 +164,8 @@ class Generator(abc.ABC):
             net_negation=net_negation,
             scope_target=scope_target,
             intensity_hint=intensity_hint,
-            generator=self.name,
+            generator=generator or self.name,
+            confidence=confidence,
             depth=depth if depth is not None else self.depth,
             operation=operation or self.operation,
             input_polarity=profile.polarity,
