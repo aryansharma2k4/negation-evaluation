@@ -20,6 +20,8 @@ stops at clause-boundary edges (``conj``, ``advcl``, ``ccomp``, ...); a plain
 
 from __future__ import annotations
 
+from typing import Optional, Sequence
+
 from spacy.tokens import Token
 
 from .nlp_core import clause_scope
@@ -44,3 +46,23 @@ def net_negation_for(family: str) -> int:
     if family == FAM_COMPOUND:
         return 2
     raise ValueError(f"not a double-negation family: {family!r}")  # pragma: no cover
+
+
+def double_labelling(
+    anchor: Token, existing: Sequence[Token]
+) -> Optional[tuple[str, int]]:
+    """``(family, net_negation)`` for adding one cue at ``anchor``, or ``None``.
+
+    ``None`` means the input carried no cue, so the caller keeps its own family
+    and ``net_negation = 1``.  Otherwise the new cue is the second one and the
+    K1/K2 distinction applies -- decided, as always, by whether the existing cue
+    lies inside the clause ``anchor`` commands.
+
+    Adding one cue to an N-cue input is still one operation, so a generator
+    using this stays within the depth-1 contract; what changes is only how the
+    result is labelled.
+    """
+    if not existing:
+        return None
+    family = classify_double(anchor, existing[0])
+    return family, net_negation_for(family)

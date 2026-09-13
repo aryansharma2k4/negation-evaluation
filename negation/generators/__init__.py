@@ -15,5 +15,6 @@ from . import (  # noqa: F401
     k_double,
     l_scope_position,
     m_sentence_type,
+    n_clause_target,
     rescope,
 )

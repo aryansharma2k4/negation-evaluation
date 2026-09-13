@@ -26,7 +26,7 @@ from typing import Optional
 
 from spacy.tokens import Doc, Token
 
-from ..base import Generator, register
+from ..base import Generator, mark_cue_tokens, register
 from ..classify import (
     CLAUSE_DECLARATIVE,
     CLAUSE_EXCLAMATIVE,
@@ -39,7 +39,7 @@ from ..frames import DO_SUPPORT, contracted_negative, detect_frame
 from ..lexicons import MODAL_NEGATION_READINGS, NO_MODALITY
 from ..nlp_core import clause_scope, root_of, subject_of
 from ..polarity import explicit_negation_in
-from ..scope import classify_double, net_negation_for
+from ..scope import double_labelling
 from ..schema import (
     FAM_MODAL,
     FAM_QUANTIFIER,
@@ -167,11 +167,10 @@ class InterrogativeNegation(SentenceTypeGenerator):
         """
         profile = self.profile(doc)
         root = root_of(doc)
-        if not profile.is_negated or root is None:
+        if root is None:
             return FAM_SYNTACTIC, 1
-        inner = doc[profile.existing_cues[0].token_idx]
-        family = classify_double(root, inner)
-        return family, net_negation_for(family)
+        existing = [doc[c.token_idx] for c in profile.existing_cues]
+        return double_labelling(root, existing) or (FAM_SYNTACTIC, 1)
 
     def generate(self, doc: Doc) -> list[NegationVariant]:
         target = _fronted_aux(doc)
@@ -203,16 +202,9 @@ class InterrogativeNegation(SentenceTypeGenerator):
             )
 
         for subtype, edits in forms:
-            # An existing cue is re-spliced as itself so the record reports both
-            # cues with correct post-edit offsets, exactly as K1 does.
-            marked = list(edits) + [
-                Edit.replace(t.idx, t.idx + len(t.text), t.text, cue=True)
-                for t in retained
-                if not any(e.start <= t.idx < e.end for e in edits)
-            ]
             record = self.build(
                 doc,
-                marked,
+                mark_cue_tokens(retained, edits),
                 subtype=subtype,
                 net_negation=net,
                 scope_target=SCOPE_CLAUSE,
