@@ -61,7 +61,12 @@ class Result:
     #: Items where the method returned anything at all.
     fired: int = 0
     ranks: list[int] = field(default_factory=list)
-    examples: list[tuple[str, str, list[str]]] = field(default_factory=list)
+    #: ``(query, gold shown, returned, was_correct)``.  The flag is carried
+    #: rather than recomputed: a query often has several gold antonyms and only
+    #: one can be displayed, so re-deriving correctness from the displayed one
+    #: would mark real hits as misses -- *active -> inactive* is correct even
+    #: when the row happens to show *dormant*.
+    examples: list[tuple[str, str, list[str], bool]] = field(default_factory=list)
 
     def _rate(self, count: int) -> float:
         return count / self.n if self.n else 0.0
@@ -277,7 +282,9 @@ def aggregate(
         if item.rank is not None:
             result.ranks.append(item.rank)
         if len(result.examples) < keep_examples:
-            result.examples.append((item.pair.word, item.gold, item.returned))
+            result.examples.append(
+                (item.pair.word, item.gold, item.returned, item.hit_1)
+            )
     return result
 
 

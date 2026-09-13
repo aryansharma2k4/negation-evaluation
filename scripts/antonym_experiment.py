@@ -250,9 +250,12 @@ def main(argv: Optional[list[str]] = None) -> int:
             if result.slice_name != "all":
                 continue
             print(f"\n  {result.method}")
-            for word, gold, got in result.examples[:6]:
-                mark = "OK " if got and got[0] == gold else "   "
-                print(f"    {mark}{word:<16} gold={gold:<16} got={got[:4]}")
+            for word, gold, got, correct in result.examples[:6]:
+                # "gold=" shows one of possibly several correct answers, so the
+                # mark comes from the scorer rather than from comparing against
+                # the one displayed.
+                mark = "OK " if correct else "   "
+                print(f"    {mark}{word:<16} gold~{gold:<16} got={got[:4]}")
 
     if args.json:
         payload = {
