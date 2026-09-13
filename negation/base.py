@@ -7,10 +7,13 @@ from typing import Optional, Type
 
 from spacy.tokens import Doc, Token
 
+from .classify import InputProfile, classify_input
 from .schema import (
     INT_NEUTRAL,
     MAX_DEPTH,
+    MAX_OP_DEPTH,
     NegationVariant,
+    OP_NEGATE,
     SCOPE_CLAUSE,
     SCOPE_PREDICATE,
     SCOPE_SUBJECT,
@@ -36,13 +39,30 @@ class Generator(abc.ABC):
     family: str = ""
     #: Stable identifier written into every record's ``generator`` field.
     name: str = ""
-    #: How many negation operations this generator stacks.
+    #: How many negation operations this generator stacks, counted from a fully
+    #: affirmative baseline.
     depth: int = 1
+    #: How many operations this generator applies *to its own input*.  Stage-1
+    #: generators that compose two cues onto an affirmative declarative declare
+    #: 2 here as well; every arbitrary-input generator declares 1, which is the
+    #: depth-1 contract.
+    op_depth: int = 1
+    #: Which layer this generator belongs to.  ``1`` is the original
+    #: affirmative-declarative battery, whose output is frozen by the
+    #: regression test; ``2`` is the arbitrary-input layer.
+    stage: int = 1
+    #: The direction this generator runs in; see :data:`negation.schema.OPERATIONS`.
+    operation: str = OP_NEGATE
 
     def __init_subclass__(cls, **kwargs: object) -> None:
         super().__init_subclass__(**kwargs)
         if cls.depth > MAX_DEPTH:
             raise ValueError(f"{cls.__name__}.depth exceeds hard cap {MAX_DEPTH}")
+        if cls.stage == 2 and cls.op_depth != MAX_OP_DEPTH:
+            raise ValueError(
+                f"{cls.__name__}.op_depth is {cls.op_depth}; every arbitrary-input "
+                f"generator must apply exactly {MAX_OP_DEPTH} operation to its input"
+            )
 
     @abc.abstractmethod
     def applies(self, doc: Doc) -> bool:
@@ -64,6 +84,8 @@ class Generator(abc.ABC):
         intensity_hint: str = INT_NEUTRAL,
         family: Optional[str] = None,
         depth: Optional[int] = None,
+        operation: Optional[str] = None,
+        target_clause_idx: int = 0,
     ) -> Optional[NegationVariant]:
         """Splice ``edits`` into ``doc``'s text and wrap the result in a record.
 
@@ -72,9 +94,16 @@ class Generator(abc.ABC):
         generator marks cue pieces when it builds its edits and never maintains
         a second list by hand.
 
+        The input-describing fields (``clause_type``, ``voice``,
+        ``input_polarity``, ``input_cue_count``, ``modality``) are read off the
+        cached :class:`~negation.classify.InputProfile` rather than passed in,
+        so every generator reports them consistently and no generator can
+        forget to.
+
         Returns ``None`` when the edits do not actually change anything, which
         keeps degenerate rules from emitting copies of the base sentence.
         """
+        profile: InputProfile = classify_input(doc)
         text, cues = apply_edits(doc.text, edits)
         text, cues = normalize_spacing(text, cues)
         text = recase_like(doc.text, text)
@@ -98,6 +127,14 @@ class Generator(abc.ABC):
             intensity_hint=intensity_hint,
             generator=self.name,
             depth=depth if depth is not None else self.depth,
+            operation=operation or self.operation,
+            input_polarity=profile.polarity,
+            input_cue_count=profile.existing_count,
+            clause_type=profile.clause_type,
+            voice=profile.voice,
+            modality=profile.modality,
+            target_clause_idx=target_clause_idx,
+            op_depth=self.op_depth,
         )
 
 

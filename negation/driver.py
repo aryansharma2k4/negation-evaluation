@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 from collections import Counter
-from typing import Iterable, Optional
+from typing import Collection, Iterable, Optional
 
 from spacy.tokens import Doc
 
@@ -39,20 +39,28 @@ def generate_all(
     *,
     per_family_dedup: bool = True,
     report: Optional[FilterReport] = None,
+    stages: Optional[Collection[int]] = None,
 ) -> list[NegationVariant]:
-    """Generate every licensed, valid negated variant for ``sentences``.
+    """Generate every licensed, valid variant for ``sentences``.
 
     Each sentence is parsed once; the registry is consulted with the cheap
     ``applies`` predicate and only the licensed generators do any string work;
     the pooled candidates then go through :func:`negation.filters.run_filters`
     in one batched re-parse.
+
+    ``stages`` restricts the registry to generators from the given layers:
+    ``1`` is the original affirmative-declarative battery, ``2`` the
+    arbitrary-input layer (affirmation, rescoping, and the non-declarative
+    sentence types).  The default runs both.  Passing ``stages=(1,)`` reproduces
+    stage 1's output exactly, which is what the regression test pins.
     """
     docs = parse_bases(sentences)
     base_depths = {doc._.base_id: tree_depth(doc) for doc in docs}
+    licensed = [g for g in registry() if stages is None or g.stage in stages]
 
     candidates: list[NegationVariant] = []
     for doc in docs:
-        for generator in registry():
+        for generator in licensed:
             if generator.applies(doc):
                 candidates.extend(generator.generate(doc))
 
