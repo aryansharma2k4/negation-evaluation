@@ -107,6 +107,8 @@ negation/
   filters.py     dedup → blacklist → batched re-parse → depth guardrail
   driver.py      generate_all
   cli.py         JSONL + summary
+  data/          third-party corpora: verified sources, loaders, common schema
+  antonym_vec/   predicting an antonym's embedding — see the verdict below
 ```
 
 ## Input classification

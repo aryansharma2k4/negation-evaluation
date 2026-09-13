@@ -301,7 +301,15 @@ def evaluate_method(
 
 
 def _best_rank(method, pair, source, candidates, gold) -> Optional[int]:
-    """Rank of the best-placed gold antonym, or ``None`` if unrankable."""
+    """Rank of the best-placed gold antonym, or ``None`` if unrankable.
+
+    Ranked in whichever space the method actually retrieves from.  Counter-fitting
+    replaces the space rather than the mapping, so ranking its predictions
+    against the original vectors would compare two different geometries and
+    report a meaningless number -- the same mistake that made its ``suggest``
+    wrong before it was fixed.
+    """
+    space = getattr(method, "_space", None) or candidates
     predicted = getattr(method, "predict", lambda *a: None)(pair.word, pair.pos, source)
     if predicted is None:
         # Word-returning methods (WordNet) have no vector to rank against; their
@@ -313,7 +321,7 @@ def _best_rank(method, pair, source, candidates, gold) -> Optional[int]:
         return None
     ranks = [
         r
-        for r in (candidates.rank_of(predicted, g, exclude=(pair.word,)) for g in gold)
+        for r in (space.rank_of(predicted, g, exclude=(pair.word,)) for g in gold)
         if r is not None
     ]
     return min(ranks) if ranks else None

@@ -13,12 +13,16 @@ no test lemma appears in training under any pairing -- and, because most
 components are a single edge, costs almost no data.
 
 **Morphological pairs are a different problem from suppletive ones.**
-*happy/unhappy* is recoverable by string edit; *hot/cold* is not. A model that
-only learns the affixal cases can look respectable on a pooled average while
-being useless for the cases WordNet cannot already handle. Every pair is
-therefore tagged :data:`MORPHOLOGICAL` or :data:`SUPPLETIVE`, using the same
-WordNet-gated affix machinery the generators use, and every metric is reported
-split by it.
+*happy/unhappy* is recoverable by string edit; *hot/cold* is not. Every pair is
+tagged :data:`MORPHOLOGICAL` or :data:`SUPPLETIVE`, using the same WordNet-gated
+affix machinery the generators use, and every metric is reported split by it.
+
+The split was added on the expectation that morphological pairs would be the
+easy ones. Measured, the opposite holds -- the best method scores 0.247 P@1 on
+suppletive pairs against 0.157 on morphological ones. Word frequency dominates
+formation type: *hot* and *cold* are common and have well-estimated vectors,
+while *unabridged* and *nonadsorbent* are rare and do not. The reporting split
+is still worth keeping, just not for the reason it was introduced.
 
 **Controls matter more than usual here.** The characteristic failure of
 distributional antonymy is returning a *synonym*, because synonyms and antonyms
