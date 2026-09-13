@@ -29,9 +29,10 @@ from negation.antonym_vec.embeddings import (  # noqa: E402
     load_static,
 )
 from negation.antonym_vec.evaluate import (  # noqa: E402
-    evaluate_method,
+    aggregate,
     format_table,
     gold_antonyms,
+    score_pairs,
     slice_pairs,
     synonym_index,
     vocabulary_coverage,
@@ -174,16 +175,27 @@ def main(argv: Optional[list[str]] = None) -> int:
     print(f"ANTONYM PREDICTION -- {source.name}, {len(candidates.words):,} candidates")
     print("=" * 110)
 
+    # Retrieve once per method, then fold into every slice: each query costs two
+    # 50k-row dot products and belongs to three slices, so scoring per slice
+    # would triple the work for identical numbers.
+    scored: dict[str, list] = {}
+    for method in methods:
+        print(f"  scoring {method.name} ...", flush=True)
+        scored[method.name] = score_pairs(
+            method, test, source, candidates, all_gold=all_gold, synonyms=synonyms
+        )
+
     collected = []
     for slice_name, pairs in slices.items():
-        results = []
-        for method in methods:
-            results.append(
-                evaluate_method(
-                    method, pairs, source, candidates,
-                    all_gold=all_gold, synonyms=synonyms, slice_name=slice_name,
-                )
+        keep = {(p.word, p.pos) for p in pairs}
+        results = [
+            aggregate(
+                method.name,
+                [s for s in scored[method.name] if (s.pair.word, s.pair.pos) in keep],
+                slice_name,
             )
+            for method in methods
+        ]
         collected.extend(results)
         print()
         print(format_table(results))

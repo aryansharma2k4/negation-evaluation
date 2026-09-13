@@ -42,9 +42,14 @@ from .methods import Candidates, LinearMap, Reflection
 #: Set to "1" to allow the fallback to load. Off by default.
 ENABLE_ENV = "NEGATION_ANTONYM_VEC"
 
-#: Minimum confidence before a suggestion is returned at all. Calibrated on the
-#: test set as the point below which precision@1 is indistinguishable from the
-#: random-pair control; see docs/antonym_vectors.md.
+#: Minimum confidence before a suggestion is returned at all.
+#:
+#: Set by judgement, not by calibration, and deliberately on the high side. No
+#: threshold on this score separates right answers from wrong ones well enough
+#: to be worth fitting -- see the reliability figures in
+#: ``docs/antonym_vectors.md`` -- so this is a floor that suppresses the
+#: obviously arbitrary suggestions rather than a tuned operating point. Treat a
+#: suggestion that clears it as a candidate for review, not as a result.
 MIN_CONFIDENCE = 0.15
 
 #: Candidate pool size. Large enough to be a realistic retrieval problem, small

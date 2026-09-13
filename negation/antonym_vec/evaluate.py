@@ -136,6 +136,108 @@ def synonym_index(dataset: Dataset) -> dict[tuple[str, str], set[str]]:
     return out
 
 
+@dataclass
+class Scored:
+    """What one query produced, kept so every slice reuses one retrieval.
+
+    Scoring a pair costs two 50k-row dot products, and each pair belongs to
+    three slices (overall, its POS, its formation type).  Retrieving once and
+    aggregating afterwards is what keeps the whole comparison to a few minutes
+    rather than three times that.
+    """
+
+    pair: Pair
+    fired: bool
+    hit_1: bool
+    hit_5: bool
+    hit_10: bool
+    synonym_1: bool
+    synonym_10: bool
+    rank: Optional[int]
+    gold: str
+    returned: list[str]
+
+
+def score_pairs(
+    method,
+    test_pairs: Sequence[Pair],
+    source,
+    candidates: Candidates,
+    *,
+    all_gold: dict[tuple[str, str], set[str]],
+    synonyms: dict[tuple[str, str], set[str]],
+) -> list[Scored]:
+    """Retrieve once per *query word* and record everything a slice might need.
+
+    One row per query, not per pair, so a word with three antonyms is not
+    counted three times and cannot dominate an average.
+    """
+    out: list[Scored] = []
+    seen: set[tuple[str, str]] = set()
+
+    for pair in test_pairs:
+        query = (pair.word, pair.pos)
+        if query in seen:
+            continue
+        seen.add(query)
+
+        gold = all_gold.get(query, {pair.antonym})
+        near_synonyms = synonyms.get(query, set())
+        ranked = method.suggest(pair.word, pair.pos, source, candidates, top=10)
+        words = [w for w, _ in ranked]
+
+        if not words:
+            out.append(
+                Scored(pair, False, False, False, False, False, False, None,
+                       sorted(gold)[0], [])
+            )
+            continue
+
+        rank = _best_rank(method, pair, source, candidates, gold)
+        out.append(
+            Scored(
+                pair=pair,
+                fired=True,
+                hit_1=words[0] in gold,
+                hit_5=any(w in gold for w in words[:5]),
+                hit_10=any(w in gold for w in words[:10]),
+                synonym_1=words[0] in near_synonyms and words[0] not in gold,
+                synonym_10=any(
+                    w in near_synonyms and w not in gold for w in words[:10]
+                ),
+                rank=None if rank is None else min(rank, RANK_CEILING),
+                gold=sorted(gold)[0],
+                returned=words[:5],
+            )
+        )
+    return out
+
+
+def aggregate(
+    method_name: str,
+    scored: Sequence[Scored],
+    slice_name: str = "all",
+    keep_examples: int = 8,
+) -> Result:
+    """Fold pre-scored queries into one :class:`Result`."""
+    result = Result(method=method_name, slice_name=slice_name)
+    for item in scored:
+        result.n += 1
+        if not item.fired:
+            continue
+        result.fired += 1
+        result.hits_at_1 += int(item.hit_1)
+        result.hits_at_5 += int(item.hit_5)
+        result.hits_at_10 += int(item.hit_10)
+        result.synonym_hits_at_1 += int(item.synonym_1)
+        result.synonym_hits_at_10 += int(item.synonym_10)
+        if item.rank is not None:
+            result.ranks.append(item.rank)
+        if len(result.examples) < keep_examples:
+            result.examples.append((item.pair.word, item.gold, item.returned))
+    return result
+
+
 def evaluate_method(
     method,
     test_pairs: Sequence[Pair],
@@ -147,49 +249,12 @@ def evaluate_method(
     slice_name: str = "all",
     keep_examples: int = 8,
 ) -> Result:
-    """Score ``method`` over ``test_pairs``.
-
-    One evaluation row per *query word*, not per pair, so a word with three
-    antonyms is not counted three times and does not dominate the average.
-    """
-    result = Result(method=method.name, slice_name=slice_name)
-    seen_queries: set[tuple[str, str]] = set()
-
-    for pair in test_pairs:
-        query = (pair.word, pair.pos)
-        if query in seen_queries:
-            continue
-        seen_queries.add(query)
-        result.n += 1
-
-        gold = all_gold.get(query, {pair.antonym})
-        near_synonyms = synonyms.get(query, set())
-        ranked = method.suggest(pair.word, pair.pos, source, candidates, top=10)
-        if not ranked:
-            continue
-        result.fired += 1
-
-        words = [w for w, _ in ranked]
-        if words and words[0] in gold:
-            result.hits_at_1 += 1
-        if any(w in gold for w in words[:5]):
-            result.hits_at_5 += 1
-        if any(w in gold for w in words[:10]):
-            result.hits_at_10 += 1
-
-        # Contamination: a synonym returned where the gold antonym was not.
-        if words and words[0] in near_synonyms and words[0] not in gold:
-            result.synonym_hits_at_1 += 1
-        if any(w in near_synonyms and w not in gold for w in words[:10]):
-            result.synonym_hits_at_10 += 1
-
-        rank = _best_rank(method, pair, source, candidates, gold)
-        if rank is not None:
-            result.ranks.append(min(rank, RANK_CEILING))
-
-        if len(result.examples) < keep_examples:
-            result.examples.append((pair.word, sorted(gold)[0], words[:5]))
-    return result
+    """Score ``method`` over ``test_pairs`` in one step."""
+    scored = score_pairs(
+        method, test_pairs, source, candidates,
+        all_gold=all_gold, synonyms=synonyms,
+    )
+    return aggregate(method.name, scored, slice_name, keep_examples)
 
 
 def _best_rank(method, pair, source, candidates, gold) -> Optional[int]:
