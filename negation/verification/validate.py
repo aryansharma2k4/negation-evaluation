@@ -205,6 +205,12 @@ def build_constructed_set(
                 "grammatical": True,
                 "semantic": None,
                 "category": None,
+                # The untouched record itself, so the clean group reaches the
+                # verifier with the same context (subtype, operation) a real
+                # record would. Without it the clean group is quietly given a
+                # thinner prompt than the perturbed groups, and the comparison
+                # stops being like-for-like.
+                "_record": dict(record),
             }
         )
 
