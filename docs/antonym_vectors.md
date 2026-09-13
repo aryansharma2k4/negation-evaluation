@@ -137,7 +137,7 @@ GloVe 6B 300d, 51,356 candidates, 676 queries.
 | `mlp_map` | 0.170 | 0.302 | 0.351 | 0.022 | 0.068 | 1.000 | 54 |
 | `reflection` | **0.198** | 0.346 | 0.398 | 0.050 | 0.172 | 1.000 | 39 |
 | `counterfit_style` | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 1.000 | >10,000 |
-| `counterfit_transductive` † | 0.166 | 0.222 | 0.247 | 0.000 | 0.000 | 1.000 | — |
+| `counterfit_transductive` † | 0.166 | 0.222 | 0.247 | 0.000 | 0.000 | 1.000 | 1,212 |
 
 † not a generalisation result; see §8.
 
@@ -257,6 +257,12 @@ Four distinct failure modes, none of them near-misses:
 
 `counterfit_style` scores **0.000** — identical to `-v`, which is what it
 reduces to.
+
+Its median rank is the >10,000 ceiling: the gold antonym is not merely low in
+the ranking, it is nowhere. The transductive variant, by contrast, reaches a
+median rank of 1,212 — still useless for retrieval, but a finite number, which
+is the difference between a method that has learned nothing and one that has
+nothing to apply.
 
 This is not an implementation failure. Counter-fitting moves the vectors of
 words that appear in its constraints. The split is lemma-disjoint, so **no test
