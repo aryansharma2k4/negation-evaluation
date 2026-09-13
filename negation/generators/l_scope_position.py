@@ -32,7 +32,7 @@ from ..schema import (
 from ..splice import Edit, lower_initial
 
 
-def _quantified_subject(doc: Doc) -> Optional[Token]:
+def quantified_subject(doc: Doc) -> Optional[Token]:
     """The root's subject, if it is quantified by a scope-bearing quantifier."""
     root = root_of(doc)
     if root is None:
@@ -57,7 +57,7 @@ class ScopePositionPair(Generator):
 
     def applies(self, doc: Doc) -> bool:
         root = root_of(doc)
-        if root is None or _quantified_subject(doc) is None:
+        if root is None or quantified_subject(doc) is None:
             return False
         if detect_frame(root) is None:
             return False
@@ -66,7 +66,7 @@ class ScopePositionPair(Generator):
 
     def generate(self, doc: Doc) -> list[NegationVariant]:
         root = root_of(doc)
-        subject = _quantified_subject(doc)
+        subject = quantified_subject(doc)
         if root is None or subject is None:
             return []
         frame = detect_frame(root)

@@ -14,4 +14,5 @@ from . import (  # noqa: F401
     j_contrastive,
     k_double,
     l_scope_position,
+    rescope,
 )

@@ -169,6 +169,35 @@ def _plain_aux_of(neg: Token) -> Optional[Token]:
     return min(auxes, key=lambda t: t.i) if auxes else None
 
 
+def clausal_negator_removal(neg: Token) -> Optional[list[Edit]]:
+    """Edits that take the clausal negator ``neg`` out of its clause.
+
+    Dispatches on the same three frames :mod:`negation.frames` negates into, run
+    backwards.  Only do-support needs morphology restored -- the other two
+    already have a finite form that survives the cut.  Returns ``None`` when
+    ``neg`` is not a clausal negator at all (a preposed *"Not everyone"*, say).
+
+    Shared with :mod:`negation.generators.rescope`, which has to remove a
+    negator from one position before putting one back in another.
+    """
+    verb = neg.head
+    aux = _do_aux_of(neg)
+    if aux is not None and aux.i < neg.i:
+        restored = inflect_verb(verb.lemma_, DO_FORM_TAGS[aux.lower_])
+        return [
+            # One cut from the auxiliary through the negator; the lexical verb
+            # is a separate edit because material may sit between them.
+            Edit.replace(aux.idx, neg.idx + len(neg.text), ""),
+            Edit.replace(verb.idx, verb.idx + len(verb.text), restored),
+        ]
+    plain = _plain_aux_of(neg)
+    if plain is not None and plain.i < neg.i:
+        return [_delete(neg)]
+    if verb.lemma_ == "be" and verb.pos_ in ("AUX", "VERB") and neg.i > verb.i:
+        return [_delete(neg)]
+    return None
+
+
 @register
 class RemoveSyntacticNegation(Affirmation):
     """Collapse do-support: *"does not sort"* -> *"sorts"*.
@@ -202,15 +231,10 @@ class RemoveSyntacticNegation(Affirmation):
         target = self._target(doc)
         if target is None:
             return []
-        aux, neg = target
-        verb = neg.head
-        restored = inflect_verb(verb.lemma_, DO_FORM_TAGS[aux.lower_])
-        edits = [
-            # One cut from the auxiliary through the negator; the lexical verb
-            # is a separate edit because material may sit between them.
-            Edit.replace(aux.idx, neg.idx + len(neg.text), ""),
-            Edit.replace(verb.idx, verb.idx + len(verb.text), restored),
-        ]
+        _, neg = target
+        edits = clausal_negator_removal(neg)
+        if edits is None:
+            return []
         record = self.build_affirmation(
             doc, edits, neg.i, subtype="collapse_do_support"
         )
