@@ -10,3 +10,6 @@ __pycache__/
 
 # generated output
 variants.jsonl
+
+# third-party corpora, fetched not vendored (see negation/data/sources.py)
+data/external/
