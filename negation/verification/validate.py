@@ -65,8 +65,35 @@ class Agreement:
         return self.agreed / self.n if self.n else 0.0
 
     @property
+    def measurable(self) -> bool:
+        """Whether kappa means anything here.
+
+        Kappa is undefined when the reference set used only one class: expected
+        agreement is 1.0 and the statistic collapses. Reporting that as a kappa
+        of 0.0 and a failed gate conflates "we measured this and it was bad"
+        with "we could not measure this", which are different problems with
+        different fixes -- the first needs a better verifier, the second needs a
+        better reference set.
+        """
+        return self.n > 0 and 0 < self.gold_true < self.n
+
+    @property
+    def detection_rate(self) -> Optional[float]:
+        """Share of genuinely-false items the verifier caught.
+
+        The right statistic when the reference is all-false by construction, as
+        the family-swapped group is: kappa cannot be computed, but "how many of
+        the 20 deliberate errors did it spot" is still exactly what we want to
+        know.
+        """
+        negatives = self.n - self.gold_true
+        if negatives == 0:
+            return None
+        return self.confusion.get((False, False), 0) / negatives
+
+    @property
     def passes_gate(self) -> bool:
-        return self.kappa >= KAPPA_GATE
+        return self.measurable and self.kappa >= KAPPA_GATE
 
 
 def cohens_kappa(gold: Sequence[bool], predicted: Sequence[bool]) -> float:

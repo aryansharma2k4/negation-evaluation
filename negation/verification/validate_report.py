@@ -29,14 +29,28 @@ def _interpret(kappa: float) -> str:
 
 def _table(agreements: Sequence[Agreement]) -> list[str]:
     lines = [
-        "| question | n | accuracy | Cohen's kappa | strength | gate (k >= 0.6) |",
-        "| --- | ---: | ---: | ---: | --- | :---: |",
+        "| question | n | accuracy | Cohen's kappa | strength | caught known-bad | gate (k >= 0.6) |",
+        "| --- | ---: | ---: | ---: | --- | ---: | :---: |",
     ]
     for item in agreements:
+        if item.n == 0:
+            lines.append(
+                f"| `{item.question}` | 0 | — | — | not measured | — | n/a |"
+            )
+            continue
+        caught = item.detection_rate
+        caught_text = "—" if caught is None else f"{caught:.0%}"
+        if not item.measurable:
+            # Reference used one class only; kappa is undefined, not failed.
+            lines.append(
+                f"| `{item.question}` | {item.n} | {item.accuracy:.3f} | undefined | "
+                f"reference has no variance | {caught_text} | n/a |"
+            )
+            continue
         mark = "pass" if item.passes_gate else "**FAIL**"
         lines.append(
             f"| `{item.question}` | {item.n} | {item.accuracy:.3f} | {item.kappa:.3f} | "
-            f"{_interpret(item.kappa)} | {mark} |"
+            f"{_interpret(item.kappa)} | {caught_text} | {mark} |"
         )
     return lines
 
@@ -141,8 +155,25 @@ def write_validation_report(
 
     lines.append("## Verdict")
     lines.append("")
-    measured = [i for group in (constructed or [], labelled or []) for i in group if i.n]
+    measured = [
+        i for group in (constructed or [], labelled or []) for i in group if i.measurable
+    ]
+    unmeasured = [
+        i
+        for group in (constructed or [], labelled or [])
+        for i in group
+        if not i.measurable
+    ]
     failing = [i for i in measured if not i.passes_gate]
+    if unmeasured:
+        lines.append(
+            "Not every question could be measured. Where the reference set used a "
+            "single class throughout, kappa is undefined rather than zero, and the "
+            "table says so instead of recording a failure: "
+            + ", ".join(f"`{i.question}` (n={i.n})" for i in unmeasured)
+            + ". For those, read the *caught known-bad* column instead."
+        )
+        lines.append("")
     if not measured:
         lines.append("No questions could be measured; the verifier is **unvalidated**.")
     elif failing:
