@@ -44,12 +44,16 @@ ENABLE_ENV = "NEGATION_ANTONYM_VEC"
 
 #: Minimum confidence before a suggestion is returned at all.
 #:
-#: Set by judgement, not by calibration, and deliberately on the high side. No
-#: threshold on this score separates right answers from wrong ones well enough
-#: to be worth fitting -- see the reliability figures in
-#: ``docs/antonym_vectors.md`` -- so this is a floor that suppresses the
-#: obviously arbitrary suggestions rather than a tuned operating point. Treat a
-#: suggestion that clears it as a candidate for review, not as a result.
+#: The margin this score is built from does carry real signal: precision@1 rises
+#: monotonically across its quintiles, from 0.067 in the lowest to 0.449 in the
+#: highest (``reflection``, measured in ``docs/antonym_vectors.md``). So the
+#: ranking is meaningful and a threshold is worth having.
+#:
+#: What it cannot do is make a suggestion trustworthy. Even the most confident
+#: fifth of predictions is wrong more often than right. This threshold therefore
+#: selects the band where the model is least bad, not a band where it is good,
+#: and a suggestion that clears it is a candidate for review rather than a
+#: result.
 MIN_CONFIDENCE = 0.15
 
 #: Candidate pool size. Large enough to be a realistic retrieval problem, small
