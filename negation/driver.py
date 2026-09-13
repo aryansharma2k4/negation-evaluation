@@ -71,12 +71,22 @@ def generate_all(
 
 
 def summarize(records: Iterable[NegationVariant]) -> dict[str, Counter]:
-    """Counts by family, by family/subtype, and by net_negation."""
+    """Counts by family, family/subtype, net_negation, operation and input type."""
     by_family: Counter[str] = Counter()
     by_subtype: Counter[str] = Counter()
     by_net: Counter[int] = Counter()
+    by_operation: Counter[str] = Counter()
+    by_input: Counter[str] = Counter()
     for record in records:
         by_family[record.family] += 1
         by_subtype[f"{record.family}/{record.subtype}"] += 1
         by_net[record.net_negation] += 1
-    return {"family": by_family, "subtype": by_subtype, "net_negation": by_net}
+        by_operation[record.operation] += 1
+        by_input[f"{record.clause_type}/{record.input_polarity}"] += 1
+    return {
+        "family": by_family,
+        "subtype": by_subtype,
+        "net_negation": by_net,
+        "operation": by_operation,
+        "input": by_input,
+    }

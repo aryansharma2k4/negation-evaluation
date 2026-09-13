@@ -48,6 +48,14 @@ def print_summary(
     for key, n in sorted(counts["subtype"].items()):
         print(f"  {key:<44} {n:>6}", file=stream)
 
+    print("\nby operation:", file=stream)
+    for operation, n in sorted(counts["operation"].items()):
+        print(f"  {operation:<18} {n:>6}", file=stream)
+
+    print("\nby input clause_type/polarity:", file=stream)
+    for key, n in sorted(counts["input"].items()):
+        print(f"  {key:<28} {n:>6}", file=stream)
+
     print("\nby net_negation:", file=stream)
     for net, n in sorted(counts["net_negation"].items()):
         print(f"  {net:>2} {n:>6}", file=stream)
