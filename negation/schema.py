@@ -137,6 +137,12 @@ class NegationVariant:
     #: ``op_depth=1`` (one operation applied to the sentence we were given).
     #: Every arbitrary-input generator declares ``op_depth=1``.
     op_depth: int = 1
+    #: How much to trust this record, in ``[0, 1]``.  ``None`` means the record
+    #: came from a rule that is either right or absent -- which is every
+    #: lexicon- and parse-driven generator here.  A number means the record came
+    #: from a *model* whose output is graded, currently only the antonym-vector
+    #: fallback, and downstream consumers can filter or weight on it.
+    confidence: Optional[float] = None
     #: Hook for stage 2 (LLM verification).  ``None`` means "not yet checked".
     verified: Optional[bool] = None
 
@@ -153,6 +159,8 @@ class NegationVariant:
             raise ValueError(f"depth {self.depth} exceeds hard cap {MAX_DEPTH}")
         if self.op_depth < 1:
             raise ValueError(f"op_depth {self.op_depth} must be at least 1")
+        if self.confidence is not None and not 0.0 <= self.confidence <= 1.0:
+            raise ValueError(f"confidence {self.confidence} outside [0, 1]")
         # cue_count is derived, never hand-maintained.
         self.cue_count = len(self.cue_char_spans)
 
