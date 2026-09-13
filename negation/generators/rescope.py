@@ -32,7 +32,7 @@ from typing import Optional
 from spacy.tokens import Doc, Token
 
 from ..base import Generator, register
-from ..classify import InputProfile, classify_input
+from ..classify import CLAUSE_TYPES, InputProfile, classify_input
 from ..frames import detect_frame, negator_edits
 from ..nlp_core import root_of
 from ..schema import (
@@ -54,6 +54,8 @@ class Rescope(Generator):
     stage = 2
     op_depth = 1
     operation = OP_RESCOPE
+    #: Relocating a negator is no more clause-type-dependent than removing one.
+    clause_types = CLAUSE_TYPES
 
     def profile(self, doc: Doc) -> InputProfile:
         return classify_input(doc)
