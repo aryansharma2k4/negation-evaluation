@@ -478,6 +478,7 @@ class CounterFitting(VectorMethod):
     transductive: bool = False
     _vectors: Optional[np.ndarray] = None
     _index: Optional[dict] = None
+    _space: Optional[Candidates] = None
 
     def fit_space(
         self,
@@ -530,8 +531,23 @@ class CounterFitting(VectorMethod):
         )
 
     def install(self, words: Sequence[str], vectors: np.ndarray) -> None:
+        """Adopt the counter-fitted space for *both* the query and the pool.
+
+        Retrieval has to happen inside the modified space.  Ranking a
+        counter-fitted query against the original vectors would compare points
+        from two different geometries and measure neither -- which is the whole
+        content of the method, since counter-fitting changes the space rather
+        than the mapping.
+        """
         self._vectors = vectors
         self._index = {w: i for i, w in enumerate(words)}
+        self._space = Candidates(tuple(words), vectors.copy())
+
+    def suggest(self, word, pos, source, candidates: Candidates, top: int = 10):
+        vector = self.predict(word, pos, source)
+        if vector is None or self._space is None:
+            return []
+        return self._space.rank(vector, exclude=(word,), top=top)
 
     def predict(self, word, pos, source):
         if self._vectors is None or self._index is None:
