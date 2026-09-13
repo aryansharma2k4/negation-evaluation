@@ -244,3 +244,199 @@ BLACKLIST_PATTERNS: tuple[tuple[str, "re.Pattern[str]"], ...] = tuple(
         ("double_space_cue", r"\bnot\s+to\s*$"),
     )
 )
+
+
+# ---------------------------------------------------------------------------
+# G_prepositional.  Kept here rather than in the generator so that input
+# classification can recognise a privative it did not itself produce.
+# ---------------------------------------------------------------------------
+
+#: Privatives that can stand in for a comitative *with*.
+WITH_REPLACEMENTS: tuple[tuple[str, str], ...] = (
+    ("without", "without"),
+    ("in the absence of", "in_the_absence_of"),
+)
+
+#: Privatives that can head the complement of a rebuilt copula.
+COPULAR_PRIVATIVES: tuple[tuple[str, str], ...] = (
+    ("without", "without"),
+    ("devoid of", "devoid_of"),
+    ("free of", "free_of"),
+)
+
+#: Content head of each privative phrase above, for cue detection.  Declared
+#: rather than derived because the head is not positionally predictable
+#: (*without* is phrase-initial, *absence* is phrase-medial); ``test_lexicons``
+#: asserts every phrase above contains one of these.
+PRIVATIVE_HEADS: frozenset[str] = frozenset({"without", "devoid", "free", "absence"})
+
+#: Privative heads that only count as a cue when followed by *of*.
+PRIVATIVE_NEEDS_OF: frozenset[str] = frozenset({"devoid", "free", "absence"})
+
+# ---------------------------------------------------------------------------
+# Negative quantifiers.  Derived from the positive->negative swap table so the
+# two directions cannot drift apart; *never* is filtered out because it is a
+# negative adverb (family C) even though B reaches it from *always*.
+# ---------------------------------------------------------------------------
+
+NEGATIVE_QUANTIFIERS: frozenset[str] = (
+    frozenset(swap.replacement.split()[0] for swap in QUANTIFIER_SWAPS.values())
+    - frozenset(NEGATIVE_ADVERBS)
+) | {"nor", "noone", "no-one"}
+
+#: Negative quantifier -> the positive counterpart an affirmation restores.
+#: Not an inverse of :data:`QUANTIFIER_SWAPS`: that map is many-to-one
+#: (*some*, *every* and *each* all negate to *no*), so the positive side has to
+#: be chosen rather than derived.  ``test_lexicons`` asserts every negative form
+#: :data:`QUANTIFIER_SWAPS` can produce is a key here.
+NEGATIVE_QUANTIFIER_FLIPS: dict[str, str] = {
+    "no": "some",
+    "none": "some",
+    "neither": "both",
+    "nobody": "somebody",
+    "noone": "someone",
+    "no-one": "someone",
+    "nothing": "something",
+    "nowhere": "somewhere",
+    "nor": "or",
+}
+
+#: Two-token negative quantifiers, matched before the single-token table.
+NEGATIVE_QUANTIFIER_BIGRAMS: dict[tuple[str, str], str] = {
+    ("no", "one"): "someone",
+}
+
+# ---------------------------------------------------------------------------
+# Affirmation of negative adverbs (family C, run backwards).
+# ---------------------------------------------------------------------------
+
+#: Negative adverb -> the replacements an affirmation may use.  ``""`` deletes
+#: the adverb outright (*"never sorts"* -> *"sorts"*); a word substitutes a
+#: positive counterpart (*"rarely sorts"* -> *"often sorts"*).  The
+#: approximative negatives get both, because deleting *rarely* and replacing it
+#: are different claims.
+NEG_ADVERB_AFFIRMATIONS: dict[str, tuple[str, ...]] = {
+    "never": ("", "always"),
+    "rarely": ("", "often"),
+    "seldom": ("", "often"),
+    "hardly": ("",),
+    "barely": ("",),
+    "scarcely": ("",),
+}
+
+# ---------------------------------------------------------------------------
+# Modality
+# ---------------------------------------------------------------------------
+
+NO_MODALITY = "none"
+MOD_EPISTEMIC = "epistemic"
+MOD_DEONTIC = "deontic"
+MOD_ABILITY = "ability"
+
+#: Modal surface form -> the modality it most typically expresses.  English
+#: modals are systematically ambiguous (*may* is both permission and
+#: possibility); this records the dominant reading, and
+#: :data:`MODAL_NEGATION_READINGS` is where the ambiguity is actually spelled
+#: out as separate records.
+MODALITY_BY_MODAL: dict[str, str] = {
+    "can": MOD_ABILITY,
+    "could": MOD_ABILITY,
+    "may": MOD_EPISTEMIC,
+    "might": MOD_EPISTEMIC,
+    "will": MOD_EPISTEMIC,
+    "would": MOD_EPISTEMIC,
+    "shall": MOD_DEONTIC,
+    "should": MOD_DEONTIC,
+    "must": MOD_DEONTIC,
+    "ought": MOD_DEONTIC,
+    "need": MOD_DEONTIC,
+}
+
+
+class ModalReading(NamedTuple):
+    """One way of negating a modal, and what that reading asserts.
+
+    Negating a modal is scope-ambiguous in a way plain clausal negation is not:
+    *"must not"* negates the complement under the obligation (prohibition),
+    while *"need not"* negates the obligation itself (absence of obligation).
+    The two are not paraphrases, so each is emitted as its own record.
+    """
+
+    surface: str
+    subtype: str
+    reading: str
+    modality: str
+
+
+#: Modal -> the readings its negation splits into.  Modals absent from this
+#: table are negated by plain ``modal + not`` in family A and need no split.
+MODAL_NEGATION_READINGS: dict[str, tuple[ModalReading, ...]] = {
+    "must": (
+        ModalReading("must not", "must_not_prohibition", "prohibition", MOD_DEONTIC),
+        ModalReading(
+            "need not",
+            "need_not_absence_of_obligation",
+            "absence_of_obligation",
+            MOD_DEONTIC,
+        ),
+    ),
+    "should": (
+        ModalReading("should not", "should_not_prohibition", "prohibition", MOD_DEONTIC),
+        ModalReading(
+            "need not",
+            "need_not_absence_of_obligation",
+            "absence_of_obligation",
+            MOD_DEONTIC,
+        ),
+    ),
+    "can": (
+        ModalReading("cannot", "cannot_ability_denied", "ability_denied", MOD_ABILITY),
+        ModalReading(
+            "may not", "may_not_permission_denied", "permission_denied", MOD_DEONTIC
+        ),
+    ),
+    "may": (
+        ModalReading(
+            "may not", "may_not_permission_denied", "permission_denied", MOD_DEONTIC
+        ),
+        ModalReading(
+            "might not",
+            "might_not_possibility_denied",
+            "possibility_denied",
+            MOD_EPISTEMIC,
+        ),
+    ),
+}
+
+# ---------------------------------------------------------------------------
+# Affirmation of syntactic negation
+# ---------------------------------------------------------------------------
+
+#: Do-support auxiliary -> the Penn tag its lexical verb reverts to when the
+#: auxiliary is collapsed away.  The mirror of :func:`negation.frames._do_form_for`:
+#: *"does not sort"* -> *"sorts"* (VBZ), *"did not sort"* -> *"sorted"* (VBD).
+DO_FORM_TAGS: dict[str, str] = {"do": "VBP", "does": "VBZ", "did": "VBD"}
+
+#: Lexicalised negative auxiliaries -> the bare auxiliary an affirmation
+#: restores.  The inverse of :data:`CONTRACTED_NEGATIVE_AUX`, plus the written
+#: contractions a parser may hand us as a single token.
+NEGATIVE_AUX_BASES: dict[str, str] = {
+    **{negated: base for base, negated in CONTRACTED_NEGATIVE_AUX.items()},
+    "can't": "can",
+    "cant": "can",
+    "won't": "will",
+    "shan't": "shall",
+}
+
+#: Lemmas of the NegEx-style implicit triggers, for cue detection.  Derived
+#: from the trigger table so a new trigger is declared in exactly one place.
+#: ``be`` is excluded -- the copula is only a trigger together with its
+#: predicate (*unable*), which is caught as an affixal negative instead.
+IMPLICIT_TRIGGER_LEMMAS: frozenset[str] = frozenset(
+    t.lemma for t in IMPLICIT_TRIGGERS if t.lemma != "be"
+) | {LACK_TRIGGER.lemma}
+
+#: Predicates that make a copula an implicit trigger (*"is unable to"*).
+IMPLICIT_TRIGGER_PREDICATES: frozenset[str] = frozenset(
+    t.predicate for t in IMPLICIT_TRIGGERS if t.predicate
+)

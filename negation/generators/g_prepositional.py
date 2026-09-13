@@ -19,24 +19,11 @@ from spacy.tokens import Doc, Token
 
 from ..base import Generator, register, scope_target_for
 from ..frames import DO_SUPPORT, be_form_for, detect_frame
-from ..lexicons import POSSESSION_VERBS
+from ..lexicons import COPULAR_PRIVATIVES, POSSESSION_VERBS, WITH_REPLACEMENTS
 from ..nlp_core import clause_scope, root_of
 from ..polarity import explicit_negation_in
 from ..schema import FAM_PREPOSITIONAL, NegationVariant, SCOPE_PREDICATE
 from ..splice import Edit
-
-#: Privatives that can stand in for a comitative *with*.
-_WITH_REPLACEMENTS: tuple[tuple[str, str], ...] = (
-    ("without", "without"),
-    ("in the absence of", "in_the_absence_of"),
-)
-
-#: Privatives that can head the complement of a rebuilt copula.
-_COPULAR_PRIVATIVES: tuple[tuple[str, str], ...] = (
-    ("without", "without"),
-    ("devoid of", "devoid_of"),
-    ("free of", "free_of"),
-)
 
 
 def _with_preps(doc: Doc) -> list[Token]:
@@ -65,7 +52,7 @@ class ComitativeToPrivative(Generator):
     def generate(self, doc: Doc) -> list[NegationVariant]:
         out: list[NegationVariant] = []
         for prep in _with_preps(doc):
-            for replacement, subtype in _WITH_REPLACEMENTS:
+            for replacement, subtype in WITH_REPLACEMENTS:
                 edit = Edit.replace(
                     prep.idx, prep.idx + len(prep.text), replacement, cue=True
                 )
@@ -109,7 +96,7 @@ class PossessionToPrivative(Generator):
             return []
         be = be_form_for(frame)
         out: list[NegationVariant] = []
-        for privative, subtype in _COPULAR_PRIVATIVES:
+        for privative, subtype in COPULAR_PRIVATIVES:
             pieces = [(be, False), (" ", False), (privative, True)]
             edit = Edit.compound(root.idx, root.idx + len(root.text), pieces)
             record = self.build(
