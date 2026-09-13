@@ -32,6 +32,7 @@ from negation.antonym_vec.evaluate import (  # noqa: E402
     aggregate,
     format_table,
     gold_antonyms,
+    reliability,
     score_pairs,
     slice_pairs,
     synonym_index,
@@ -49,25 +50,35 @@ from negation.antonym_vec.methods import (  # noqa: E402
 )
 
 
-def build_candidates(source, dataset, pool_size: int) -> Candidates:
-    """The shared candidate pool: frequent vocabulary plus every dataset lemma.
+def build_candidates(source, dataset, pool_size: int, mode: str = "vocab") -> Candidates:
+    """The pool every method is ranked against.
 
-    Ranking against a large pool is the honest setting. Restricting candidates
-    to the few hundred test lemmas would raise every precision several-fold and
-    measure nothing a deployed module could rely on.
+    ``vocab`` is the realistic setting: the frequent vocabulary plus every
+    dataset lemma, so a prediction competes with tens of thousands of words a
+    deployed module would also have to beat.
+
+    ``lemmas`` restricts the pool to the dataset's own lemmas. It makes the task
+    far easier and the precisions correspondingly higher, so it is not the
+    headline setting -- but a transformer has no natural word vocabulary, and
+    pushing 51k words through BERT is not the same experiment as looking 51k
+    rows up in a matrix. Running *both* sources over the ``lemmas`` pool is what
+    makes static and contextual comparable to each other; the ``vocab`` numbers
+    say what either is worth in practice.
     """
-    lemmas = dataset.train_lemmas() | dataset.test_lemmas()
-    vocabulary = list(source.vocabulary())
+    lemmas = sorted(dataset.train_lemmas() | dataset.test_lemmas())
     words: list[str] = []
     seen: set[str] = set()
-    for word in vocabulary[:pool_size]:
-        if word not in seen:
-            seen.add(word)
-            words.append(word)
-    for word in sorted(lemmas):
+
+    if mode == "vocab":
+        for word in list(source.vocabulary())[:pool_size]:
+            if word not in seen:
+                seen.add(word)
+                words.append(word)
+    for word in lemmas:
         if word not in seen and source.vector(word, "a") is not None:
             seen.add(word)
             words.append(word)
+
     matrix = np.stack([source.vector(w, "a") for w in words])
     return Candidates(tuple(words), matrix)
 
@@ -93,6 +104,9 @@ def main(argv: Optional[list[str]] = None) -> int:
                         help="transformer for --source contextual")
     parser.add_argument("--pool-size", type=int, default=50_000,
                         help="frequent-vocabulary candidates (default 50k)")
+    parser.add_argument("--pool", default="vocab", choices=["vocab", "lemmas"],
+                        help="candidate pool: full vocabulary (realistic) or "
+                             "dataset lemmas only (comparable across sources)")
     parser.add_argument("--json", type=Path)
     parser.add_argument("--examples", action="store_true")
     parser.add_argument("--seed", type=int, default=0)
@@ -128,7 +142,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         print("no test pairs survive the vocabulary filter", file=sys.stderr)
         return 2
 
-    candidates = build_candidates(source, dataset, args.pool_size)
+    candidates = build_candidates(source, dataset, args.pool_size, args.pool)
     print(f"  candidate pool: {len(candidates.words):,} words")
 
     alpha = tune_ridge_alpha(train, source, seed=args.seed)
@@ -172,7 +186,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     slices = slice_pairs(test)
 
     print("\n" + "=" * 110)
-    print(f"ANTONYM PREDICTION -- {source.name}, {len(candidates.words):,} candidates")
+    print(f"ANTONYM PREDICTION -- {source.name}, {len(candidates.words):,} candidates "
+          f"(pool={args.pool})")
     print("=" * 110)
 
     # Retrieve once per method, then fold into every slice: each query costs two
@@ -210,6 +225,23 @@ def main(argv: Optional[list[str]] = None) -> int:
         rate = vocabulary_coverage(method, sample, "a", source, candidates)
         print(f"    {method.name:<26} fires on {rate:6.1%}")
 
+    # Does the score the deployed fallback uses as a confidence actually track
+    # correctness?  A flat profile means no threshold on it is defensible.
+    print("\n" + "=" * 110)
+    print("CONFIDENCE RELIABILITY -- precision@1 by top-vs-runner-up cosine margin")
+    print("=" * 110)
+    reliability_out = {}
+    for method in methods:
+        buckets = reliability(scored[method.name])
+        if not buckets:
+            continue
+        reliability_out[method.name] = buckets
+        cells = "  ".join(
+            f"[{b['margin_lo']:.3f}-{b['margin_hi']:.3f}] n={b['n']:>3} P@1={b['p@1']:.3f}"
+            for b in buckets
+        )
+        print(f"  {method.name:<26} {cells}")
+
     if args.examples:
         print("\n" + "=" * 110)
         print("EXAMPLE PREDICTIONS (test set)")
@@ -225,12 +257,14 @@ def main(argv: Optional[list[str]] = None) -> int:
     if args.json:
         payload = {
             "source": source.name,
+            "pool_mode": args.pool,
             "dim": source.dim,
             "candidates": len(candidates.words),
             "ridge_alpha": alpha,
             "train_pairs": len(train),
             "test_pairs": len(test),
             "results": [r.as_dict() for r in collected],
+            "reliability": reliability_out,
         }
         args.json.write_text(json.dumps(payload, indent=2))
         print(f"\nwrote {args.json}")
