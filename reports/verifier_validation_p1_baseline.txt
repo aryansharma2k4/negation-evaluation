@@ -1,0 +1,4 @@
+=== V1 BASELINE (prompt p1), constructed set, matched 60 ===
+  grammatical    n=60   acc=0.617 kappa=+0.080  FAIL
+  category       n=20   acc=0.550 kappa=+0.000  FAIL
+  family_swapped: 20 records, verifier offered a suggested_family on 0
