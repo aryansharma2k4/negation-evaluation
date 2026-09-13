@@ -30,12 +30,37 @@ Distributional embeddings are built from context, and antonyms share contexts
 almost perfectly — *hot* and *cold* both modify *water*, *day*, *weather*. The
 space places them **close together**:
 
-```
-cos(hot, cold)  = 0.509    GloVe 6B 300d
-                = 0.715    BERT base, last-4 layers, template sentence
-cos(good, bad)  = 0.727    BERT
-cos(happy, unhappy) = 0.816  BERT
-```
+| antonym pair | GloVe 6B 300d | fastText wiki-news | BERT base, last-4 |
+| --- | ---: | ---: | ---: |
+| *hot* / *cold* | 0.509 | 0.713 | 0.715 |
+| *good* / *bad* | 0.645 | 0.833 | 0.727 |
+| *happy* / *unhappy* | 0.562 | 0.767 | 0.816 |
+| *rise* / *fall* | 0.630 | 0.657 | 0.742 |
+| *fast* / *slow* | 0.658 | 0.720 | — |
+| **mean** | **0.601** | 0.738 | 0.750 |
+
+This is not an artefact of one vector set: across three independently trained
+spaces — count-based GloVe, subword fastText, contextual BERT — antonyms sit at
+0.5 to 0.83 cosine of each other.
+
+And the problem is sharper than "antonyms are close". Measuring synonym pairs in
+the same GloVe space for comparison:
+
+| synonym pair | GloVe |
+| --- | ---: |
+| *hot* / *warm* | 0.517 |
+| *good* / *fine* | 0.418 |
+| *happy* / *glad* | 0.691 |
+| *fast* / *quick* | 0.617 |
+| *big* / *large* | 0.587 |
+| **mean** | **0.566** |
+
+**Antonyms are on average closer together than synonyms** — 0.601 against 0.566.
+*good* and *bad* (0.645) are far closer than *good* and *fine* (0.418); *hot* and
+*cold* (0.509) are indistinguishable from *hot* and *warm* (0.517). Cosine
+distance in this space does not encode the difference between "similar" and
+"opposite" at all, which is why no amount of pushing a query vector around can
+reliably separate one from the other.
 
 Two consequences, both visible in the results below.
 
@@ -284,7 +309,53 @@ for *generating* antonyms of words you do not.
 
 ## 9. Static vs contextual
 
-{{CONTEXTUAL}}
+Both sources, run over the **same kind of candidate pool** (dataset lemmas
+only) so the two are comparable to each other. These numbers are *not*
+comparable with §5, which uses the 51k pool; shrinking the pool is worth roughly
++0.09 P@1 on its own.
+
+| | GloVe 6B 300d | BERT base, last-4 |
+| --- | ---: | ---: |
+| candidates | 3,817 | 4,558 |
+| queries | 676 | 926 |
+| `linear_map` | 0.166 | 0.103 |
+| `mlp_map` | 0.219 | 0.111 |
+| `reflection` | **0.288** | 0.181 |
+| `counterfit_style` | 0.000 | 0.000 |
+| `counterfit_transductive` † | 0.237 | 0.488 |
+
+**Contextual embeddings do not rescue the result — they are worse.** The best
+generalising method drops from 0.288 to 0.181.
+
+Two things make that comparison imperfect, and both are worth stating rather
+than burying:
+
+*BERT is scored on a harder test set.* It has no out-of-vocabulary words at all
+— word-pieces cover everything — so all 1,000 test pairs survive, where GloVe
+dropped 258 of them for want of a vector. The pairs GloVe dropped are the rare
+ones (*acroscopic*, *nonadsorbent*), which are exactly the hard cases. So part
+of BERT's deficit is that it is being asked harder questions. It is not
+plausibly *all* of it: the gap is 0.107, and the added items are 27% of the set.
+
+*The template is part of the vector.* Every adjective is embedded in "It is
+{word} .", so all adjectives share a large component that has nothing to do with
+their meaning. That inflates the similarity of everything to everything, which
+is visible in the raw cosines in §1 — BERT puts *happy* and *unhappy* at 0.816
+against GloVe's 0.509 for *hot/cold*. A better type-vector construction
+(averaging over many contexts, or subtracting the template centroid) would be a
+fairer test of the model, though not obviously a better outcome.
+
+The one striking difference is `counterfit_transductive`, which reaches 0.488 on
+BERT against 0.237 on GloVe. Given constraints for the test pairs themselves,
+counter-fitting reshapes BERT's space far more effectively. **This remains a
+transductive number and says nothing about unseen words** — but it does suggest
+that if antonym constraints were available for the target vocabulary, the
+contextual space would be the better one to reshape. That is not the situation
+this module exists for.
+
+The static loader also reads fastText's format (header line skipped). A full
+fastText sweep was not run; the cosine check in §1 was, and it replicates the
+premise rather than relieving it.
 
 ## 10. Confidence carries signal but does not make answers usable
 
