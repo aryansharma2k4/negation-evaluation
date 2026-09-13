@@ -2,6 +2,7 @@
 
 from . import (  # noqa: F401
     a_syntactic,
+    affirm,
     b_quantifier,
     c_neg_adverb,
     d_affixal,
