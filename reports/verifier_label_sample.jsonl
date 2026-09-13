@@ -1,0 +1,100 @@
+{"base_sentence": "Sort the array.", "variant": "Barely sort the array.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The check is useful.", "variant": "The check is useless.", "family": "E_antonym", "subtype": "antonym_adj", "operation": "negate"}
+{"base_sentence": "All the students passed.", "variant": "All the students were unable to pass.", "family": "F_implicit", "subtype": "is_unable_to", "operation": "negate"}
+{"base_sentence": "The score increased.", "variant": "The score barely increased.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The function sorts the array.", "variant": "The function certainly does not sort the array.", "family": "I_intensified", "subtype": "certainly_not", "operation": "negate"}
+{"base_sentence": "Everyone passed the exam.", "variant": "Everyone maybe did not pass the exam.", "family": "H_hedged", "subtype": "maybe_not", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system does not have redundancy.", "family": "A_syntactic", "subtype": "do_support", "operation": "negate"}
+{"base_sentence": "The interface is simple.", "variant": "The interface is maybe not simple.", "family": "H_hedged", "subtype": "maybe_not", "operation": "negate"}
+{"base_sentence": "The check is useful.", "variant": "The check is not at all useful.", "family": "I_intensified", "subtype": "not_at_all", "operation": "negate"}
+{"base_sentence": "All the students passed.", "variant": "All the students never neglected to pass.", "family": "K1_cancellation", "subtype": "never_neglects_to", "operation": "negate"}
+{"base_sentence": "The plot is linear.", "variant": "The plot is not at all linear.", "family": "I_intensified", "subtype": "not_at_all", "operation": "negate"}
+{"base_sentence": "He always arrives early.", "variant": "He always is unable to arrive early.", "family": "F_implicit", "subtype": "is_unable_to", "operation": "negate"}
+{"base_sentence": "The interface is simple.", "variant": "The interface is seldom simple.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The result is important.", "variant": "The result is absolutely not important.", "family": "I_intensified", "subtype": "absolutely_not", "operation": "negate"}
+{"base_sentence": "The parser runs with a cache.", "variant": "The parser idles with a cache.", "family": "E_antonym", "subtype": "antonym_verb", "operation": "negate"}
+{"base_sentence": "Some students solved the problem.", "variant": "Some students certainly did not solve the problem.", "family": "I_intensified", "subtype": "certainly_not", "operation": "negate"}
+{"base_sentence": "The interface is simple.", "variant": "The interface is by no means simple.", "family": "I_intensified", "subtype": "by_no_means", "operation": "negate"}
+{"base_sentence": "The model can handle noise.", "variant": "The model cannot handle noise.", "family": "M_modal", "subtype": "cannot_ability_denied", "operation": "negate"}
+{"base_sentence": "Everyone passed the exam.", "variant": "Everyone never ceased to pass the exam.", "family": "K1_cancellation", "subtype": "never_ceases_to", "operation": "negate"}
+{"base_sentence": "Sort the array.", "variant": "Refuse to sort the array.", "family": "F_implicit", "subtype": "refuses_to", "operation": "negate"}
+{"base_sentence": "All the students passed.", "variant": "All the students neglected to pass.", "family": "F_implicit", "subtype": "neglects_to", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function never failed to sort the array.", "family": "K1_cancellation", "subtype": "never_fails_to", "operation": "negate"}
+{"base_sentence": "The parser runs with a cache.", "variant": "The parser never fails to run with a cache.", "family": "K1_cancellation", "subtype": "never_fails_to", "operation": "negate"}
+{"base_sentence": "The plot is linear.", "variant": "The plot is rarely linear.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "Everyone passed the exam.", "variant": "Everyone neglected to pass the exam.", "family": "F_implicit", "subtype": "neglects_to", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system is unable to have redundancy.", "family": "F_implicit", "subtype": "is_unable_to", "operation": "negate"}
+{"base_sentence": "The result is important and the method works.", "variant": "The result is certainly not important and the method works.", "family": "I_intensified", "subtype": "certainly_not", "operation": "negate"}
+{"base_sentence": "The plot is linear.", "variant": "The plot is planar.", "family": "E_antonym", "subtype": "antonym_adj", "operation": "negate"}
+{"base_sentence": "The parser runs with a cache.", "variant": "The parser possibly does not run with a cache.", "family": "H_hedged", "subtype": "possibly_not", "operation": "negate"}
+{"base_sentence": "She has finished the report.", "variant": "She has hardly finished the report.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "He always arrives early.", "variant": "He possibly does not always arrive early.", "family": "H_hedged", "subtype": "possibly_not", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function never neglected to sort the array.", "family": "K1_cancellation", "subtype": "never_neglects_to", "operation": "negate"}
+{"base_sentence": "Although the test passed, the build failed.", "variant": "Although the test did not pass, the build did not fail.", "family": "K2_compound", "subtype": "do_support+do_support", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function was unable to sort the array.", "family": "F_implicit", "subtype": "is_unable_to", "operation": "negate"}
+{"base_sentence": "The result is important and the method works.", "variant": "The result is scarcely important and the method works.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The result is important.", "variant": "The result is barely important.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The interface is simple.", "variant": "The interface is hardly simple.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system absolutely does not have redundancy.", "family": "I_intensified", "subtype": "absolutely_not", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function never ceased to sort the array.", "family": "K1_cancellation", "subtype": "never_ceases_to", "operation": "negate"}
+{"base_sentence": "The result is important.", "variant": "The result is definitely not important.", "family": "I_intensified", "subtype": "definitely_not", "operation": "negate"}
+{"base_sentence": "The score increased.", "variant": "The score neglected to increase.", "family": "F_implicit", "subtype": "neglects_to", "operation": "negate"}
+{"base_sentence": "He always arrives early.", "variant": "He may not always arrive early.", "family": "H_hedged", "subtype": "may_not", "operation": "negate"}
+{"base_sentence": "The parser runs with a cache.", "variant": "The parser surely does not run with a cache.", "family": "I_intensified", "subtype": "surely_not", "operation": "negate"}
+{"base_sentence": "The function sorts the array and returns the result.", "variant": "The function fails to sort the array and returns the result.", "family": "F_implicit", "subtype": "fails_to", "operation": "negate"}
+{"base_sentence": "Some students solved the problem.", "variant": "Some students maybe did not solve the problem.", "family": "H_hedged", "subtype": "maybe_not", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system may not have redundancy.", "family": "H_hedged", "subtype": "may_not", "operation": "negate"}
+{"base_sentence": "Sort the array.", "variant": "Possibly do not sort the array.", "family": "H_hedged", "subtype": "possibly_not", "operation": "negate"}
+{"base_sentence": "The score increased.", "variant": "The score maybe did not increase.", "family": "H_hedged", "subtype": "maybe_not", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system seldom has redundancy.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "Everyone passed the exam.", "variant": "Everyone possibly did not pass the exam.", "family": "H_hedged", "subtype": "possibly_not", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function seldom sorted the array.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system probably does not have redundancy.", "family": "H_hedged", "subtype": "probably_not", "operation": "negate"}
+{"base_sentence": "The function sorts the array.", "variant": "The function fails to sort the array.", "family": "F_implicit", "subtype": "fails_to", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function absolutely did not sort the array.", "family": "I_intensified", "subtype": "absolutely_not", "operation": "negate"}
+{"base_sentence": "The result is important and the method works.", "variant": "The result is not important and the method does not work.", "family": "K2_compound", "subtype": "copula+do_support", "operation": "negate"}
+{"base_sentence": "The check is useful.", "variant": "The check is definitely not useful.", "family": "I_intensified", "subtype": "definitely_not", "operation": "negate"}
+{"base_sentence": "The result is important and the method works.", "variant": "The result is not at all important and the method works.", "family": "I_intensified", "subtype": "not_at_all", "operation": "negate"}
+{"base_sentence": "The function sorts the array and returns the result.", "variant": "The function does not sort the array and does not return the result.", "family": "K2_compound", "subtype": "do_support+do_support", "operation": "negate"}
+{"base_sentence": "The function sorts the array and returns the result.", "variant": "The function does not sort the array and returns the result.", "family": "A_syntactic", "subtype": "do_support", "operation": "negate"}
+{"base_sentence": "The function sorts the array.", "variant": "The function does not sort the array.", "family": "A_syntactic", "subtype": "do_support", "operation": "negate"}
+{"base_sentence": "The parser runs with a cache.", "variant": "The parser definitely does not run with a cache.", "family": "I_intensified", "subtype": "definitely_not", "operation": "negate"}
+{"base_sentence": "The interface is simple.", "variant": "The interface may not be simple.", "family": "H_hedged", "subtype": "may_not", "operation": "negate"}
+{"base_sentence": "The result is important.", "variant": "The result is rarely important.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "Everyone passed the exam.", "variant": "Everyone scarcely passed the exam.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The plot is linear.", "variant": "The plot is certainly not linear.", "family": "I_intensified", "subtype": "certainly_not", "operation": "negate"}
+{"base_sentence": "The result is important.", "variant": "The result is not important.", "family": "A_syntactic", "subtype": "copula", "operation": "negate"}
+{"base_sentence": "The result is important and the method works.", "variant": "The result is definitely not important and the method works.", "family": "I_intensified", "subtype": "definitely_not", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function scarcely sorted the array.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "Some students solved the problem.", "variant": "Some students scarcely solved the problem.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system never ceases to have redundancy.", "family": "K1_cancellation", "subtype": "never_ceases_to", "operation": "negate"}
+{"base_sentence": "Some students solved the problem.", "variant": "Some students never failed to solve the problem.", "family": "K1_cancellation", "subtype": "never_fails_to", "operation": "negate"}
+{"base_sentence": "Everyone passed the exam.", "variant": "Everyone rarely passed the exam.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The model can handle noise.", "variant": "The model may not handle noise.", "family": "M_modal", "subtype": "may_not_permission_denied", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system maybe does not have redundancy.", "family": "H_hedged", "subtype": "maybe_not", "operation": "negate"}
+{"base_sentence": "The score increased.", "variant": "The score might not increase.", "family": "H_hedged", "subtype": "might_not", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function certainly did not sort the array.", "family": "I_intensified", "subtype": "certainly_not", "operation": "negate"}
+{"base_sentence": "The function sorted the array.", "variant": "The function probably did not sort the array.", "family": "H_hedged", "subtype": "probably_not", "operation": "negate"}
+{"base_sentence": "He always arrives early.", "variant": "He definitely does not always arrive early.", "family": "I_intensified", "subtype": "definitely_not", "operation": "negate"}
+{"base_sentence": "The interface is simple.", "variant": "The interface is far from simple.", "family": "J_contrastive", "subtype": "far_from", "operation": "negate"}
+{"base_sentence": "The interface is simple.", "variant": "The interface is probably not simple.", "family": "H_hedged", "subtype": "probably_not", "operation": "negate"}
+{"base_sentence": "The model can handle noise.", "variant": "The model can never handle noise.", "family": "C_neg_adverb", "subtype": "absolute", "operation": "negate"}
+{"base_sentence": "He always arrives early.", "variant": "He always ceases to arrive early.", "family": "F_implicit", "subtype": "ceases_to", "operation": "negate"}
+{"base_sentence": "Sort the array.", "variant": "Hardly sort the array.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "He always arrives early.", "variant": "He always leaves early.", "family": "E_antonym", "subtype": "antonym_verb", "operation": "negate"}
+{"base_sentence": "The plot is linear.", "variant": "The plot is not nonlinear.", "family": "K1_cancellation", "subtype": "not_prefix_non", "operation": "negate"}
+{"base_sentence": "The model can handle noise.", "variant": "The model can probably not handle noise.", "family": "H_hedged", "subtype": "probably_not", "operation": "negate"}
+{"base_sentence": "All the students passed.", "variant": "Not all the students passed.", "family": "L_scope_position", "subtype": "subject_scope", "operation": "negate"}
+{"base_sentence": "All the students passed.", "variant": "All the students probably did not pass.", "family": "H_hedged", "subtype": "probably_not", "operation": "negate"}
+{"base_sentence": "The system has redundancy.", "variant": "The system is devoid of redundancy.", "family": "G_prepositional", "subtype": "devoid_of", "operation": "negate"}
+{"base_sentence": "The plot is linear.", "variant": "The plot is seldom linear.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The plot is linear.", "variant": "The plot is anything but linear.", "family": "J_contrastive", "subtype": "anything_but", "operation": "negate"}
+{"base_sentence": "All the students passed.", "variant": "All the students never refused to pass.", "family": "K1_cancellation", "subtype": "never_refuses_to", "operation": "negate"}
+{"base_sentence": "The parser runs with a cache.", "variant": "The parser refuses to run with a cache.", "family": "F_implicit", "subtype": "refuses_to", "operation": "negate"}
+{"base_sentence": "He always arrives early.", "variant": "He does not always arrive early.", "family": "A_syntactic", "subtype": "do_support", "operation": "negate"}
+{"base_sentence": "The score increased.", "variant": "The score possibly did not increase.", "family": "H_hedged", "subtype": "possibly_not", "operation": "negate"}
+{"base_sentence": "All the students passed.", "variant": "All the students barely passed.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
+{"base_sentence": "The parser runs with a cache.", "variant": "The parser runs without a cache.", "family": "G_prepositional", "subtype": "without", "operation": "negate"}
+{"base_sentence": "Sort the array.", "variant": "Never cease to sort the array.", "family": "K1_cancellation", "subtype": "never_ceases_to", "operation": "negate"}
+{"base_sentence": "He always arrives early.", "variant": "He surely does not always arrive early.", "family": "I_intensified", "subtype": "surely_not", "operation": "negate"}
+{"base_sentence": "The parser runs with a cache.", "variant": "The parser barely runs with a cache.", "family": "C_neg_adverb", "subtype": "partial", "operation": "negate"}
