@@ -89,6 +89,15 @@ def write_disagreement_report(
         "- judged miscategorised: 0"
     )
     lines.append(f"- distinct (labelled -> suggested) clusters: {len(clusters)}")
+    unnamed = sum(
+        1 for r in disagreements if not r.get("suggested_family")
+    )
+    if unnamed:
+        lines.append(
+            f"- of those, **{unnamed} carry no suggested family** "
+            f"({unnamed / len(disagreements):.0%}) — the verifier said the label was "
+            f"wrong but would not say what it should be, which is not actionable"
+        )
     lines.append("")
     lines.append(
         "> The verifier is a 7B local model and is itself imperfect -- see "
@@ -122,9 +131,10 @@ def write_disagreement_report(
     for index, group in enumerate(clusters[:TOP_CLUSTERS], start=1):
         total = family_totals.get(group["labelled_family"], 0)
         share = f"{group['count'] / total:.1%}" if total else "—"
+        noun = "record" if group["count"] == 1 else "records"
         lines.append(
             f"### {index}. `{group['labelled_family']}` -> "
-            f"`{group['suggested_family']}` ({group['count']} records, {share} of "
+            f"`{group['suggested_family']}` ({group['count']} {noun}, {share} of "
             f"`{group['labelled_family']}`)"
         )
         lines.append("")
