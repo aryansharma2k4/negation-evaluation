@@ -61,7 +61,7 @@ def generate_all(
     candidates: list[NegationVariant] = []
     for doc in docs:
         for generator in licensed:
-            if generator.applies(doc):
+            if generator.licensed_for(doc) and generator.applies(doc):
                 candidates.extend(generator.generate(doc))
 
     kept, _ = run_filters(

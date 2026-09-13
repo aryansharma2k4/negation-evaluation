@@ -440,3 +440,19 @@ IMPLICIT_TRIGGER_LEMMAS: frozenset[str] = frozenset(
 IMPLICIT_TRIGGER_PREDICATES: frozenset[str] = frozenset(
     t.predicate for t in IMPLICIT_TRIGGERS if t.predicate
 )
+
+
+# ---------------------------------------------------------------------------
+# Negative contractions (interrogatives and imperatives)
+# ---------------------------------------------------------------------------
+
+#: Auxiliaries whose negative contraction is not ``aux + "n't"``.
+IRREGULAR_AUX_CONTRACTIONS: dict[str, str] = {
+    "can": "can't",
+    "will": "won't",
+    "shall": "shan't",
+}
+
+#: Auxiliaries with no usable negative contraction.  *amn't* is not standard,
+#: and *mayn't* is archaic enough to read as an error.
+UNCONTRACTABLE_AUX: frozenset[str] = frozenset({"am", "may"})
