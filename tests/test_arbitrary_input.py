@@ -147,6 +147,36 @@ def test_existential_prefers_quantifier_negation():
     assert "There is no solution." in got
 
 
+@pytest.mark.parametrize("sentence,expected", [
+    ("There is a solution.", "There is no solution."),
+    ("There are solutions.", "There are no solutions."),
+    # *no* takes the NP's left edge, so it replaces a numeral rather than
+    # stacking after it, and precedes an adjective rather than following it.
+    ("There are three solutions.", "There are no solutions."),
+    ("There are stale entries.", "There are no stale entries."),
+    ("There is a simple solution.", "There is no simple solution."),
+])
+def test_existential_places_no_at_the_np_left_edge(sentence, expected):
+    assert expected in {r.variant for r in generate_all([sentence])}
+
+
+@pytest.mark.parametrize("sentence,expected", [
+    ("This parser is faster than the old one.", "This parser is no faster than the old one."),
+    # Periphrastic: *no* goes in front of the degree word, not the adjective.
+    ("The parser is more robust than the old one.", "The parser is no more robust than the old one."),
+    ("This is less robust than that.", "This is no less robust than that."),
+])
+def test_comparative_handles_periphrastic_degree_marking(sentence, expected):
+    assert expected in {r.variant for r in generate_all([sentence])}
+
+
+def test_neither_affirms_with_its_noun_pluralised():
+    """*neither* takes a singular noun, *both* a plural one."""
+    got = {r.variant for r in generate_all(["Neither test passed."])}
+    assert "Both tests passed." in got
+    assert "Both test passed." not in got
+
+
 def test_modal_emits_both_readings_as_distinct_records():
     records = [r for r in generate_all(["The parser must handle noise."]) if r.family == "M_modal"]
     by_variant = {r.variant: r for r in records}
