@@ -1,0 +1,24 @@
+# Hand-kept paraphrase controls: the candidates from make_controls.py that are
+# both grammatical and meaning-preserving. Judged on English alone, once, before
+# any embedding was computed. One kept variant sentence per line.
+The undertaking is impossible.
+The job is impossible.
+The framework can handle noise.
+The model can manage noise.
+She has completed the report.
+Some pupils solved the problem.
+Everyone passed the examination.
+He constantly arrives early.
+The consequence is important.
+The result is significant.
+The check is utile.
+The mark increased.
+The interface is elementary.
+The scheme has redundancy.
+The system has redundance.
+The method works and the result is important.
+The consequence is important and the method works.
+The result is significant and the method works.
+The build failed although the test passed.
+Although the trial passed, the build failed.
+All the pupils passed.

@@ -1,0 +1,4 @@
+cache/
+# the root .gitignore excludes variants.jsonl everywhere; this copy is the
+# experiment input and is committed on purpose.
+!data/variants.jsonl
