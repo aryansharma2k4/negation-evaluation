@@ -442,6 +442,8 @@ def main() -> None:
     ap.add_argument("--model", default="minilm", choices=["minilm", "mpnet", "bert"])
     ap.add_argument("--no-nli", action="store_true", help="skip the cross-encoder")
     ap.add_argument("--seed", type=int, default=SEED)
+    ap.add_argument("--out", default="results.json",
+                    help="results file, relative to this directory")
     args = ap.parse_args()
 
     rng = np.random.default_rng(args.seed)
@@ -643,8 +645,8 @@ def main() -> None:
                     "phase-1 negated pairs; phase-2 and xNot360 are not.",
         }
 
-    (HERE / "results.json").write_text(json.dumps(results, indent=2))
-    print(f"wrote {HERE / 'results.json'}")
+    (HERE / args.out).write_text(json.dumps(results, indent=2))
+    print(f"wrote {HERE / args.out}")
     print("\nphase 2 (trained on phase 1):")
     for scorer, entry in results["phase2"].items():
         para = entry["by_subtype"].get("paraphrase", {})
