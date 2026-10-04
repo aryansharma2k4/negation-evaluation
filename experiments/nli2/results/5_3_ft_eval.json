@@ -1,0 +1,390 @@
+{
+  "rows": {
+    "off-the-shelf NLI (deberta-v3-base) alone": {
+      "threshold": 0.9753316640853882,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8176,
+        "auc": 0.8399,
+        "precision": 0.7602,
+        "recall": 0.9298,
+        "f1": 0.8365,
+        "ci95": [
+          0.7989,
+          0.8358
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.8279,
+        "auc": 0.8218,
+        "precision": 0.7763,
+        "recall": 0.9232,
+        "f1": 0.8434,
+        "ci95": [
+          0.8086,
+          0.8464
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7778,
+        "auc": 0.9395,
+        "precision": 0.7049,
+        "recall": 0.9556,
+        "f1": 0.8113,
+        "ci95": [
+          0.7333,
+          0.8222
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0033
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.7087
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0256
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.7815
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.4
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9448
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.8842
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9151
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9556
+        }
+      },
+      "validation_accuracy": 0.8602,
+      "dev_clean_accuracy": 0.8377,
+      "k1_fpr": 0.044,
+      "semantoneg_phase2_fpr": 0.0
+    },
+    "off-the-shelf NLI (deberta-v3-base) in cascade": {
+      "threshold": 0.07545395940542221,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.908,
+        "auc": 0.9578,
+        "precision": 0.8736,
+        "recall": 0.9547,
+        "f1": 0.9123,
+        "ci95": [
+          0.8938,
+          0.921
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9464,
+        "auc": 0.9666,
+        "precision": 0.946,
+        "recall": 0.9474,
+        "f1": 0.9467,
+        "ci95": [
+          0.9343,
+          0.9571
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7583,
+        "auc": 0.9395,
+        "precision": 0.6782,
+        "recall": 0.9833,
+        "f1": 0.8027,
+        "ci95": [
+          0.7139,
+          0.8028
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0163
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.2441
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0085
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0084
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.4667
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9552
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9474
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9403
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9833
+        }
+      },
+      "validation_accuracy": 0.9301,
+      "dev_clean_accuracy": 0.9242,
+      "k1_fpr": 0.011,
+      "semantoneg_phase2_fpr": 0.0
+    },
+    "fine-tuned MiniLM alone": {
+      "threshold": 0.9815306067466736,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8119,
+        "auc": 0.8916,
+        "precision": 0.8033,
+        "recall": 0.8279,
+        "f1": 0.8154,
+        "ci95": [
+          0.7937,
+          0.8301
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.8129,
+        "auc": 0.8943,
+        "precision": 0.8008,
+        "recall": 0.835,
+        "f1": 0.8175,
+        "ci95": [
+          0.7921,
+          0.8329
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.8083,
+        "auc": 0.8832,
+        "precision": 0.8136,
+        "recall": 0.8,
+        "f1": 0.8067,
+        "ci95": [
+          0.7667,
+          0.8444
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.3713
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.1496
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.1092
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.1833
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.8483
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.6316
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.8836
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.8
+        }
+      },
+      "validation_accuracy": 0.817,
+      "dev_clean_accuracy": 0.8257,
+      "k1_fpr": 0.0,
+      "semantoneg_phase2_fpr": 0.0
+    },
+    "fine-tuned MiniLM in cascade": {
+      "threshold": 0.9759072661399841,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8199,
+        "auc": 0.9025,
+        "precision": 0.8103,
+        "recall": 0.8369,
+        "f1": 0.8234,
+        "ci95": [
+          0.8017,
+          0.8375
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.8243,
+        "auc": 0.9077,
+        "precision": 0.8134,
+        "recall": 0.8435,
+        "f1": 0.8282,
+        "ci95": [
+          0.8036,
+          0.8436
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.8028,
+        "auc": 0.8832,
+        "precision": 0.7978,
+        "recall": 0.8111,
+        "f1": 0.8044,
+        "ci95": [
+          0.7611,
+          0.8417
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.4007
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.1024
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.2056
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.8517
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.6316
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.8994
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.8111
+        }
+      },
+      "validation_accuracy": 0.807,
+      "dev_clean_accuracy": 0.8301,
+      "k1_fpr": 0.0,
+      "semantoneg_phase2_fpr": 0.0
+    }
+  },
+  "gains": {
+    "fine-tuned MiniLM alone vs off-the-shelf NLI (deberta-v3-base) alone|all": {
+      "part": "all",
+      "n": 1760,
+      "gain": -0.0057,
+      "p_permutation": 0.67513
+    },
+    "fine-tuned MiniLM alone vs off-the-shelf NLI (deberta-v3-base) alone|cannot_phase2": {
+      "part": "cannot_phase2",
+      "n": 1400,
+      "gain": -0.015,
+      "p_permutation": 0.30357
+    },
+    "fine-tuned MiniLM alone vs off-the-shelf NLI (deberta-v3-base) alone|xnot360": {
+      "part": "xnot360",
+      "n": 360,
+      "gain": 0.0306,
+      "p_permutation": 0.23108
+    },
+    "fine-tuned MiniLM in cascade vs off-the-shelf NLI (deberta-v3-base) in cascade|all": {
+      "part": "all",
+      "n": 1760,
+      "gain": -0.0881,
+      "p_permutation": 0.0001
+    },
+    "fine-tuned MiniLM in cascade vs off-the-shelf NLI (deberta-v3-base) in cascade|cannot_phase2": {
+      "part": "cannot_phase2",
+      "n": 1400,
+      "gain": -0.1221,
+      "p_permutation": 0.0001
+    },
+    "fine-tuned MiniLM in cascade vs off-the-shelf NLI (deberta-v3-base) in cascade|xnot360": {
+      "part": "xnot360",
+      "n": 360,
+      "gain": 0.0444,
+      "p_permutation": 0.09449
+    }
+  }
+}

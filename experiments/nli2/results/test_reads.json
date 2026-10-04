@@ -58,5 +58,10 @@
     "step": "4.4",
     "what": "per-family NLI thresholds",
     "time": "2026-10-04 18:32"
+  },
+  {
+    "step": "5.3",
+    "what": "fine-tuned cross-encoder alone and in cascade vs off-the-shelf",
+    "time": "2026-10-04 20:04"
   }
 ]

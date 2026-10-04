@@ -109,6 +109,11 @@ final answer to the integrity check is therefore that **85% of the claimed +13.8
   after the Phase 3 TEST runs. It is not fixed, so the reported Phase 3 numbers stay as run. A fix
   would exclude *if* when preceded by *as*, and would treat *even if* / *only if* as distinct
   connectives.
+- **5 Fine-tuned cross-encoder on generator output.** Alone it scores 81.3% on phase 2 against 82.8%
+  for the off-the-shelf model (−1.5 pts, p = 0.30). Swapped into the cascade, it drops the cascade from
+  94.6% to 82.4% (−12.2 pts, p = 0.0001). It calls **37.1% of human paraphrases negations** (off-the-shelf:
+  0.3%), and antonym recall falls to 63.2% (n = 95). Its wins are on the generator's own ground: K1 FPR
+  0.0% (n = 91) and sts_low FPR 15.0% (alone). See 5.3 for what this says about the generator.
 
 ## 8. Caveats
 
@@ -867,4 +872,46 @@ that transfers to natural data.
 
 ```sh
 ./venv/bin/python experiments/nli2/phase5.py --step train     # ~28 min on 8 CPU threads
+```
+
+### 5.3 Fine-tuned vs off-the-shelf, alone and inside the cascade
+
+`experiments/nli2/phase5.py --step eval` → `results/5_3_ft_eval.json`. The fine-tuned model's
+P(negation) replaces NLI's P(contradiction). Every threshold is refit on clean DEV: Youden for the
+model alone, and the cascade's stage-3 threshold for the cascade. The cascade is the Phase 2 adopted
+configuration.
+
+| system | phase-2 acc (95% CI) | xNot360 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| off-the-shelf NLI (deberta-v3-base) alone | 82.8% (80.9–84.6) | 77.8% (73.3–82.2) | 81.8% (79.9–83.6) | 0.840 | 93.0% | 0.3% | 70.9% | 2.6% | 78.1% | 40.0% | 88.4% | 4.4% | 0.0% | 86.0% |
+| off-the-shelf NLI in cascade | **94.6% (93.4–95.7)** | 75.8% (71.4–80.3) | **90.8% (89.4–92.1)** | **0.958** | 95.5% | 1.6% | 24.4% | 0.9% | 0.8% | 46.7% | **94.7%** | 1.1% | 0.0% | **93.0%** |
+| fine-tuned MiniLM alone | 81.3% (79.2–83.3) | **80.8% (76.7–84.4)** | 81.2% (79.4–83.0) | 0.892 | 82.8% | 37.1% | 15.0% | 0.0% | 10.9% | **18.3%** | 63.2% | **0.0%** | 0.0% | 81.7% |
+| fine-tuned MiniLM in cascade | 82.4% (80.4–84.4) | 80.3% (76.1–84.2) | 82.0% (80.2–83.8) | 0.902 | 83.7% | 40.1% | 10.2% | 0.0% | 0.0% | 20.6% | 63.2% | **0.0%** | 0.0% | 80.7% |
+
+Paired permutation tests: fine-tuned vs off-the-shelf alone: phase 2 −1.5 pts (p = 0.30), xNot360 +3.1 pts
+(p = 0.23). In the cascade: phase 2 **−12.2 pts (p = 0.0001)**, xNot360 +4.4 pts (p = 0.094).
+
+**The fine-tune underperforms, and the way it fails says something about the generator.** Trained
+only on generator output, it learned the generator's world: B is A with a negation-shaped edit,
+unless the cues cancel, or B is unrelated. On natural data that becomes "any rewording is a
+negation". It calls 37.1% of human-written CANNOT paraphrases negations (off-the-shelf: 0.3%). It
+misses a third of antonym negations (recall 63.2%), because the generator's E_antonym pairs are
+lexicon swaps on technical prose, not the short colloquial *It's natural. / It's artificial.* that
+CANNOT has. What it does learn transfers where the generator is realistic:
+- **Cancellation:** K1 FPR 0.0% (n = 91, generator caveat), and every SemAntoNeg pair is rejected
+  (n = 41).
+- **Unrelated pairs:** random-pair FPR 10.9% alone, against 78.1% for off-the-shelf NLI.
+- **Conditional inverses:** xNot360 not_negation FPR 18.3%, against 40.0%. It never saw a
+  conditional labelled, so this probably comes from its "same wording, small polarity edit" prior
+  pointing the right way. The +3.1 pts on xNot360 is not significant (p = 0.23).
+
+What it implies: **the generator teaches cancellation and polarity morphology well, but it does not
+represent meaning-preserving rewording.** It has no paraphrase family and no natural antonymy, so a
+model trained on it alone over-reads any edit as a negation. Mixing in natural paraphrase negatives,
+or using generator output only for the cancellation and morphology slices, would be the next test
+(section 10). The fine-tune is not adopted (VALIDATION 81.7% alone and 80.7% in the cascade, against
+93.0%).
+
+```sh
+./venv/bin/python experiments/nli2/phase5.py --step eval
 ```
