@@ -1,0 +1,45 @@
+{
+  "bases": 1695,
+  "pairs": 19896,
+  "labels": {
+    "0": 9948,
+    "1": 9948
+  },
+  "by_family_label": {
+    "A_syntactic|0": 106,
+    "A_syntactic|1": 1593,
+    "B_quantifier|0": 20,
+    "B_quantifier|1": 136,
+    "C_neg_adverb|0": 86,
+    "C_neg_adverb|1": 2396,
+    "D_affixal|0": 26,
+    "D_affixal|1": 158,
+    "E_antonym|0": 370,
+    "E_antonym|1": 923,
+    "F_implicit|0": 52,
+    "F_implicit|1": 556,
+    "G_prepositional|0": 7,
+    "G_prepositional|1": 165,
+    "H_hedged|0": 148,
+    "H_hedged|1": 1810,
+    "I_intensified|0": 131,
+    "I_intensified|1": 1627,
+    "J_contrastive|0": 40,
+    "J_contrastive|1": 305,
+    "K1_cancellation|0": 287,
+    "K1_cancellation|1": 102,
+    "K2_compound|0": 238,
+    "K2_compound|1": 131,
+    "L_scope_position|0": 2,
+    "L_scope_position|1": 11,
+    "M_modal|1": 35,
+    "random_pair|0": 8435
+  },
+  "stats": {
+    "generator_error": 3,
+    "variants_generated": 30304,
+    "bases_without_variants": 42
+  },
+  "max_variants_per_base": 8,
+  "generator_commit_note": "after fix 0.1"
+}

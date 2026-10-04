@@ -773,3 +773,49 @@ The GBM combiner (4.3) already gets 92.6% antonym recall without being told the 
 ```sh
 ./venv/bin/python experiments/nli2/phase4.py --step 4.4
 ```
+
+### 5.1 Training data for the fine-tune (generator output, fixed generator)
+
+`experiments/nli2/phase5.py --step data` → `results/5_1_ft_data.json` (the pairs themselves are in
+the gitignored `experiments/nli2/cache/ft_pairs.jsonl`, rebuilt deterministically, seed 0).
+
+- **Bases: 1,695 CANNOT phase-1 A sentences from clean DEV.** None is in VALIDATION or TEST, so the
+  generator never sees a TEST base sentence. The existing 70,451-variant refsets were **not** used,
+  for two reasons. They were generated from all 3,924 CANNOT / xNot360 A sentences, 1,642 of them
+  phase-2 (VALIDATION / TEST) bases and 180 xNot360 bases. And they predate fix 0.1, with up to 80%
+  of their affixal variants corrupted.
+- **Generator run after fix 0.1.** 30,304 variants were generated in 95 s. 42 bases got no variant
+  and 3 raised a generator error. At most 8 variants per base were kept, sampled evenly across
+  families so that C / H / I (the bulk of the generator's output) do not dominate. This cap keeps
+  CPU training feasible.
+- **Labels: the refsets rule.** A variant is a negation iff its `net_negation` parity differs from
+  A's own cue parity. K1 cancellations and K2 compounds are therefore mostly label 0.
+- **Random re-pairings** of two different bases were added as label 0, up to a 50 / 50 balance.
+
+| family | label 1 (negation) | label 0 |
+| --- | ---: | ---: |
+| A_syntactic | 1,593 | 106 |
+| B_quantifier | 136 | 20 |
+| C_neg_adverb | 2,396 | 86 |
+| D_affixal | 158 | 26 |
+| E_antonym | 923 | 370 |
+| F_implicit | 556 | 52 |
+| G_prepositional | 165 | 7 |
+| H_hedged | 1,810 | 148 |
+| I_intensified | 1,627 | 131 |
+| J_contrastive | 305 | 40 |
+| K1_cancellation | 102 | 287 |
+| K2_compound | 131 | 238 |
+| L_scope_position | 11 | 2 |
+| M_modal | 35 | 0 |
+| random re-pairing | — | 8,435 |
+| **total** | **9,948** | **9,948** |
+
+**Limit, stated before training:** only 1,513 of the 9,948 negatives come from the generator. The other
+8,435 are random pairs. The generator has no paraphrase family, so it can teach "a cancellation is not a
+negation" and "an unrelated sentence is not a negation", but almost nothing about "a reworded
+sentence is not a negation". That is exactly CANNOT's paraphrase class.
+
+```sh
+./venv/bin/python experiments/nli2/phase5.py --step data
+```
