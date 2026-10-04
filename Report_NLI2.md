@@ -375,3 +375,38 @@ TEST cost (one true negation lost, −0.1 pts, p = 1.0) is the same size as the 
 ```sh
 ./venv/bin/python experiments/nli2/phase2.py --step 2.2
 ```
+
+### 2.3 Pair-level antonym bypass — works, adopted
+
+`experiments/nli2/phase2.py --step 2.3` → `results/2_2.3.json`; rule in `rules.antonym_aligned`.
+Before the gate runs, A and B are aligned token by token on lemmas, ignoring punctuation and
+*a/an/the*. If there is **exactly one** differing aligned position, it holds one token on each side,
+the two share a dependency slot, and they are antonyms, then the pair skips the gate and the veto
+and goes straight to NLI. "Antonyms" means WordNet (any part of speech, surface or lemma, either
+direction) or a curated list of 26 pairs. The curated list is the brief's four, which WordNet
+already has, plus 22 that WordNet misses (*right/incorrect*, *hard/easy*, *serious/playful*,
+*increase/decline*, …). All 22 were found among failing aligned antonym negations in **clean DEV
+only**.
+
+| config | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc | gain vs baseline, phase 2 (p) |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 1 baseline | 94.4% (93.2–95.6) | 90.6% (89.3–91.9) | 0.955 | 95.1% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 1.1% | 0.0% | 92.8% | — |
+| 2.3 antonym bypass | **94.9% (93.8–96.0)** | **91.0% (89.7–92.3)** | 0.962 | 95.9% | 1.6% | 23.6% | 2.6% | **0.0%** | 46.7% | **94.7%** | 1.1% | 0.0% | 93.0% | **+0.5 pts (p = 0.016)** |
+
+**Antonym recall 87.4% → 94.7% (n = 95), with random_pair FPR unchanged at 0.0% (n = 119).** All-TEST
+gain +0.4 pts (p = 0.015). No other FPR moves. The strict alignment does its job:
+
+| split | bypass fires | on non-negations | what it caught |
+| --- | ---: | ---: | --- |
+| clean DEV | 137 | 1 (a hard negative) | 95 antonym, 37 other, 4 verbal negations |
+| VALIDATION | 29 | 0 | 22 antonym, 5 other, 2 verbal |
+| TEST | 48 | 0 | 39 antonym, 7 other, 2 verbal |
+
+On TEST the gate now stops 239 pairs instead of 247; the 8 rescued pairs are negations NLI then
+gets right. **Adopted** (VALIDATION 92.8% → 93.0%, clean DEV 91.98% → 92.21%). Cost: the curated list
+was mined from DEV, so the rule is partly fit to DEV (caveats). How much the 22 curated pairs add
+over WordNet alone was not measured separately.
+
+```sh
+./venv/bin/python experiments/nli2/phase2.py --step 2.3
+```

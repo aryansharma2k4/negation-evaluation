@@ -23,5 +23,10 @@
     "step": "phase2 2.2",
     "what": "2.2 + not-antonym cancellation",
     "time": "2026-10-04 18:05"
+  },
+  {
+    "step": "phase2 2.3",
+    "what": "2.3 antonym bypass",
+    "time": "2026-10-04 18:07"
   }
 ]

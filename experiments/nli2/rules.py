@@ -23,10 +23,18 @@ from negation.nlp_core import antonyms, parse_batch  # noqa: E402
 NEG_WORDS = frozenset({"not", "n't", "never", "no", "cannot", "nobody", "nothing", "none", "neither", "nor"})
 DETERMINERS = frozenset({"a", "an", "the"})
 
-#: Antonym pairs WordNet misses, found failing on the clean DEV set only (never on
-#: VALIDATION or TEST). The brief's four (alive/dead, present/absent, include/exclude,
-#: same/different) are already in WordNet. Filled in by step 2.3.
-CURATED_ANTONYMS: frozenset[frozenset[str]] = frozenset()
+#: Antonym pairs WordNet misses, found as failing aligned antonym negations on the clean
+#: DEV set only (never VALIDATION or TEST), step 2.3. The brief's four (alive/dead,
+#: present/absent, include/exclude, same/different) are already in WordNet; listed anyway.
+CURATED_ANTONYMS: frozenset[frozenset[str]] = frozenset(map(frozenset, [
+    ("alive", "dead"), ("present", "absent"), ("include", "exclude"), ("same", "different"),
+    ("right", "incorrect"), ("wrong", "correct"), ("hard", "easy"), ("important", "insignificant"),
+    ("important", "noncrucial"), ("serious", "playful"), ("large", "tiny"), ("increase", "diminish"),
+    ("increase", "decline"), ("continue", "stop"), ("cause", "prevent"), ("broad", "narrow"),
+    ("sure", "uncertain"), ("true", "untruthful"), ("predecessor", "successor"),
+    ("stupid", "intelligent"), ("open", "covert"), ("rarely", "commonly"), ("seldom", "commonly"),
+    ("manageable", "difficult"), ("establish", "discontinue"), ("significant", "slight"),
+]))
 
 
 class Tok(NamedTuple):
