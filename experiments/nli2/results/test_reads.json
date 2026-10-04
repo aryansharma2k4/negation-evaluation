@@ -8,5 +8,10 @@
     "step": "1.3",
     "what": "NLI alone and NLI+gate(t1=0.36) at old and new NLI thresholds",
     "time": "2026-10-04 17:59"
+  },
+  {
+    "step": "1.4",
+    "what": "NLI, NLI+gate (old and new t1), full, all at clean thresholds",
+    "time": "2026-10-04 18:00"
   }
 ]

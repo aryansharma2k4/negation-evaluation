@@ -47,6 +47,14 @@ TEST picture above is the one with CIs.
 
 *(Source: `experiments/nli2/refit_nli.py` → `results/1_3_refit_nli.json`.)*
 
+**Update from step 1.4.** The table above keeps NLI's own threshold (0.975) behind the gate, so
+it isolates the threshold effect. The full clean protocol, as in `Report_NLI.md`, refits the
+stage-3 threshold on DEV *after* the gate (0.075, because the gate has already removed the pairs
+that forced 0.975), and refits t1 (0.37). That protocol gives NLI + gate **94.5%** on phase 2
+(95% CI 93.3–95.6) and 90.7% on all of TEST, **+11.7 pts over honest NLI alone** (p = 0.0001). The
+final answer to the integrity check is therefore that **85% of the claimed +13.8 survives** (11.7 of
+13.8).
+
 ## 4. Full ablation
 
 *(filled in by Phases 2–4)*
@@ -258,4 +266,36 @@ NLI+gate 88.6% → 92.0% (old → new threshold).
 
 ```sh
 ./venv/bin/python experiments/nli2/refit_nli.py
+```
+
+### 1.4 Gate threshold refit on clean DEV — the Phase 1 baseline
+
+`experiments/nli2/refit_gate.py` → `results/1_4_refit_gate.json`. Same procedure as
+`Report_NLI.md` (`composite.fit_gate`), with step 1.3's NLI threshold:
+
+| | similarity | t1 | DEV J of gate → NLI | DEV positives the gate keeps | stage-3 threshold (DEV refit) |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Report_NLI.md (old DEV) | cos | 0.36 | 0.8835 | 99.6% | 0.00125 |
+| clean DEV | **cos** (c_resid: t1 0.37, J 0.8382) | **0.37** | 0.8388 | 99.1% | **0.07545** |
+
+t1 hardly moves. The stage-3 threshold does, because the clean DEV's dissimilar negatives (sts_low,
+snli_neutral, random) are what forced NLI-alone's threshold up to 0.975, and the gate removes them
+first. On TEST (all three thresholds fit on clean DEV):
+
+| config | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | VAL acc |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| NLI alone (thr 0.975) | 82.8% (80.9–84.6) | 81.8% (79.9–83.6) | 0.840 | 93.0% | 0.3% | 70.9% | 2.6% | 78.1% | 40.0% | 88.4% | 86.0% |
+| NLI + gate, old t1 0.36 | 94.6% (93.4–95.6) | 90.7% (89.4–92.0) | 0.956 | 95.4% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 92.7% |
+| NLI + gate, t1 0.37 | 94.5% (93.3–95.6) | 90.7% (89.3–91.9) | 0.956 | 95.2% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 92.9% |
+| **full (+ veto) — Phase 1 baseline** | **94.4% (93.2–95.6)** | **90.6% (89.3–91.9)** | 0.955 | 95.1% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 92.9% |
+
+SemAntoNeg FPR is 0.0% (n = 27) in every row. Gains over honest NLI alone, on phase 2:
+NLI + gate +11.7 pts (p = 0.0001); full +11.6 pts (p = 0.0001). Refitting t1 from 0.36 to 0.37 changes
+phase-2 accuracy by −0.07 pts (p = 1.0): nothing. On TEST, the gate stops 247 pairs and the veto 2.
+
+The Phase 1 baseline for Phase 2 is the **full** cascade at these thresholds: cos, t1 = 0.37,
+stage-3 threshold 0.07545, veto on. The veto is included because 2.1 and 2.2 change it.
+
+```sh
+./venv/bin/python experiments/nli2/refit_gate.py
 ```
