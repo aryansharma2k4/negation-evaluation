@@ -656,10 +656,22 @@
         "0": 1758
       },
       "kinds": {
-        "ours|ours_negation|None|1": 1871,
-        "ours|K1|None|0": 91,
-        "ours|ours_paraphrase|None|0": 86,
-        "ours|ours_unrelated|None|0": 80,
+        "ours|ours_negation|A_syntactic|1": 100,
+        "ours|ours_negation|B_quantifier|1": 16,
+        "ours|ours_negation|C_neg_adverb|1": 460,
+        "ours|ours_negation|D_affixal|1": 41,
+        "ours|ours_negation|E_antonym|1": 110,
+        "ours|ours_negation|H_hedged|1": 390,
+        "ours|ours_negation|I_intensified|1": 397,
+        "ours|ours_negation|J_contrastive|1": 66,
+        "ours|ours_negation|K2_compound|1": 54,
+        "ours|ours_negation|F_implicit|1": 198,
+        "ours|K1|K1_cancellation|0": 91,
+        "ours|ours_negation|M_modal|1": 31,
+        "ours|ours_negation|G_prepositional|1": 4,
+        "ours|ours_negation|L_scope_position|1": 4,
+        "ours|ours_paraphrase|ANCHOR_paraphrase|0": 86,
+        "ours|ours_unrelated|ANCHOR_unrelated|0": 80,
         "cannot_phase1|paraphrase|None|0": 1376,
         "cannot_phase1|negation|verbal|1": 580,
         "cannot_phase1|negation|other|1": 713,
@@ -706,19 +718,67 @@
   },
   "examples_by_kind": {
     "dev": {
-      "ours|ours_negation|None|1": [
+      "ours|ours_negation|A_syntactic|1": [
         "Round-robin scheduling is fair because every process receives an equal time quantum.",
         "Round-robin scheduling is not fair because every process receives an equal time quantum."
       ],
-      "ours|K1|None|0": [
+      "ours|ours_negation|B_quantifier|1": [
+        "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "Round-robin scheduling is fair because no process receives an equal time quantum."
+      ],
+      "ours|ours_negation|C_neg_adverb|1": [
+        "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "Round-robin scheduling is never fair because every process receives an equal time quantum."
+      ],
+      "ours|ours_negation|D_affixal|1": [
+        "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "Round-robin scheduling is unfair because every process receives an equal time quantum."
+      ],
+      "ours|ours_negation|E_antonym|1": [
+        "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "Square-robin scheduling is fair because every process receives an equal time quantum."
+      ],
+      "ours|ours_negation|H_hedged|1": [
+        "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "Round-robin scheduling is maybe not fair because every process receives an equal time quantum."
+      ],
+      "ours|ours_negation|I_intensified|1": [
+        "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "Round-robin scheduling is surely not fair because every process receives an equal time quantum."
+      ],
+      "ours|ours_negation|J_contrastive|1": [
+        "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "Round-robin scheduling is anything but fair because every process receives an equal time quantum."
+      ],
+      "ours|ours_negation|K2_compound|1": [
+        "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "Round-robin scheduling is not fair because every process does not receive an equal time quantum."
+      ],
+      "ours|ours_negation|F_implicit|1": [
+        "The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.",
+        "The shortest-job-first algorithm fails to minimize the average waiting time for a given set of processes."
+      ],
+      "ours|K1|K1_cancellation|0": [
         "The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.",
         "The shortest-job-first algorithm never fails to minimize the average waiting time for a given set of processes."
       ],
-      "ours|ours_paraphrase|None|0": [
+      "ours|ours_negation|M_modal|1": [
+        "A preemptive scheduler can interrupt a running process when a higher-priority process arrives.",
+        "A preemptive scheduler cannot interrupt a running process when a higher-priority process arrives."
+      ],
+      "ours|ours_negation|G_prepositional|1": [
+        "Semaphores can solve the producer-consumer problem with a bounded buffer.",
+        "Semaphores can solve the producer-consumer problem without a bounded buffer."
+      ],
+      "ours|ours_negation|L_scope_position|1": [
+        "Every TCP segment carries a sequence number and an acknowledgment number.",
+        "Every TCP segment does not carry a sequence number and an acknowledgment number."
+      ],
+      "ours|ours_paraphrase|ANCHOR_paraphrase|0": [
         "The receiver advertises its available buffer space in the window field.",
         "The receiver's available buffer space is advertised in the window field."
       ],
-      "ours|ours_unrelated|None|0": [
+      "ours|ours_unrelated|ANCHOR_unrelated|0": [
         "The optimal replacement algorithm is impossible to implement in practice.",
         "Some routing protocols refuse to converge slowly after a link failure."
       ],
@@ -1610,71 +1670,846 @@
     "device": "cpu",
     "torch_threads": 8,
     "ms_per_pair": {
-      "gate": 37.02,
-      "veto": 4.53,
-      "nli": 40.43
+      "gate": 36.38,
+      "veto": 4.56,
+      "nli": 40.23
     }
   },
   "wall_clock": {
     "dev": {
       "nli_gate|embeddings_fresh": {
-        "nli_everything_s": 207.41,
-        "cascade_s": 393.11,
-        "saved_s": -185.71,
-        "saved_fraction": -0.8954,
+        "nli_everything_s": 206.38,
+        "cascade_s": 388.83,
+        "saved_s": -182.45,
+        "saved_fraction": -0.884,
         "nli_calls_avoided": 104
       },
       "nli_gate|embeddings_cached": {
-        "nli_everything_s": 207.41,
-        "cascade_s": 203.2,
-        "saved_s": 4.2,
+        "nli_everything_s": 206.38,
+        "cascade_s": 202.2,
+        "saved_s": 4.18,
         "saved_fraction": 0.0203,
         "nli_calls_avoided": 104
       },
       "full|embeddings_fresh": {
-        "nli_everything_s": 207.41,
-        "cascade_s": 411.84,
-        "saved_s": -204.43,
-        "saved_fraction": -0.9857,
+        "nli_everything_s": 206.38,
+        "cascade_s": 407.72,
+        "saved_s": -201.34,
+        "saved_fraction": -0.9756,
         "nli_calls_avoided": 204
       },
       "full|embeddings_cached": {
-        "nli_everything_s": 207.41,
-        "cascade_s": 221.93,
-        "saved_s": -14.52,
-        "saved_fraction": -0.07,
+        "nli_everything_s": 206.38,
+        "cascade_s": 221.09,
+        "saved_s": -14.71,
+        "saved_fraction": -0.0713,
         "nli_calls_avoided": 204
       }
     },
     "validation": {
       "nli_gate|embeddings_fresh": {
-        "nli_everything_s": 24.3,
-        "cascade_s": 43.15,
-        "saved_s": -18.85,
-        "saved_fraction": -0.7759,
+        "nli_everything_s": 24.18,
+        "cascade_s": 42.66,
+        "saved_s": -18.49,
+        "saved_fraction": -0.7645,
         "nli_calls_avoided": 84
       },
       "nli_gate|embeddings_cached": {
-        "nli_everything_s": 24.3,
-        "cascade_s": 20.9,
-        "saved_s": 3.4,
+        "nli_everything_s": 24.18,
+        "cascade_s": 20.8,
+        "saved_s": 3.38,
         "saved_fraction": 0.1398,
         "nli_calls_avoided": 84
       },
       "full|embeddings_fresh": {
-        "nli_everything_s": 24.3,
-        "cascade_s": 45.45,
-        "saved_s": -21.15,
-        "saved_fraction": -0.8706,
+        "nli_everything_s": 24.18,
+        "cascade_s": 44.98,
+        "saved_s": -20.8,
+        "saved_fraction": -0.8604,
         "nli_calls_avoided": 85
       },
       "full|embeddings_cached": {
-        "nli_everything_s": 24.3,
-        "cascade_s": 23.2,
-        "saved_s": 1.09,
-        "saved_fraction": 0.045,
+        "nli_everything_s": 24.18,
+        "cascade_s": 23.12,
+        "saved_s": 1.06,
+        "saved_fraction": 0.0439,
         "nli_calls_avoided": 85
       }
+    },
+    "test": {
+      "nli_gate|embeddings_fresh": {
+        "nli_everything_s": 70.8,
+        "cascade_s": 125.06,
+        "saved_s": -54.25,
+        "saved_fraction": -0.7662,
+        "nli_calls_avoided": 243
+      },
+      "nli_gate|embeddings_cached": {
+        "nli_everything_s": 70.8,
+        "cascade_s": 61.03,
+        "saved_s": 9.78,
+        "saved_fraction": 0.1381,
+        "nli_calls_avoided": 243
+      },
+      "full|embeddings_fresh": {
+        "nli_everything_s": 70.8,
+        "cascade_s": 131.89,
+        "saved_s": -61.09,
+        "saved_fraction": -0.8628,
+        "nli_calls_avoided": 245
+      },
+      "full|embeddings_cached": {
+        "nli_everything_s": 70.8,
+        "cascade_s": 67.87,
+        "saved_s": 2.94,
+        "saved_fraction": 0.0415,
+        "nli_calls_avoided": 245
+      }
+    }
+  },
+  "test": {
+    "nli": {
+      "n": 1760,
+      "auc": 0.8399,
+      "accuracy": 0.7619,
+      "precision": 0.6818,
+      "recall": 0.9853,
+      "f1": 0.8059,
+      "tp": 870,
+      "fp": 406,
+      "fn": 13,
+      "tn": 471,
+      "threshold": 0.0013,
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0717
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.8898
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.2735
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.9496
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.1481
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.6778
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9862
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9789
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.978
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 1.0
+        }
+      },
+      "stage_counts": {
+        "3": 1760
+      },
+      "reached_nli": 1760,
+      "by_dataset": {
+        "cannot_phase2": {
+          "n": 1400,
+          "auc": 0.8218,
+          "accuracy": 0.7879,
+          "precision": 0.7084,
+          "recall": 0.9815,
+          "f1": 0.8229,
+          "tp": 690,
+          "fp": 284,
+          "fn": 13,
+          "tn": 413,
+          "threshold": 0.0013
+        },
+        "xnot360": {
+          "n": 360,
+          "auc": 0.9395,
+          "accuracy": 0.6611,
+          "precision": 0.596,
+          "recall": 1.0,
+          "f1": 0.7469,
+          "tp": 180,
+          "fp": 122,
+          "fn": 0,
+          "tn": 58,
+          "threshold": 0.0013
+        }
+      }
+    },
+    "gate": {
+      "n": 1760,
+      "auc": 0.5951,
+      "accuracy": 0.6284,
+      "precision": 0.5755,
+      "recall": 0.9887,
+      "f1": 0.7275,
+      "tp": 873,
+      "fp": 644,
+      "fn": 10,
+      "tn": 233,
+      "threshold": 0.36,
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.9967
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.3307
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.812
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0084
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.7407
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 1.0
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 1.0
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9053
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9969
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 1.0
+        }
+      },
+      "stage_counts": {
+        "0": 1760
+      },
+      "reached_nli": 0,
+      "by_dataset": {
+        "cannot_phase2": {
+          "n": 1400,
+          "auc": 0.6559,
+          "accuracy": 0.6614,
+          "precision": 0.599,
+          "recall": 0.9858,
+          "f1": 0.7452,
+          "tp": 693,
+          "fp": 464,
+          "fn": 10,
+          "tn": 233,
+          "threshold": 0.36
+        },
+        "xnot360": {
+          "n": 360,
+          "auc": 0.3356,
+          "accuracy": 0.5,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "tp": 180,
+          "fp": 180,
+          "fn": 0,
+          "tn": 0,
+          "threshold": 0.36
+        }
+      }
+    },
+    "nli_gate": {
+      "n": 1760,
+      "auc": 0.9564,
+      "accuracy": 0.8716,
+      "precision": 0.809,
+      "recall": 0.974,
+      "f1": 0.8839,
+      "tp": 860,
+      "fp": 203,
+      "fn": 23,
+      "tn": 674,
+      "threshold": 0.0013,
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0684
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.2913
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.1795
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0741
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.6778
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9862
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.8842
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9748
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 1.0
+        }
+      },
+      "stage_counts": {
+        "1": 243,
+        "3": 1517
+      },
+      "reached_nli": 1517,
+      "by_dataset": {
+        "cannot_phase2": {
+          "n": 1400,
+          "auc": 0.9647,
+          "accuracy": 0.9257,
+          "precision": 0.8936,
+          "recall": 0.9673,
+          "f1": 0.929,
+          "tp": 680,
+          "fp": 81,
+          "fn": 23,
+          "tn": 616,
+          "threshold": 0.0013
+        },
+        "xnot360": {
+          "n": 360,
+          "auc": 0.9395,
+          "accuracy": 0.6611,
+          "precision": 0.596,
+          "recall": 1.0,
+          "f1": 0.7469,
+          "tp": 180,
+          "fp": 122,
+          "fn": 0,
+          "tn": 58,
+          "threshold": 0.0013
+        }
+      }
+    },
+    "full": {
+      "n": 1760,
+      "auc": 0.9555,
+      "accuracy": 0.871,
+      "precision": 0.8089,
+      "recall": 0.9728,
+      "f1": 0.8833,
+      "tp": 859,
+      "fp": 203,
+      "fn": 24,
+      "tn": 674,
+      "threshold": 0.0013,
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0684
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.2913
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.1795
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0741
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.6778
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9828
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.8842
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9748
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 1.0
+        }
+      },
+      "stage_counts": {
+        "1": 243,
+        "2": 2,
+        "3": 1515
+      },
+      "reached_nli": 1515,
+      "by_dataset": {
+        "cannot_phase2": {
+          "n": 1400,
+          "auc": 0.9636,
+          "accuracy": 0.925,
+          "precision": 0.8934,
+          "recall": 0.9659,
+          "f1": 0.9282,
+          "tp": 679,
+          "fp": 81,
+          "fn": 24,
+          "tn": 616,
+          "threshold": 0.0013
+        },
+        "xnot360": {
+          "n": 360,
+          "auc": 0.9395,
+          "accuracy": 0.6611,
+          "precision": 0.596,
+          "recall": 1.0,
+          "f1": 0.7469,
+          "tp": 180,
+          "fp": 122,
+          "fn": 0,
+          "tn": 58,
+          "threshold": 0.0013
+        }
+      }
+    },
+    "polarity_v2": {
+      "n": 1760,
+      "auc": 0.6264,
+      "accuracy": 0.6483,
+      "precision": 0.7018,
+      "recall": 0.5198,
+      "f1": 0.5973,
+      "tp": 459,
+      "fp": 195,
+      "fn": 424,
+      "tn": 682,
+      "threshold": 0.4888,
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0358
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0157
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.4815
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.9389
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.8241
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.5368
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.0252
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.8944
+        }
+      },
+      "stage_counts": {
+        "0": 1760
+      },
+      "reached_nli": 0,
+      "by_dataset": {
+        "cannot_phase2": {
+          "n": 1400,
+          "auc": 0.6903,
+          "accuracy": 0.6921,
+          "precision": 0.9198,
+          "recall": 0.4239,
+          "f1": 0.5803,
+          "tp": 298,
+          "fp": 26,
+          "fn": 405,
+          "tn": 671,
+          "threshold": 0.4888
+        },
+        "xnot360": {
+          "n": 360,
+          "auc": 0.2866,
+          "accuracy": 0.4778,
+          "precision": 0.4879,
+          "recall": 0.8944,
+          "f1": 0.6314,
+          "tp": 161,
+          "fp": 169,
+          "fn": 19,
+          "tn": 11,
+          "threshold": 0.4888
+        }
+      }
+    }
+  },
+  "errors": {
+    "false_positives": [
+      {
+        "dataset": "xnot360",
+        "kind": "xnot360_not_negation",
+        "neg_type": null,
+        "a": "If you provide evidence of abuse, the court may grant a restraining order.",
+        "b": "If you do not provide evidence of abuse, the court may grant a restraining order.",
+        "label": 0,
+        "gate_score": 0.968,
+        "cancellation": false,
+        "nli": 0.9881,
+        "stage": 3
+      },
+      {
+        "dataset": "xnot360",
+        "kind": "xnot360_not_negation",
+        "neg_type": null,
+        "a": "If you sign the contract, you will receive benefits.",
+        "b": "If you do not sign the contract, you will receive benefits.",
+        "label": 0,
+        "gate_score": 0.925,
+        "cancellation": false,
+        "nli": 0.9876,
+        "stage": 3
+      },
+      {
+        "dataset": "xnot360",
+        "kind": "xnot360_not_negation",
+        "neg_type": null,
+        "a": "Being punctual at work leads to a good reputation",
+        "b": "Not being punctual at work leads to a good reputation",
+        "label": 0,
+        "gate_score": 0.952,
+        "cancellation": false,
+        "nli": 0.9993,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "sts_low",
+        "neg_type": null,
+        "a": "7 soldiers killed, 56 injured in PKK attack in eastern Turkey",
+        "b": "3 killed, 14 injured in attacks in Iraq",
+        "label": 0,
+        "gate_score": 0.494,
+        "cancellation": false,
+        "nli": 0.9996,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "sts_low",
+        "neg_type": null,
+        "a": "Three young men run, jump, and kick off of a Coke machine.",
+        "b": "Three men are jumping off a wall.",
+        "label": 0,
+        "gate_score": 0.541,
+        "cancellation": false,
+        "nli": 0.9995,
+        "stage": 3
+      },
+      {
+        "dataset": "xnot360",
+        "kind": "xnot360_not_negation",
+        "neg_type": null,
+        "a": "If a party fails to meet obligations under this agreement, it may result in contract termination.",
+        "b": "Both parties fulfill their obligations yet the contract gets terminated anyway.",
+        "label": 0,
+        "gate_score": 0.73,
+        "cancellation": false,
+        "nli": 0.9996,
+        "stage": 3
+      },
+      {
+        "dataset": "xnot360",
+        "kind": "xnot360_not_negation",
+        "neg_type": null,
+        "a": "If you attend the required training, you will be certified.",
+        "b": "If you do not attend the required training, you will be certified.",
+        "label": 0,
+        "gate_score": 0.847,
+        "cancellation": false,
+        "nli": 0.9952,
+        "stage": 3
+      },
+      {
+        "dataset": "xnot360",
+        "kind": "xnot360_not_negation",
+        "neg_type": null,
+        "a": "Studying hard will result in good grades",
+        "b": "Not studying hard will result in good grades",
+        "label": 0,
+        "gate_score": 0.874,
+        "cancellation": false,
+        "nli": 0.9963,
+        "stage": 3
+      },
+      {
+        "dataset": "xnot360",
+        "kind": "xnot360_not_negation",
+        "neg_type": null,
+        "a": "The supplier must deliver goods on time for a discount to apply",
+        "b": "The supplier does not deliver goods on time but still gets a discount",
+        "label": 0,
+        "gate_score": 0.836,
+        "cancellation": false,
+        "nli": 0.9902,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "paraphrase",
+        "neg_type": null,
+        "a": "mammals have internal testes.",
+        "b": "The basal condition for mammals is to have internal testes.",
+        "label": 0,
+        "gate_score": 0.742,
+        "cancellation": false,
+        "nli": 0.0069,
+        "stage": 3
+      }
+    ],
+    "false_negatives": [
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "antonym",
+        "a": "You are playful.",
+        "b": "You are serious.",
+        "label": 1,
+        "gate_score": 0.209,
+        "cancellation": false,
+        "nli": 0.9998,
+        "stage": 1
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "antonym",
+        "a": "That's not out.",
+        "b": "That's not safe.",
+        "label": 1,
+        "gate_score": 0.375,
+        "cancellation": false,
+        "nli": 0.0003,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "verbal",
+        "a": "Lot of holes in the plot: there isn't nothing about how he became the emperor; nothing about where he spend 20 years between his childhood and mature age.",
+        "b": "Lot of holes in the plot: there's nothing about how he became the emperor; nothing about where he spend 20 years between his childhood and mature age.",
+        "label": 1,
+        "gate_score": 0.998,
+        "cancellation": false,
+        "nli": 0.0003,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "antonym",
+        "a": "It's natural.",
+        "b": "It's artificial.",
+        "label": 1,
+        "gate_score": 0.328,
+        "cancellation": false,
+        "nli": 0.9999,
+        "stage": 1
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "antonym",
+        "a": "It is uneasy.",
+        "b": "It is easy.",
+        "label": 1,
+        "gate_score": -0.03,
+        "cancellation": false,
+        "nli": 0.9999,
+        "stage": 1
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "verbal",
+        "a": "I don't guess that nobody at the network that aired this dribble watched it before putting it on.",
+        "b": "I guess that nobody at the network that aired this dribble watched it before putting it on.",
+        "label": 1,
+        "gate_score": 0.97,
+        "cancellation": false,
+        "nli": 0.0002,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "other",
+        "a": "The district takes its name from Anneslie estate, whose house still stands in the district.",
+        "b": "The district gets its name from Anneslie estate, whose house is still situated in the district.",
+        "label": 1,
+        "gate_score": 0.977,
+        "cancellation": false,
+        "nli": 0.0001,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "antonym",
+        "a": "Oh, my God, he's not breathing.",
+        "b": "Oh, my God, he's not breathless.",
+        "label": 1,
+        "gate_score": 0.705,
+        "cancellation": false,
+        "nli": 0.0008,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "other",
+        "a": "These are all of the oldest examples of the Tibetan script.",
+        "b": "These are some of the earliest examples of the Tibetan script.",
+        "label": 1,
+        "gate_score": 0.932,
+        "cancellation": false,
+        "nli": 0.001,
+        "stage": 3
+      },
+      {
+        "dataset": "cannot_phase2",
+        "kind": "negation",
+        "neg_type": "verbal",
+        "a": "In addition to being played recreationally, the game has been the subject of theoretical studies.",
+        "b": "In addition to not being played professionaly, the game has also not been the subject of theoretical studies.",
+        "label": 1,
+        "gate_score": 0.667,
+        "cancellation": true,
+        "nli": 0.9978,
+        "stage": 2
+      }
+    ]
+  },
+  "test_scorings": 1,
+  "report_derived": {
+    "semantoneg_phase2_pooled": {
+      "nli": {
+        "n": 41,
+        "fpr": 0.0975
+      },
+      "gate": {
+        "n": 41,
+        "fpr": 0.7804
+      },
+      "nli_gate": {
+        "n": 41,
+        "fpr": 0.0488
+      },
+      "full": {
+        "n": 41,
+        "fpr": 0.0488
+      },
+      "polarity_v2": {
+        "n": 41,
+        "fpr": 0.4878
+      }
+    },
+    "gate_vs_nli_test": {
+      "accuracy": 0.1097,
+      "auc": 0.1165,
+      "precision": 0.1272,
+      "recall": -0.0113,
+      "f1": 0.078
+    },
+    "veto_vs_gate_test": {
+      "accuracy": -0.0006,
+      "auc": -0.0009,
+      "precision": -0.0001,
+      "recall": -0.0012,
+      "f1": -0.0006
+    },
+    "full_vs_nli_test_phase2": {
+      "accuracy": 0.1371,
+      "auc": 0.1418,
+      "f1": 0.1053
+    },
+    "gate_vs_nli_test_phase2": {
+      "accuracy": 0.1378,
+      "auc": 0.1429,
+      "f1": 0.1061
     }
   }
 }

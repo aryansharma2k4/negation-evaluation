@@ -199,6 +199,12 @@ def wall_clock(block: dict, ms: dict, embeddings_cached: bool, use_veto: bool) -
             "nli_calls_avoided": n - s.get("3", 0)}
 
 
+def category(r) -> str:
+    """dataset|kind|detail|label for the datasets table; detail = neg_type, or family for ours."""
+    detail = r["family"] if r["dataset"] == "ours" else r.get("neg_type")
+    return f"{r['dataset']}|{r['kind']}|{detail}|{r['label']}"
+
+
 # ---------------------------------------------------------------------------
 
 def main() -> None:
@@ -214,14 +220,13 @@ def main() -> None:
     res["rows"] = ROW_TEXT
     res["config"] = {k: v for k, v in cfg.items() if not k.startswith("_")}
     res["data"] = {name: {"n": len(rows), "labels": dict(Counter(str(r["label"]) for r in rows)),
-                          "kinds": dict(Counter(f"{r['dataset']}|{r['kind']}|{r.get('neg_type')}|{r['label']}"
-                                                for r in rows))}
+                          "kinds": dict(Counter(map(category, rows)))}
                    for name, rows in splits.items()}
     res["examples_by_kind"] = {}
     for name, rows in splits.items():
         seen = {}
         for r in rows:
-            seen.setdefault(f"{r['dataset']}|{r['kind']}|{r.get('neg_type')}|{r['label']}", (r["a"], r["b"]))
+            seen.setdefault(category(r), (r["a"], r["b"]))
         res["examples_by_kind"][name] = seen
     res["dev"] = run_split(splits["dev"], cfg, analyses)
     res["validation"] = run_split(splits["validation"], cfg, analyses)
