@@ -1,0 +1,112 @@
+{
+  "features": {
+    "cos_sim": "mpnet cosine(A, B)",
+    "p_contradiction": "NLI P(contradiction)",
+    "p_entailment": "NLI P(entailment)",
+    "p_neutral": "NLI P(neutral)",
+    "cue_count_a": "lexicon negation cues in A",
+    "cue_count_b": "lexicon negation cues in B",
+    "net_negation": "v2 polarity(B) - v2 polarity(A)",
+    "cancellation_a": "A has >= 2 cues cancelling in one clause",
+    "cancellation_b": "B has >= 2 cues cancelling in one clause",
+    "antonym_aligned": "2.3 aligned antonym swap",
+    "has_conditional_a": "A is a conditional",
+    "has_conditional_b": "B is a conditional",
+    "antecedent_only_flip": "3.2: only the antecedent's polarity flips",
+    "len_a": "words in A",
+    "len_b": "words in B",
+    "len_diff": "|len A - len B|",
+    "token_overlap": "word-set Jaccard overlap"
+  },
+  "csv": "experiments/nli2/results/4_1_features.csv",
+  "sets": {
+    "dev_clean": {
+      "n": 3402,
+      "feature_means": {
+        "cos_sim": 0.6814,
+        "p_contradiction": 0.5591,
+        "p_entailment": 0.2002,
+        "p_neutral": 0.2407,
+        "cue_count_a": 0.2622,
+        "cue_count_b": 0.2519,
+        "net_negation": -0.0194,
+        "cancellation_a": 0.0103,
+        "cancellation_b": 0.0173,
+        "antonym_aligned": 0.0403,
+        "has_conditional_a": 0.0121,
+        "has_conditional_b": 0.0132,
+        "antecedent_only_flip": 0.0003,
+        "len_a": 11.1085,
+        "len_b": 10.5882,
+        "len_diff": 2.2587,
+        "token_overlap": 0.5401
+      }
+    },
+    "validation": {
+      "n": 601,
+      "feature_means": {
+        "cos_sim": 0.6755,
+        "p_contradiction": 0.5756,
+        "p_entailment": 0.2234,
+        "p_neutral": 0.2009,
+        "cue_count_a": 0.2812,
+        "cue_count_b": 0.2829,
+        "net_negation": -0.0033,
+        "cancellation_a": 0.0183,
+        "cancellation_b": 0.0133,
+        "antonym_aligned": 0.0483,
+        "has_conditional_a": 0.0067,
+        "has_conditional_b": 0.0083,
+        "antecedent_only_flip": 0.0033,
+        "len_a": 11.1531,
+        "len_b": 10.3611,
+        "len_diff": 2.4992,
+        "token_overlap": 0.5411
+      }
+    },
+    "test": {
+      "n": 1760,
+      "feature_means": {
+        "cos_sim": 0.6943,
+        "p_contradiction": 0.6367,
+        "p_entailment": 0.1564,
+        "p_neutral": 0.2069,
+        "cue_count_a": 0.2364,
+        "cue_count_b": 0.4574,
+        "net_negation": 0.1614,
+        "cancellation_a": 0.0097,
+        "cancellation_b": 0.0114,
+        "antonym_aligned": 0.0273,
+        "has_conditional_a": 0.1938,
+        "has_conditional_b": 0.0869,
+        "antecedent_only_flip": 0.025,
+        "len_a": 11.9869,
+        "len_b": 11.2915,
+        "len_diff": 2.4614,
+        "token_overlap": 0.5702
+      }
+    },
+    "k1": {
+      "n": 91,
+      "feature_means": {
+        "cos_sim": 0.8034,
+        "p_contradiction": 0.0576,
+        "p_entailment": 0.084,
+        "p_neutral": 0.8584,
+        "cue_count_a": 0.0,
+        "cue_count_b": 1.989,
+        "net_negation": 0.0549,
+        "cancellation_a": 0.0,
+        "cancellation_b": 0.9451,
+        "antonym_aligned": 0.0,
+        "has_conditional_a": 0.0549,
+        "has_conditional_b": 0.0549,
+        "antecedent_only_flip": 0.0,
+        "len_a": 11.3626,
+        "len_b": 14.1758,
+        "len_diff": 2.8132,
+        "token_overlap": 0.6921
+      }
+    }
+  }
+}

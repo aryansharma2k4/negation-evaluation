@@ -615,3 +615,39 @@ conditional set that is not TEST (section 10).
 ```sh
 ./venv/bin/python experiments/nli2/phase3.py --step 3.3
 ```
+
+### 4.1 Feature table
+
+`experiments/nli2/phase4.py --step 4.1` → `results/4_1_features.csv` (one row per pair, features
+and labels only, no sentence text; 5,854 rows: clean DEV 3,402, VALIDATION 601, TEST 1,760, K1 91) and
+`results/4_1_features.json`. The features are exactly the brief's list, and every one comes from
+machinery already in the pipeline:
+
+| feature | definition | clean DEV mean | TEST mean |
+| --- | --- | ---: | ---: |
+| `cos_sim` | mpnet cosine(A, B) | 0.681 | 0.694 |
+| `p_contradiction` | NLI P(contradiction) | 0.559 | 0.637 |
+| `p_entailment` | NLI P(entailment) | 0.200 | 0.156 |
+| `p_neutral` | NLI P(neutral) | 0.241 | 0.207 |
+| `cue_count_a` | lexicon negation cues in A | 0.262 | 0.236 |
+| `cue_count_b` | lexicon negation cues in B | 0.252 | 0.457 |
+| `net_negation` | v2 polarity(B) − v2 polarity(A) | −0.019 | 0.161 |
+| `cancellation_a` | A has ≥ 2 cues cancelling inside one clause | 0.010 | 0.010 |
+| `cancellation_b` | B has ≥ 2 cues cancelling inside one clause | 0.017 | 0.011 |
+| `antonym_aligned` | the 2.3 aligned antonym swap | 0.040 | 0.027 |
+| `has_conditional_a` | A is a conditional (3.1) | 0.012 | 0.194 |
+| `has_conditional_b` | B is a conditional (3.1) | 0.013 | 0.087 |
+| `antecedent_only_flip` | only the antecedent's polarity flips (3.2) | 0.000 | 0.025 |
+| `len_a`, `len_b` | words in A, B | 11.1, 10.6 | 12.0, 11.3 |
+| `len_diff` | absolute difference of the two lengths | 2.259 | 2.461 |
+| `token_overlap` | word-set Jaccard overlap | 0.540 | 0.570 |
+
+**Distribution shift, stated before training:** clean DEV has almost no conditionals (1.2% of A
+sentences vs 19.4% in TEST), and `antecedent_only_flip` fires on **0** clean DEV pairs and 44 TEST
+pairs. A combiner trained on clean DEV therefore cannot learn the conditional pattern from data,
+whatever weight it might deserve. `net_negation` and `cue_count_b` also differ (TEST has more
+explicit cue negations, mostly in xNot360).
+
+```sh
+./venv/bin/python experiments/nli2/phase4.py --step 4.1
+```
