@@ -101,8 +101,10 @@ def main() -> None:
 
     # ------------------------------------------------------------------ 1
     w("## 1. What we did\n")
-    w("Three stages, cheapest decision first. A pair stopped at stage 1 or 2 is predicted "
-      "*not a negation* and never reaches NLI.\n")
+    w("Three stages in a fixed order. A pair stopped at stage 1 or 2 is predicted "
+      "*not a negation* and never reaches NLI. The order is not cheapest-first: with fresh "
+      f"embeddings the gate ({ms['gate']:.1f} ms/pair) costs nearly as much as NLI ({ms['nli']:.1f} ms/pair), "
+      "and the cascade is slower than NLI alone (section 3).\n")
     w(table(["stage", "what it checks", "cost per pair (ms, CPU)", "failure it targets",
              "measured number that motivated it"], [
         ["1 content gate", f"{sim_text}(A,B) < t1 = {cfg['t1']:.2f} → not a negation, stop",

@@ -132,3 +132,18 @@ is logged in `results/test_reads.json` (see caveats).
 ```sh
 ./venv/bin/python experiments/nli2/reproduce_baseline.py
 ```
+
+### 0.3 Speed claim removed
+
+The cascade is **not faster** than NLI alone. Measured in `Report_NLI.md` (one CPU, 8 threads,
+batch 16, 256 DEV pairs): the gate's mpnet embedding of both sentences costs **36.4 ms/pair**,
+NLI costs **40.2 ms/pair**, and the veto's parse costs 4.6 ms/pair. With fresh embeddings the full
+cascade takes **86.3% more** wall clock than NLI on every TEST pair (NLI+gate: 76.6% more). It only
+saves time when embeddings already exist: NLI+gate saves 13.8% and the full system 4.2%.
+
+The only claim of speed was the phrase "cheapest decision first" in
+`experiments/composite/report_composite.py`, which is now replaced with the measured costs. The
+same phrase is still in line 7 of `Report_NLI.md`. That file was not edited, because this brief
+says not to overwrite it, so read its line 7 with this correction. Its sections 1 and 3 already
+give the real numbers. No README, docstring or code comment claims the cascade is faster
+(searched for *cascade*, *cheap*, *faster*, *speed*, *saves time*).
