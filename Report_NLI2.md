@@ -92,6 +92,12 @@ final answer to the integrity check is therefore that **85% of the claimed +13.8
   cost a little more than they add. VALIDATION could not tell the two apart (93.0% each), and the
   clean-DEV tie-break preferred the combination (92.42% vs 92.21%). The selection rule was not
   overridden after seeing TEST.
+- **3.2 Conditional rule as specified (both halves flipped → negation).** On TEST, all 90 pairs where
+  both halves flip are xNot360 pairs gold-labelled *not a negation*. *If not P, then not Q* is the
+  **inverse** of *If P, then Q*, which is neither its contrapositive nor its negation. Forcing them to
+  "negation" takes that slice from 97.8% to 0.0%. xNot360 accuracy falls 75.8% → 62.8% (−13.1 pts,
+  p = 0.0001) and all-TEST accuracy 90.8% → 88.0%, even though the antecedent-only branch on its own
+  works (44 pairs, 4.5% → 95.5%). Not adopted (VALIDATION 93.0% → 92.7%).
 
 ## 8. Caveats
 
@@ -517,4 +523,36 @@ No nested conditional occurs in any split. **No fitting set contains more than 3
 ```sh
 ./venv/bin/python -m pytest experiments/nli2 -q
 ./venv/bin/python experiments/nli2/phase3.py --step 3.1
+```
+
+### 3.2 Conditional rule, as specified — one branch works, one destroys xNot360
+
+`experiments/nli2/phase3.py --step 3.2` → `results/3_2_conditionals.json`. The rule runs in front of
+the Phase 2 adopted configuration. It applies only when **both** A and B are conditionals. Each
+half's polarity is the parity of the v2 cues in that half's clauses, and *unless* starts the
+antecedent negated:
+
+| branch (as in the brief) | decision | TEST pairs | gold label 0 / 1 | accuracy before → after |
+| --- | --- | ---: | --- | --- |
+| consequent flipped only | negation | 4 | 2 / 2 | 75.0% → 50.0% (n = 4) |
+| antecedent flipped only | **not** a negation | 44 | 42 / 2 | **4.5% → 95.5%** (n = 44, p = 0.0001) |
+| both flipped, tagged `contraposition` | negation | 90 | **90 / 0** | **97.8% → 0.0%** (n = 90, p = 0.0001) |
+| neither flipped | cascade decides | 10 | 5 / 5 | 90.0% → 90.0% (n = 10) |
+
+| config | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc | gain vs baseline, phase 2 (p) |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 2 adopted config | 94.6% (93.4–95.7) | 90.8% (89.4–92.1) | 0.958 | 95.5% | 1.6% | 24.4% | 0.9% | 0.8% | 46.7% | 94.7% | 1.1% | 0.0% | 93.0% | — |
+| + conditional rule (as specified) | 94.5% (93.3–95.6) | 88.0% (86.5–89.5) | 0.860 | 95.2% | 1.9% | 24.4% | 0.9% | 0.8% | **72.2%** | 94.7% | 1.1% | 0.0% | 92.7% | −0.1 pts (p = 0.50) |
+
+All 90 "both flipped" pairs are xNot360 pairs of the form *If P, Q* / *If not P, not Q*, and the dataset
+labels every one of them *not a negation*. Logically that is right. *If not P, then not Q* is the
+**inverse** of the conditional. The contrapositive would be *If not Q, then not P*, and the negation
+is *P and not Q*. So the brief's "both flipped → negation (contraposition)" branch encodes a logical
+error, and the data punishes it: xNot360 75.8% → 62.8% (−13.1 pts, p = 0.0001).
+
+**Not adopted** (VALIDATION 93.0% → 92.7%; VALIDATION has only 4 conditional pairs, so it can barely see
+this). Step 3.3 breaks the result down by slice and reports post-hoc variants.
+
+```sh
+./venv/bin/python experiments/nli2/phase3.py --step 3.2
 ```

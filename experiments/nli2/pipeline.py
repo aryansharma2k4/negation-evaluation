@@ -1,6 +1,8 @@
 """The configurable cascade used from Phase 2 on, and the evaluation every config gets.
 
 Stages, in order:
+  4/5 conditional rule (3.2)  both sides conditional: antecedent-only flip -> stop (4, not a
+                             negation); consequent flip or contraposition -> negation (5)
   0  antonym bypass (2.3)    antonym_aligned(A, B) -> skip gate and veto, go to NLI
   1  content gate            cos(A, B) < t1 (global, or by min(len) bucket, 2.4) -> not a negation
   2  cancellation veto       "b_only" (Report_NLI.md) or "symmetric" (2.1); optionally also the
@@ -18,6 +20,7 @@ from dataclasses import asdict, dataclass, field
 
 import numpy as np
 
+import conditionals as K
 import rules as R
 from common import C, compare, evaluate, load_clean, youden_threshold
 
@@ -33,6 +36,7 @@ class Config:
     t1: float = BASE_T1
     length_buckets: tuple = ()            # 2.4: ((max_min_len, t1), ...) ascending; last bucket open
     gate: bool = True
+    conditionals: bool = False            # 3.2
 
 
 def n_words(tokens) -> int:
@@ -50,13 +54,21 @@ def gate_threshold(cfg: Config, la: int, lb: int) -> float:
 
 
 def stages(rows, analyses, cfg: Config) -> tuple[np.ndarray, np.ndarray]:
-    """(score, stage): stage 0 bypassed to NLI, 1 gated, 2 vetoed, 3 NLI."""
+    """(score, stage): 0 bypassed to NLI, 1 gated, 2 vetoed, 3 NLI, 4 conditional: not a
+    negation, 5 conditional: negation (score 1 + P(contradiction), above any threshold)."""
     parsed = R.parse([s for r in rows for s in (r["a"], r["b"])])
+    conds = K.conditionals([s for r in rows for s in (r["a"], r["b"])]) if cfg.conditionals else {}
     score = np.empty(len(rows)); stage = np.empty(len(rows), int)
     for i, r in enumerate(rows):
         ta, tb = parsed[r["a"]], parsed[r["b"]]
         st = 3
-        if cfg.bypass and R.antonym_aligned(ta, tb):
+        verdict = (K.decide(K.primary(conds[r["a"]]), K.primary(conds[r["b"]]), analyses[r["a"]], analyses[r["b"]])
+                   if cfg.conditionals else None)
+        if verdict == "not_negation":
+            st = 4
+        elif verdict in ("negation", "contraposition"):
+            st = 5
+        elif cfg.bypass and R.antonym_aligned(ta, tb):
             st = 0
         elif cfg.gate and r["cos"] < gate_threshold(cfg, n_words(ta), n_words(tb)):
             st = 1
@@ -66,7 +78,7 @@ def stages(rows, analyses, cfg: Config) -> tuple[np.ndarray, np.ndarray]:
             if vetoed or (cfg.not_antonym and R.not_antonym_cancel(ta, tb)):
                 st = 2
         stage[i] = st
-        score[i] = r["nli_c"] if st in (0, 3) else C.STOPPED
+        score[i] = r["nli_c"] if st in (0, 3) else 1.0 + r["nli_c"] if st == 5 else C.STOPPED
     return score, stage
 
 

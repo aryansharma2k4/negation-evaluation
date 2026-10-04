@@ -38,5 +38,10 @@
     "step": "phase2 all",
     "what": "all four fixes, fixes adopted by validation",
     "time": "2026-10-04 18:08"
+  },
+  {
+    "step": "3.2",
+    "what": "Phase 2 adopted config with and without the conditional rule",
+    "time": "2026-10-04 18:13"
   }
 ]

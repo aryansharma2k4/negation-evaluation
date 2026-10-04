@@ -47,6 +47,60 @@ def main() -> None:
         print(json.dumps(res, indent=1))
         return
 
+    p2 = json.loads((RESULTS / "2_all.json").read_text())["configs"][1]["config"]
+    base_cfg = PL.Config(**{**p2, "name": "Phase 2 adopted config",
+                            "length_buckets": tuple(tuple(b) for b in p2["length_buckets"])})
+    cond_cfg = dataclasses.replace(base_cfg, name="+ conditional rule (3.2)", conditionals=True)
+    log_test_read("3.2", "Phase 2 adopted config with and without the conditional rule")
+    base, new = PL.run(base_cfg, splits, analyses, sl), PL.run(cond_cfg, splits, analyses, sl)
+    test = sl["test"]
+    _, st_new = PL.stages(test, analyses, cond_cfg)
+    conds = K.conditionals([s for r in test for s in (r["a"], r["b"])])
+    verdicts = [K.decide(K.primary(conds[r["a"]]), K.primary(conds[r["b"]]), analyses[r["a"]], analyses[r["b"]])
+                for r in test]
+    both = np.array([bool(K.primary(conds[r["a"]]) and K.primary(conds[r["b"]])) for r in test])
+    slices = {"xnot360": [i for i, r in enumerate(test) if r["dataset"] == "xnot360"],
+              "xnot360_both_conditional": [i for i, r in enumerate(test) if r["dataset"] == "xnot360" and both[i]],
+              "xnot360_not_both_conditional": [i for i, r in enumerate(test) if r["dataset"] == "xnot360" and not both[i]],
+              "all_conditional_pairs": [i for i in range(len(test)) if both[i]],
+              "non_conditional_pairs": [i for i in range(len(test)) if not both[i]],
+              "cannot_phase2": [i for i, r in enumerate(test) if r["dataset"] == "cannot_phase2"]}
+    for v in ("negation", "contraposition", "not_negation"):
+        slices[f"branch_{v}"] = [i for i in range(len(test)) if verdicts[i] == v]
+    slices["branch_none_but_both_conditional"] = [i for i in range(len(test)) if verdicts[i] is None and both[i]]
+    y = C.labels(test)
+    res = {"base": PL.strip(base), "with_conditionals": PL.strip(new), "slices": {}}
+    for name, idx in slices.items():
+        idx = np.array(idx, int)
+        block = {"n": len(idx), "labels": {str(k): int(v) for k, v in zip(*np.unique(y[idx], return_counts=True))}}
+        for tag, r_ in (("before", base), ("after", new)):
+            pred = r_["_scores"]["test"][idx] >= r_["stage3_threshold"]
+            block[tag] = round(float((pred == y[idx]).mean()), 4) if len(idx) else None
+        if len(idx):
+            sub = [test[i] for i in idx]
+            block["p_permutation"] = compare(sub, (base["_scores"]["test"][idx], base["stage3_threshold"]),
+                                             (new["_scores"]["test"][idx], new["stage3_threshold"]))["p_permutation"]
+        res["slices"][name] = block
+    res["examples"] = {}
+    for v in ("negation", "contraposition", "not_negation"):
+        res["examples"][v] = [{"a": test[i]["a"], "b": test[i]["b"], "label": int(y[i]), "dataset": test[i]["dataset"]}
+                              for i in slices[f"branch_{v}"][:3]]
+    res["unless_examples"] = [{"a": r["a"], "b": r["b"], "label": int(r["label"]), "verdict": verdicts[i]}
+                              for i, r in enumerate(test) if any(c.marker == "unless" for c in conds[r["a"]] + conds[r["b"]])]
+    res["gains"] = PL.gains(base, new, sl)
+    res["gain_xnot360"] = compare([test[i] for i in slices["xnot360"]],
+                                  (base["_scores"]["test"][slices["xnot360"]], base["stage3_threshold"]),
+                                  (new["_scores"]["test"][slices["xnot360"]], new["stage3_threshold"]))
+    save("3_2_conditionals.json", res)
+    print(PL.HEADER)
+    print(PL.row(base_cfg.name, base))
+    print(PL.row(cond_cfg.name, new, res["gains"]))
+    print("thr", base["stage3_threshold"], new["stage3_threshold"], "stages", new["stage_counts"])
+    print(json.dumps(res["slices"], indent=0))
+    print("xnot gain", res["gain_xnot360"])
+    print(json.dumps(res["examples"], indent=0)[:3000])
+    print(json.dumps(res["unless_examples"], indent=0)[:1500])
+
 
 if __name__ == "__main__":
     main()
