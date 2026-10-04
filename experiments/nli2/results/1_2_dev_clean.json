@@ -1,0 +1,104 @@
+{
+  "path": "data/dev_clean.csv",
+  "sha256": "93fe7846d19c2faa1f9d99b2e545b68edfc0438c0bde42c7d05d1704730aad03",
+  "n": 3402,
+  "labels": {
+    "0": 1901,
+    "1": 1501
+  },
+  "positive_share": 0.4412,
+  "composition": {
+    "cannot_phase1|antonym-substitution|negation|1": 208,
+    "cannot_phase1|antonym-substitution|paraphrase|0": 125,
+    "cannot_phase1|glue-diagnostic|negation|1": 6,
+    "cannot_phase1|glue-diagnostic|paraphrase|0": 3,
+    "cannot_phase1|nan-nli|negation|1": 9,
+    "cannot_phase1|nan-nli|paraphrase|0": 1,
+    "cannot_phase1|sentiment-labelled-sentences|negation|1": 158,
+    "cannot_phase1|sentiment-labelled-sentences|paraphrase|0": 79,
+    "cannot_phase1|unattributed|negation|1": 1,
+    "cannot_phase1|unattributed|paraphrase|0": 1,
+    "cannot_phase1|wikifactcheck-english|negation|1": 1119,
+    "cannot_phase1|wikifactcheck-english|paraphrase|0": 542,
+    "random|random_repair|random_pair|0": 250,
+    "snli|snli:neutral|hard_negative|0": 150,
+    "snli|snli:neutral|snli_neutral|0": 250,
+    "stsb|stsb:MSRpar|hard_negative|0": 65,
+    "stsb|stsb:MSRpar|sts_low|0": 14,
+    "stsb|stsb:MSRvid|hard_negative|0": 31,
+    "stsb|stsb:MSRvid|sts_low|0": 53,
+    "stsb|stsb:answer-answer|hard_negative|0": 5,
+    "stsb|stsb:answer-answer|sts_low|0": 1,
+    "stsb|stsb:answers-forums|sts_low|0": 21,
+    "stsb|stsb:deft-forum|hard_negative|0": 32,
+    "stsb|stsb:deft-forum|sts_low|0": 13,
+    "stsb|stsb:deft-news|hard_negative|0": 12,
+    "stsb|stsb:deft-news|sts_low|0": 4,
+    "stsb|stsb:headlines|hard_negative|0": 61,
+    "stsb|stsb:headlines|sts_low|0": 87,
+    "stsb|stsb:images|hard_negative|0": 33,
+    "stsb|stsb:images|sts_low|0": 47,
+    "stsb|stsb:track5.en-en|hard_negative|0": 11,
+    "stsb|stsb:track5.en-en|sts_low|0": 10
+  },
+  "positives_by_neg_type": {
+    "verbal": 580,
+    "other": 713,
+    "antonym": 208
+  },
+  "sentences_shared_with_validation_or_test": 0,
+  "hard_negatives": {
+    "rule": {
+      "min_jaccard_overlap": 0.5,
+      "sts_score_range": [
+        1.5,
+        3.5
+      ],
+      "take": {
+        "sts_hard": 250,
+        "snli_hard": 150
+      }
+    },
+    "sts_candidates_score_in_range": 3499,
+    "sts_candidates_after_overlap": 918,
+    "sts_dropped_cue_count_differs": 35,
+    "snli_neutral_total": 3235,
+    "snli_candidates_after_overlap": 229,
+    "taken": {
+      "sts_hard": 250,
+      "snli_hard": 150
+    },
+    "examples": [
+      {
+        "a": "But the prime minister told the BBC he wasn't bothered by polls and that he would continue to do what he believed to be right.",
+        "b": "He said he wasn't bothered by polls and that he would continue to do what he believed to be right, in both foreign and domestic policy.",
+        "note": "sts score 3.4; overlap 0.56"
+      },
+      {
+        "a": "Two cows standing in a large field.",
+        "b": "Horse standing in a field.",
+        "note": "sts score 1.6; overlap 0.50"
+      },
+      {
+        "a": "God definately does not exist.",
+        "b": "God probably does not exist.",
+        "note": "sts score 2.6; overlap 0.67"
+      },
+      {
+        "a": "A middle-aged woman pretends to be a DJ as younger people point.",
+        "b": "A middle-aged woman is trying to make younger people laugh by pretending to be a DJ.",
+        "note": "overlap 0.50"
+      },
+      {
+        "a": "A band places at a venue.",
+        "b": "A band played hard rock at a venue",
+        "note": "overlap 0.50"
+      },
+      {
+        "a": "a snowboarder jumps over a barrel.",
+        "b": "A snowboarder does jumps over a barrel to train for a competition.",
+        "note": "overlap 0.50"
+      }
+    ]
+  }
+}

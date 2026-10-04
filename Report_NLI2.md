@@ -185,3 +185,34 @@ neutral, STS-low and random pairs.
 ```sh
 ./venv/bin/python experiments/nli2/build_dev_clean.py
 ```
+
+### 1.2 Hard negatives added to DEV
+
+`experiments/nli2/hard_negatives.py`, run by `build_dev_clean.py --hard` →
+`results/1_2_dev_clean.json` (sha256 `93fe7846d19c…`). These are topic-matched pairs: same subject,
+different claim, gold-labelled as not contradictions.
+
+| source | selection rule | candidates | dropped | taken |
+| --- | --- | ---: | ---: | ---: |
+| STS-B (train + validation + test) | gold similarity 1.5–3.5 (3,499 pairs), then word-set Jaccard overlap ≥ 0.5 | 918 | 35 whose negation-cue counts differ (could be cue negations) | 250 |
+| SNLI validation, neutral (3,235 pairs) | Jaccard overlap ≥ 0.5 | 229 | — | 150 |
+| **total** | sampled at random (seed 0); no sentence already in DEV, VALIDATION or TEST | | | **400** |
+
+*Jaccard overlap* is |shared words| / |all words| over lower-cased word sets. Examples:
+*Two cows standing in a large field.* / *Horse standing in a field.* (STS 1.6);
+*God definately does not exist.* / *God probably does not exist.* (STS 2.6, same cue count);
+*a snowboarder jumps over a barrel.* / *A snowboarder does jumps over a barrel to train for a
+competition.* (SNLI neutral).
+
+DEV is now **3,402 pairs: 1,501 positive and 1,901 negative (44.1% positive; TEST 50.2%)**. The
+imbalance was kept rather than removing easy negatives to compensate. Every threshold in Phases
+1–2 is fit by Youden's J (true-positive rate minus false-positive rate), which does not change with
+class balance.
+
+**Known limit:** an STS pair with a mid score can still be an antonym contradiction with no cue on
+either side (*sitting* / *standing*). The cue filter cannot see those, so a few of the 250 may be
+mislabelled 0.
+
+```sh
+./venv/bin/python experiments/nli2/build_dev_clean.py --hard   # writes the final data/dev_clean.csv
+```
