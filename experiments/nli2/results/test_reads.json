@@ -33,5 +33,10 @@
     "step": "phase2 2.4",
     "what": "2.4 length-aware gate",
     "time": "2026-10-04 18:08"
+  },
+  {
+    "step": "phase2 all",
+    "what": "all four fixes, fixes adopted by validation",
+    "time": "2026-10-04 18:08"
   }
 ]

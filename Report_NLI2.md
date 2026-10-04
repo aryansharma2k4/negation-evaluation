@@ -87,6 +87,11 @@ final answer to the integrity check is therefore that **85% of the claimed +13.8
   rises 23.6% → 24.4% and random_pair 0.0% → 0.8%. Phase-2 accuracy: −0.1 pts (p = 1.0). Adopted by the
   pre-stated rule on the clean-DEV tie-break (VALIDATION tied at 92.8%, DEV 91.98% → 92.24%), but TEST
   shows no gain. The antonym bypass (2.3) recovers short antonym pairs more precisely.
+- **Combining the Phase 2 fixes.** The set adopted by validation (2.2 + 2.3 + 2.4) gains only
+  +0.2 pts on phase 2 (p = 0.68), *less* than 2.3 alone (+0.5 pts, p = 0.016). On TEST, 2.2 and 2.4
+  cost a little more than they add. VALIDATION could not tell the two apart (93.0% each), and the
+  clean-DEV tie-break preferred the combination (92.42% vs 92.21%). The selection rule was not
+  overridden after seeing TEST.
 
 ## 8. Caveats
 
@@ -444,4 +449,27 @@ bucket wins. The gate still stops 247 TEST pairs, just not the same 247. snli_ne
 
 ```sh
 ./venv/bin/python experiments/nli2/phase2.py --step 2.4
+```
+
+### 2 (combined) All Phase 2 fixes together
+
+`experiments/nli2/phase2.py --step all` → `results/2_all.json`. Two combinations: all four fixes,
+and the ones adopted by validation (2.2, 2.3, 2.4; 2.1 was not adopted). They differ only in the
+veto direction.
+
+| config | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc | gain vs baseline, phase 2 (p) |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 1 baseline | 94.4% (93.2–95.6) | 90.6% (89.3–91.9) | 0.955 | 95.1% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 1.1% | 0.0% | 92.8% | — |
+| 2.3 alone (for reference) | 94.9% (93.8–96.0) | 91.0% (89.7–92.3) | 0.962 | 95.9% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 94.7% | 1.1% | 0.0% | 93.0% | +0.5 pts (p = 0.016) |
+| all four fixes | 94.6% (93.4–95.7) | 90.8% (89.4–92.1) | 0.957 | 95.5% | 1.6% | 24.4% | 0.9% | 0.8% | 46.7% | 94.7% | 1.1% | 0.0% | 93.0% | +0.2 pts (p = 0.68) |
+| **adopted by validation (2.2 + 2.3 + 2.4)** | 94.6% (93.4–95.7) | 90.8% (89.4–92.1) | 0.958 | 95.5% | 1.6% | 24.4% | 0.9% | 0.8% | 46.7% | 94.7% | 1.1% | 0.0% | 93.0% | +0.2 pts (p = 0.68) |
+
+Together, the fixes keep 2.3's antonym recall (94.7%) but take on 2.4's FPR costs (sts_low 24.4%,
+random_pair 0.8%). Net: +0.2 pts on phase 2 and +0.2 pts on all TEST, neither significant (p = 0.68).
+**The configuration carried into Phases 3 and 4 is the validation-adopted set**, because that is
+what the pre-stated rule picks: VALIDATION 93.0% for both it and 2.3 alone, clean DEV 92.42% vs
+92.21%. TEST prefers 2.3 alone by 0.3 pts; switching on that basis would be tuning on TEST.
+
+```sh
+./venv/bin/python experiments/nli2/phase2.py --step all
 ```
