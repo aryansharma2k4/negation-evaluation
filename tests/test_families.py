@@ -172,3 +172,37 @@ def test_l_scope_position_emits_both_readings(parse, run_family):
     assert by_subtype["subject_scope"].scope_target == "subject"
     assert by_subtype["predicate_scope"].variant == "Everyone did not pass the exam."
     assert by_subtype["predicate_scope"].scope_target == "predicate"
+
+
+# --- D_affixal / K1 affixal: the prefix must not land inside a technical term ----
+
+import pytest  # noqa: E402
+
+#: (base sentence, junk the old generator produced from it). The first three
+#: are from the brief; the rest were found scanning experiments/pattern's variants.
+AFFIX_JUNK = [
+    ("The critical section must satisfy mutual exclusion, progress and bounded waiting.", "uncritical section"),
+    ("The cyclic redundancy check is effective against burst errors.", "noncyclic redundancy check"),
+    ("TCP provides reliable, in-order delivery of a byte stream between two hosts.", "in-disorder"),
+    ("The CPU scheduler selects a process from the ready queue whenever the processor becomes idle.", "unready queue"),
+    ("The dispatcher saves the state of the current process during a context switch.", "noncurrent process"),
+    ("Random early detection drops packets before the router queue becomes full.", "Nonrandom early detection"),
+    ("DNS translates human-readable host names into IP addresses.", "nonhuman-readable"),
+    ("The network cannot sustain an offered load that exceeds its capacity.", "incapacity"),
+]
+
+
+@pytest.mark.parametrize("sentence,junk", AFFIX_JUNK)
+def test_affixal_prefix_never_lands_inside_a_term(parse, run_family, sentence, junk):
+    doc = parse(sentence)
+    for family in (FAM_AFFIXAL, FAM_CANCELLATION):
+        assert not any(junk.lower() in v.lower() for v in variants(run_family(doc, family))), family
+
+
+def test_affixal_still_negates_predicative_adjectives_and_whitelisted_nouns(parse, run_family):
+    assert "The cyclic redundancy check is ineffective against burst errors." in variants(
+        run_family(parse("The cyclic redundancy check is effective against burst errors."), FAM_AFFIXAL))
+    assert "Round-robin scheduling is stable and unfair." in variants(
+        run_family(parse("Round-robin scheduling is stable and fair."), FAM_AFFIXAL))
+    assert "The team showed inability." in variants(
+        run_family(parse("The team showed ability."), FAM_AFFIXAL))

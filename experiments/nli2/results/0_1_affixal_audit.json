@@ -1,0 +1,130 @@
+{
+  "pattern_os_cn": {
+    "D_affixal": {
+      "n": 38,
+      "corrupted": 20,
+      "pct": 52.6
+    },
+    "K1_affixal": {
+      "n": 13,
+      "corrupted": 10,
+      "pct": 76.9
+    },
+    "examples": [
+      {
+        "kind": "D_affixal",
+        "base": "Round-robin scheduling is fair because every process receives an equal time quantum.",
+        "variant": "Round-robin scheduling is fair because every process receives an unequal time quantum."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "The dispatcher saves the state of the current process during a context switch.",
+        "variant": "The dispatcher saves the state of the noncurrent process during a context switch."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "The CPU scheduler selects a process from the ready queue whenever the processor becomes idle.",
+        "variant": "The CPU scheduler selects a process from the unready queue whenever the processor becomes idle."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "Four necessary conditions must hold simultaneously for a deadlock to occur in a system.",
+        "variant": "Four unnecessary conditions must hold simultaneously for a deadlock to occur in a system."
+      },
+      {
+        "kind": "K1_affixal",
+        "base": "Four necessary conditions must hold simultaneously for a deadlock to occur in a system.",
+        "variant": "Four unnecessary conditions must not hold simultaneously for a deadlock to occur in a system."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "Circular wait never occurs if every process requests resources in increasing order.",
+        "variant": "Circular wait never occurs if every process requests resources in increasing disorder."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "Thrashing is common when the combined working sets exceed the available frames.",
+        "variant": "Thrashing is common when the combined working sets exceed the unavailable frames."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "Indexed allocation supports direct access without external fragmentation.",
+        "variant": "Indexed allocation supports indirect access without external fragmentation."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "The critical section must satisfy mutual exclusion, progress and bounded waiting.",
+        "variant": "The uncritical section must satisfy mutual exclusion, progress and bounded waiting."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "The critical section must satisfy mutual exclusion, progress and bounded waiting.",
+        "variant": "The noncritical section must satisfy mutual exclusion, progress and bounded waiting."
+      }
+    ]
+  },
+  "refsets_cannot_xnot": {
+    "D_affixal": {
+      "n": 885,
+      "corrupted": 697,
+      "pct": 78.8
+    },
+    "K1_affixal": {
+      "n": 383,
+      "corrupted": 307,
+      "pct": 80.2
+    },
+    "examples": [
+      {
+        "kind": "D_affixal",
+        "base": "This action would be very expensive to implement.",
+        "variant": "This inaction would be very expensive to implement."
+      },
+      {
+        "kind": "K1_affixal",
+        "base": "This action would be very expensive to implement.",
+        "variant": "This inaction would not be very expensive to implement."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "Its common names are China aster and annual aster.",
+        "variant": "Its uncommon names are China aster and annual aster."
+      },
+      {
+        "kind": "K1_affixal",
+        "base": "Its common names are China aster and annual aster.",
+        "variant": "Its uncommon names are not China aster and annual aster."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "Where appropriate, missions to gather data to answer big questions are described.",
+        "variant": "Where inappropriate, missions to gather data to answer big questions are described."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "Without the true magnetic response, it is possible to produce a left-handed material.",
+        "variant": "Without the true nonmagnetic response, it is possible to produce a left-handed material."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "They are only found in professional environments where connections are made by qualified personnel.",
+        "variant": "They are only found in unprofessional environments where connections are made by qualified personnel."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "They are only found in professional environments where connections are made by qualified personnel.",
+        "variant": "They are only found in nonprofessional environments where connections are made by qualified personnel."
+      },
+      {
+        "kind": "D_affixal",
+        "base": "They are only found in professional environments where connections are made by qualified personnel.",
+        "variant": "They are only found in professional environments where connections are made by unqualified personnel."
+      },
+      {
+        "kind": "K1_affixal",
+        "base": "They are only found in professional environments where connections are made by qualified personnel.",
+        "variant": "They are not only found in unprofessional environments where connections are made by qualified personnel."
+      }
+    ]
+  }
+}

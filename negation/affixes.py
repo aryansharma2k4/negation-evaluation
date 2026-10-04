@@ -45,16 +45,55 @@ _BLOCKED_TAGS = frozenset({"JJR", "JJS"})
 MIN_STEM = 3
 
 
+#: Slots where an adjective is predicated of something (*X is important*).
+#: An attributive adjective (``amod``) is excluded: in technical text it is
+#: usually part of a fixed term, and prefixing it yields *the uncritical
+#: section*, *the noncyclic redundancy check*, *the unready queue*.  spaCy
+#: labels those adjectives ``amod``, not ``compound``, so a compound check
+#: alone would not catch them.
+_PREDICATIVE_DEPS = frozenset({"acomp", "attr", "oprd", "xcomp", "ccomp", "ROOT"})
+
+#: Nouns take a negative prefix only from this list: abstract nouns whose
+#: prefixed form is compositional (*ability* -> *inability*).  Without it,
+#: *order* -> *disorder* (in *in increasing order*, *in-order delivery*) and
+#: *capacity* -> *incapacity* pass the WordNet gate and read as junk.
+NOUN_STEM_WHITELIST = frozenset({
+    "ability", "accuracy", "advantage", "agreement", "comfort", "convenience",
+    "efficiency", "equality", "honesty", "justice", "satisfaction", "security",
+    "stability",
+})
+
+
+def _predicative(token: Token) -> bool:
+    if token.dep_ == "conj":                  # *stable and fair*: inherit from the first conjunct
+        return token.head.i != token.i and token.head.pos_ == "ADJ" and _predicative(token.head)
+    return token.dep_ in _PREDICATIVE_DEPS
+
+
+def _in_hyphenated_word(token: Token) -> bool:
+    doc = token.doc
+    return (token.i > 0 and doc[token.i - 1].text == "-") or \
+        (token.i + 1 < len(doc) and doc[token.i + 1].text == "-")
+
+
 def eligible(token: Token) -> bool:
-    """Cheap check: a base-form adjective or noun that is not already negative."""
-    return (
+    """A base-form adjective or noun that is not already negative and may take
+    a negative prefix in place: a predicative adjective, or a whitelisted
+    abstract noun; never part of a compound or a hyphenated word."""
+    if not (
         token.pos_ in _ELIGIBLE_POS
         and token.tag_ not in _BLOCKED_TAGS
         and token.is_alpha
         and len(token.text) >= 4
         and token.lower_ not in LEXICALLY_NEGATIVE
         and token.lemma_.lower() not in LEXICALLY_NEGATIVE
-    )
+    ):
+        return False
+    if token.dep_ == "compound" or _in_hyphenated_word(token):
+        return False
+    if token.pos_ == "NOUN":
+        return token.lemma_.lower() in NOUN_STEM_WHITELIST
+    return _predicative(token)
 
 
 def is_negative_derivative(stem: str, candidate: str, pos: str | None) -> bool:
