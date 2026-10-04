@@ -1,0 +1,7 @@
+[
+  {
+    "step": "0.2",
+    "what": "reproduce Report_NLI.md rows nli, nli_gate, full on TEST",
+    "time": "2026-10-04 17:50"
+  }
+]

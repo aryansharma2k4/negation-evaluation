@@ -1,0 +1,228 @@
+{
+  "config_now_vs_report": {
+    "nli_threshold": [
+      0.001251321635209024,
+      0.001251321635209024
+    ],
+    "sim": [
+      "cos",
+      "cos"
+    ],
+    "t1": [
+      0.36,
+      0.36
+    ],
+    "nli_gate_threshold": [
+      0.001251321635209024,
+      0.001251321635209024
+    ],
+    "full_threshold": [
+      0.001251321635209024,
+      0.001251321635209024
+    ]
+  },
+  "rows": {
+    "nli|all": {
+      "n": 1760,
+      "accuracy": 0.7619,
+      "auc": 0.8399,
+      "precision": 0.6818,
+      "recall": 0.9853,
+      "f1": 0.8059,
+      "ci95": [
+        0.7415,
+        0.7818
+      ]
+    },
+    "nli|cannot_phase2": {
+      "n": 1400,
+      "accuracy": 0.7879,
+      "auc": 0.8218,
+      "precision": 0.7084,
+      "recall": 0.9815,
+      "f1": 0.8229,
+      "ci95": [
+        0.7671,
+        0.8079
+      ]
+    },
+    "nli|xnot360": {
+      "n": 360,
+      "accuracy": 0.6611,
+      "auc": 0.9395,
+      "precision": 0.596,
+      "recall": 1.0,
+      "f1": 0.7469,
+      "ci95": [
+        0.6111,
+        0.7083
+      ]
+    },
+    "gate|all": {
+      "n": 1760,
+      "accuracy": 0.6284,
+      "auc": 0.5951,
+      "precision": 0.5755,
+      "recall": 0.9887,
+      "f1": 0.7275,
+      "ci95": [
+        0.6068,
+        0.6506
+      ]
+    },
+    "gate|cannot_phase2": {
+      "n": 1400,
+      "accuracy": 0.6614,
+      "auc": 0.6559,
+      "precision": 0.599,
+      "recall": 0.9858,
+      "f1": 0.7452,
+      "ci95": [
+        0.6364,
+        0.6871
+      ]
+    },
+    "gate|xnot360": {
+      "n": 360,
+      "accuracy": 0.5,
+      "auc": 0.3356,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6667,
+      "ci95": [
+        0.4472,
+        0.55
+      ]
+    },
+    "nli_gate|all": {
+      "n": 1760,
+      "accuracy": 0.8716,
+      "auc": 0.9564,
+      "precision": 0.809,
+      "recall": 0.974,
+      "f1": 0.8839,
+      "ci95": [
+        0.8562,
+        0.8869
+      ]
+    },
+    "nli_gate|cannot_phase2": {
+      "n": 1400,
+      "accuracy": 0.9257,
+      "auc": 0.9647,
+      "precision": 0.8936,
+      "recall": 0.9673,
+      "f1": 0.929,
+      "ci95": [
+        0.9114,
+        0.9393
+      ]
+    },
+    "nli_gate|xnot360": {
+      "n": 360,
+      "accuracy": 0.6611,
+      "auc": 0.9395,
+      "precision": 0.596,
+      "recall": 1.0,
+      "f1": 0.7469,
+      "ci95": [
+        0.6111,
+        0.7083
+      ]
+    },
+    "full|all": {
+      "n": 1760,
+      "accuracy": 0.871,
+      "auc": 0.9555,
+      "precision": 0.8089,
+      "recall": 0.9728,
+      "f1": 0.8833,
+      "ci95": [
+        0.8557,
+        0.8864
+      ]
+    },
+    "full|cannot_phase2": {
+      "n": 1400,
+      "accuracy": 0.925,
+      "auc": 0.9636,
+      "precision": 0.8934,
+      "recall": 0.9659,
+      "f1": 0.9282,
+      "ci95": [
+        0.91,
+        0.9386
+      ]
+    },
+    "full|xnot360": {
+      "n": 360,
+      "accuracy": 0.6611,
+      "auc": 0.9395,
+      "precision": 0.596,
+      "recall": 1.0,
+      "f1": 0.7469,
+      "ci95": [
+        0.6111,
+        0.7083
+      ]
+    },
+    "polarity_v2|all": {
+      "n": 1760,
+      "accuracy": 0.6483,
+      "auc": 0.6264,
+      "precision": 0.7018,
+      "recall": 0.5198,
+      "f1": 0.5973,
+      "ci95": [
+        0.625,
+        0.6716
+      ]
+    },
+    "polarity_v2|cannot_phase2": {
+      "n": 1400,
+      "accuracy": 0.6921,
+      "auc": 0.6903,
+      "precision": 0.9198,
+      "recall": 0.4239,
+      "f1": 0.5803,
+      "ci95": [
+        0.6664,
+        0.7164
+      ]
+    },
+    "polarity_v2|xnot360": {
+      "n": 360,
+      "accuracy": 0.4778,
+      "auc": 0.2866,
+      "precision": 0.4879,
+      "recall": 0.8944,
+      "f1": 0.6314,
+      "ci95": [
+        0.425,
+        0.5278
+      ]
+    }
+  },
+  "checks": {
+    "cannot_phase2|nli": {
+      "expected": 0.788,
+      "got": 0.7879,
+      "match": true
+    },
+    "cannot_phase2|nli_gate": {
+      "expected": 0.926,
+      "got": 0.9257,
+      "match": true
+    },
+    "all|nli": {
+      "expected": 0.762,
+      "got": 0.7619,
+      "match": true
+    },
+    "all|nli_gate": {
+      "expected": 0.872,
+      "got": 0.8716,
+      "match": true
+    }
+  }
+}

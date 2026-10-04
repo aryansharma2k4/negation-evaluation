@@ -105,3 +105,30 @@ fixed rule rejects 9 of those 11, so the reported K1 FPRs include 9 defective pa
 ./venv/bin/python -m pytest tests -q                    # 385 passed
 ./venv/bin/python experiments/nli2/affixal_audit.py
 ```
+
+### 0.2 Honest baseline — reproduced
+
+`experiments/nli2/reproduce_baseline.py` → `results/0_2_reproduce.json`. It re-runs the
+`Report_NLI.md` system with the same rows, the same DEV fits (`run_composite.configure`) and
+the same scorers. The refit configuration is identical to the report's: NLI threshold 0.00125,
+raw cosine, t1 = 0.36. Every headline number matches to the reported precision:
+
+| config | part | n | accuracy (95% CI) | AUC | Report_NLI.md |
+| --- | --- | ---: | --- | ---: | ---: |
+| NLI alone | CANNOT phase 2 | 1400 | 78.8% (76.7–80.8) | 0.822 | 78.8% |
+| NLI + gate | CANNOT phase 2 | 1400 | 92.6% (91.1–93.9) | 0.965 | 92.6% |
+| NLI alone | all TEST | 1760 | 76.2% (74.2–78.2) | 0.840 | 76.2% |
+| NLI + gate | all TEST | 1760 | 87.2% (85.6–88.7) | 0.956 | 87.2% |
+| full (+ veto) | all TEST | 1760 | 87.1% (85.6–88.6) | 0.956 | 87.1% |
+| any of the three | xNot360 | 360 | 66.1% (61.1–70.8) | 0.940 | 66.1% |
+
+*Accuracy* is the share of pairs classified correctly. *AUC* (area under the ROC curve) is the
+probability that a random negation scores higher than a random non-negation; 0.5 is chance.
+The 95% CI is a percentile bootstrap over pairs (2,000 resamples, seed 0).
+
+This was a second read of TEST for an already-frozen configuration. Every TEST read from here on
+is logged in `results/test_reads.json` (see caveats).
+
+```sh
+./venv/bin/python experiments/nli2/reproduce_baseline.py
+```
