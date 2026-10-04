@@ -1,0 +1,796 @@
+{
+  "baseline": {
+    "config": {
+      "name": "Phase 1 baseline (full cascade, clean thresholds)",
+      "veto": "b_only",
+      "not_antonym": false,
+      "bypass": false,
+      "t1": 0.37,
+      "length_buckets": [],
+      "gate": true
+    },
+    "stage3_threshold": 0.07545395940542221,
+    "slices": {
+      "dev_clean": {
+        "threshold": 0.07545395940542221,
+        "all": {
+          "n": 3402,
+          "accuracy": 0.9198,
+          "auc": 0.9556,
+          "precision": 0.8818,
+          "recall": 0.9447,
+          "f1": 0.9122,
+          "ci95": [
+            0.9106,
+            0.9286
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 626,
+            "fpr": 0.0144
+          },
+          "SemAntoNeg": {
+            "n": 125,
+            "fpr": 0.024
+          },
+          "sts_low": {
+            "n": 250,
+            "fpr": 0.276
+          },
+          "snli_neutral": {
+            "n": 250,
+            "fpr": 0.044
+          },
+          "random_pair": {
+            "n": 250,
+            "fpr": 0.004
+          },
+          "hard_negative": {
+            "n": 400,
+            "fpr": 0.2425
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 580,
+            "recall": 0.9759
+          },
+          "antonym": {
+            "n": 208,
+            "recall": 0.9183
+          },
+          "other": {
+            "n": 713,
+            "recall": 0.9271
+          }
+        }
+      },
+      "validation": {
+        "threshold": 0.07545395940542221,
+        "all": {
+          "n": 601,
+          "accuracy": 0.9285,
+          "auc": 0.9594,
+          "precision": 0.9291,
+          "recall": 0.9259,
+          "f1": 0.9275,
+          "ci95": [
+            0.9085,
+            0.9484
+          ]
+        },
+        "cannot_phase2": {
+          "n": 601,
+          "accuracy": 0.9285,
+          "auc": 0.9594,
+          "precision": 0.9291,
+          "recall": 0.9259,
+          "f1": 0.9275,
+          "ci95": [
+            0.9085,
+            0.9484
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 153,
+            "fpr": 0.0065
+          },
+          "SemAntoNeg": {
+            "n": 14,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 40,
+            "fpr": 0.35
+          },
+          "snli_neutral": {
+            "n": 50,
+            "fpr": 0.12
+          },
+          "random_pair": {
+            "n": 47,
+            "fpr": 0.0
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 120,
+            "recall": 0.9583
+          },
+          "antonym": {
+            "n": 44,
+            "recall": 0.9318
+          },
+          "other": {
+            "n": 133,
+            "recall": 0.8947
+          }
+        }
+      },
+      "test": {
+        "threshold": 0.07545395940542221,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9062,
+          "auc": 0.9546,
+          "precision": 0.8732,
+          "recall": 0.9513,
+          "f1": 0.9106,
+          "ci95": [
+            0.8926,
+            0.9193
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9443,
+          "auc": 0.9625,
+          "precision": 0.9458,
+          "recall": 0.9431,
+          "f1": 0.9444,
+          "ci95": [
+            0.9321,
+            0.9557
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7583,
+          "auc": 0.9395,
+          "precision": 0.6782,
+          "recall": 0.9833,
+          "f1": 0.8027,
+          "ci95": [
+            0.7139,
+            0.8028
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0163
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.2362
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0256
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.4667
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9655
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.8737
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9434
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9833
+          }
+        }
+      },
+      "k1": {
+        "n": 91,
+        "fpr": 0.011
+      },
+      "semantoneg_phase2": {
+        "n": 41,
+        "fpr": 0.0
+      }
+    },
+    "stage_counts": {
+      "dev_clean": {
+        "1": 468,
+        "2": 13,
+        "3": 2921
+      },
+      "validation": {
+        "1": 85,
+        "2": 1,
+        "3": 515
+      },
+      "test": {
+        "1": 247,
+        "2": 2,
+        "3": 1511
+      },
+      "k1": {
+        "2": 86,
+        "3": 5
+      },
+      "semantoneg_phase2": {
+        "1": 9,
+        "2": 2,
+        "3": 30
+      }
+    }
+  },
+  "configs": [
+    {
+      "config": {
+        "name": "2.2 + not-antonym cancellation",
+        "veto": "b_only",
+        "not_antonym": true,
+        "bypass": false,
+        "t1": 0.37,
+        "length_buckets": [],
+        "gate": true
+      },
+      "stage3_threshold": 0.07545395940542221,
+      "slices": {
+        "dev_clean": {
+          "threshold": 0.07545395940542221,
+          "all": {
+            "n": 3402,
+            "accuracy": 0.9203,
+            "auc": 0.9563,
+            "precision": 0.8829,
+            "recall": 0.9447,
+            "f1": 0.9128,
+            "ci95": [
+              0.9112,
+              0.9295
+            ]
+          },
+          "fpr_by_kind": {
+            "paraphrase": {
+              "n": 626,
+              "fpr": 0.0144
+            },
+            "SemAntoNeg": {
+              "n": 125,
+              "fpr": 0.008
+            },
+            "sts_low": {
+              "n": 250,
+              "fpr": 0.276
+            },
+            "snli_neutral": {
+              "n": 250,
+              "fpr": 0.044
+            },
+            "random_pair": {
+              "n": 250,
+              "fpr": 0.004
+            },
+            "hard_negative": {
+              "n": 400,
+              "fpr": 0.2425
+            }
+          },
+          "recall_by_type": {
+            "verbal": {
+              "n": 580,
+              "recall": 0.9759
+            },
+            "antonym": {
+              "n": 208,
+              "recall": 0.9183
+            },
+            "other": {
+              "n": 713,
+              "recall": 0.9271
+            }
+          }
+        },
+        "validation": {
+          "threshold": 0.07545395940542221,
+          "all": {
+            "n": 601,
+            "accuracy": 0.9285,
+            "auc": 0.9599,
+            "precision": 0.9291,
+            "recall": 0.9259,
+            "f1": 0.9275,
+            "ci95": [
+              0.9085,
+              0.9484
+            ]
+          },
+          "cannot_phase2": {
+            "n": 601,
+            "accuracy": 0.9285,
+            "auc": 0.9599,
+            "precision": 0.9291,
+            "recall": 0.9259,
+            "f1": 0.9275,
+            "ci95": [
+              0.9085,
+              0.9484
+            ]
+          },
+          "fpr_by_kind": {
+            "paraphrase": {
+              "n": 153,
+              "fpr": 0.0065
+            },
+            "SemAntoNeg": {
+              "n": 14,
+              "fpr": 0.0
+            },
+            "sts_low": {
+              "n": 40,
+              "fpr": 0.35
+            },
+            "snli_neutral": {
+              "n": 50,
+              "fpr": 0.12
+            },
+            "random_pair": {
+              "n": 47,
+              "fpr": 0.0
+            }
+          },
+          "recall_by_type": {
+            "verbal": {
+              "n": 120,
+              "recall": 0.9583
+            },
+            "antonym": {
+              "n": 44,
+              "recall": 0.9318
+            },
+            "other": {
+              "n": 133,
+              "recall": 0.8947
+            }
+          }
+        },
+        "test": {
+          "threshold": 0.07545395940542221,
+          "all": {
+            "n": 1760,
+            "accuracy": 0.9057,
+            "auc": 0.9539,
+            "precision": 0.873,
+            "recall": 0.9502,
+            "f1": 0.91,
+            "ci95": [
+              0.892,
+              0.9182
+            ]
+          },
+          "cannot_phase2": {
+            "n": 1400,
+            "accuracy": 0.9436,
+            "auc": 0.9618,
+            "precision": 0.9457,
+            "recall": 0.9417,
+            "f1": 0.9437,
+            "ci95": [
+              0.9314,
+              0.955
+            ]
+          },
+          "xnot360": {
+            "n": 360,
+            "accuracy": 0.7583,
+            "auc": 0.9395,
+            "precision": 0.6782,
+            "recall": 0.9833,
+            "f1": 0.8027,
+            "ci95": [
+              0.7139,
+              0.8028
+            ]
+          },
+          "fpr_by_kind": {
+            "paraphrase": {
+              "n": 307,
+              "fpr": 0.0163
+            },
+            "SemAntoNeg": {
+              "n": 27,
+              "fpr": 0.0
+            },
+            "sts_low": {
+              "n": 127,
+              "fpr": 0.2362
+            },
+            "snli_neutral": {
+              "n": 117,
+              "fpr": 0.0256
+            },
+            "random_pair": {
+              "n": 119,
+              "fpr": 0.0
+            },
+            "xnot360_not_negation": {
+              "n": 180,
+              "fpr": 0.4667
+            }
+          },
+          "recall_by_type": {
+            "verbal": {
+              "n": 290,
+              "recall": 0.9621
+            },
+            "antonym": {
+              "n": 95,
+              "recall": 0.8737
+            },
+            "other": {
+              "n": 318,
+              "recall": 0.9434
+            },
+            "xnot360_negation": {
+              "n": 180,
+              "recall": 0.9833
+            }
+          }
+        },
+        "k1": {
+          "n": 91,
+          "fpr": 0.011
+        },
+        "semantoneg_phase2": {
+          "n": 41,
+          "fpr": 0.0
+        }
+      },
+      "stage_counts": {
+        "dev_clean": {
+          "1": 468,
+          "2": 89,
+          "3": 2845
+        },
+        "validation": {
+          "1": 85,
+          "2": 12,
+          "3": 504
+        },
+        "test": {
+          "1": 247,
+          "2": 22,
+          "3": 1491
+        },
+        "k1": {
+          "2": 87,
+          "3": 4
+        },
+        "semantoneg_phase2": {
+          "1": 9,
+          "2": 32
+        }
+      }
+    }
+  ],
+  "gains_vs_baseline": [
+    {
+      "all": {
+        "part": "all",
+        "n": 1760,
+        "gain": -0.0006,
+        "p_permutation": 1.0
+      },
+      "cannot_phase2": {
+        "part": "cannot_phase2",
+        "n": 1400,
+        "gain": -0.0007,
+        "p_permutation": 1.0
+      }
+    }
+  ],
+  "semantoneg_detector_hits": [
+    {
+      "a": "It's a good idea.",
+      "b": "It's not a bad idea.",
+      "hit": true
+    },
+    {
+      "a": "It's a good idea.",
+      "b": "It's not an evil idea.",
+      "hit": true
+    },
+    {
+      "a": "And it's not fair.",
+      "b": "And it's unfair.",
+      "hit": true
+    },
+    {
+      "a": "And it's not fair.",
+      "b": "And it's foul.",
+      "hit": true
+    },
+    {
+      "a": "This is not looking good.",
+      "b": "This is looking bad.",
+      "hit": true
+    },
+    {
+      "a": "This is not looking good.",
+      "b": "This is looking evil.",
+      "hit": true
+    },
+    {
+      "a": "It's hopeless.",
+      "b": "It's not hopeful.",
+      "hit": true
+    },
+    {
+      "a": "It's clear.",
+      "b": "It's not cloudy.",
+      "hit": true
+    },
+    {
+      "a": "It's clear.",
+      "b": "It's not ill-defined.",
+      "hit": false
+    },
+    {
+      "a": "It's clear.",
+      "b": "It's not unclear.",
+      "hit": true
+    },
+    {
+      "a": "It's clear.",
+      "b": "It's not opaque.",
+      "hit": true
+    },
+    {
+      "a": "It's not unreal.",
+      "b": "It's real.",
+      "hit": true
+    },
+    {
+      "a": "The Fuhrer is not dead.",
+      "b": "The Fuhrer is alive.",
+      "hit": true
+    },
+    {
+      "a": "Yes, it's not good.",
+      "b": "Yes, it's bad.",
+      "hit": true
+    },
+    {
+      "a": "Oh, this is bad.",
+      "b": "Oh, this is not good.",
+      "hit": true
+    },
+    {
+      "a": "It's uneasy to explain.",
+      "b": "It's not easy to explain.",
+      "hit": true
+    },
+    {
+      "a": "Ah, he's breathing.",
+      "b": "Ah, he's not breathless.",
+      "hit": true
+    },
+    {
+      "a": "Sweetheart, that's a good idea.",
+      "b": "Sweetheart, that's not an evil idea.",
+      "hit": true
+    },
+    {
+      "a": "Sweetheart, that's a good idea.",
+      "b": "Sweetheart, that's not a bad idea.",
+      "hit": true
+    },
+    {
+      "a": "No, it's not a good idea, no.",
+      "b": "No, it's a bad idea, no.",
+      "hit": true
+    },
+    {
+      "a": "No, it's not a good idea, no.",
+      "b": "No, it's an evil idea, no.",
+      "hit": true
+    },
+    {
+      "a": "It's natural.",
+      "b": "It's not sharp.",
+      "hit": true
+    },
+    {
+      "a": "It's natural.",
+      "b": "It's not artificial.",
+      "hit": true
+    },
+    {
+      "a": "It's natural.",
+      "b": "It's not supernatural.",
+      "hit": true
+    },
+    {
+      "a": "It's natural.",
+      "b": "It's not unnatural.",
+      "hit": true
+    },
+    {
+      "a": "I think that's an evil idea.",
+      "b": "I do not think that's a good idea.",
+      "hit": true
+    },
+    {
+      "a": "That's not out.",
+      "b": "That's safe.",
+      "hit": true
+    },
+    {
+      "a": "The sand is not fine.",
+      "b": "The sand is coarse.",
+      "hit": true
+    },
+    {
+      "a": "You are playful.",
+      "b": "You are not serious.",
+      "hit": false
+    },
+    {
+      "a": "I'm not evil today.",
+      "b": "I'm good today.",
+      "hit": true
+    },
+    {
+      "a": "He's not unhappy.",
+      "b": "He's happy.",
+      "hit": true
+    },
+    {
+      "a": "That's not supernatural.",
+      "b": "That's natural.",
+      "hit": true
+    },
+    {
+      "a": "It is uneasy.",
+      "b": "It is not easy.",
+      "hit": true
+    },
+    {
+      "a": "I'm innocent, sir.",
+      "b": "I'm not guilty, sir.",
+      "hit": true
+    },
+    {
+      "a": "Oh, my God, he's not breathing.",
+      "b": "Oh, my God, he's breathless.",
+      "hit": true
+    },
+    {
+      "a": "You are not serious?",
+      "b": "You are frivolous?",
+      "hit": true
+    },
+    {
+      "a": "You are not serious?",
+      "b": "You are playful?",
+      "hit": false
+    },
+    {
+      "a": "This is not good.",
+      "b": "This is bad.",
+      "hit": true
+    },
+    {
+      "a": "This is not good.",
+      "b": "This is evil.",
+      "hit": true
+    },
+    {
+      "a": "Because it's not foul.",
+      "b": "Because it's fair.",
+      "hit": true
+    },
+    {
+      "a": "That is unhealthy.",
+      "b": "That is not healthy.",
+      "hit": true
+    }
+  ],
+  "veto_fires_test": {
+    "fires": 22,
+    "on_true_negations": 2,
+    "examples": [
+      {
+        "a": "Oh, this is bad.",
+        "b": "Oh, this is not good.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "It's uneasy to explain.",
+        "b": "It's not easy to explain.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "Ah, he's breathing.",
+        "b": "Ah, he's not breathless.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "Sweetheart, that's a good idea.",
+        "b": "Sweetheart, that's not an evil idea.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "Sweetheart, that's a good idea.",
+        "b": "Sweetheart, that's not a bad idea.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "No, it's not a good idea, no.",
+        "b": "No, it's a bad idea, no.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "No, it's not a good idea, no.",
+        "b": "No, it's an evil idea, no.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "It's natural.",
+        "b": "It's not artificial.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "It's natural.",
+        "b": "It's not unnatural.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      },
+      {
+        "a": "I think that's an evil idea.",
+        "b": "I do not think that's a good idea.",
+        "label": 0,
+        "kind": "SemAntoNeg"
+      }
+    ]
+  },
+  "veto_fires_dev_clean": {
+    "baseline": 13,
+    "not_antonym": 89
+  },
+  "adopt_by_validation": true,
+  "adoption_rule": "adopt if VALIDATION accuracy rises (clean DEV accuracy breaks a tie)"
+}

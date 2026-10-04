@@ -18,5 +18,10 @@
     "step": "phase2 2.1",
     "what": "2.1 symmetric veto",
     "time": "2026-10-04 18:04"
+  },
+  {
+    "step": "phase2 2.2",
+    "what": "2.2 + not-antonym cancellation",
+    "time": "2026-10-04 18:05"
   }
 ]

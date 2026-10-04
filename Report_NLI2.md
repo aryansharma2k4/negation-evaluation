@@ -76,6 +76,12 @@ final answer to the integrity check is therefore that **85% of the claimed +13.8
   right) and one is wrong (*The ripped banana wasn't not only ripped …* / *… was not only ripped
   …*, a real negation). Phase-2 accuracy change: +0.0 pts (p = 1.0). VALIDATION is unchanged
   (92.8%) and clean-DEV accuracy drops 91.98% → 91.95%, so it is not adopted.
+- **2.2 not + antonym cancellation, on TEST.** The detector is accurate (38 of 41 phase-2 SemAntoNeg
+  pairs, 93%), but the Phase 1 baseline already rejects all 41 at the clean NLI threshold, so
+  TEST phase-2 accuracy moves −0.1 pts (p = 1.0). One of its 20 new TEST vetoes hits a real
+  negation that flips two things (*less toxic … not responsible* / *more toxic … responsible*).
+  It was adopted anyway, by the pre-stated rule (VALIDATION tied at 92.8%; clean DEV rose 91.98% →
+  92.03%). Its only measurable benefit is DEV SemAntoNeg FPR, 2.4% → 0.8% (n = 125).
 
 ## 8. Caveats
 
@@ -332,4 +338,40 @@ already 1.1% (n = 91) at the clean stage-3 threshold, so there is little left fo
 
 ```sh
 ./venv/bin/python experiments/nli2/phase2.py --step 2.1
+```
+
+### 2.2 not + antonym cancellation — the detector works, the accuracy does not move
+
+`experiments/nli2/phase2.py --step 2.2` → `results/2_2.2.json`; detector in
+`rules.not_antonym_cancel`. One sentence adds a negation cue that the other lacks (*not*, *n't*,
+*never*, *no*, …), and after alignment the only content change is one token pair that are WordNet
+antonyms (*good* / *evil*). Since not(antonym(x)) ≈ x, the meaning is kept, so the veto fires. It
+checks both directions. It does **not** fire when both sides carry the cue (*She's not out.* /
+*She's not safe.* is a real negation).
+
+**SemAntoNeg slice (phase 2, n = 41, all label 0):** the detector fires on **38 of 41 (92.7%)**.
+It misses 3: *It's clear.* / *It's not ill-defined.* (hyphenated word, not a WordNet antonym of
+*clear*), and *You are playful.* / *You are not serious.* and *You are not serious?* / *You are
+playful?* (*playful*'s only WordNet antonym is *unplayful*). FPR on the slice: baseline **0.0%**,
+with 2.2 **0.0%** (n = 41). NLI at the clean threshold already rejected every one of them, so
+the veto has nothing left to remove on TEST.
+
+| config | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc | gain vs baseline, phase 2 (p) |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 1 baseline | 94.4% (93.2–95.6) | 90.6% (89.3–91.9) | 0.955 | 95.1% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 1.1% | 0.0% | 92.8% | — |
+| 2.2 + not-antonym cancellation | 94.4% (93.1–95.5) | 90.6% (89.2–91.8) | 0.954 | 95.0% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 1.1% | 0.0% | 92.8% | −0.1 pts (p = 1.0) |
+
+Veto fires on TEST: 2 → 22. Of the 20 new fires, 19 are on non-negations and 1 is on a real
+negation: *Acetaldehyde is less toxic than alcohol and is not responsible for many hangover
+symptoms.* / *… more toxic … and is responsible …*. B flips two things, *less → more* and drops
+*not*, and the rule reads the pair as one antonym swap plus one removed cue. On clean DEV it fires
+76 more times, none on a negation; DEV SemAntoNeg FPR goes 2.4% → 0.8% (n = 125), with antonym
+recall unchanged (91.8%, n = 208).
+
+**Adopted** under the pre-stated rule (VALIDATION accuracy rises, or ties and clean DEV breaks the
+tie). VALIDATION is tied at 92.8% and clean DEV goes 91.98% → 92.03%. This is a weak adoption: the
+TEST cost (one true negation lost, −0.1 pts, p = 1.0) is the same size as the DEV benefit.
+
+```sh
+./venv/bin/python experiments/nli2/phase2.py --step 2.2
 ```
