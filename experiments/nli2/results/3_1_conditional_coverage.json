@@ -1,0 +1,45 @@
+{
+  "dev_clean": {
+    "cannot_phase1|A only": 4,
+    "cannot_phase1|B only": 3,
+    "cannot_phase1|both": 30,
+    "cannot_phase1|neither": 2215,
+    "random|B only": 2,
+    "random|neither": 248,
+    "snli|neither": 400,
+    "stsb|A only": 1,
+    "stsb|B only": 4,
+    "stsb|both": 6,
+    "stsb|neither": 489
+  },
+  "dev_clean_markers": {
+    "when": 26,
+    "if": 51
+  },
+  "dev_clean_nested_sentences": 0,
+  "validation": {
+    "cannot_phase2|B only": 1,
+    "cannot_phase2|both": 4,
+    "cannot_phase2|neither": 596
+  },
+  "validation_markers": {
+    "if": 6,
+    "when": 3
+  },
+  "validation_nested_sentences": 0,
+  "test": {
+    "cannot_phase2|A only": 3,
+    "cannot_phase2|B only": 5,
+    "cannot_phase2|both": 14,
+    "cannot_phase2|neither": 1378,
+    "xnot360|A only": 190,
+    "xnot360|both": 134,
+    "xnot360|neither": 36
+  },
+  "test_markers": {
+    "unless": 5,
+    "when": 15,
+    "if": 308
+  },
+  "test_nested_sentences": 0
+}

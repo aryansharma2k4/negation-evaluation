@@ -473,3 +473,48 @@ what the pre-stated rule picks: VALIDATION 93.0% for both it and 2.3 alone, clea
 ```sh
 ./venv/bin/python experiments/nli2/phase2.py --step all
 ```
+
+### 3.1 Conditionals detected and split
+
+`experiments/nli2/conditionals.py`, tests in `experiments/nli2/test_nli2.py` (18 pass). A
+conditional is an adverbial clause attached to its consequent's head and marked by *if*, *unless*,
+*when*, *whenever*, *provided* or *assuming*. spaCy parses these markers three ways, and all three
+are handled:
+
+| shape | markers | antecedent head | example |
+| --- | --- | --- | --- |
+| `mark` child of an `advcl` | if, unless, whenever | the `advcl` verb | *If you sign the contract, you will receive benefits.* |
+| `advmod` child of an `advcl` | when, whenever | the `advcl` verb | *When it rains, the street gets wet.* |
+| the marker heads the clause | provided, assuming | the marker's `ccomp` | *Provided that you sign, …* |
+
+Antecedent and consequent spans are `negation.nlp_core.clause_scope()` of their heads, so there is
+no second scope implementation. Each span also includes the `clause_scope` of the head's `conj`
+heads, since `clause_scope` stops at `conj` and would otherwise drop *and pay* from *If you sign and
+pay*. Punctuation is dropped. Nesting (a conditional inside another's antecedent) is detected by
+subtree containment, and the decision uses the outermost conditional.
+
+Tests: preposed and inverted conditionals (*You will receive benefits if you sign*), *unless*,
+*when*, *provided that*, *assuming*, a coordinated antecedent, sibling conditionals (two
+antecedents, one consequent), a nested conditional, and *He asked if it was raining* (a `ccomp`,
+correctly not a conditional).
+
+How often pairs contain conditionals (`phase3.py --step 3.1` → `results/3_1_conditional_coverage.json`;
+no labels read):
+
+| split | both A and B conditional | A only | B only | neither |
+| --- | ---: | ---: | ---: | ---: |
+| clean DEV (n = 3,402) | 36 | 5 | 9 | 3,352 |
+| VALIDATION (n = 601) | 4 | 0 | 1 | 596 |
+| TEST — CANNOT phase 2 (n = 1,400) | 14 | 3 | 5 | 1,378 |
+| TEST — xNot360 (n = 360) | **134** | **190** | 0 | 36 |
+
+The pair rule (3.2) applies only when both sides are conditionals, so it can reach at most 134 of the
+360 xNot360 pairs. In the 190 "A only" pairs, B restates the situation without *if* (*If P, Q* /
+*P and not Q*). That is the logical negation of a conditional, and the cascade still decides those.
+No nested conditional occurs in any split. **No fitting set contains more than 36 conditional pairs**
+(VALIDATION: 4), so nothing about the rule can be tuned or checked before TEST (caveats).
+
+```sh
+./venv/bin/python -m pytest experiments/nli2 -q
+./venv/bin/python experiments/nli2/phase3.py --step 3.1
+```
