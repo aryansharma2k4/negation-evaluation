@@ -1,0 +1,90 @@
+{
+  "cv_grouping": "connected components of shared sentences, 5 folds, seed 0",
+  "models": {
+    "logistic": {
+      "chosen": "C=0.1",
+      "cv": {
+        "C=0.01": 0.981,
+        "C=0.1": 0.9818,
+        "C=1.0": 0.9818,
+        "C=10.0": 0.9818
+      },
+      "threshold": 0.5808257292133469,
+      "oof_dev_accuracy": 0.9442,
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9634,
+        "auc": 0.9888,
+        "precision": 0.9859,
+        "recall": 0.9394,
+        "f1": 0.9621,
+        "ci95": [
+          0.9484,
+          0.9767
+        ]
+      }
+    },
+    "gbm": {
+      "chosen": "depth=3,lr=0.1",
+      "cv": {
+        "depth=2,lr=0.03": 0.9915,
+        "depth=2,lr=0.1": 0.9929,
+        "depth=3,lr=0.03": 0.9927,
+        "depth=3,lr=0.1": 0.9932
+      },
+      "threshold": 0.42790607868433017,
+      "oof_dev_accuracy": 0.9656,
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9784,
+        "auc": 0.9972,
+        "precision": 0.9897,
+        "recall": 0.9663,
+        "f1": 0.9779,
+        "ci95": [
+          0.9667,
+          0.99
+        ]
+      }
+    }
+  },
+  "logistic_standardised_coefficients": {
+    "token_overlap": 1.6914,
+    "p_contradiction": 1.4416,
+    "p_entailment": -1.0462,
+    "len_diff": -0.9686,
+    "p_neutral": -0.717,
+    "antonym_aligned": 0.6883,
+    "cos_sim": 0.6813,
+    "cue_count_b": 0.3854,
+    "cue_count_a": 0.3691,
+    "len_a": 0.3167,
+    "len_b": 0.236,
+    "has_conditional_b": -0.0906,
+    "net_negation": -0.0801,
+    "has_conditional_a": -0.0799,
+    "cancellation_a": 0.05,
+    "antecedent_only_flip": 0.0356,
+    "cancellation_b": 0.0063
+  },
+  "logistic_intercept": -1.106,
+  "gbm_importances": {
+    "p_contradiction": 0.5371,
+    "token_overlap": 0.3268,
+    "cos_sim": 0.044,
+    "len_a": 0.0219,
+    "antonym_aligned": 0.0199,
+    "p_neutral": 0.0146,
+    "p_entailment": 0.0106,
+    "len_b": 0.0095,
+    "len_diff": 0.005,
+    "cue_count_a": 0.0039,
+    "cue_count_b": 0.0036,
+    "net_negation": 0.0017,
+    "cancellation_a": 0.0007,
+    "has_conditional_a": 0.0005,
+    "has_conditional_b": 0.0001,
+    "cancellation_b": 0.0,
+    "antecedent_only_flip": 0.0
+  }
+}

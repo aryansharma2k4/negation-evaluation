@@ -643,11 +643,68 @@ machinery already in the pipeline:
 | `token_overlap` | word-set Jaccard overlap | 0.540 | 0.570 |
 
 **Distribution shift, stated before training:** clean DEV has almost no conditionals (1.2% of A
-sentences vs 19.4% in TEST), and `antecedent_only_flip` fires on **0** clean DEV pairs and 44 TEST
-pairs. A combiner trained on clean DEV therefore cannot learn the conditional pattern from data,
+sentences vs 19.4% in TEST), and `antecedent_only_flip` fires on **1** clean DEV pair and 44 TEST
+pairs. *(Corrected in the 4.2 commit: the 4.1 commit said 0.)* A combiner trained on clean DEV therefore cannot learn the conditional pattern from data,
 whatever weight it might deserve. `net_negation` and `cue_count_b` also differ (TEST has more
 explicit cue negations, mostly in xNot360).
 
 ```sh
 ./venv/bin/python experiments/nli2/phase4.py --step 4.1
+```
+
+### 4.2 Logistic regression and gradient-boosted trees, trained on clean DEV
+
+`experiments/nli2/phase4.py --step 4.2` → `results/4_2_combiners.json`. Both models are trained on
+the 3,402 clean DEV pairs only. Hyperparameters were chosen by 5-fold cross-validated AUC. The folds
+are grouped by connected component of shared sentences, so **no sentence (as A or B) is in two
+folds**; the code asserts this. That is stricter than the repository's existing `group_folds`, which
+holds out base sentence A only. The decision threshold is Youden's J on the out-of-fold DEV
+predictions. The final model is refit on all of clean DEV. Seed 0 throughout.
+
+| model | grid (CV AUC) | chosen | threshold | out-of-fold DEV acc | VALIDATION acc (95% CI) | VALIDATION AUC |
+| --- | --- | --- | ---: | ---: | --- | ---: |
+| logistic regression (standardised features) | C = 0.01: 0.9810, 0.1: 0.9818, 1: 0.9818, 10: 0.9818 | C = 0.1 | 0.581 | 94.4% | 96.3% (94.8–97.7) | 0.989 |
+| gradient-boosted trees (300 trees, subsample 0.8) | depth 2 / lr 0.03: 0.9915, 2 / 0.1: 0.9929, 3 / 0.03: 0.9927, 3 / 0.1: 0.9932 | depth 3, lr 0.1 | 0.428 | 96.6% | **97.8% (96.7–99.0)** | 0.997 |
+
+For reference, the cascade (Phase 2 adopted config) scores 93.0% on VALIDATION.
+
+**What the models use.** Logistic coefficients are per standard deviation of the feature, so
+they can be compared directly. A positive coefficient pushes towards "negation". GBM importance is
+the share of impurity reduction.
+
+| feature | logistic coefficient | GBM importance |
+| --- | ---: | ---: |
+| `token_overlap` | +1.691 | 0.327 |
+| `p_contradiction` | +1.442 | 0.537 |
+| `p_entailment` | −1.046 | 0.011 |
+| `len_diff` | −0.969 | 0.005 |
+| `p_neutral` | −0.717 | 0.015 |
+| `antonym_aligned` | +0.688 | 0.020 |
+| `cos_sim` | +0.681 | 0.044 |
+| `cue_count_b` | +0.385 | 0.004 |
+| `cue_count_a` | +0.369 | 0.004 |
+| `len_a` | +0.317 | 0.022 |
+| `len_b` | +0.236 | 0.009 |
+| `has_conditional_b` | −0.091 | 0.000 |
+| `net_negation` | −0.080 | 0.002 |
+| `has_conditional_a` | −0.080 | 0.001 |
+| `cancellation_a` | +0.050 | 0.001 |
+| `antecedent_only_flip` | +0.036 | 0.000 |
+| `cancellation_b` | +0.006 | 0.000 |
+| *(intercept)* | see JSON | — |
+
+Reading it in plain terms:
+- **A negation is a contradiction between near-identical sentences.** NLI's contradiction
+  probability and word overlap do most of the work, and both models agree on that.
+- **The other NLI probabilities matter in the linear model.** It uses entailment and neutral as
+  separate evidence against a negation, information the cascade threw away by keeping only
+  P(contradiction).
+- **A big length difference argues against a negation**, since a negation rarely adds a clause.
+- **The aligned antonym swap (2.3) gets real weight** in the linear model.
+- **The conditional and cancellation features get almost nothing.** That is not evidence that they
+  are useless: clean DEV contains 1 antecedent-only flip and about 1–2% cancellations, so there is
+  nothing to learn them from.
+
+```sh
+./venv/bin/python experiments/nli2/phase4.py --step 4.2
 ```

@@ -99,11 +99,94 @@ def step_4_1() -> None:
         print(f"| `{f}` | {FEATURE_TEXT[f]} | {X['dev_clean'][:, i].mean():.3f} | {X['test'][:, i].mean():.3f} |")
 
 
+def grouped_folds(rows, k: int = 5) -> list[np.ndarray]:
+    """k folds over connected components of shared sentences (seeded)."""
+    groups = C.pdata.components(rows)
+    rng = np.random.default_rng(SEED)
+    order = rng.permutation(len(groups))
+    folds = [[] for _ in range(k)]
+    for j, g in enumerate(order):
+        folds[j % k].extend(groups[g])
+    return [np.array(sorted(f)) for f in folds]
+
+
+def models():
+    from sklearn.ensemble import GradientBoostingClassifier
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.pipeline import make_pipeline
+    from sklearn.preprocessing import StandardScaler
+    return {
+        "logistic": {f"C={c}": (lambda c=c: make_pipeline(StandardScaler(), LogisticRegression(C=c, max_iter=5000)))
+                     for c in (0.01, 0.1, 1.0, 10.0)},
+        "gbm": {f"depth={d},lr={lr}": (lambda d=d, lr=lr: GradientBoostingClassifier(
+                    n_estimators=300, max_depth=d, learning_rate=lr, subsample=0.8, random_state=SEED))
+                for d in (2, 3) for lr in (0.03, 0.1)},
+    }
+
+
+def fit_combiners(sets, X) -> dict:
+    """Pick hyperparameters by grouped-CV AUC on clean DEV; threshold = Youden on out-of-fold
+    DEV predictions; final model refit on all of clean DEV."""
+    from sklearn.metrics import roc_auc_score
+    dev = sets["dev_clean"]
+    y = C.labels(dev)
+    folds = grouped_folds(dev)
+    for f1 in range(len(folds)):
+        for f2 in range(f1 + 1, len(folds)):
+            a = C.pdata.sentences([dev[i] for i in folds[f1]])
+            b = C.pdata.sentences([dev[i] for i in folds[f2]])
+            assert not a & b, "a sentence crosses CV folds"
+    out = {}
+    for family, grid in models().items():
+        cv = {}
+        for name, make in grid.items():
+            oof = np.zeros(len(dev))
+            for k, test_idx in enumerate(folds):
+                train_idx = np.setdiff1d(np.arange(len(dev)), test_idx)
+                oof[test_idx] = make().fit(X["dev_clean"][train_idx], y[train_idx]).predict_proba(
+                    X["dev_clean"][test_idx])[:, 1]
+            cv[name] = {"cv_auc": round(float(roc_auc_score(y, oof)), 4), "_oof": oof}
+        best = max(cv, key=lambda n: cv[n]["cv_auc"])
+        thr = youden_threshold(dev, cv[best]["_oof"])
+        model = grid[best]().fit(X["dev_clean"], y)
+        out[family] = {"chosen": best, "cv": {n: v["cv_auc"] for n, v in cv.items()}, "threshold": thr,
+                       "oof_dev_accuracy": round(float(((cv[best]["_oof"] >= thr) == y).mean()), 4),
+                       "_model": model}
+    return out
+
+
+def explain(fits) -> dict:
+    lr = fits["logistic"]["_model"]
+    coef = lr[-1].coef_[0]
+    gbm = fits["gbm"]["_model"]
+    return {"logistic_standardised_coefficients": dict(sorted(zip(FEATURES, np.round(coef, 4).tolist()),
+                                                              key=lambda kv: -abs(kv[1]))),
+            "logistic_intercept": round(float(lr[-1].intercept_[0]), 4),
+            "gbm_importances": dict(sorted(zip(FEATURES, np.round(gbm.feature_importances_, 4).tolist()),
+                                           key=lambda kv: -kv[1]))}
+
+
+def step_4_2() -> None:
+    sets, _, X = table()
+    fits = fit_combiners(sets, X)
+    res = {"cv_grouping": "connected components of shared sentences, 5 folds, seed 0", "models": {}}
+    for fam, f in fits.items():
+        p = f["_model"].predict_proba(X["validation"])[:, 1]
+        res["models"][fam] = {k: v for k, v in f.items() if not k.startswith("_")}
+        res["models"][fam]["validation"] = evaluate(sets["validation"], p, f["threshold"], parts=("all",))["all"]
+    res.update(explain(fits))
+    save("4_2_combiners.json", res)
+    print(json.dumps({k: {kk: vv for kk, vv in v.items()} for k, v in res["models"].items()}, indent=1))
+    print("| feature | logistic coef (standardised) | GBM importance |\n| --- | ---: | ---: |")
+    for f in res["logistic_standardised_coefficients"]:
+        print(f"| `{f}` | {res['logistic_standardised_coefficients'][f]:+.3f} | {res['gbm_importances'][f]:.3f} |")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--step", required=True, choices=["4.1", "4.2", "4.3", "4.4"])
     args = ap.parse_args()
-    {"4.1": step_4_1}[args.step]()
+    {"4.1": step_4_1, "4.2": step_4_2}[args.step]()
 
 
 if __name__ == "__main__":
