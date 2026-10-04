@@ -13,7 +13,39 @@
 
 ## 3. Headline integrity check — does the gain survive an honest NLI threshold? (step 1.3)
 
-*(filled in by step 1.3)*
+`Report_NLI.md` fit the NLI threshold by Youden's J on a DEV set dominated by our generator's
+positives, and got 0.00125. Here it is refit by the same rule on `data/dev_clean.csv`, which has no
+generator output. The gate is held at the old t1 = 0.36 so that only the NLI threshold changes.
+TEST, n = 1,760 (CANNOT phase 2: 1,400; xNot360: 360). *FPR* (false-positive rate) is the share of
+non-negations wrongly called negations; *recall* is the share of real negations caught.
+
+| config | NLI threshold | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | SemAntoNeg (n=27) | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| NLI alone | old 0.00125 | 78.8% (76.7–80.8) | 76.2% (74.2–78.2) | 0.840 | 98.5% | 7.2% | 14.8% | 89.0% | 27.4% | 95.0% | 67.8% | 97.9% |
+| NLI alone | **new 0.97533** | **82.8% (80.9–84.6)** | **81.8% (79.9–83.6)** | 0.840 | 93.0% | 0.3% | 0.0% | 70.9% | 2.6% | 78.1% | 40.0% | 88.4% |
+| NLI + gate | old 0.00125 | 92.6% (91.1–93.9) | 87.2% (85.6–88.7) | 0.956 | 97.4% | 6.8% | 7.4% | 29.1% | 17.9% | 0.0% | 67.8% | 88.4% |
+| NLI + gate | **new 0.97533** | **93.4% (92.1–94.6)** | **90.2% (88.7–91.5)** | 0.956 | 92.3% | 0.3% | 0.0% | 22.8% | 2.6% | 0.0% | 40.0% | 83.2% |
+
+Gain of the gate over NLI alone, at each NLI threshold (paired permutation test, 10,000
+permutations; p = 0.0001 is the smallest value 10,000 permutations can give):
+
+| NLI threshold | phase-2 gain | all-TEST gain | xNot360 gain |
+| --- | ---: | ---: | ---: |
+| old 0.00125 | +13.8 pts (p = 0.0001) | +11.0 pts (p = 0.0001) | 0.0 pts |
+| new 0.97533 | **+10.6 pts (p = 0.0001)** | **+8.4 pts (p = 0.0001)** | 0.0 pts |
+
+**Verdict in plain language.** Part of the original gain came from a broken baseline, but most
+of it is real. The old threshold was so low that NLI called almost everything a negation. Fitting
+it on natural data alone lifts NLI from 78.8% to 82.8% on CANNOT phase 2 (+4.0 pts, p = 0.0001),
+and on all of TEST from 76.2% to 81.8%. Against that honest baseline the gate still adds
+**+10.6 points** on phase 2 (82.8% → 93.4%), down from the claimed +13.8. So about **77% of the
+reported gain survives** (10.6 of 13.8). The cost of the new threshold, in the same breath:
+recall falls from 97.4% to 92.3% for NLI+gate, and antonym recall from 88.4% to 83.2% (n = 95).
+The gate still cannot touch xNot360 at either threshold. On VALIDATION the new threshold is
+slightly worse for NLI+gate (92.7% vs 93.3%) while better for NLI alone (86.0% vs 84.2%); the
+TEST picture above is the one with CIs.
+
+*(Source: `experiments/nli2/refit_nli.py` → `results/1_3_refit_nli.json`.)*
 
 ## 4. Full ablation
 
@@ -215,4 +247,15 @@ mislabelled 0.
 
 ```sh
 ./venv/bin/python experiments/nli2/build_dev_clean.py --hard   # writes the final data/dev_clean.csv
+```
+
+### 1.3 NLI threshold refit on clean DEV
+
+See **section 3**, which holds the full table and verdict. In one line: the threshold moves from
+0.00125 to 0.97533. Honest NLI alone gets 82.8% on phase 2 (was 78.8%). The gate's gain over it is
++10.6 pts (was +13.8), p = 0.0001; recall falls 5.1 pts. On clean DEV: NLI alone 77.7% → 83.8%,
+NLI+gate 88.6% → 92.0% (old → new threshold).
+
+```sh
+./venv/bin/python experiments/nli2/refit_nli.py
 ```

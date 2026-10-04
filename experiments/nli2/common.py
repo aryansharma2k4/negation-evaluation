@@ -66,3 +66,142 @@ def paired_permutation_p(correct_a: np.ndarray, correct_b: np.ndarray, n_perm: i
 
 def save(name: str, obj) -> None:
     (RESULTS / name).write_text(json.dumps(obj, indent=2, default=float))
+
+
+# ---------------------------------------------------------------------------
+# Rows for the clean protocol: DEV = data/dev_clean.csv, VALIDATION / TEST as before
+# ---------------------------------------------------------------------------
+
+CACHE = HERE / "cache"
+
+
+def _nli_probs(pairs: list[tuple[str, str]]) -> dict:
+    """All three NLI probabilities per pair. Reads negation_detection's and polarity's
+    caches; computes only what neither has, into nli2's own cache."""
+    import pickle
+    detect = C.prun.detect
+    nli = detect.NLI()                                  # loads negation_detection/cache/nli.pkl
+    for extra in (REPO / "experiments/polarity/cache/nli_with_ours.pkl", CACHE / "nli.pkl"):
+        if extra.exists():
+            nli.cache.update(pickle.loads(extra.read_bytes()))
+    nli.path = CACHE / "nli.pkl"                        # never write into another experiment's cache
+    CACHE.mkdir(exist_ok=True)
+    nli.score(pairs)
+    return {p: nli.cache[p] for p in pairs}
+
+
+def _embeddings(sentences: list[str]) -> dict:
+    import pickle
+    from experiment import embed  # negation_direction (on sys.path via composite -> polarity run)
+    shared = {}
+    for path in (REPO / "experiments/negation_direction/cache/mpnet.pkl",
+                 REPO / "experiments/polarity/cache/mpnet_ours.pkl"):
+        if path.exists():
+            shared.update(pickle.loads(path.read_bytes()))
+    missing = [s for s in dict.fromkeys(sentences) if s not in shared]
+    if missing:
+        shared.update(embed(missing, "mpnet", cache_path=CACHE / "mpnet.pkl"))
+    return {s: shared[s] for s in sentences}
+
+
+def read_dev_clean() -> list[dict]:
+    import csv
+    rows = []
+    with (REPO / "data" / "dev_clean.csv").open() as f:
+        for r in csv.DictReader(f):
+            r["label"] = int(r["label"])
+            r["neg_type"] = r["neg_type"] or None
+            r["split"] = "dev"
+            r["kind"] = "hard_negative" if r["subtype"] == "hard_negative" else C.kind(r)
+            rows.append(r)
+    return rows
+
+
+def load_clean():
+    """{"dev": dev_clean rows, "validation": ..., "test": ...}, every row carrying
+    nli_c / nli_e / nli_n, cos, and c_resid against a negation axis fit on clean DEV only.
+    Also returns polarity analyses for every sentence."""
+    import pickle
+    path = CACHE / "clean_rows.pkl"
+    digest = json.loads((RESULTS / "1_2_dev_clean.json").read_text())["sha256"]
+    if path.exists():
+        blob = pickle.loads(path.read_bytes())
+        if blob["sha256"] == digest:
+            return blob["splits"], blob["analyses"]
+    import hashlib
+    assert hashlib.sha256((REPO / "data/dev_clean.csv").read_bytes()).hexdigest() == digest, \
+        "data/dev_clean.csv differs from the committed one; rebuild it with build_dev_clean.py --hard"
+    old, analyses = C.load()
+    splits = {"dev": read_dev_clean(), "validation": old["validation"], "test": old["test"]}
+    C.pdata.assert_disjoint(splits)
+    rows = [r for s in splits.values() for r in s]
+    probs = _nli_probs([(r["a"], r["b"]) for r in rows])
+    emb = _embeddings([s for r in rows for s in (r["a"], r["b"])])
+    axis, _ = C.prun.detect.fit_axis(splits["dev"], emb)          # clean DEV only
+    for r in rows:
+        p = probs[(r["a"], r["b"])]
+        r["nli_c"], r["nli_e"], r["nli_n"] = p["contradiction"], p["entailment"], p["neutral"]
+        a, b = emb[r["a"]], emb[r["b"]]
+        r["cos"] = float(a @ b)
+        ra, rb = C.prun.detect.residual(np.stack([a, b]), axis)
+        r["c_resid"] = float(ra @ rb)
+        r["nli"] = r["nli_c"]
+    missing = [s for s in dict.fromkeys(s for r in splits["dev"] for s in (r["a"], r["b"])) if s not in analyses]
+    analyses = dict(analyses)
+    analyses.update(C.P.analyse_many(missing))
+    path.write_bytes(pickle.dumps({"sha256": digest, "splits": splits, "analyses": analyses}))
+    return splits, analyses
+
+
+# ---------------------------------------------------------------------------
+# Evaluation with every breakdown the report uses
+# ---------------------------------------------------------------------------
+
+FPR_KINDS = ["paraphrase", "SemAntoNeg", "sts_low", "snli_neutral", "random_pair", "hard_negative",
+             "xnot360_not_negation", "K1"]
+RECALL_TYPES = ["verbal", "antonym", "other", "xnot360_negation"]
+
+
+def youden_threshold(rows, score) -> float:
+    C.dev_only(rows)
+    return C.prun.youden_threshold(C.labels(rows), np.asarray(score))
+
+
+def evaluate(rows, score, threshold, parts=("all", "cannot_phase2", "xnot360")) -> dict:
+    score = np.asarray(score, float)
+    y = C.labels(rows)
+    pred = score >= threshold
+    out = {"threshold": float(threshold)}
+    for part in parts:
+        idx = np.array([i for i, r in enumerate(rows) if part == "all" or r["dataset"] == part])
+        if len(idx) == 0:
+            continue
+        m = metrics(y[idx], score[idx], threshold)
+        m["ci95"] = bootstrap_ci((pred[idx] == y[idx]).astype(float))
+        out[part] = m
+    out["fpr_by_kind"] = {}
+    for k in FPR_KINDS:
+        m = np.array([r["kind"] == k and r["label"] == 0 for r in rows])
+        if m.any():
+            out["fpr_by_kind"][k] = {"n": int(m.sum()), "fpr": round(float(pred[m].mean()), 4)}
+    out["recall_by_type"] = {}
+    for t in RECALL_TYPES:
+        m = np.array([r["label"] == 1 and (r.get("neg_type") == t or r["kind"] == t) for r in rows])
+        if m.any():
+            out["recall_by_type"][t] = {"n": int(m.sum()), "recall": round(float(pred[m].mean()), 4)}
+    return out
+
+
+def correct(rows, score, threshold) -> np.ndarray:
+    return ((np.asarray(score) >= threshold) == C.labels(rows)).astype(float)
+
+
+def compare(rows, base: tuple, new: tuple, part: str = "all") -> dict:
+    """Accuracy gain of new over base on one part, with a paired permutation p-value.
+    base / new are (score, threshold)."""
+    idx = [i for i, r in enumerate(rows) if part == "all" or r["dataset"] == part]
+    sub = [rows[i] for i in idx]
+    a = correct(sub, np.asarray(base[0])[idx], base[1])
+    b = correct(sub, np.asarray(new[0])[idx], new[1])
+    return {"part": part, "n": len(idx), "gain": round(float(b.mean() - a.mean()), 4),
+            "p_permutation": paired_permutation_p(a, b)}
