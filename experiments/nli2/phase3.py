@@ -38,7 +38,7 @@ def coverage(sl) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--step", required=True, choices=["3.1", "3.2"])
+    ap.add_argument("--step", required=True, choices=["3.1", "3.2", "3.3"])
     args = ap.parse_args()
     splits, analyses, sl = PL.load()
     if args.step == "3.1":
@@ -50,6 +50,9 @@ def main() -> None:
     p2 = json.loads((RESULTS / "2_all.json").read_text())["configs"][1]["config"]
     base_cfg = PL.Config(**{**p2, "name": "Phase 2 adopted config",
                             "length_buckets": tuple(tuple(b) for b in p2["length_buckets"])})
+    if args.step == "3.3":
+        posthoc(splits, analyses, sl, base_cfg)
+        return
     cond_cfg = dataclasses.replace(base_cfg, name="+ conditional rule (3.2)", conditionals=True)
     log_test_read("3.2", "Phase 2 adopted config with and without the conditional rule")
     base, new = PL.run(base_cfg, splits, analyses, sl), PL.run(cond_cfg, splits, analyses, sl)
@@ -100,6 +103,45 @@ def main() -> None:
     print("xnot gain", res["gain_xnot360"])
     print(json.dumps(res["examples"], indent=0)[:3000])
     print(json.dumps(res["unless_examples"], indent=0)[:1500])
+
+
+def posthoc(splits, analyses, sl, base_cfg) -> None:
+    """3.3: post-hoc variants, designed AFTER seeing 3.2's TEST result. Reported, not adopted."""
+    variants = [
+        dataclasses.replace(base_cfg, name="as specified (3.2)", conditionals=True),
+        dataclasses.replace(base_cfg, name="post-hoc A: both flipped -> not a negation", conditionals=True,
+                            cond_both="not_negation"),
+        dataclasses.replace(base_cfg, name="post-hoc B: veto only (never force a negation)", conditionals=True,
+                            cond_both="not_negation", cond_cons=None),
+    ]
+    log_test_read("3.3", "post-hoc conditional variants (designed after seeing 3.2 TEST)")
+    base = PL.run(base_cfg, splits, analyses, sl)
+    test = sl["test"]
+    conds = K.conditionals([s for r in test for s in (r["a"], r["b"])])
+    both = np.array([bool(K.primary(conds[r["a"]]) and K.primary(conds[r["b"]])) for r in test])
+    y = C.labels(test)
+    parts = {"xnot360": [r["dataset"] == "xnot360" for r in test],
+             "xnot360_both_conditional": [r["dataset"] == "xnot360" and b for r, b in zip(test, both)],
+             "xnot360_rest": [r["dataset"] == "xnot360" and not b for r, b in zip(test, both)],
+             "non_conditional_pairs": list(~both)}
+    out = {"note": "variants A and B were designed after seeing the 3.2 TEST result; not adopted",
+           "base": PL.strip(base), "variants": []}
+    print(PL.HEADER)
+    print(PL.row(base_cfg.name, base))
+    for v in variants:
+        r = PL.run(v, splits, analyses, sl)
+        blk = {"result": PL.strip(r), "gains": PL.gains(base, r, sl), "parts": {}}
+        for name, mask in parts.items():
+            idx = np.flatnonzero(mask)
+            sub = [test[i] for i in idx]
+            acc = lambda res: round(float(((res["_scores"]["test"][idx] >= res["stage3_threshold"]) == y[idx]).mean()), 4)
+            blk["parts"][name] = {"n": len(idx), "before": acc(base), "after": acc(r),
+                                  "p_permutation": compare(sub, (base["_scores"]["test"][idx], base["stage3_threshold"]),
+                                                           (r["_scores"]["test"][idx], r["stage3_threshold"]))["p_permutation"]}
+        out["variants"].append(blk)
+        print(PL.row(v.name, r, blk["gains"]))
+        print("   ", json.dumps(blk["parts"]), "all-TEST gain", blk["gains"]["all"])
+    save("3_3_conditionals_posthoc.json", out)
 
 
 if __name__ == "__main__":

@@ -37,6 +37,8 @@ class Config:
     length_buckets: tuple = ()            # 2.4: ((max_min_len, t1), ...) ascending; last bucket open
     gate: bool = True
     conditionals: bool = False            # 3.2
+    cond_both: str = "negation"           # 3.3 post-hoc: what "both halves flipped" maps to
+    cond_cons: str = "negation"           # 3.3 post-hoc: what "consequent flipped" maps to
 
 
 def n_words(tokens) -> int:
@@ -64,9 +66,10 @@ def stages(rows, analyses, cfg: Config) -> tuple[np.ndarray, np.ndarray]:
         st = 3
         verdict = (K.decide(K.primary(conds[r["a"]]), K.primary(conds[r["b"]]), analyses[r["a"]], analyses[r["b"]])
                    if cfg.conditionals else None)
+        verdict = {"contraposition": cfg.cond_both, "negation": cfg.cond_cons}.get(verdict, verdict)
         if verdict == "not_negation":
             st = 4
-        elif verdict in ("negation", "contraposition"):
+        elif verdict == "negation":
             st = 5
         elif cfg.bypass and R.antonym_aligned(ta, tb):
             st = 0

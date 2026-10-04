@@ -43,5 +43,10 @@
     "step": "3.2",
     "what": "Phase 2 adopted config with and without the conditional rule",
     "time": "2026-10-04 18:13"
+  },
+  {
+    "step": "3.3",
+    "what": "post-hoc conditional variants (designed after seeing 3.2 TEST)",
+    "time": "2026-10-04 18:26"
   }
 ]

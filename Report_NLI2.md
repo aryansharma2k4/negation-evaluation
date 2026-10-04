@@ -556,3 +556,62 @@ this). Step 3.3 breaks the result down by slice and reports post-hoc variants.
 ```sh
 ./venv/bin/python experiments/nli2/phase3.py --step 3.2
 ```
+
+### 3.3 Conditionals — slice report and post-hoc variants
+
+`experiments/nli2/phase3.py --step 3.3` → `results/3_3_conditionals_posthoc.json` (slices for the
+as-specified rule are in `results/3_2_conditionals.json`).
+
+**Slices, rule as specified (3.2)** — TEST:
+
+| slice | n | accuracy before → after | p |
+| --- | ---: | --- | ---: |
+| xNot360, all | 360 | 75.8% → **62.8%** | 0.0001 |
+| xNot360, both sides conditional | 134 | 66.4% → 31.3% | 0.0002 |
+| xNot360, the rest | 226 | 81.4% → 81.4% | 1.0 |
+| every pair that is not both-conditional (CANNOT + xNot360) | 1,612 | 92.8% → 92.8% | 1.0 |
+| CANNOT phase 2 | 1,400 | 94.6% → 94.5% | 0.50 |
+
+The non-conditional slice does not move, so the rule broke nothing outside conditionals. The
+xNot360 baseline here (75.8%) is higher than `Report_NLI.md`'s 66.1% because of the clean thresholds
+from Phase 1.
+
+**Worked example of each branch** (TEST unless marked):
+
+| branch | A | B | gold | rule says |
+| --- | --- | --- | --- | --- |
+| consequent flipped → negation | If the museum has a long-range conservation plan, it can be mentioned here. | If the museum has a long-range conservation plan, it cannot be written here. | negation | negation ✓ |
+| antecedent flipped only → not a negation | If a person files for bankruptcy, their debts may be discharged. | If a person does not file for bankruptcy, their debts may be discharged. | not a negation | not a negation ✓ |
+| both flipped → negation (`contraposition`) | If a person is found guilty of extortion, they can be sentenced to prison. | If a person is not found guilty of extortion, they cannot be sentenced to prison. | not a negation | negation ✗ (all 90 such pairs) |
+| *unless* = *if not* (constructed, unit test) | Unless you sign, you will receive benefits. | If you do not sign, you will receive benefits. | same claim | no flip → cascade decides ✓ |
+| *unless*, from TEST | Confidentiality must be maintained unless required by law | Confidentiality is maintained even when required by law to disclose information | negation | antecedent-only flip → not a negation ✗ |
+
+The last row shows a limit: B re-expresses the exception as *even when* and turns it into a
+claim. The rule reads polarities, not what the condition means.
+
+**Post-hoc variants — designed after seeing the 3.2 TEST result, so these numbers are
+test-informed and the variants are not adopted:**
+
+| config | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | xNot360 acc | xNot360 conditional slice (n=134) | non-conditional pairs (n=1,612) | xNot360 not_neg FPR | VAL acc |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 2 adopted config | 94.6% (93.4–95.7) | 90.8% (89.4–92.1) | 0.958 | 75.8% | 66.4% | 92.8% | 46.7% | 93.0% |
+| rule as specified (3.2) | 94.5% (93.3–95.6) | 88.0% (86.5–89.5) | 0.860 | 62.8% | 31.3% | 92.8% | 72.2% | 92.7% |
+| A: both flipped → **not** a negation | 94.5% (93.3–95.6) | 93.1% (91.9–94.3) | 0.962 | 87.8% | 98.5% | 92.8% | 22.2% | 92.7% |
+| B: veto only (never force a negation) | 94.6% (93.4–95.6) | 93.2% (92.0–94.3) | 0.964 | 87.8% | 98.5% | 92.8% | 22.2% | 92.7% |
+
+Treating the inverse as what it is (not a negation) lifts xNot360 from 75.8% to 87.8% (+11.9 pts,
+p = 0.0001) and all of TEST from 90.8% to 93.2% (variant B, +2.4 pts, p = 0.0001). The cost, in the same
+sentence: VALIDATION falls 93.0% → 92.7% and CANNOT phase 2 moves −0.1 pts. **The two datasets
+disagree.** CANNOT labels some antecedent flips as negations, e.g. *If you haven't choked in your
+own vomit by the end … / If you have choked …* (label 1, TEST), and the rule rejects those. xNot360
+labels the inverse as not a negation. The VALIDATION drop comes from 2 such CANNOT pairs (the rule
+fires on 2 VALIDATION pairs).
+
+**Why not adopted:** the pre-stated rule picks by VALIDATION accuracy, which falls; the variants
+were designed after seeing TEST; and no fitting set has enough conditionals to check them (36 in
+clean DEV, 4 in VALIDATION). Variant B is the best-supported next step, if it can be confirmed on a
+conditional set that is not TEST (section 10).
+
+```sh
+./venv/bin/python experiments/nli2/phase3.py --step 3.3
+```
