@@ -15,6 +15,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import numpy as np
+
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 POLARITY = REPO / "experiments" / "polarity"
@@ -47,3 +49,55 @@ def load() -> tuple[dict[str, list[dict]], dict]:
         for r in rows:
             r["kind"] = kind(r)
     return splits, analyses
+
+
+# ---------------------------------------------------------------------------
+# Stage 1: content gate
+# ---------------------------------------------------------------------------
+
+SIMILARITIES = ("cos", "c_resid")   # raw cosine; cosine after removing the negation direction
+MIN_GATE_RECALL = 0.95
+T1_GRID = np.round(np.arange(0.0, 1.0, 0.01), 2)
+
+
+def labels(rows) -> np.ndarray:
+    return np.array([r["label"] for r in rows])
+
+
+def dev_only(rows) -> None:
+    """Every fit goes through this: a threshold fit on anything but DEV raises."""
+    bad = {r["split"] for r in rows} - {"dev"}
+    assert not bad, f"fit attempted on {bad}"
+
+
+def gate_pass(rows, sim: str, t1: float) -> np.ndarray:
+    """True = similar enough to go on; False = predict NOT a negation and stop."""
+    return np.array([r[sim] for r in rows]) >= t1
+
+
+def youden(y: np.ndarray, pred: np.ndarray) -> float:
+    return float(pred[y == 1].mean() - pred[y == 0].mean())
+
+
+def fit_gate(dev, sim: str, nli_threshold: float) -> dict:
+    """t1 maximising DEV Youden's J of gate -> NLI, subject to the gate keeping
+    >= MIN_GATE_RECALL of DEV positives. Ties go to the lower (gentler) t1.
+
+    Not "as high as the recall floor allows": the floor is a guard, not the
+    target. At the floor (cos 0.586) validation recall of gate -> NLI falls to
+    0.83, because true negations like "Some meetings ..." / "None of the
+    meetings ..." sit at cosine 0.45.
+    """
+    dev_only(dev)
+    y = labels(dev)
+    nli = np.array([r["nli"] for r in dev]) >= nli_threshold
+    trace = []
+    for t1 in T1_GRID:
+        passed = gate_pass(dev, sim, t1)
+        recall = float(passed[y == 1].mean())
+        if recall < MIN_GATE_RECALL:
+            break
+        trace.append({"t1": float(t1), "gate_recall": round(recall, 4),
+                      "dev_j": round(youden(y, passed & nli), 4)})
+    best = max(trace, key=lambda t: (t["dev_j"], -t["t1"]))
+    return {"sim": sim, **best, "trace": trace}
