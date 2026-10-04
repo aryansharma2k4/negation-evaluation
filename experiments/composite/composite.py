@@ -101,3 +101,24 @@ def fit_gate(dev, sim: str, nli_threshold: float) -> dict:
                       "dev_j": round(youden(y, passed & nli), 4)})
     best = max(trace, key=lambda t: (t["dev_j"], -t["t1"]))
     return {"sim": sim, **best, "trace": trace}
+
+
+# ---------------------------------------------------------------------------
+# Stage 2: cancellation veto
+# ---------------------------------------------------------------------------
+
+def cancellation_detected(a: "P.Analysis", b: "P.Analysis") -> bool:
+    """B carries >= 2 cues inside one clause_scope that cancel by parity (an
+    even count), AND A's net v2 polarity equals B's.
+
+    An explicit signal, deliberately NOT "|delta_p| is small": delta_p is also
+    0 when neither sentence has any cue ("smaller" / "larger"), which is 97%
+    of CANNOT's lexical `other` negations, the type where NLI's recall is
+    97.8% and polarity's 2.8%. Vetoing those would throw NLI's strength away.
+    """
+    cancels = any(len(cs) >= 2 and len(cs) % 2 == 0 for cs in P.by_clause(b.cues).values())
+    return cancels and P.v2(a) == P.v2(b)
+
+
+def veto(rows, analyses) -> np.ndarray:
+    return np.array([cancellation_detected(analyses[r["a"]], analyses[r["b"]]) for r in rows])

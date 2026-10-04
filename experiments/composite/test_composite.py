@@ -66,3 +66,44 @@ def test_no_threshold_is_fit_on_validation_or_test(loaded):
             C.fit_gate(splits[name], "cos", 0.5)
         with pytest.raises(AssertionError, match="fit attempted"):
             C.fit_gate(splits["dev"] + splits[name][:1], "cos", 0.5)
+
+
+# --- stage 2: cancellation veto ---------------------------------------------------
+
+def veto(a, b):
+    return C.cancellation_detected(C.P._analysis(a), C.P._analysis(b))
+
+
+def test_trap1_no_cue_lexical_negation_is_not_vetoed():
+    # |delta_p| = 0 because neither side has a cue: a real negation NLI catches
+    a = "The current constituency is thus smaller in area than the old one."
+    b = "The current constituency is thus larger in area than the old one."
+    assert C.P.v2(C.P._analysis(a)) == C.P.v2(C.P._analysis(b)) == 0.0
+    assert not veto(a, b)
+
+
+def test_trap1_holds_on_every_cue_free_pair_in_the_data(loaded):
+    splits, analyses = loaded
+    rows = [r for s in splits.values() for r in s if not analyses[r["b"]].cues]
+    assert len(rows) > 1000
+    assert not C.veto(rows, analyses).any()
+
+
+def test_same_clause_cancellation_is_vetoed():
+    assert veto("The function sorts the array.", "The function never fails to sort the array.")
+    assert veto("The task is possible.", "The task is not impossible.")
+
+
+def test_cancellation_that_flips_polarity_is_not_vetoed():
+    # A already negated: "not impossible" does negate "impossible"
+    assert not veto("The task is impossible.", "The task is not impossible.")
+
+
+def test_cues_in_different_clauses_do_not_cancel():
+    assert not veto("He left and she stayed.", "He did not leave and she never stayed.")
+
+
+def test_veto_catches_most_k1(loaded):
+    splits, analyses = loaded
+    k1 = [r for r in splits["dev"] if r["kind"] == "K1"]
+    assert C.veto(k1, analyses).mean() > 0.9
