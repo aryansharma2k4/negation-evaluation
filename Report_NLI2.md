@@ -104,6 +104,11 @@ final answer to the integrity check is therefore that **85% of the claimed +13.8
   between −0.3 and +0.1 pts per family. It also needs the family known in advance, which a deployed
   detector does not have. The single threshold is not "wrong for both"; it is slightly wrong for
   antonyms.
+- **3.1 conditional detection accepts *as if*.** spaCy parses *looks as if the phone isn't …* as an
+  `advcl` marked by *if*, and the detector takes it for a conditional. This was found on VALIDATION
+  after the Phase 3 TEST runs. It is not fixed, so the reported Phase 3 numbers stay as run. A fix
+  would exclude *if* when preceded by *as*, and would treat *even if* / *only if* as distinct
+  connectives.
 
 ## 8. Caveats
 
@@ -610,8 +615,14 @@ p = 0.0001) and all of TEST from 90.8% to 93.2% (variant B, +2.4 pts, p = 0.0001
 sentence: VALIDATION falls 93.0% → 92.7% and CANNOT phase 2 moves −0.1 pts. **The two datasets
 disagree.** CANNOT labels some antecedent flips as negations, e.g. *If you haven't choked in your
 own vomit by the end … / If you have choked …* (label 1, TEST), and the rule rejects those. xNot360
-labels the inverse as not a negation. The VALIDATION drop comes from 2 such CANNOT pairs (the rule
-fires on 2 VALIDATION pairs).
+labels the inverse as not a negation. The VALIDATION drop is 2 pairs, both real negations that the
+rule wrongly stops, and neither is a clean antecedent flip. One is *… even if all formats do not meet
+the chart rules* / *… only if all formats meet the chart rules*: the connective itself changes (*even
+if* → *only if*), which the rule does not model. The other is *… looks as if the phone isn't all
+lightweight cheap plastic* / *… is all …*, where *as if* is **not a conditional at all**. That is a
+3.1 detection bug, found on VALIDATION after the TEST runs and left unfixed so the reported runs stay
+as they were (see section 7). *(Corrected while writing the summary: an earlier version of this
+paragraph said both were CANNOT antecedent flips.)*
 
 **Why not adopted:** the pre-stated rule picks by VALIDATION accuracy, which falls; the variants
 were designed after seeing TEST; and no fitting set has enough conditionals to check them (36 in
@@ -818,4 +829,42 @@ sentence is not a negation". That is exactly CANNOT's paraphrase class.
 
 ```sh
 ./venv/bin/python experiments/nli2/phase5.py --step data
+```
+
+### 5.2 Fine-tune, with base sentences held out
+
+`experiments/nli2/phase5.py --step train` → `results/5_2_ft_train.json` (model saved to the
+gitignored `cache/ft_model/`).
+
+- **Setup.** Base model `cross-encoder/nli-MiniLM2-L6-H768` (82M parameters, revision `b95119ce`,
+  weights sha256 `ec9c5b6a…`, checked at load), given a new 2-way head. 1 epoch, AdamW, lr 2e-5,
+  batch 16, linear warm-up 10%, max length 128, seed 0. CPU, 8 threads, 1,674 s.
+- **Held out by base sentence, not by pair.** 10% of bases (169) were held out with all their
+  pairs: 1,246 held-out pairs and 17,100 training pairs. Random pairs whose two sentences fall on
+  different sides were dropped, so no sentence crosses; the code asserts this.
+- **A first attempt was killed** at step 900 of 1,069 by the tool's 30-minute background limit and
+  saved nothing. The run reported here is a full restart with identical settings.
+
+**In-distribution check (held-out bases, generator output, threshold 0.5): accuracy 95.1%, AUC 0.990.**
+
+| family | held-out pairs | accuracy |
+| --- | ---: | ---: |
+| C_neg_adverb | 244 | 97.5% |
+| H_hedged | 204 | 98.0% |
+| I_intensified | 180 | 96.7% |
+| A_syntactic | 164 | 94.5% |
+| E_antonym | 136 | 86.8% |
+| random re-pairing | 98 | 100.0% |
+| F_implicit | 57 | 98.2% |
+| K1_cancellation | 39 | 92.3% (n = 39) |
+| K2_compound | 36 | 75.0% (n = 36) |
+| J_contrastive | 35 | 97.1% (n = 35) |
+| D_affixal | 18 | 83.3% (n = 18) |
+| G_prepositional / B_quantifier / M_modal / L_scope_position | 15 / 11 / 7 / 2 | 93.3% / 100% / 100% / 100% (all n < 50) |
+
+So the model learns the generator's task well on sentences it has not seen. Step 5.3 asks whether
+that transfers to natural data.
+
+```sh
+./venv/bin/python experiments/nli2/phase5.py --step train     # ~28 min on 8 CPU threads
 ```

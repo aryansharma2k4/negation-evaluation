@@ -1,0 +1,132 @@
+{
+  "model": "cross-encoder/nli-MiniLM2-L6-H768",
+  "epochs": 1,
+  "lr": 2e-05,
+  "batch_size": 16,
+  "max_len": 128,
+  "seed": 0,
+  "train_pairs": 17100,
+  "heldout_pairs": 1246,
+  "heldout_bases": 169,
+  "train_seconds": 1674,
+  "device": "cpu",
+  "torch_threads": 8,
+  "loss_log": [
+    {
+      "step": 100,
+      "loss": 0.1413,
+      "seconds": 185
+    },
+    {
+      "step": 200,
+      "loss": 0.0324,
+      "seconds": 384
+    },
+    {
+      "step": 300,
+      "loss": 0.0086,
+      "seconds": 584
+    },
+    {
+      "step": 400,
+      "loss": 0.2483,
+      "seconds": 778
+    },
+    {
+      "step": 500,
+      "loss": 0.3067,
+      "seconds": 973
+    },
+    {
+      "step": 600,
+      "loss": 0.0056,
+      "seconds": 1099
+    },
+    {
+      "step": 700,
+      "loss": 0.0331,
+      "seconds": 1222
+    },
+    {
+      "step": 800,
+      "loss": 0.0053,
+      "seconds": 1344
+    },
+    {
+      "step": 900,
+      "loss": 0.0087,
+      "seconds": 1468
+    },
+    {
+      "step": 1000,
+      "loss": 0.0143,
+      "seconds": 1590
+    }
+  ],
+  "heldout_generator": {
+    "accuracy_at_0.5": 0.951,
+    "auc": 0.9896,
+    "by_family": {
+      "A_syntactic": {
+        "n": 164,
+        "accuracy_at_0.5": 0.9451
+      },
+      "B_quantifier": {
+        "n": 11,
+        "accuracy_at_0.5": 1.0
+      },
+      "C_neg_adverb": {
+        "n": 244,
+        "accuracy_at_0.5": 0.9754
+      },
+      "D_affixal": {
+        "n": 18,
+        "accuracy_at_0.5": 0.8333
+      },
+      "E_antonym": {
+        "n": 136,
+        "accuracy_at_0.5": 0.8676
+      },
+      "F_implicit": {
+        "n": 57,
+        "accuracy_at_0.5": 0.9825
+      },
+      "G_prepositional": {
+        "n": 15,
+        "accuracy_at_0.5": 0.9333
+      },
+      "H_hedged": {
+        "n": 204,
+        "accuracy_at_0.5": 0.9804
+      },
+      "I_intensified": {
+        "n": 180,
+        "accuracy_at_0.5": 0.9667
+      },
+      "J_contrastive": {
+        "n": 35,
+        "accuracy_at_0.5": 0.9714
+      },
+      "K1_cancellation": {
+        "n": 39,
+        "accuracy_at_0.5": 0.9231
+      },
+      "K2_compound": {
+        "n": 36,
+        "accuracy_at_0.5": 0.75
+      },
+      "L_scope_position": {
+        "n": 2,
+        "accuracy_at_0.5": 1.0
+      },
+      "M_modal": {
+        "n": 7,
+        "accuracy_at_0.5": 1.0
+      },
+      "random_pair": {
+        "n": 98,
+        "accuracy_at_0.5": 1.0
+      }
+    }
+  }
+}
