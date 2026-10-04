@@ -53,5 +53,10 @@
     "step": "4.3",
     "what": "NLI alone, cascade, logistic, GBM on TEST",
     "time": "2026-10-04 18:31"
+  },
+  {
+    "step": "4.4",
+    "what": "per-family NLI thresholds",
+    "time": "2026-10-04 18:32"
   }
 ]

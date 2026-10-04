@@ -232,11 +232,49 @@ def step_4_3() -> None:
         print(k, v["gain"], v["p_permutation"])
 
 
+def step_4_4() -> None:
+    """Per-family NLI thresholds on clean DEV. Families are CANNOT's natural negation types
+    (the generator families do not exist in clean DEV). Each threshold: Youden's J of that
+    family's DEV positives against all DEV negatives. Evaluated on TEST as family positives
+    + all TEST negatives. Diagnostic: using it would need the family known in advance."""
+    splits, _, sl = PL.load()
+    dev, test = sl["dev_clean"], sl["test"]
+    global_thr = youden_threshold(dev, [r["nli_c"] for r in dev])
+    log_test_read("4.4", "per-family NLI thresholds")
+    neg_dev = [r for r in dev if r["label"] == 0]
+    neg_test = [r for r in test if r["label"] == 0 and r["dataset"] == "cannot_phase2"]
+    res = {"global_threshold": global_thr, "families": {}}
+    for fam in ("verbal", "antonym", "other"):
+        rows = [r for r in dev if r["label"] == 1 and r["neg_type"] == fam] + neg_dev
+        thr = youden_threshold(rows, [r["nli_c"] for r in rows])
+        pos_test = [r for r in test if r["label"] == 1 and r.get("neg_type") == fam]
+        block = {"dev_positives": len(rows) - len(neg_dev), "threshold": thr}
+        for tag, t in (("family", thr), ("global", global_thr)):
+            ev_rows = pos_test + neg_test
+            sc = np.array([r["nli_c"] for r in ev_rows])
+            y = C.labels(ev_rows); pred = sc >= t
+            block[tag] = {"test_positives": len(pos_test), "test_negatives": len(neg_test),
+                          "accuracy": round(float((pred == y).mean()), 4),
+                          "recall": round(float(pred[y == 1].mean()), 4),
+                          "fpr": round(float(pred[y == 0].mean()), 4),
+                          "balanced_accuracy": round(float((pred[y == 1].mean() + 1 - pred[y == 0].mean()) / 2), 4)}
+        res["families"][fam] = block
+    save("4_4_per_family.json", res)
+    print("global", global_thr)
+    print("| family | DEV positives | threshold | TEST positives | recall (family thr / global) | FPR on phase-2 negatives (family / global) | balanced acc (family / global) | acc (family / global) |")
+    print("| --- | ---: | ---: | ---: | --- | --- | --- | --- |")
+    pc = lambda x: f"{100 * x:.1f}%"
+    for fam, b in res["families"].items():
+        f, g = b["family"], b["global"]
+        print(f"| {fam} | {b['dev_positives']} | {b['threshold']:.5f} | {f['test_positives']} | {pc(f['recall'])} / {pc(g['recall'])} | "
+              f"{pc(f['fpr'])} / {pc(g['fpr'])} | {pc(f['balanced_accuracy'])} / {pc(g['balanced_accuracy'])} | {pc(f['accuracy'])} / {pc(g['accuracy'])} |")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--step", required=True, choices=["4.1", "4.2", "4.3", "4.4"])
     args = ap.parse_args()
-    {"4.1": step_4_1, "4.2": step_4_2, "4.3": step_4_3}[args.step]()
+    {"4.1": step_4_1, "4.2": step_4_2, "4.3": step_4_3, "4.4": step_4_4}[args.step]()
 
 
 if __name__ == "__main__":

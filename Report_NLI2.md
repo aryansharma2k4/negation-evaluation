@@ -98,6 +98,12 @@ final answer to the integrity check is therefore that **85% of the claimed +13.8
   "negation" takes that slice from 97.8% to 0.0%. xNot360 accuracy falls 75.8% → 62.8% (−13.1 pts,
   p = 0.0001) and all-TEST accuracy 90.8% → 88.0%, even though the antecedent-only branch on its own
   works (44 pairs, 4.5% → 95.5%). Not adopted (VALIDATION 93.0% → 92.7%).
+- **4.4 Per-family NLI thresholds.** Only antonyms want a different threshold (0.910 vs the global
+  0.975): +4.2 pts antonym recall (88.4% → 92.6%, n = 95) for +0.8 pts FPR on phase-2 negatives. Verbal
+  (0.977) and other (0.759) change recall by 0.0 and +1.6 pts, at FPR +0.0 and +1.2 pts. Accuracy moves
+  between −0.3 and +0.1 pts per family. It also needs the family known in advance, which a deployed
+  detector does not have. The single threshold is not "wrong for both"; it is slightly wrong for
+  antonyms.
 
 ## 8. Caveats
 
@@ -741,4 +747,29 @@ it ranks pairs less well overall but places the threshold better.
 
 ```sh
 ./venv/bin/python experiments/nli2/phase4.py --step 4.3
+```
+
+### 4.4 Per-family NLI thresholds
+
+`experiments/nli2/phase4.py --step 4.4` → `results/4_4_per_family.json`. Families are CANNOT's
+natural negation types; the generator families do not exist in clean DEV. Each family's threshold
+is Youden's J on that family's clean-DEV positives against all clean-DEV negatives. On TEST it is
+scored on that family's positives plus all 697 phase-2 negatives. *Balanced accuracy* is the mean
+of recall and (1 − FPR), so it is not swayed by how many positives a family has.
+
+| family | DEV positives | threshold | TEST positives | recall: family thr / global 0.975 | FPR: family / global | balanced acc: family / global | accuracy: family / global |
+| --- | ---: | ---: | ---: | --- | --- | --- | --- |
+| verbal | 580 | 0.97749 | 290 | 94.5% / 94.5% | 26.7% / 26.8% | 83.9% / 83.8% | 79.5% / 79.4% |
+| antonym | 208 | **0.91048** | 95 | **92.6% / 88.4%** | 27.6% / 26.8% | 82.5% / 80.8% | 74.9% / 75.0% |
+| other | 713 | 0.75853 | 318 | 93.1% / 91.5% | 28.0% / 26.8% | 82.5% / 82.3% | 78.6% / 78.9% |
+
+These are NLI-alone thresholds, so the FPRs include NLI's high sts_low / random_pair FPR (no gate).
+Antonyms do want a lower threshold: +4.2 pts of recall for +0.8 pts of FPR. Verbal negation sits right
+at the global threshold. "Other" wants a much lower threshold (0.759), but that buys only +1.6 pts
+of recall for +1.2 pts of FPR. **It is a diagnostic, not a deployable fix:** applying a per-family
+threshold needs the family known before the decision, and for a non-negation there is no family.
+The GBM combiner (4.3) already gets 92.6% antonym recall without being told the family.
+
+```sh
+./venv/bin/python experiments/nli2/phase4.py --step 4.4
 ```
