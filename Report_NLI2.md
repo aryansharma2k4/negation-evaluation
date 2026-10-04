@@ -708,3 +708,37 @@ Reading it in plain terms:
 ```sh
 ./venv/bin/python experiments/nli2/phase4.py --step 4.2
 ```
+
+### 4.3 Cascade vs logistic vs gradient-boosted trees, on TEST
+
+`experiments/nli2/phase4.py --step 4.3` → `results/4_3_compare.json`. Every model's parameters and
+threshold were fit on clean DEV only.
+
+| model | phase-2 acc (95% CI) | xNot360 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| NLI alone (honest threshold) | 82.8% (80.9–84.6) | 77.8% (73.3–82.2) | 81.8% (79.9–83.6) | 0.840 | 93.0% | 0.3% | 70.9% | 2.6% | 78.1% | 40.0% | 88.4% | 4.4% | 0.0% | 86.0% |
+| cascade (Phase 2 adopted) | 94.6% (93.4–95.7) | 75.8% (71.4–80.3) | 90.8% (89.4–92.1) | 0.958 | 95.5% | 1.6% | 24.4% | 0.9% | 0.8% | 46.7% | 94.7% | **1.1%** | 0.0% | 93.0% |
+| logistic regression | 96.4% (95.4–97.3) | 78.3% (74.2–82.5) | 92.7% (91.4–93.9) | 0.941 | 93.8% | 1.6% | 6.3% | 0.0% | 0.0% | 33.9% | 91.6% | 6.6% | 0.0% | 96.3% |
+| **gradient-boosted trees** | **97.9% (97.1–98.6)** | 78.9% (74.7–83.3) | **94.0% (92.8–95.1)** | **0.981** | 95.1% | 1.9% | **3.9%** | 0.0% | 0.0% | 28.9% | 92.6% | 9.9% | 0.0% | **97.8%** |
+
+Paired permutation tests (10,000 permutations):
+
+| comparison | phase 2 | all TEST | xNot360 |
+| --- | --- | --- | --- |
+| cascade vs honest NLI | +11.9 pts (p = 0.0001) | +9.0 pts (p = 0.0001) | −1.9 pts (p = 0.14) |
+| logistic vs cascade | +1.7 pts (p = 0.0023) | +1.9 pts (p = 0.0012) | +2.5 pts (p = 0.19) |
+| **GBM vs cascade** | **+3.2 pts (p = 0.0001)** | **+3.2 pts (p = 0.0001)** | +3.1 pts (p = 0.18) |
+| GBM vs honest NLI | +15.1 pts (p = 0.0001) | +12.2 pts (p = 0.0001) | +1.1 pts (p = 0.67) |
+
+**The cascade does not win.** Gradient-boosted trees beat it on CANNOT phase 2 (97.9% vs 94.6%, +3.2 pts,
+p = 0.0001), mostly by cutting sts_low false positives from 24.4% to 3.9%. The costs, in the same
+sentence: **K1 FPR rises from 1.1% to 9.9% (n = 91)**, antonym recall falls 94.7% → 92.6% (n = 95), and
+paraphrase FPR rises 1.6% → 1.9%. The hard-rule veto protected K1, and the learned model, which has
+almost no cancellations to learn from in clean DEV, does not. On xNot360 no model beats honest NLI
+alone significantly, and the cascade is actually 1.9 pts below it (p = 0.14). Logistic regression sits
+between the cascade and GBM. Its AUC (0.941) is below the cascade's (0.958) even though its accuracy is higher, so
+it ranks pairs less well overall but places the threshold better.
+
+```sh
+./venv/bin/python experiments/nli2/phase4.py --step 4.3
+```

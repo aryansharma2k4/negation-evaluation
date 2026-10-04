@@ -182,11 +182,61 @@ def step_4_2() -> None:
         print(f"| `{f}` | {res['logistic_standardised_coefficients'][f]:+.3f} | {res['gbm_importances'][f]:.3f} |")
 
 
+def adopted_cascade() -> PL.Config:
+    p2 = json.loads((RESULTS / "2_all.json").read_text())["configs"][1]["config"]
+    return PL.Config(**{**p2, "name": "cascade (Phase 2 adopted)",
+                        "length_buckets": tuple(tuple(b) for b in p2["length_buckets"])})
+
+
+def step_4_3() -> None:
+    sets, analyses, X = table()
+    fits = fit_combiners(sets, X)
+    splits, _, sl = PL.load()
+    casc = PL.run(adopted_cascade(), splits, analyses, sl)
+    nli_thr = youden_threshold(sets["dev_clean"], [r["nli_c"] for r in sets["dev_clean"]])
+    log_test_read("4.3", "NLI alone, cascade, logistic, GBM on TEST")
+    scored = {"NLI alone (honest threshold)": ({n: np.array([r["nli_c"] for r in sets[n]]) for n in sets}, nli_thr),
+              "cascade (Phase 2 adopted)": ({"test": casc["_scores"]["test"], "validation": casc["_scores"]["validation"],
+                                             "k1": casc["_scores"]["k1"]}, casc["stage3_threshold"])}
+    for fam, label in (("logistic", "logistic regression"), ("gbm", "gradient-boosted trees")):
+        m = fits[fam]["_model"]
+        scored[label] = ({n: m.predict_proba(X[n])[:, 1] for n in ("test", "validation", "k1")}, fits[fam]["threshold"])
+    test = sets["test"]
+    phase2 = sl["validation"] + [r for r in test if r["dataset"] == "cannot_phase2"]
+    sem_idx_v = [i for i, r in enumerate(sets["validation"]) if r["kind"] == "SemAntoNeg"]
+    sem_idx_t = [i for i, r in enumerate(test) if r["kind"] == "SemAntoNeg"]
+    res = {"rows": {}, "gains": {}}
+    for name, (sc, thr) in scored.items():
+        ev = evaluate(test, sc["test"], thr)
+        ev["validation_accuracy"] = evaluate(sets["validation"], sc["validation"], thr, parts=("all",))["all"]["accuracy"]
+        ev["k1_fpr"] = round(float((sc["k1"] >= thr).mean()), 4)
+        sem = np.concatenate([sc["validation"][sem_idx_v], sc["test"][sem_idx_t]])
+        ev["semantoneg_phase2_fpr"] = round(float((sem >= thr).mean()), 4)
+        res["rows"][name] = ev
+        for base in ("NLI alone (honest threshold)", "cascade (Phase 2 adopted)"):
+            if name != base:
+                for part in ("all", "cannot_phase2", "xnot360"):
+                    res["gains"][f"{name} vs {base}|{part}"] = compare(test, (scored[base][0]["test"], scored[base][1]),
+                                                                       (sc["test"], thr), part)
+    save("4_3_compare.json", res)
+    pc = lambda x: f"{100 * x:.1f}%"
+    print("| model | phase-2 acc (95% CI) | xNot360 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc |")
+    print("| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
+    for name, t in res["rows"].items():
+        f = t["fpr_by_kind"]
+        ci = lambda part: f"{pc(t[part]['accuracy'])} ({pc(t[part]['ci95'][0])}–{pc(t[part]['ci95'][1])})"
+        print(f"| {name} | {ci('cannot_phase2')} | {ci('xnot360')} | {ci('all')} | {t['all']['auc']:.3f} | {pc(t['all']['recall'])} | "
+              + " | ".join(pc(f[k]["fpr"]) for k in ("paraphrase", "sts_low", "snli_neutral", "random_pair", "xnot360_not_negation"))
+              + f" | {pc(t['recall_by_type']['antonym']['recall'])} | {pc(t['k1_fpr'])} | {pc(t['semantoneg_phase2_fpr'])} | {pc(t['validation_accuracy'])} |")
+    for k, v in res["gains"].items():
+        print(k, v["gain"], v["p_permutation"])
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--step", required=True, choices=["4.1", "4.2", "4.3", "4.4"])
     args = ap.parse_args()
-    {"4.1": step_4_1, "4.2": step_4_2}[args.step]()
+    {"4.1": step_4_1, "4.2": step_4_2, "4.3": step_4_3}[args.step]()
 
 
 if __name__ == "__main__":
