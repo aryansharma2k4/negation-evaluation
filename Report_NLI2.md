@@ -147,3 +147,41 @@ same phrase is still in line 7 of `Report_NLI.md`. That file was not edited, bec
 says not to overwrite it, so read its line 7 with this correction. Its sections 1 and 3 already
 give the real numbers. No README, docstring or code comment claims the cascade is faster
 (searched for *cascade*, *cheap*, *faster*, *speed*, *saves time*).
+
+### 1.1 Clean DEV set — built
+
+`experiments/nli2/build_dev_clean.py` → `data/dev_clean.csv` (sha256 `8c165fe8d335…`, full hash in
+`results/1_1_dev_clean.json`). It contains **no generator output**, and is built the way CANNOT
+phase 2 was built (`experiments/negation_detection/data.py`, same normalisation, same sources):
+
+| dataset | source | pair type | label | count |
+| --- | --- | --- | ---: | ---: |
+| CANNOT phase 1 | wikifactcheck-english | negation | 1 | 1119 |
+| CANNOT phase 1 | antonym-substitution | negation | 1 | 208 |
+| CANNOT phase 1 | sentiment-labelled-sentences | negation | 1 | 158 |
+| CANNOT phase 1 | nan-nli / glue-diagnostic / unattributed | negation | 1 | 16 |
+| CANNOT phase 1 | wikifactcheck-english | paraphrase | 0 | 542 |
+| CANNOT phase 1 | antonym-substitution (SemAntoNeg) | paraphrase | 0 | 125 |
+| CANNOT phase 1 | sentiment-labelled-sentences | paraphrase | 0 | 79 |
+| CANNOT phase 1 | glue-diagnostic / nan-nli / unattributed | paraphrase | 0 | 5 |
+| SNLI validation | snli:neutral | snli_neutral | 0 | 250 |
+| STS-B train + validation + unused test | 9 sub-corpora (headlines 87, MSRvid 53, images 47, …) | sts_low (score < 2) | 0 | 250 |
+| STS-B / SNLI sentences | random re-pairing | random_pair | 0 | 250 |
+| **total** | | | 1501 / 1501 | **3002** |
+
+Positives by negation type: verbal 580, other 713, antonym 208. Positive share: 50.0% (TEST: 50.2%).
+The negative mix mirrors phase 2's: about half paraphrases, the rest split evenly between SNLI
+neutral, STS-low and random pairs.
+
+- **No sentence is in VALIDATION or TEST.** The builder asserts this after normalising as phase 2
+  did.
+- **xNot360 is not in DEV.** All 360 of its pairs are already in TEST, and moving any would change
+  the test set every earlier number was measured on. The clean DEV therefore contains no
+  conditionals (see caveats).
+- **The CSV is gitignored.** `Report_NLI.md`'s sources table records STS-B's licence as unclear and
+  says its text is not redistributed, so the file is rebuilt deterministically (seed 0) instead,
+  and its hash is committed.
+
+```sh
+./venv/bin/python experiments/nli2/build_dev_clean.py
+```

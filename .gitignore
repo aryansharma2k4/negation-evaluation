@@ -20,3 +20,6 @@ data/embeddings/
 # stage 2 verification artefacts
 variants_verified.jsonl
 .verification_cache.sqlite*
+
+# nli2 clean DEV set: rebuilt by experiments/nli2/build_dev_clean.py (STS-B text not redistributed)
+data/dev_clean.csv

@@ -1,0 +1,42 @@
+{
+  "path": "data/dev_clean.csv",
+  "sha256": "8c165fe8d33510c8a752e37dfe6a1df930874da8d3cb90daefac15c77a2ca817",
+  "n": 3002,
+  "labels": {
+    "0": 1501,
+    "1": 1501
+  },
+  "positive_share": 0.5,
+  "composition": {
+    "cannot_phase1|antonym-substitution|negation|1": 208,
+    "cannot_phase1|antonym-substitution|paraphrase|0": 125,
+    "cannot_phase1|glue-diagnostic|negation|1": 6,
+    "cannot_phase1|glue-diagnostic|paraphrase|0": 3,
+    "cannot_phase1|nan-nli|negation|1": 9,
+    "cannot_phase1|nan-nli|paraphrase|0": 1,
+    "cannot_phase1|sentiment-labelled-sentences|negation|1": 158,
+    "cannot_phase1|sentiment-labelled-sentences|paraphrase|0": 79,
+    "cannot_phase1|unattributed|negation|1": 1,
+    "cannot_phase1|unattributed|paraphrase|0": 1,
+    "cannot_phase1|wikifactcheck-english|negation|1": 1119,
+    "cannot_phase1|wikifactcheck-english|paraphrase|0": 542,
+    "random|random_repair|random_pair|0": 250,
+    "snli|snli:neutral|snli_neutral|0": 250,
+    "stsb|stsb:MSRpar|sts_low|0": 14,
+    "stsb|stsb:MSRvid|sts_low|0": 53,
+    "stsb|stsb:answer-answer|sts_low|0": 1,
+    "stsb|stsb:answers-forums|sts_low|0": 21,
+    "stsb|stsb:deft-forum|sts_low|0": 13,
+    "stsb|stsb:deft-news|sts_low|0": 4,
+    "stsb|stsb:headlines|sts_low|0": 87,
+    "stsb|stsb:images|sts_low|0": 47,
+    "stsb|stsb:track5.en-en|sts_low|0": 10
+  },
+  "positives_by_neg_type": {
+    "verbal": 580,
+    "other": 713,
+    "antonym": 208
+  },
+  "sentences_shared_with_validation_or_test": 0,
+  "hard_negatives": {}
+}
