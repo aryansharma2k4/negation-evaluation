@@ -13,5 +13,10 @@
     "step": "1.4",
     "what": "NLI, NLI+gate (old and new t1), full, all at clean thresholds",
     "time": "2026-10-04 18:00"
+  },
+  {
+    "step": "phase2 2.1",
+    "what": "2.1 symmetric veto",
+    "time": "2026-10-04 18:04"
   }
 ]

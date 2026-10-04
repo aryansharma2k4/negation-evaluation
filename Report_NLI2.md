@@ -71,6 +71,12 @@ final answer to the integrity check is therefore that **85% of the claimed +13.8
 
 *(every change that failed to improve things, with its numbers; added to as we go)*
 
+- **2.1 Symmetric cancellation veto.** On TEST the veto fires 4 times instead of 2. One of the two
+  new fires is right (*He's not unhappy.* / *He's happy.*, a SemAntoNeg pair NLI already got
+  right) and one is wrong (*The ripped banana wasn't not only ripped …* / *… was not only ripped
+  …*, a real negation). Phase-2 accuracy change: +0.0 pts (p = 1.0). VALIDATION is unchanged
+  (92.8%) and clean-DEV accuracy drops 91.98% → 91.95%, so it is not adopted.
+
 ## 8. Caveats
 
 *(added to as we go)*
@@ -298,4 +304,32 @@ stage-3 threshold 0.07545, veto on. The veto is included because 2.1 and 2.2 cha
 
 ```sh
 ./venv/bin/python experiments/nli2/refit_gate.py
+```
+
+### 2.1 Symmetric cancellation veto — no effect, not adopted
+
+`experiments/nli2/phase2.py --step 2.1` → `results/2_2.1.json`. The veto now also fires when *A*
+carries the same-clause cancellation (and polarities match). The Phase 2 machinery
+(`pipeline.py`, `rules.py`) reproduces the step-1.4 baseline exactly. From here on, K1 FPR is
+measured on the 91 K1 pairs as a held-out slice, since they are no longer in any fitting set
+(generator caveat applies). SemAntoNeg is pooled over all of phase 2 (validation + test, n = 41).
+
+| config | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc | gain vs baseline, phase 2 (p) |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 1 baseline | 94.4% (93.2–95.6) | 90.6% (89.3–91.9) | 0.955 | 95.1% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 1.1% | 0.0% | 92.8% | — |
+| 2.1 symmetric veto | 94.4% (93.2–95.6) | 90.6% (89.3–91.9) | 0.954 | 95.1% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 1.1% | 0.0% | 92.8% | +0.0 pts (p = 1.0) |
+
+How often the veto fires on TEST (n = 1,760): **B only: 2** (1 on a true negation); **symmetric: 4** (2 on true
+negations). On VALIDATION: 1 → 2. The new fires:
+
+| A | B | gold | veto right? |
+| --- | --- | --- | --- |
+| He's not unhappy. | He's happy. | not a negation (SemAntoNeg) | yes, but NLI already rejected it |
+| The ripped banana wasn't not only ripped, but petrified and tasteless. | The ripped banana was not only ripped, but petrified and tasteless. | negation | **no** |
+
+So the veto is too rare to matter in either direction on natural data. The baseline's K1 FPR is
+already 1.1% (n = 91) at the clean stage-3 threshold, so there is little left for it to fix.
+
+```sh
+./venv/bin/python experiments/nli2/phase2.py --step 2.1
 ```

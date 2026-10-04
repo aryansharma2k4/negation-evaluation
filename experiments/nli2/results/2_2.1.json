@@ -1,0 +1,574 @@
+{
+  "baseline": {
+    "config": {
+      "name": "Phase 1 baseline (full cascade, clean thresholds)",
+      "veto": "b_only",
+      "not_antonym": false,
+      "bypass": false,
+      "t1": 0.37,
+      "length_buckets": [],
+      "gate": true
+    },
+    "stage3_threshold": 0.07545395940542221,
+    "slices": {
+      "dev_clean": {
+        "threshold": 0.07545395940542221,
+        "all": {
+          "n": 3402,
+          "accuracy": 0.9198,
+          "auc": 0.9556,
+          "precision": 0.8818,
+          "recall": 0.9447,
+          "f1": 0.9122,
+          "ci95": [
+            0.9106,
+            0.9286
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 626,
+            "fpr": 0.0144
+          },
+          "SemAntoNeg": {
+            "n": 125,
+            "fpr": 0.024
+          },
+          "sts_low": {
+            "n": 250,
+            "fpr": 0.276
+          },
+          "snli_neutral": {
+            "n": 250,
+            "fpr": 0.044
+          },
+          "random_pair": {
+            "n": 250,
+            "fpr": 0.004
+          },
+          "hard_negative": {
+            "n": 400,
+            "fpr": 0.2425
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 580,
+            "recall": 0.9759
+          },
+          "antonym": {
+            "n": 208,
+            "recall": 0.9183
+          },
+          "other": {
+            "n": 713,
+            "recall": 0.9271
+          }
+        }
+      },
+      "validation": {
+        "threshold": 0.07545395940542221,
+        "all": {
+          "n": 601,
+          "accuracy": 0.9285,
+          "auc": 0.9594,
+          "precision": 0.9291,
+          "recall": 0.9259,
+          "f1": 0.9275,
+          "ci95": [
+            0.9085,
+            0.9484
+          ]
+        },
+        "cannot_phase2": {
+          "n": 601,
+          "accuracy": 0.9285,
+          "auc": 0.9594,
+          "precision": 0.9291,
+          "recall": 0.9259,
+          "f1": 0.9275,
+          "ci95": [
+            0.9085,
+            0.9484
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 153,
+            "fpr": 0.0065
+          },
+          "SemAntoNeg": {
+            "n": 14,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 40,
+            "fpr": 0.35
+          },
+          "snli_neutral": {
+            "n": 50,
+            "fpr": 0.12
+          },
+          "random_pair": {
+            "n": 47,
+            "fpr": 0.0
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 120,
+            "recall": 0.9583
+          },
+          "antonym": {
+            "n": 44,
+            "recall": 0.9318
+          },
+          "other": {
+            "n": 133,
+            "recall": 0.8947
+          }
+        }
+      },
+      "test": {
+        "threshold": 0.07545395940542221,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9062,
+          "auc": 0.9546,
+          "precision": 0.8732,
+          "recall": 0.9513,
+          "f1": 0.9106,
+          "ci95": [
+            0.8926,
+            0.9193
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9443,
+          "auc": 0.9625,
+          "precision": 0.9458,
+          "recall": 0.9431,
+          "f1": 0.9444,
+          "ci95": [
+            0.9321,
+            0.9557
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7583,
+          "auc": 0.9395,
+          "precision": 0.6782,
+          "recall": 0.9833,
+          "f1": 0.8027,
+          "ci95": [
+            0.7139,
+            0.8028
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0163
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.2362
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0256
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.4667
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9655
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.8737
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9434
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9833
+          }
+        }
+      },
+      "k1": {
+        "n": 91,
+        "fpr": 0.011
+      },
+      "semantoneg_phase2": {
+        "n": 41,
+        "fpr": 0.0
+      }
+    },
+    "stage_counts": {
+      "dev_clean": {
+        "1": 468,
+        "2": 13,
+        "3": 2921
+      },
+      "validation": {
+        "1": 85,
+        "2": 1,
+        "3": 515
+      },
+      "test": {
+        "1": 247,
+        "2": 2,
+        "3": 1511
+      },
+      "k1": {
+        "2": 86,
+        "3": 5
+      },
+      "semantoneg_phase2": {
+        "1": 9,
+        "2": 2,
+        "3": 30
+      }
+    }
+  },
+  "configs": [
+    {
+      "config": {
+        "name": "2.1 symmetric veto",
+        "veto": "symmetric",
+        "not_antonym": false,
+        "bypass": false,
+        "t1": 0.37,
+        "length_buckets": [],
+        "gate": true
+      },
+      "stage3_threshold": 0.07545395940542221,
+      "slices": {
+        "dev_clean": {
+          "threshold": 0.07545395940542221,
+          "all": {
+            "n": 3402,
+            "accuracy": 0.9195,
+            "auc": 0.9547,
+            "precision": 0.8822,
+            "recall": 0.9434,
+            "f1": 0.9118,
+            "ci95": [
+              0.9103,
+              0.9283
+            ]
+          },
+          "fpr_by_kind": {
+            "paraphrase": {
+              "n": 626,
+              "fpr": 0.0144
+            },
+            "SemAntoNeg": {
+              "n": 125,
+              "fpr": 0.016
+            },
+            "sts_low": {
+              "n": 250,
+              "fpr": 0.276
+            },
+            "snli_neutral": {
+              "n": 250,
+              "fpr": 0.044
+            },
+            "random_pair": {
+              "n": 250,
+              "fpr": 0.004
+            },
+            "hard_negative": {
+              "n": 400,
+              "fpr": 0.2425
+            }
+          },
+          "recall_by_type": {
+            "verbal": {
+              "n": 580,
+              "recall": 0.9724
+            },
+            "antonym": {
+              "n": 208,
+              "recall": 0.9183
+            },
+            "other": {
+              "n": 713,
+              "recall": 0.9271
+            }
+          }
+        },
+        "validation": {
+          "threshold": 0.07545395940542221,
+          "all": {
+            "n": 601,
+            "accuracy": 0.9285,
+            "auc": 0.9595,
+            "precision": 0.9291,
+            "recall": 0.9259,
+            "f1": 0.9275,
+            "ci95": [
+              0.9085,
+              0.9484
+            ]
+          },
+          "cannot_phase2": {
+            "n": 601,
+            "accuracy": 0.9285,
+            "auc": 0.9595,
+            "precision": 0.9291,
+            "recall": 0.9259,
+            "f1": 0.9275,
+            "ci95": [
+              0.9085,
+              0.9484
+            ]
+          },
+          "fpr_by_kind": {
+            "paraphrase": {
+              "n": 153,
+              "fpr": 0.0065
+            },
+            "SemAntoNeg": {
+              "n": 14,
+              "fpr": 0.0
+            },
+            "sts_low": {
+              "n": 40,
+              "fpr": 0.35
+            },
+            "snli_neutral": {
+              "n": 50,
+              "fpr": 0.12
+            },
+            "random_pair": {
+              "n": 47,
+              "fpr": 0.0
+            }
+          },
+          "recall_by_type": {
+            "verbal": {
+              "n": 120,
+              "recall": 0.9583
+            },
+            "antonym": {
+              "n": 44,
+              "recall": 0.9318
+            },
+            "other": {
+              "n": 133,
+              "recall": 0.8947
+            }
+          }
+        },
+        "test": {
+          "threshold": 0.07545395940542221,
+          "all": {
+            "n": 1760,
+            "accuracy": 0.9062,
+            "auc": 0.954,
+            "precision": 0.8732,
+            "recall": 0.9513,
+            "f1": 0.9106,
+            "ci95": [
+              0.8926,
+              0.9193
+            ]
+          },
+          "cannot_phase2": {
+            "n": 1400,
+            "accuracy": 0.9443,
+            "auc": 0.9616,
+            "precision": 0.9458,
+            "recall": 0.9431,
+            "f1": 0.9444,
+            "ci95": [
+              0.9321,
+              0.9557
+            ]
+          },
+          "xnot360": {
+            "n": 360,
+            "accuracy": 0.7583,
+            "auc": 0.9395,
+            "precision": 0.6782,
+            "recall": 0.9833,
+            "f1": 0.8027,
+            "ci95": [
+              0.7139,
+              0.8028
+            ]
+          },
+          "fpr_by_kind": {
+            "paraphrase": {
+              "n": 307,
+              "fpr": 0.0163
+            },
+            "SemAntoNeg": {
+              "n": 27,
+              "fpr": 0.0
+            },
+            "sts_low": {
+              "n": 127,
+              "fpr": 0.2362
+            },
+            "snli_neutral": {
+              "n": 117,
+              "fpr": 0.0256
+            },
+            "random_pair": {
+              "n": 119,
+              "fpr": 0.0
+            },
+            "xnot360_not_negation": {
+              "n": 180,
+              "fpr": 0.4667
+            }
+          },
+          "recall_by_type": {
+            "verbal": {
+              "n": 290,
+              "recall": 0.9655
+            },
+            "antonym": {
+              "n": 95,
+              "recall": 0.8737
+            },
+            "other": {
+              "n": 318,
+              "recall": 0.9434
+            },
+            "xnot360_negation": {
+              "n": 180,
+              "recall": 0.9833
+            }
+          }
+        },
+        "k1": {
+          "n": 91,
+          "fpr": 0.011
+        },
+        "semantoneg_phase2": {
+          "n": 41,
+          "fpr": 0.0
+        }
+      },
+      "stage_counts": {
+        "dev_clean": {
+          "1": 468,
+          "2": 22,
+          "3": 2912
+        },
+        "validation": {
+          "1": 85,
+          "2": 2,
+          "3": 514
+        },
+        "test": {
+          "1": 247,
+          "2": 4,
+          "3": 1509
+        },
+        "k1": {
+          "2": 86,
+          "3": 5
+        },
+        "semantoneg_phase2": {
+          "1": 9,
+          "2": 4,
+          "3": 28
+        }
+      }
+    }
+  ],
+  "gains_vs_baseline": [
+    {
+      "all": {
+        "part": "all",
+        "n": 1760,
+        "gain": 0.0,
+        "p_permutation": 1.0
+      },
+      "cannot_phase2": {
+        "part": "cannot_phase2",
+        "n": 1400,
+        "gain": 0.0,
+        "p_permutation": 1.0
+      }
+    }
+  ],
+  "veto_fires_test": {
+    "b_only": {
+      "fires": 2,
+      "on_true_negations": 1,
+      "examples": [
+        {
+          "a": "It's natural.",
+          "b": "It's not unnatural.",
+          "label": 0,
+          "kind": "SemAntoNeg"
+        },
+        {
+          "a": "In addition to being played recreationally, the game has been the subject of theoretical studies.",
+          "b": "In addition to not being played professionaly, the game has also not been the subject of theoretical studies.",
+          "label": 1,
+          "kind": "negation"
+        }
+      ]
+    },
+    "symmetric": {
+      "fires": 4,
+      "on_true_negations": 2,
+      "examples": [
+        {
+          "a": "It's natural.",
+          "b": "It's not unnatural.",
+          "label": 0,
+          "kind": "SemAntoNeg"
+        },
+        {
+          "a": "The ripped banana wasn't not only ripped, but petrified and tasteless.",
+          "b": "The ripped banana was not only ripped, but petrified and tasteless.",
+          "label": 1,
+          "kind": "negation"
+        },
+        {
+          "a": "He's not unhappy.",
+          "b": "He's happy.",
+          "label": 0,
+          "kind": "SemAntoNeg"
+        },
+        {
+          "a": "In addition to being played recreationally, the game has been the subject of theoretical studies.",
+          "b": "In addition to not being played professionaly, the game has also not been the subject of theoretical studies.",
+          "label": 1,
+          "kind": "negation"
+        }
+      ]
+    }
+  },
+  "veto_fires_validation": {
+    "b_only": 1,
+    "symmetric": 2
+  },
+  "adopt_by_validation": false,
+  "adoption_rule": "adopt if VALIDATION accuracy rises (clean DEV accuracy breaks a tie)"
+}
