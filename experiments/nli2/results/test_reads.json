@@ -28,5 +28,10 @@
     "step": "phase2 2.3",
     "what": "2.3 antonym bypass",
     "time": "2026-10-04 18:07"
+  },
+  {
+    "step": "phase2 2.4",
+    "what": "2.4 length-aware gate",
+    "time": "2026-10-04 18:08"
   }
 ]

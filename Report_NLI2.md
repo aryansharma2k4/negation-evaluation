@@ -82,6 +82,11 @@ final answer to the integrity check is therefore that **85% of the claimed +13.8
   negation that flips two things (*less toxic … not responsible* / *more toxic … responsible*).
   It was adopted anyway, by the pre-stated rule (VALIDATION tied at 92.8%; clean DEV rose 91.98% →
   92.03%). Its only measurable benefit is DEV SemAntoNeg FPR, 2.4% → 0.8% (n = 125).
+- **2.4 Length-aware gate, on TEST.** Separate thresholds for short, medium and long pairs (0.31 /
+  0.44 / 0.38) raise antonym recall 87.4% → 89.5% (n = 95). In the same configuration sts_low FPR
+  rises 23.6% → 24.4% and random_pair 0.0% → 0.8%. Phase-2 accuracy: −0.1 pts (p = 1.0). Adopted by the
+  pre-stated rule on the clean-DEV tie-break (VALIDATION tied at 92.8%, DEV 91.98% → 92.24%), but TEST
+  shows no gain. The antonym bypass (2.3) recovers short antonym pairs more precisely.
 
 ## 8. Caveats
 
@@ -409,4 +414,34 @@ over WordNet alone was not measured separately.
 
 ```sh
 ./venv/bin/python experiments/nli2/phase2.py --step 2.3
+```
+
+### 2.4 Length-aware gate threshold — short pairs get a lower bar, TEST does not improve
+
+`experiments/nli2/phase2.py --step 2.4` → `results/2_2.4.json`. Pairs are bucketed by
+min(len(A), len(B)) in words. The bucket edges (≤ 6, 7–12, ≥ 13) were set in advance, not tuned. Within
+each bucket t1 is fit by the same rule as before: max DEV J of gate → NLI, subject to the gate
+keeping ≥ 95% of that bucket's DEV positives.
+
+| min length bucket | DEV pairs | DEV positives | t1 (was 0.37 everywhere) | DEV J | DEV positives the gate keeps |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1–6 words | 849 | 255 | **0.31** | 0.8088 | 96.9% |
+| 7–12 words | 1,669 | 625 | 0.44 | 0.8766 | 99.4% |
+| ≥ 13 words | 884 | 621 | 0.38 | 0.8351 | 99.8% |
+
+The hypothesis holds on DEV: short pairs want a lower threshold. On TEST:
+
+| config | phase-2 acc (95% CI) | all-TEST acc (95% CI) | AUC | recall | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | SemAntoNeg FPR (n=41) | VAL acc | gain vs baseline, phase 2 (p) |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 1 baseline | 94.4% (93.2–95.6) | 90.6% (89.3–91.9) | 0.955 | 95.1% | 1.6% | 23.6% | 2.6% | 0.0% | 46.7% | 87.4% | 1.1% | 0.0% | 92.8% | — |
+| 2.4 length-aware gate | 94.4% (93.1–95.5) | 90.6% (89.1–91.9) | 0.953 | 95.0% | 1.6% | 24.4% | 0.9% | 0.8% | 46.7% | 89.5% | 1.1% | 0.0% | 92.8% | −0.1 pts (p = 1.0) |
+
+Recall recovered: antonym recall +2.1 pts (87.4% → 89.5%, n = 95, i.e. 2 pairs). Overall recall does not
+move (95.1% → 95.0%), because the 7–12 bucket's higher threshold (0.44) costs elsewhere what the short
+bucket wins. The gate still stops 247 TEST pairs, just not the same 247. snli_neutral FPR falls
+2.6% → 0.9%, while sts_low rises 23.6% → 24.4% and random_pair 0.0% → 0.8%. **Adopted** by the pre-stated rule
+(VALIDATION tied at 92.8%; clean DEV 91.98% → 92.24%), but TEST shows no gain (see section 7).
+
+```sh
+./venv/bin/python experiments/nli2/phase2.py --step 2.4
 ```
