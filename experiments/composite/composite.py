@@ -122,3 +122,34 @@ def cancellation_detected(a: "P.Analysis", b: "P.Analysis") -> bool:
 
 def veto(rows, analyses) -> np.ndarray:
     return np.array([cancellation_detected(analyses[r["a"]], analyses[r["b"]]) for r in rows])
+
+
+# ---------------------------------------------------------------------------
+# Stage 3 and the cascade
+# ---------------------------------------------------------------------------
+
+STOPPED = -1.0   # score of a pair stopped before NLI: ranks below every P(contradiction)
+
+
+def fit_threshold(dev, score: np.ndarray) -> float:
+    """Youden's J on DEV, as in experiments/polarity (DEV is 66% positive, so
+    max-F1 would pick "everything is a negation")."""
+    dev_only(dev)
+    return prun.youden_threshold(labels(dev), score)
+
+
+def cascade(rows, analyses, sim: str | None = None, t1: float | None = None,
+            use_veto: bool = False) -> tuple[np.ndarray, np.ndarray]:
+    """Score = NLI P(contradiction) for pairs that reach stage 3, STOPPED otherwise.
+
+    Returns (score, stage) where stage is 1 (stopped by the gate), 2 (vetoed)
+    or 3 (reached NLI). The veto is only evaluated on pairs the gate passed.
+    """
+    stage = np.full(len(rows), 3)
+    if sim is not None:
+        stage[~gate_pass(rows, sim, t1)] = 1
+    if use_veto:
+        live = np.flatnonzero(stage == 3)
+        stage[live[veto([rows[i] for i in live], analyses)]] = 2
+    score = np.where(stage == 3, [r["nli"] for r in rows], STOPPED)
+    return score, stage

@@ -107,3 +107,29 @@ def test_veto_catches_most_k1(loaded):
     splits, analyses = loaded
     k1 = [r for r in splits["dev"] if r["kind"] == "K1"]
     assert C.veto(k1, analyses).mean() > 0.9
+
+
+# --- the cascade ------------------------------------------------------------------
+
+def test_cascade_stops_early_and_only_vetoes_what_the_gate_passed(loaded):
+    splits, analyses = loaded
+    k1 = [r for r in splits["dev"] if r["kind"] == "K1"]
+    far = dict(k1[0], cos=-0.5, c_resid=-0.5)          # a K1 pair the gate would also stop
+    rows = [far] + k1[:5]
+    score, stage = C.cascade(rows, analyses, "cos", 0.3, use_veto=True)
+    assert stage[0] == 1                                # gate first, veto never consulted
+    assert all(s in (2, 3) for s in stage[1:])
+    assert (score[stage < 3] == C.STOPPED).all()
+    assert (score[stage == 3] == [r["nli"] for r, s in zip(rows, stage) if s == 3]).all()
+    plain, st = C.cascade(rows, analyses)
+    assert (st == 3).all() and plain.tolist() == [r["nli"] for r in rows]
+
+
+def test_test_set_scored_at_most_once():
+    import json
+    from run_composite import RESULTS, TEST_LOG
+    count = json.loads(TEST_LOG.read_text())["count"] if TEST_LOG.exists() else 0
+    assert count <= 1
+    if RESULTS.exists():
+        res = json.loads(RESULTS.read_text())
+        assert ("test" in res) == (count == 1)
