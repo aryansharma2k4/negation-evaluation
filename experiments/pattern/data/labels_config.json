@@ -1,0 +1,22 @@
+{
+  "model": "qwen2.5:7b",
+  "batch": 5,
+  "temperature": 0,
+  "passes": {
+    "1": {
+      "swap": false,
+      "shuffle_seed": null,
+      "sampling_seed": 101
+    },
+    "2": {
+      "swap": true,
+      "shuffle_seed": null,
+      "sampling_seed": 202
+    },
+    "3": {
+      "swap": false,
+      "shuffle_seed": 303,
+      "sampling_seed": 303
+    }
+  }
+}

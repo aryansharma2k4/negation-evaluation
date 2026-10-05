@@ -1,0 +1,91 @@
+# base_line	method	keep	paraphrase	review_note
+1	reorder	1	Because every process receives an equal time quantum, round-robin scheduling is fair.	
+2	passive	1	The average waiting time for a given set of processes is minimized by the shortest-job-first algorithm.	
+3	reorder	1	When a higher-priority process arrives, a preemptive scheduler can interrupt a running process.	
+4	synonym	1	Priority scheduling is susceptible to starvation of low-priority processes.	
+5	passive	1	The state of the current process is saved by the dispatcher during a context switch.	
+6	synonym	1	First-come first-served scheduling is easy to implement but suffers from the convoy effect.	
+7	synonym	1	Aging gradually raises the priority of processes that wait in the system for a long time.	
+8	synonym	1	Non-preemptive scheduling does not interrupt a process until it blocks or exits.	
+9	passive	1	Processes can be moved between multilevel feedback queues based on their observed CPU bursts.	
+10	reorder	1	Whenever the processor becomes idle, the CPU scheduler selects a process from the ready queue.	
+11	synonym	1	Four necessary conditions must hold at the same time for a deadlock to occur in a system.	
+12	synonym	1	The banker's algorithm determines whether granting a request leaves the system in a safe state.	
+13	synonym	1	An unsafe state does not always result in a deadlock.	
+14	synonym	1	A cycle in the resource allocation graph is required for a deadlock to exist.	
+15	reorder	1	Because it restricts how processes request resources, deadlock prevention is often expensive.	
+16	synonym	1	The operating system can recover from a deadlock by killing one or more processes.	
+17	passive	1	The deadlock problem is ignored entirely by most general-purpose operating systems.	
+18	reorder	1	If every process requests resources in increasing order, circular wait never occurs.	
+19	reorder	1	When they run after every resource request, deadlock detection algorithms are costly.	
+20	synonym	1	A process holding a lock should free it before requesting another resource.	
+21	synonym	1	Virtual memory lets a program run even when it is larger than physical memory.	
+22	reorder	1	When a process references a page that is not in memory, a page fault occurs.	
+23	synonym	1	The translation lookaside buffer is a small cache of recently used page table entries.	
+24	passive	1	Under demand paging, a page is loaded into memory only when the page is needed.	
+25	reorder	1	When the combined working sets exceed the available frames, thrashing is common.	
+26	passive	1	The page that has not been used for the longest time is replaced by the least recently used policy.	
+27	passive	1	Each virtual page number is mapped to a physical frame number by the page table.	
+28	synonym	1	A larger page size can decrease the size of the page table.	
+29	synonym	1	Belady's anomaly demonstrates that FIFO replacement does not always improve with more frames.	
+30	synonym	1	The optimal replacement algorithm is impossible to implement in real systems.	
+31	synonym	1	An inode holds the metadata of a file but not its name.	
+32	synonym	1	Journaling file systems can recover rapidly after a crash.	
+33	reorder	1	For sequential access to large files, contiguous allocation is efficient.	
+34	passive	1	The boundaries between different file systems cannot be crossed by hard links.	
+35	passive	1	The next block of each file is recorded in the file allocation table.	
+36	passive	1	Direct access without external fragmentation is supported by indexed allocation.	
+37	synonym	1	A directory is a special file that associates names with inode numbers.	
+38	passive	1	Recently used disk blocks are kept in main memory by the buffer cache.	
+39	synonym	1	Fragmentation is a major problem for file systems that use contiguous allocation.	
+40	reorder	1	Before it opens a file, the operating system must check permissions.	
+41	reorder	1	When several threads access shared data concurrently, a race condition occurs.	
+42	synonym	1	A mutex is a lock that only a single thread can hold at a time.	
+43	passive	1	The producer-consumer problem with a bounded buffer can be solved with semaphores.	
+44	synonym	1	Busy waiting is wasteful on a uniprocessor system.	
+45	synonym	1	Peterson's solution is correct for two processes but does not extend to many processes.	
+46	synonym	1	A monitor guarantees that only one process is active inside it at any time.	
+47	reorder	1	For implementing locks on multiprocessor systems, atomic instructions are necessary.	
+48	passive	1	Mutual exclusion, progress and bounded waiting must be satisfied by the critical section.	
+49	passive	1	The address space and open files are shared by threads within the same process.	
+50	synonym	1	A spinlock is inappropriate for long critical sections.	
+51	passive	1	Reliable, in-order delivery of a byte stream between two hosts is provided by TCP.	
+52	reorder	1	Before the sender transmits data, the three-way handshake establishes a connection.	
+53	reorder	1	UDP is a datagram protocol, while TCP is a connection-oriented protocol.	
+54	passive	1	The receiver's available buffer space is advertised in the window field.	
+55	reorder	1	When its timer expires, a TCP sender retransmits a segment.	
+56	synonym	1	Every TCP segment contains a sequence number and an acknowledgment number.	
+57	synonym	1	TCP does not maintain message boundaries in the byte stream.	
+58	reorder	1	Before it receives an acknowledgment, the sender can transmit several segments.	
+59	synonym	1	Nagle's algorithm is helpful for reducing the number of small packets.	
+60	passive	1	A four-way exchange of FIN segments closes a connection gracefully.	active rewrite of a passive base
+61	passive	1	Topology information is flooded to every router in the network by link-state routing.	
+62	synonym	0	Distance-vector protocols can experience the count-to-infinity problem.	"experience a problem" is marginal; "suffer from" carries the harm, the rewrite weakens it
+63	passive	1	The shortest path tree from a single source is computed by Dijkstra's algorithm.	
+64	passive	1	The router consults the routing table for every packet that it forwards.	active rewrite of a passive base
+65	synonym	1	Longest prefix matching chooses the most specific route in the forwarding table.	
+66	synonym	1	BGP is a path-vector protocol that is employed between autonomous systems.	
+67	synonym	1	Split horizon never announces a route back to the neighbor from which it was learned.	
+68	reorder	1	Because flat routing tables do not scale to the whole Internet, hierarchical routing is necessary.	
+69	passive	1	Hello packets are exchanged by OSPF routers to discover their neighbors.	
+70	reorder	1	After a link failure, some routing protocols converge slowly.	
+71	passive	0	The congestion window is doubled every round-trip time during TCP slow start.	passive moved the agent into a "during" adjunct: slow start is no longer the thing doing the doubling
+72	synonym	1	Congestion avoidance grows the window by one segment per round-trip time.	
+73	synonym	1	A timeout is a strong indication that the network is congested.	
+74	reorder	1	When it receives three duplicate acknowledgments, the sender halves its congestion window.	
+75	reorder	1	Before the router queue becomes full, random early detection drops packets.	
+76	synonym	1	Congestion control is distinct from flow control, which protects the receiver.	
+77	passive	0	An offered load that exceeds its capacity cannot be sustained by the network.	cataphoric "its" now precedes its antecedent; ambiguous on first read
+78	synonym	0	Additive increase and multiplicative decrease is stable and equitable to competing flows.	"equitable to" is unidiomatic
+79	synonym	1	TCP Reno should recover more quickly than Tahoe from a single lost segment.	
+80	reorder	1	When the bottleneck link is overloaded, all senders must reduce their rates.	
+81	passive	1	Human-readable host names are translated into IP addresses by DNS.	
+82	synonym	1	A local DNS server caches responses to lower lookup latency.	
+83	synonym	1	The root name servers are vital to the operation of the domain name system.	
+84	passive	1	Other servers are queried by a recursive resolver on behalf of the client.	
+85	reorder	1	Because most queries and responses are small, DNS usually uses UDP.	
+86	synonym	1	Cached records remain valid only until their time-to-live expires.	
+87	synonym	1	An authoritative server does not need to contact other servers to respond to a query.	
+88	passive	1	Several host names can be mapped to the same IP address by DNS.	
+89	synonym	1	Iterative queries are typical between local and authoritative name servers.	
+90	passive	1	All records are copied from a primary server to a secondary server in a DNS zone transfer.	

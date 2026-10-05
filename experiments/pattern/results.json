@@ -1,0 +1,334 @@
+{
+  "seed": 0,
+  "pre_registered": {
+    "omnibus": "Kruskal-Wallis across negation families, p < 0.05",
+    "model": "per_family",
+    "baseline": "best_flat",
+    "criterion": "CV MAE(per_family) < CV MAE(best_flat) and the 95% cluster-bootstrap CI of MAE(per_family) - MAE(best_flat) lies entirely below 0"
+  },
+  "labeller": {
+    "model": "qwen2.5:7b",
+    "batch": 5,
+    "temperature": 0,
+    "passes": {
+      "1": {
+        "swap": false,
+        "shuffle_seed": null,
+        "sampling_seed": 101
+      },
+      "2": {
+        "swap": true,
+        "shuffle_seed": null,
+        "sampling_seed": 202
+      },
+      "3": {
+        "swap": false,
+        "shuffle_seed": 303,
+        "sampling_seed": 303
+      }
+    }
+  },
+  "build": {
+    "seed": 0,
+    "step1_base_sentences": {
+      "n": 100,
+      "subtopic": {
+        "scheduling": 10,
+        "deadlock": 10,
+        "virtual_memory": 10,
+        "file_systems": 10,
+        "concurrency": 10,
+        "tcp": 10,
+        "routing": 10,
+        "congestion_control": 10,
+        "dns": 10,
+        "error_detection": 10
+      },
+      "root_clause_frame": {
+        "copula": 32,
+        "do_support": 35,
+        "existing_aux": 27,
+        "none (parser found no verbal root)": 6
+      },
+      "all_clause_heads_frame": {
+        "copula": 40,
+        "do_support": 61,
+        "existing_aux": 41
+      },
+      "already_negated": 20,
+      "multi_clause": 48,
+      "words_min": 8,
+      "words_max": 17
+    },
+    "step2_variants_per_family": {
+      "A_syntactic": 123,
+      "B_quantifier": 16,
+      "C_neg_adverb": 460,
+      "D_affixal": 41,
+      "E_antonym": 145,
+      "F_implicit": 198,
+      "G_prepositional": 4,
+      "H_hedged": 400,
+      "I_intensified": 397,
+      "J_contrastive": 66,
+      "K1_cancellation": 95,
+      "K2_compound": 54,
+      "L_scope_position": 4,
+      "M_modal": 32
+    },
+    "step2_variants_total": 2035,
+    "step2_paraphrase_candidates": 90,
+    "step2_paraphrase_kept": 86,
+    "step2_paraphrase_discarded": [
+      {
+        "base_line": 62,
+        "method": "synonym",
+        "text": "Distance-vector protocols can experience the count-to-infinity problem.",
+        "note": "\"experience a problem\" is marginal; \"suffer from\" carries the harm, the rewrite weakens it"
+      },
+      {
+        "base_line": 71,
+        "method": "passive",
+        "text": "The congestion window is doubled every round-trip time during TCP slow start.",
+        "note": "passive moved the agent into a \"during\" adjunct: slow start is no longer the thing doing the doubling"
+      },
+      {
+        "base_line": 77,
+        "method": "passive",
+        "text": "An offered load that exceeds its capacity cannot be sustained by the network.",
+        "note": "cataphoric \"its\" now precedes its antecedent; ambiguous on first read"
+      },
+      {
+        "base_line": 78,
+        "method": "synonym",
+        "text": "Additive increase and multiplicative decrease is stable and equitable to competing flows.",
+        "note": "\"equitable to\" is unidiomatic"
+      }
+    ],
+    "step2_paraphrase_methods": {
+      "reorder": 22,
+      "passive": 25,
+      "synonym": 39
+    },
+    "step2_unrelated": 80,
+    "step3_per_family_cap": 35,
+    "step3_families_below_cap": {
+      "B_quantifier": 16,
+      "G_prepositional": 4,
+      "L_scope_position": 4,
+      "M_modal": 31
+    },
+    "step3_sampled_per_family": {
+      "ANCHOR_paraphrase": 86,
+      "ANCHOR_unrelated": 80,
+      "A_syntactic": 35,
+      "B_quantifier": 16,
+      "C_neg_adverb": 35,
+      "D_affixal": 35,
+      "E_antonym": 35,
+      "F_implicit": 35,
+      "G_prepositional": 4,
+      "H_hedged": 35,
+      "I_intensified": 35,
+      "J_contrastive": 35,
+      "K1_cancellation": 35,
+      "K2_compound": 35,
+      "L_scope_position": 4,
+      "M_modal": 31
+    },
+    "step3_sampled_subtypes": {
+      "A_syntactic/clause_copula": 5,
+      "A_syntactic/clause_do_support": 6,
+      "A_syntactic/clause_existing_aux": 5,
+      "A_syntactic/collapse_do_support": 5,
+      "A_syntactic/copula": 5,
+      "A_syntactic/do_support": 5,
+      "A_syntactic/drop_aux_negator": 3,
+      "A_syntactic/existing_aux": 1,
+      "B_quantifier/all_to_none_of": 2,
+      "B_quantifier/each_to_no": 3,
+      "B_quantifier/every_to_no": 6,
+      "B_quantifier/no_comparative": 2,
+      "B_quantifier/often_to_never": 1,
+      "B_quantifier/some_to_no": 1,
+      "B_quantifier/usually_to_never": 1,
+      "C_neg_adverb/absolute": 16,
+      "C_neg_adverb/never_to_always": 2,
+      "C_neg_adverb/partial": 15,
+      "C_neg_adverb/strip_never": 2,
+      "D_affixal/prefix_dis": 2,
+      "D_affixal/prefix_in": 9,
+      "D_affixal/prefix_non": 8,
+      "D_affixal/prefix_un": 11,
+      "D_affixal/strip_prefix_im": 2,
+      "D_affixal/strip_prefix_in": 1,
+      "D_affixal/suffix_less": 2,
+      "E_antonym/antonym_adj": 16,
+      "E_antonym/antonym_adv": 4,
+      "E_antonym/antonym_verb": 15,
+      "F_implicit/ceases_to": 6,
+      "F_implicit/denies": 6,
+      "F_implicit/fails_to": 6,
+      "F_implicit/is_unable_to": 6,
+      "F_implicit/neglects_to": 6,
+      "F_implicit/refuses_to": 5,
+      "G_prepositional/in_the_absence_of": 2,
+      "G_prepositional/without": 2,
+      "H_hedged/may_not": 7,
+      "H_hedged/maybe_not": 7,
+      "H_hedged/might_not": 7,
+      "H_hedged/possibly_not": 7,
+      "H_hedged/probably_not": 7,
+      "I_intensified/absolutely_not": 6,
+      "I_intensified/by_no_means": 6,
+      "I_intensified/certainly_not": 6,
+      "I_intensified/definitely_not": 6,
+      "I_intensified/not_at_all": 6,
+      "I_intensified/surely_not": 5,
+      "J_contrastive/anything_but": 15,
+      "J_contrastive/far_from": 14,
+      "J_contrastive/the_opposite_of": 6,
+      "K1_cancellation/cancel_impossible": 1,
+      "K1_cancellation/clause_copula": 1,
+      "K1_cancellation/never_ceases_to": 5,
+      "K1_cancellation/never_fails_to": 5,
+      "K1_cancellation/never_neglects_to": 5,
+      "K1_cancellation/never_refuses_to": 5,
+      "K1_cancellation/not_prefix_dis": 1,
+      "K1_cancellation/not_prefix_in": 1,
+      "K1_cancellation/not_prefix_non": 5,
+      "K1_cancellation/not_prefix_un": 5,
+      "K1_cancellation/not_suffix_less": 1,
+      "K2_compound/clause_copula": 3,
+      "K2_compound/clause_do_support": 3,
+      "K2_compound/clause_existing_aux": 2,
+      "K2_compound/copula+copula": 2,
+      "K2_compound/copula+do_support": 3,
+      "K2_compound/copula+existing_aux": 3,
+      "K2_compound/do_support+copula": 3,
+      "K2_compound/do_support+do_support": 3,
+      "K2_compound/do_support+existing_aux": 2,
+      "K2_compound/existing_aux+copula": 1,
+      "K2_compound/existing_aux+do_support": 3,
+      "K2_compound/existing_aux+existing_aux": 1,
+      "K2_compound/not+prefix_in": 1,
+      "K2_compound/not+prefix_non": 1,
+      "K2_compound/not+prefix_un": 3,
+      "K2_compound/not+suffix_less": 1,
+      "L_scope_position/predicate_scope": 2,
+      "L_scope_position/subject_scope": 2,
+      "M_modal/cannot_ability_denied": 10,
+      "M_modal/may_not_permission_denied": 10,
+      "M_modal/must_not_prohibition": 3,
+      "M_modal/need_not_absence_of_obligation": 6,
+      "M_modal/should_not_prohibition": 2
+    },
+    "step3_ambiguous_strings_reassigned": {
+      "E_antonym -> D_affixal": 35,
+      "A_syntactic -> M_modal": 15,
+      "H_hedged -> M_modal": 10,
+      "A_syntactic -> K2_compound": 6,
+      "A_syntactic -> L_scope_position": 2,
+      "M_modal -> L_scope_position": 1
+    },
+    "step3_total_items": 571
+  },
+  "validation": {
+    "diagnostics": {
+      "items_where_1_and_2_agree_but_3_moves_3plus": 49,
+      "same_among_unrelated_anchors": 11,
+      "unrelated_anchors_median_ge_3": 16,
+      "unrelated_anchors_n": 80,
+      "negation_pairs_n": 405,
+      "negation_pairs_median_0": 249,
+      "negation_pairs_mean_label": 1.328395061728395
+    },
+    "n_items": 571,
+    "unscored_per_pass": [
+      0,
+      0,
+      0
+    ],
+    "krippendorff_alpha_ordinal": 0.5863724653929085,
+    "spearman_pairwise": {
+      "pass1_vs_pass2": 0.6225045551459113,
+      "pass1_vs_pass3": 0.644638757415266,
+      "pass2_vs_pass3": 0.5022686098973518
+    },
+    "spearman_mean": 0.589803974152843,
+    "order_effect_pass1_vs_pass2": {
+      "n": 571,
+      "mean_pass1": 1.956217162872154,
+      "mean_pass2": 2.1243432574430825,
+      "mean_diff": -0.1681260945709282,
+      "t": -2.1610904172510734,
+      "p": 0.031104117102754604,
+      "exact_agreement": 0.5989492119089317
+    },
+    "context_effect_pass1_vs_pass3": {
+      "n": 571,
+      "mean_pass1": 1.956217162872154,
+      "mean_pass3": 1.7705779334500875,
+      "mean_diff": 0.18563922942206654,
+      "t": 2.5114238186175175,
+      "p": 0.01229993161867288,
+      "exact_agreement": 0.6304728546409807
+    },
+    "anchors": {
+      "ANCHOR_paraphrase": {
+        "n": 86,
+        "mean": 4.976744186046512,
+        "std": 0.15159886590034527,
+        "p10": 5.0,
+        "p90": 5.0,
+        "counts": {
+          "4.0": 2,
+          "5.0": 84
+        }
+      },
+      "ANCHOR_unrelated": {
+        "n": 80,
+        "mean": 0.9625,
+        "std": 1.2969657871989364,
+        "p10": 0.0,
+        "p90": 3.0,
+        "counts": {
+          "0.0": 41,
+          "1.0": 22,
+          "2.0": 1,
+          "3.0": 12,
+          "4.0": 3,
+          "5.0": 1
+        }
+      }
+    },
+    "anchors_separate": true,
+    "gate": {
+      "krippendorff_min": 0.6,
+      "paraphrase_mean_min": 4.0,
+      "unrelated_mean_max": 1.0,
+      "passed": false
+    }
+  },
+  "human_seed": {
+    "n": 60,
+    "per_family": {
+      "ANCHOR_paraphrase": 4,
+      "ANCHOR_unrelated": 4,
+      "A_syntactic": 4,
+      "B_quantifier": 4,
+      "C_neg_adverb": 4,
+      "D_affixal": 4,
+      "E_antonym": 4,
+      "F_implicit": 4,
+      "G_prepositional": 4,
+      "H_hedged": 4,
+      "I_intensified": 4,
+      "J_contrastive": 4,
+      "K1_cancellation": 3,
+      "K2_compound": 3,
+      "L_scope_position": 3,
+      "M_modal": 3
+    }
+  }
+}

@@ -1,0 +1,100 @@
+scheduling	Round-robin scheduling is fair because every process receives an equal time quantum.
+scheduling	The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.
+scheduling	A preemptive scheduler can interrupt a running process when a higher-priority process arrives.
+scheduling	Priority scheduling is vulnerable to starvation of low-priority processes.
+scheduling	The dispatcher saves the state of the current process during a context switch.
+scheduling	First-come first-served scheduling is simple to implement but suffers from the convoy effect.
+scheduling	Aging gradually increases the priority of processes that wait in the system for a long time.
+scheduling	Non-preemptive scheduling does not interrupt a process until it blocks or terminates.
+scheduling	Multilevel feedback queues can move processes between queues based on their observed CPU bursts.
+scheduling	The CPU scheduler selects a process from the ready queue whenever the processor becomes idle.
+deadlock	Four necessary conditions must hold simultaneously for a deadlock to occur in a system.
+deadlock	The banker's algorithm checks whether granting a request leaves the system in a safe state.
+deadlock	An unsafe state does not always lead to a deadlock.
+deadlock	A cycle in the resource allocation graph is necessary for a deadlock to exist.
+deadlock	Deadlock prevention is often expensive because it restricts how processes request resources.
+deadlock	The operating system can recover from a deadlock by terminating one or more processes.
+deadlock	Most general-purpose operating systems ignore the deadlock problem entirely.
+deadlock	Circular wait never occurs if every process requests resources in increasing order.
+deadlock	Deadlock detection algorithms are costly when they run after every resource request.
+deadlock	A process holding a lock should release it before requesting another resource.
+virtual_memory	Virtual memory allows a program to run even when it is larger than physical memory.
+virtual_memory	A page fault occurs when a process references a page that is not in memory.
+virtual_memory	The translation lookaside buffer is a small cache of recent page table entries.
+virtual_memory	Demand paging loads a page into memory only when the page is needed.
+virtual_memory	Thrashing is common when the combined working sets exceed the available frames.
+virtual_memory	The least recently used policy replaces the page that has not been used for the longest time.
+virtual_memory	The page table maps each virtual page number to a physical frame number.
+virtual_memory	A larger page size can reduce the size of the page table.
+virtual_memory	Belady's anomaly shows that FIFO replacement does not always improve with more frames.
+virtual_memory	The optimal replacement algorithm is impossible to implement in practice.
+file_systems	An inode stores the metadata of a file but not its name.
+file_systems	Journaling file systems can recover quickly after a crash.
+file_systems	Contiguous allocation is efficient for sequential access to large files.
+file_systems	Hard links cannot cross the boundaries between different file systems.
+file_systems	The file allocation table records the next block of each file.
+file_systems	Indexed allocation supports direct access without external fragmentation.
+file_systems	A directory is a special file that maps names to inode numbers.
+file_systems	The buffer cache keeps recently used disk blocks in main memory.
+file_systems	Fragmentation is a serious problem for file systems that use contiguous allocation.
+file_systems	The operating system must check permissions before it opens a file.
+concurrency	A race condition occurs when several threads access shared data concurrently.
+concurrency	A mutex is a lock that only one thread can hold at a time.
+concurrency	Semaphores can solve the producer-consumer problem with a bounded buffer.
+concurrency	Busy waiting is wasteful on a single-processor system.
+concurrency	Peterson's solution is correct for two processes but does not scale to many processes.
+concurrency	A monitor ensures that only one process is active inside it at any time.
+concurrency	Atomic instructions are necessary for implementing locks on multiprocessor systems.
+concurrency	The critical section must satisfy mutual exclusion, progress and bounded waiting.
+concurrency	Threads within the same process share the address space and open files.
+concurrency	A spinlock is unsuitable for long critical sections.
+tcp	TCP provides reliable, in-order delivery of a byte stream between two hosts.
+tcp	The three-way handshake establishes a connection before the sender transmits data.
+tcp	TCP is a connection-oriented protocol, while UDP is a datagram protocol.
+tcp	The receiver advertises its available buffer space in the window field.
+tcp	A TCP sender retransmits a segment when its timer expires.
+tcp	Every TCP segment carries a sequence number and an acknowledgment number.
+tcp	TCP does not preserve message boundaries in the byte stream.
+tcp	The sender can transmit several segments before it receives an acknowledgment.
+tcp	Nagle's algorithm is useful for reducing the number of small packets.
+tcp	A connection is closed gracefully with a four-way exchange of FIN segments.
+routing	Link-state routing floods topology information to every router in the network.
+routing	Distance-vector protocols can suffer from the count-to-infinity problem.
+routing	Dijkstra's algorithm computes the shortest path tree from a single source.
+routing	The routing table is consulted for every packet that the router forwards.
+routing	Longest prefix matching selects the most specific route in the forwarding table.
+routing	BGP is a path-vector protocol that is used between autonomous systems.
+routing	Split horizon never advertises a route back to the neighbor from which it was learned.
+routing	Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.
+routing	OSPF routers exchange hello packets to discover their neighbors.
+routing	Some routing protocols converge slowly after a link failure.
+congestion_control	TCP slow start doubles the congestion window every round-trip time.
+congestion_control	Congestion avoidance increases the window by one segment per round-trip time.
+congestion_control	A timeout is a strong signal that the network is congested.
+congestion_control	The sender halves its congestion window when it receives three duplicate acknowledgments.
+congestion_control	Random early detection drops packets before the router queue becomes full.
+congestion_control	Congestion control is different from flow control, which protects the receiver.
+congestion_control	The network cannot sustain an offered load that exceeds its capacity.
+congestion_control	Additive increase and multiplicative decrease is stable and fair to competing flows.
+congestion_control	TCP Reno should recover faster than Tahoe from a single lost segment.
+congestion_control	All senders must reduce their rates when the bottleneck link is overloaded.
+dns	DNS translates human-readable host names into IP addresses.
+dns	A local DNS server caches responses to reduce lookup latency.
+dns	The root name servers are essential to the operation of the domain name system.
+dns	A recursive resolver queries other servers on behalf of the client.
+dns	DNS usually uses UDP because most queries and responses are small.
+dns	Cached records are valid only until their time-to-live expires.
+dns	An authoritative server does not need to contact other servers to answer a query.
+dns	DNS can map several host names to the same IP address.
+dns	Iterative queries are common between local and authoritative name servers.
+dns	A DNS zone transfer copies all records from a primary server to a secondary server.
+error_detection	A parity bit can detect any single-bit error in a data word.
+error_detection	The cyclic redundancy check is effective against burst errors.
+error_detection	Checksums are simple to compute, but they miss many multi-bit errors.
+error_detection	The receiver discards a frame when its checksum is incorrect.
+error_detection	Hamming codes can correct single-bit errors without retransmission.
+error_detection	A two-dimensional parity scheme is able to locate a single flipped bit.
+error_detection	The Internet checksum does not detect errors that swap two 16-bit words.
+error_detection	Error correction is expensive because it requires many redundant bits.
+error_detection	The sender appends a CRC to each frame before transmission.
+error_detection	Forward error correction is useful when retransmission is slow or impossible.

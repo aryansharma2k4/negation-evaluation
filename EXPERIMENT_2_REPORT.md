@@ -33,20 +33,21 @@ absolute numbers and the ranking may not transfer to real student writing.
 
 ## 1. What was asked vs. what was delivered
 
-| # | Requirement from the brief | Status | Note |
-|---|---|---|---|
-| 1 | Verify each data source exists and its licence before use; say so if not | **done** | §2; two licence gaps reported (STS-B mirror declares `unknown`; xNot360 declares Apache-2.0 in prose but not in card metadata) |
-| 2 | Phase 1: 1,500 negated + 1,500 paraphrase from CANNOT, stratified by source dataset, source recorded per pair | **done, +2 pairs** | 1,501 + 1,501. Groups of pairs sharing an A are assigned whole, so the last group can overshoot a quota by one. Source recovered by exact-match against CANNOT's own per-source files (§2) |
-| 3 | Phase 2: 1,000 negated + 500 paraphrase (CANNOT) + 500 dissimilar positives (STS-B < 2, SNLI neutral, random re-pairings), each subtype tagged | **done, +1 pair** | 1,000 + 501 + 167 + 167 + 166 = 2,001 |
-| 4 | Deduplicate across phases on normalised A; no sentence in both phases | **done, stricter** | Enforced on *all* sentences, not just A; measured overlap 0 (§2), asserted by `test_negation_detection.py::test_no_sentence_leaks_between_phases` |
-| 5 | External test xNot360 (all 360), evaluated only once at the end | **done, with a disclosure** | Scored at the end of each pipeline run. The pipeline was run three times (smoke run without NLI; full run; full run again after adding two diagnostics), so xNot360 numbers were produced three times. No threshold, feature, model or architecture was changed in response to them — the two additions were a fair same-subsample NLI comparison and a margin-sign diagnostic. Stated here because "evaluated once" was not literally satisfied |
-| 6 | Architecture 1: p(A), p(B), delta_p, c_raw, c_resid, cue_delta → logistic regression, report coefficients | **done** | §3.1, coefficients in §4 |
-| 7 | Architecture 2: generator on A, SAME/NEG split by net polarity including K1 in SAME, margin over max-similarity | **done** | §3.2; polarity rule stated exactly, asserted by `test_reference_sets_split_on_net_polarity` |
-| 8 | Similarity functions (i) raw cosine, (ii) c_resid + polarity agreement, (iii) NLI cross-encoder | **(i) and (ii) done, (iii) partial** | (iii) run on a 300-pair subsample of phase 1 and of phase 2, reference sets capped at the 8 nearest by cosine. Full version = ~110k cross-encoder passes ≈ 2 h on this CPU per split. The plain-NLI comparison in that table is computed on the *same* 300 pairs so the comparison is fair |
-| 9 | Three-way decision negation / agrees / unrelated, unrelated threshold fit on train folds | **done, changed** | Phase 1 contains no unrelated pairs, so "fit on train folds" cannot mean "fit against unrelated examples". Implemented as the 5th percentile of the training pairs' max-similarity; stated in §3.2 and §8 |
-| 10 | Log how often the generator produced no NEG variants (coverage failures) | **done** | §4, per split |
-| 11 | Architecture 3: margin as a feature added to architecture 1 | **done, extended** | Both margins (cosine and resid+polarity) were added, not just one |
-| 12 | Baselines: raw cosine, lexical cue delta, NLI contradiction probability | **done** | §3.4 |
+| #   | Requirement from the brief                                                                                                                     | Status                               | Note                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | Verify each data source exists and its licence before use; say so if not                                                                       | **done**                             | §2; two licence gaps reported (STS-B mirror declares `unknown`; xNot360 declares Apache-2.0 in prose but not in card metadata)                                                                                                                                                                                                                                                                                                                   |
+| 2   | Phase 1: 1,500 negated + 1,500 paraphrase from CANNOT, stratified by source dataset, source recorded per pair                                  | **done, +2 pairs**                   | 1,501 + 1,501. Groups of pairs sharing an A are assigned whole, so the last group can overshoot a quota by one. Source recovered by exact-match against CANNOT's own per-source files (§2)                                                                                                                                                                                                                                                       |
+| 3   | Phase 2: 1,000 negated + 500 paraphrase (CANNOT) + 500 dissimilar positives (STS-B < 2, SNLI neutral, random re-pairings), each subtype tagged | **done, +1 pair**                    | 1,000 + 501 + 167 + 167 + 166 = 2,001                                                                                                                                                                                                                                                                                                                                                                                                            |
+| 4   | Deduplicate across phases on normalised A; no sentence in both phases                                                                          | **done, stricter**                   | Enforced on _all_ sentences, not just A; measured overlap 0 (§2), asserted by `test_negation_detection.py::test_no_sentence_leaks_between_phases`                                                                                                                                                                                                                                                                                                |
+| 5   | External test xNot360 (all 360), evaluated only once at the end                                                                                | **done, with a disclosure**          | Scored at the end of each pipeline run. The pipeline was run three times (smoke run without NLI; full run; full run again after adding two diagnostics), so xNot360 numbers were produced three times. No threshold, feature, model or architecture was changed in response to them — the two additions were a fair same-subsample NLI comparison and a margin-sign diagnostic. Stated here because "evaluated once" was not literally satisfied |
+| 6   | Architecture 1: p(A), p(B), delta_p, c_raw, c_resid, cue_delta → logistic regression, report coefficients                                      | **done**                             | §3.1, coefficients in §4                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 7   | Architecture 2: generator on A, SAME/NEG split by net polarity including K1 in SAME, margin over max-similarity                                | **done**                             | §3.2; polarity rule stated exactly, asserted by `test_reference_sets_split_on_net_polarity`                                                                                                                                                                                                                                                                                                                                                      |
+| 8   | Similarity functions (i) raw cosine, (ii) c_resid + polarity agreement, (iii) NLI cross-encoder                                                | **(i) and (ii) done, (iii) partial** | (iii) run on a 300-pair subsample of phase 1 and of phase 2, reference sets capped at the 8 nearest by cosine. Full version = ~110k cross-encoder passes ≈ 2 h on this CPU per split. The plain-NLI comparison in that table is computed on the _same_ 300 pairs so the comparison is fair                                                                                                                                                       |
+| 9   | Three-way decision negation / agrees / unrelated, unrelated threshold fit on train folds                                                       | **done, changed**                    | Phase 1 contains no unrelated pairs, so "fit on train folds" cannot mean "fit against unrelated examples". Implemented as the 5th percentile of the training pairs' max-similarity; stated in §3.2 and §8                                                                                                                                                                                                                                        |
+| 10  | Log how often the generator produced no NEG variants (coverage failures)                                                                       | **done**                             | §4, per split                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 11  | Architecture 3: margin as a feature added to architecture 1                                                                                    | **done, extended**                   | Both margins (cosine and resid+polarity) were added, not just one                                                                                                                                                                                                                                                                                                                                                                                |
+| 12  | Baselines: raw cosine, lexical cue delta, NLI contradiction probability                                                                        | **done**                             | §3.4                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+
 | 13 | 5-fold CV on phase 1 grouped by A; thresholds on train folds only | **done** | `group_folds()`; every axis, scaler, logistic regression and threshold is fit on training rows only |
 | 14 | Train on all of phase 1, evaluate once on phase 2, then once on xNot360 | **done** | see row 5 for the disclosure |
 | 15 | Metrics: ROC-AUC, accuracy, precision, recall, F1 | **done** | §4 |
@@ -61,18 +62,18 @@ absolute numbers and the ranking may not transfer to real student writing.
 
 ### 2.1 Sources
 
-| source | obtained from | version / fingerprint | fetched | licence as found | raw size |
-|---|---|---|---|---|---|
-| CANNOT | `https://raw.githubusercontent.com/dmlls/cannot-dataset/main/cannot-dataset/cannot_dataset_v1.1.tsv` | v1.1, sha256 `e3d1c77ed05d4fc2…` | 2026-09-22 | **CC BY-SA 4.0**, stated in the repository README (no `LICENSE` file at the repo root) | 10 MB, 77,376 pairs |
-| CANNOT per-source files (for provenance recovery) | `https://github.com/dmlls/cannot-dataset/archive/refs/heads/main.tar.gz`, `datasets/*/processed/*.tsv` extracted | branch `main` tarball, sha256 `3f41ac05f1267e5d…` | 2026-09-22 | same | 48 MB tarball, 25,956 lines of processed TSV |
-| STS-Benchmark test split | `https://huggingface.co/datasets/mteb/stsbenchmark-sts/resolve/main/test.jsonl.gz` | sha256 `524a75137d413dbf…` | 2026-09-22 | **unclear** — the HF dataset card declares `license: unknown`; the original SemEval STS Benchmark carries per-source terms for its constituent corpora | 63 KB, 1,379 pairs |
-| SNLI validation split | `https://huggingface.co/datasets/stanfordnlp/snli/resolve/main/plain_text/validation-00000-of-00001.parquet` | sha256 `00f5ed8deaed007f…` | 2026-09-22 | **CC BY-SA 4.0** (declared in the HF card metadata) | 413 KB, 10,000 pairs |
-| xNot360 | `https://huggingface.co/datasets/nguyenthanhasia/xNot360/resolve/main/data/test-00000-of-00001-4ee9ad2bc5f8e478.parquet` | sha256 `14570e88e653bab7…` | 2026-09-22 | **Apache-2.0 stated in the card body**; the card's YAML metadata block declares no licence, so the licence is human-readable only | 22 KB, 360 pairs |
-| NLI cross-encoder | `cross-encoder/nli-deberta-v3-base` (HF Hub) | snapshot `6c749ce3425cd33b46d187e45b92bbf96ee12ec7` | 2026-09-22 | **Apache-2.0** | 371 MB safetensors |
-| Embedding models | `sentence-transformers/all-MiniLM-L6-v2`, `sentence-transformers/all-mpnet-base-v2` | HF Hub, current | 2026-09-13 / 2026-09-22 | Apache-2.0 | 90 MB / 420 MB |
+| source                                            | obtained from                                                                                                            | version / fingerprint                               | fetched                 | licence as found                                                                                                                                       | raw size                                     |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| CANNOT                                            | `https://raw.githubusercontent.com/dmlls/cannot-dataset/main/cannot-dataset/cannot_dataset_v1.1.tsv`                     | v1.1, sha256 `e3d1c77ed05d4fc2…`                    | 2026-09-22              | **CC BY-SA 4.0**, stated in the repository README (no `LICENSE` file at the repo root)                                                                 | 10 MB, 77,376 pairs                          |
+| CANNOT per-source files (for provenance recovery) | `https://github.com/dmlls/cannot-dataset/archive/refs/heads/main.tar.gz`, `datasets/*/processed/*.tsv` extracted         | branch `main` tarball, sha256 `3f41ac05f1267e5d…`   | 2026-09-22              | same                                                                                                                                                   | 48 MB tarball, 25,956 lines of processed TSV |
+| STS-Benchmark test split                          | `https://huggingface.co/datasets/mteb/stsbenchmark-sts/resolve/main/test.jsonl.gz`                                       | sha256 `524a75137d413dbf…`                          | 2026-09-22              | **unclear** — the HF dataset card declares `license: unknown`; the original SemEval STS Benchmark carries per-source terms for its constituent corpora | 63 KB, 1,379 pairs                           |
+| SNLI validation split                             | `https://huggingface.co/datasets/stanfordnlp/snli/resolve/main/plain_text/validation-00000-of-00001.parquet`             | sha256 `00f5ed8deaed007f…`                          | 2026-09-22              | **CC BY-SA 4.0** (declared in the HF card metadata)                                                                                                    | 413 KB, 10,000 pairs                         |
+| xNot360                                           | `https://huggingface.co/datasets/nguyenthanhasia/xNot360/resolve/main/data/test-00000-of-00001-4ee9ad2bc5f8e478.parquet` | sha256 `14570e88e653bab7…`                          | 2026-09-22              | **Apache-2.0 stated in the card body**; the card's YAML metadata block declares no licence, so the licence is human-readable only                      | 22 KB, 360 pairs                             |
+| NLI cross-encoder                                 | `cross-encoder/nli-deberta-v3-base` (HF Hub)                                                                             | snapshot `6c749ce3425cd33b46d187e45b92bbf96ee12ec7` | 2026-09-22              | **Apache-2.0**                                                                                                                                         | 371 MB safetensors                           |
+| Embedding models                                  | `sentence-transformers/all-MiniLM-L6-v2`, `sentence-transformers/all-mpnet-base-v2`                                      | HF Hub, current                                     | 2026-09-13 / 2026-09-22 | Apache-2.0                                                                                                                                             | 90 MB / 420 MB                               |
 
 None of it is vendored: `experiments/negation_detection/data/raw/` is gitignored
-and `data.py` documents how to fetch it. The derived files that *are* committed
+and `data.py` documents how to fetch it. The derived files that _are_ committed
 are `data/phase1.jsonl`, `data/phase2.jsonl` and `data/xnot360.jsonl`.
 
 ### 2.2 Filtering and label assignment
@@ -124,203 +125,202 @@ phase. Normalisation is `re.sub(r"\s+", " ", text.strip().lower()).rstrip(" .")`
 
 #### Counts per phase, class and subtype
 
-| set | pairs | label 1 (negation) | label 0 | subtypes |
-| --- | --- | --- | --- | --- |
-| phase1 | 3002 | 1501 | 1501 | negation=1501, paraphrase=1501 |
-| phase2 | 2001 | 1000 | 1001 | negation=1000, paraphrase=501, random_pair=166, snli_neutral=167, sts_low=167 |
-| xnot360 | 360 | 180 | 180 | negation=180, not_negation=180 |
+| set     | pairs | label 1 (negation) | label 0 | subtypes                                                                      |
+| ------- | ----- | ------------------ | ------- | ----------------------------------------------------------------------------- |
+| phase1  | 3002  | 1501               | 1501    | negation=1501, paraphrase=1501                                                |
+| phase2  | 2001  | 1000               | 1001    | negation=1000, paraphrase=501, random_pair=166, snli_neutral=167, sts_low=167 |
+| xnot360 | 360   | 180                | 180     | negation=180, not_negation=180                                                |
 
 #### Counts per source dataset (CANNOT pairs only)
 
-| source | phase1 neg | phase1 para | phase2 neg | phase2 para |
-| --- | --- | --- | --- | --- |
-| antonym-substitution | 208 | 125 | 139 | 41 |
-| glue-diagnostic | 6 | 11 | 4 | 5 |
-| nan-nli | 9 | 3 | 6 | 1 |
-| sentiment-labelled-sentences | 158 | 166 | 105 | 55 |
-| unattributed | 1 | 1 | 0 | 1 |
-| wikifactcheck-english | 1119 | 1195 | 746 | 398 |
+| source                       | phase1 neg | phase1 para | phase2 neg | phase2 para |
+| ---------------------------- | ---------- | ----------- | ---------- | ----------- |
+| antonym-substitution         | 208        | 125         | 139        | 41          |
+| glue-diagnostic              | 6          | 11          | 4          | 5           |
+| nan-nli                      | 9          | 3           | 6          | 1           |
+| sentiment-labelled-sentences | 158        | 166         | 105        | 55          |
+| unattributed                 | 1          | 1           | 0          | 1           |
+| wikifactcheck-english        | 1119       | 1195        | 746        | 398         |
 
 #### Non-CANNOT negatives in phase 2
 
-| subtype | n | source field values |
-| --- | --- | --- |
-| sts_low | 167 | stsb:MSRvid=40, stsb:answer-answer=35, stsb:images=30, stsb:headlines=30 |
-| snli_neutral | 167 | snli:neutral=167 |
-| random_pair | 166 | random_repair=166 |
+| subtype      | n   | source field values                                                      |
+| ------------ | --- | ------------------------------------------------------------------------ |
+| sts_low      | 167 | stsb:MSRvid=40, stsb:answer-answer=35, stsb:images=30, stsb:headlines=30 |
+| snli_neutral | 167 | snli:neutral=167                                                         |
+| random_pair  | 166 | random_repair=166                                                        |
 
 #### Leakage check (recomputed here)
 
-| check | result |
-| --- | --- |
-| phase1 ∩ phase2 (normalised sentences) | 0 |
-| phase1 ∩ xnot360 | 0 |
-| phase2 ∩ xnot360 | 0 |
+| check                                        | result            |
+| -------------------------------------------- | ----------------- |
+| phase1 ∩ phase2 (normalised sentences)       | 0                 |
+| phase1 ∩ xnot360                             | 0                 |
+| phase2 ∩ xnot360                             | 0                 |
 | distinct sentences phase1 / phase2 / xnot360 | 4957 / 3590 / 540 |
-| distinct A sentences phase1 / phase2 | 2102 / 1642 |
-| duplicate (A,B) pairs within phase1 / phase2 | 0 / 0 |
+| distinct A sentences phase1 / phase2         | 2102 / 1642       |
+| duplicate (A,B) pairs within phase1 / phase2 | 0 / 0             |
 
 #### Negation type of positives (derived, see §2)
 
-| set | verbal | antonym | other |
-| --- | --- | --- | --- |
-| phase1 | 580 | 208 | 713 |
-| phase2 | 410 | 139 | 451 |
+| set    | verbal | antonym | other |
+| ------ | ------ | ------- | ----- |
+| phase1 | 580    | 208     | 713   |
+| phase2 | 410    | 139     | 451   |
 
 #### Data quality checks (recomputed here)
 
-| set | check | n |
-| --- | --- | --- |
-| phase1 | A identical to B | 10 |
-| phase1 | A or B under 20 characters | 231 |
-| phase1 | B repeated across different A | 6 |
-| phase1 | pairs where A already contains a lexicon cue | 834 |
-| phase2 | A identical to B | 6 |
-| phase2 | A or B under 20 characters | 152 |
-| phase2 | B repeated across different A | 1 |
-| phase2 | pairs where A already contains a lexicon cue | 453 |
-| xnot360 | A identical to B | 0 |
-| xnot360 | A or B under 20 characters | 0 |
-| xnot360 | B repeated across different A | 0 |
-| xnot360 | pairs where A already contains a lexicon cue | 46 |
+| set     | check                                        | n   |
+| ------- | -------------------------------------------- | --- |
+| phase1  | A identical to B                             | 10  |
+| phase1  | A or B under 20 characters                   | 231 |
+| phase1  | B repeated across different A                | 6   |
+| phase1  | pairs where A already contains a lexicon cue | 834 |
+| phase2  | A identical to B                             | 6   |
+| phase2  | A or B under 20 characters                   | 152 |
+| phase2  | B repeated across different A                | 1   |
+| phase2  | pairs where A already contains a lexicon cue | 453 |
+| xnot360 | A identical to B                             | 0   |
+| xnot360 | A or B under 20 characters                   | 0   |
+| xnot360 | B repeated across different A                | 0   |
+| xnot360 | pairs where A already contains a lexicon cue | 46  |
 
 #### Ten randomly sampled pairs per class (verbatim)
 
-
 **phase1 negation (label 1)** (n=1501, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| Such churches are referred to as cathedrals. | Such churches are referred to as immemorial basilicas. | wikifactcheck-english | verbal |
-| The dust storm s make regional winters colder, and summers hotter. | The dust storms make regional winters quite hotter, and summers way colder. | wikifactcheck-english | other |
-| The boys' basketball team won the state AAA championship in 1998. | The boys' basketball squad lost the state AAA championship in 1998. | wikifactcheck-english | other |
-| His father was the nephew and heir of Dr Alexander Henry Haliday. | His father was the grandson and heir of Alexander Henry Haliday. | wikifactcheck-english | other |
-| This in turn can help in effective communication between healthcare providers and their patients. | This in turn can aid in effective communication between healthcare providers and their sponsors. | wikifactcheck-english | other |
-| It's safe for you. | It's not safe for you. | antonym-substitution | antonym |
-| It was first developed as a telephony technology. | It was first developed as a telescoping technology only. | wikifactcheck-english | other |
-| It is known from South Africa. | It is not heard of from South Africa. | wikifactcheck-english | verbal |
-| His footage helped to determine the cause for the AFR 127-4. | His footage was unhelpful to determine the cause for the AFR 127-4. | wikifactcheck-english | verbal |
-| That is good news. | That is not good news. | antonym-substitution | antonym |
+| A                                                                                                 | B                                                                                                | source                | neg_type |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------- | -------- |
+| Such churches are referred to as cathedrals.                                                      | Such churches are referred to as immemorial basilicas.                                           | wikifactcheck-english | verbal   |
+| The dust storm s make regional winters colder, and summers hotter.                                | The dust storms make regional winters quite hotter, and summers way colder.                      | wikifactcheck-english | other    |
+| The boys' basketball team won the state AAA championship in 1998.                                 | The boys' basketball squad lost the state AAA championship in 1998.                              | wikifactcheck-english | other    |
+| His father was the nephew and heir of Dr Alexander Henry Haliday.                                 | His father was the grandson and heir of Alexander Henry Haliday.                                 | wikifactcheck-english | other    |
+| This in turn can help in effective communication between healthcare providers and their patients. | This in turn can aid in effective communication between healthcare providers and their sponsors. | wikifactcheck-english | other    |
+| It's safe for you.                                                                                | It's not safe for you.                                                                           | antonym-substitution  | antonym  |
+| It was first developed as a telephony technology.                                                 | It was first developed as a telescoping technology only.                                         | wikifactcheck-english | other    |
+| It is known from South Africa.                                                                    | It is not heard of from South Africa.                                                            | wikifactcheck-english | verbal   |
+| His footage helped to determine the cause for the AFR 127-4.                                      | His footage was unhelpful to determine the cause for the AFR 127-4.                              | wikifactcheck-english | verbal   |
+| That is good news.                                                                                | That is not good news.                                                                           | antonym-substitution  | antonym  |
 
 **phase1 paraphrase (label 0)** (n=1501, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| will definitely return! | will definitely be back! | sentiment-labelled-sentences | — |
-| It's personal, guys. | It's not impersonal, guys. | antonym-substitution | — |
-| The method of design and implementation was used for verification. | Verification was then conducted systematically because of the method of design and implementation. | wikifactcheck-english | — |
-| If food is hard to come by, they may become cannibalistic. | They soon encounter others of their kind, and if food is scarce, may become cannibalistic. | wikifactcheck-english | — |
-| China allowed 24 GHz UWB Automotive Short Range Radar in Nov 2012. | China allowed 24 GHz UWB automotive short range radar. | wikifactcheck-english | — |
-| They simplify calculations, and allow treatment of dissipation and radiation effects. | They allow treatment of radiation effects and simplify calculations. | wikifactcheck-english | — |
-| During the first year of Syncom 2 operations, NASA conducted voice, teletype, and facsimile tests. | NASA conducted voice, teletype, and facsimile tests during the first year of Syncom 2. | wikifactcheck-english | — |
-| They're nominal. | They're not real. | antonym-substitution | — |
-| Nuclear mitochondrial DNA pseudogenes were found in the sparrows. | Nuclear mitochondrial DNA pseudogenes were found in these sparrows. | wikifactcheck-english | — |
-| Defensive players were often fooled as to which back was carrying the ball. | The defensive players were often fooled by the back carrying the ball. | wikifactcheck-english | — |
+| A                                                                                                  | B                                                                                                  | source                       | neg_type |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------- | -------- |
+| will definitely return!                                                                            | will definitely be back!                                                                           | sentiment-labelled-sentences | —        |
+| It's personal, guys.                                                                               | It's not impersonal, guys.                                                                         | antonym-substitution         | —        |
+| The method of design and implementation was used for verification.                                 | Verification was then conducted systematically because of the method of design and implementation. | wikifactcheck-english        | —        |
+| If food is hard to come by, they may become cannibalistic.                                         | They soon encounter others of their kind, and if food is scarce, may become cannibalistic.         | wikifactcheck-english        | —        |
+| China allowed 24 GHz UWB Automotive Short Range Radar in Nov 2012.                                 | China allowed 24 GHz UWB automotive short range radar.                                             | wikifactcheck-english        | —        |
+| They simplify calculations, and allow treatment of dissipation and radiation effects.              | They allow treatment of radiation effects and simplify calculations.                               | wikifactcheck-english        | —        |
+| During the first year of Syncom 2 operations, NASA conducted voice, teletype, and facsimile tests. | NASA conducted voice, teletype, and facsimile tests during the first year of Syncom 2.             | wikifactcheck-english        | —        |
+| They're nominal.                                                                                   | They're not real.                                                                                  | antonym-substitution         | —        |
+| Nuclear mitochondrial DNA pseudogenes were found in the sparrows.                                  | Nuclear mitochondrial DNA pseudogenes were found in these sparrows.                                | wikifactcheck-english        | —        |
+| Defensive players were often fooled as to which back was carrying the ball.                        | The defensive players were often fooled by the back carrying the ball.                             | wikifactcheck-english        | —        |
 
 **phase2 negation (label 1)** (n=1000, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| The moment of impact was recorded by a camera. | The moment of impact was unable to be recorded by any camera. | wikifactcheck-english | verbal |
-| An interim report was published in August 1989. | An interim report failed to be published in August 1989. | wikifactcheck-english | verbal |
-| The Washington School Board has refuesed to provide the district's antibully policy online. | The Washington School Board has provided the district's antibully policy online. | wikifactcheck-english | other |
-| By 2010, Al-Janiya had gained an area of 10,000 acres due to Israeli confiscations. | By 2010, Al-Janiya had lost 10,000 acres due to Israeli confiscations. | wikifactcheck-english | other |
-| Habitat types exclude mudflats, tidal creeks and channels. | Habitat types include mudflats, tidal creeks and channels. | wikifactcheck-english | other |
-| Service is quick and even "to go" orders are just like we like it. | Service is quick and even "to go" orders aren't just like we like it! | sentiment-labelled-sentences | verbal |
-| EasyCard has since switched to the MIFARE Plus chip. | EasyCard has after that switched from the MIFARE Plus chip. | wikifactcheck-english | other |
-| British economic policies failed to give them a monopoly over India's large market and cotton resources. | British economic policies gave them a monopoly over India's large market and cotton resources. | wikifactcheck-english | verbal |
-| Retail version is unable to support RAM disk size between 5MiB to 64GiB. | Retail version supports RAM disk size between 5MiB to 64GiB. | wikifactcheck-english | verbal |
-| This place isn't two thumbs up.... way up. | This place is two thumbs up.... way up. | sentiment-labelled-sentences | verbal |
+| A                                                                                                        | B                                                                                              | source                       | neg_type |
+| -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------- | -------- |
+| The moment of impact was recorded by a camera.                                                           | The moment of impact was unable to be recorded by any camera.                                  | wikifactcheck-english        | verbal   |
+| An interim report was published in August 1989.                                                          | An interim report failed to be published in August 1989.                                       | wikifactcheck-english        | verbal   |
+| The Washington School Board has refuesed to provide the district's antibully policy online.              | The Washington School Board has provided the district's antibully policy online.               | wikifactcheck-english        | other    |
+| By 2010, Al-Janiya had gained an area of 10,000 acres due to Israeli confiscations.                      | By 2010, Al-Janiya had lost 10,000 acres due to Israeli confiscations.                         | wikifactcheck-english        | other    |
+| Habitat types exclude mudflats, tidal creeks and channels.                                               | Habitat types include mudflats, tidal creeks and channels.                                     | wikifactcheck-english        | other    |
+| Service is quick and even "to go" orders are just like we like it.                                       | Service is quick and even "to go" orders aren't just like we like it!                          | sentiment-labelled-sentences | verbal   |
+| EasyCard has since switched to the MIFARE Plus chip.                                                     | EasyCard has after that switched from the MIFARE Plus chip.                                    | wikifactcheck-english        | other    |
+| British economic policies failed to give them a monopoly over India's large market and cotton resources. | British economic policies gave them a monopoly over India's large market and cotton resources. | wikifactcheck-english        | verbal   |
+| Retail version is unable to support RAM disk size between 5MiB to 64GiB.                                 | Retail version supports RAM disk size between 5MiB to 64GiB.                                   | wikifactcheck-english        | verbal   |
+| This place isn't two thumbs up.... way up.                                                               | This place is two thumbs up.... way up.                                                        | sentiment-labelled-sentences | verbal   |
 
 **phase2 paraphrase (label 0)** (n=501, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| Multiprogramming was an optional feature of DOS/360, selectable at system generation. | At system generation, multiprogramming was an optional feature. | wikifactcheck-english | — |
-| The cable is thin and flimsy. | The cable looks so thin and flimsy, it is scary. | sentiment-labelled-sentences | — |
-| Medical studies showing its efficacy were rejected by the FDA. | Food and Drug Administration retroactively rejected medical studies showing its efficacy, calling them insufficient. | wikifactcheck-english | — |
-| According to the authors, status competition can thus be used to promote pro-environmental behavior. | The authors say that status competition can be used to promote environmental behavior. | wikifactcheck-english | — |
-| It's hopeless. | It's not hopeful. | antonym-substitution | — |
-| Antonio Arnaiz-Villena and his team have determined the origin and phylogeny. | Origin and phylogeny has been determined by Antonio Arnaiz-Villena et al. | wikifactcheck-english | — |
-| I work in the hospitality industry in Paradise Valley and have refrained from recommending Cibo any longer. | I have stopped recommending Cibo because I work in the hotel industry in Paradise Valley. | sentiment-labelled-sentences | — |
-| As his other publications suggest, Vardy is also interested in ethics and values education. | He is interested in ethics and values education. | wikifactcheck-english | — |
-| The Davidson Institute for Talent Development has developed a guidebook on the topic. | The Davidson Institute for Talent Development has a guide to the topic. | wikifactcheck-english | — |
-| The work of the group has been described as pioneering. | The group's work has been described as innovative. | wikifactcheck-english | — |
+| A                                                                                                           | B                                                                                                                    | source                       | neg_type |
+| ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------- | -------- |
+| Multiprogramming was an optional feature of DOS/360, selectable at system generation.                       | At system generation, multiprogramming was an optional feature.                                                      | wikifactcheck-english        | —        |
+| The cable is thin and flimsy.                                                                               | The cable looks so thin and flimsy, it is scary.                                                                     | sentiment-labelled-sentences | —        |
+| Medical studies showing its efficacy were rejected by the FDA.                                              | Food and Drug Administration retroactively rejected medical studies showing its efficacy, calling them insufficient. | wikifactcheck-english        | —        |
+| According to the authors, status competition can thus be used to promote pro-environmental behavior.        | The authors say that status competition can be used to promote environmental behavior.                               | wikifactcheck-english        | —        |
+| It's hopeless.                                                                                              | It's not hopeful.                                                                                                    | antonym-substitution         | —        |
+| Antonio Arnaiz-Villena and his team have determined the origin and phylogeny.                               | Origin and phylogeny has been determined by Antonio Arnaiz-Villena et al.                                            | wikifactcheck-english        | —        |
+| I work in the hospitality industry in Paradise Valley and have refrained from recommending Cibo any longer. | I have stopped recommending Cibo because I work in the hotel industry in Paradise Valley.                            | sentiment-labelled-sentences | —        |
+| As his other publications suggest, Vardy is also interested in ethics and values education.                 | He is interested in ethics and values education.                                                                     | wikifactcheck-english        | —        |
+| The Davidson Institute for Talent Development has developed a guidebook on the topic.                       | The Davidson Institute for Talent Development has a guide to the topic.                                              | wikifactcheck-english        | —        |
+| The work of the group has been described as pioneering.                                                     | The group's work has been described as innovative.                                                                   | wikifactcheck-english        | —        |
 
 **phase2 sts_low (label 0)** (n=167, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| A boy is playing violin on stage. | A person is mixing a pot. | stsb:MSRvid | — |
-| The black and white dog has its mouth wide open. | A black and white dog jumps in the snow. | stsb:images | — |
-| A woman is posing for a Christmas card. | A girl is taking a photo. | stsb:track5.en-en | — |
-| Yes, there is at least one to my knowledge. | To my knowledge, there's no time requirement. | stsb:answer-answer | — |
-| An okapi is eating from a tree. | A moose drinks from a sprinkler. | stsb:MSRvid | — |
-| A man is playing a piano. | A guy is peeling a potato. | stsb:MSRvid | — |
-| Shenzhen stock indices close higher Monday | Shenzhen stock indices close lower -- Oct. 31 | stsb:headlines | — |
-| That compares with a profit of $1 million, or breakeven, on $1.39 billion in revenue during the same period last year. | Total revenue for the second quarter was $1.48 billion, up 7% from $1.39 billion in the same period last year. | stsb:MSRpar | — |
-| A woman is slicing ginger. | A woman is cutting potatoes. | stsb:MSRvid | — |
-| Lord Palumbo offers hope for a relationship with his son James | Oscar Pistorius sent for mental evaluation: what will it mean? | stsb:headlines | — |
+| A                                                                                                                      | B                                                                                                              | source             | neg_type |
+| ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------ | -------- |
+| A boy is playing violin on stage.                                                                                      | A person is mixing a pot.                                                                                      | stsb:MSRvid        | —        |
+| The black and white dog has its mouth wide open.                                                                       | A black and white dog jumps in the snow.                                                                       | stsb:images        | —        |
+| A woman is posing for a Christmas card.                                                                                | A girl is taking a photo.                                                                                      | stsb:track5.en-en  | —        |
+| Yes, there is at least one to my knowledge.                                                                            | To my knowledge, there's no time requirement.                                                                  | stsb:answer-answer | —        |
+| An okapi is eating from a tree.                                                                                        | A moose drinks from a sprinkler.                                                                               | stsb:MSRvid        | —        |
+| A man is playing a piano.                                                                                              | A guy is peeling a potato.                                                                                     | stsb:MSRvid        | —        |
+| Shenzhen stock indices close higher Monday                                                                             | Shenzhen stock indices close lower -- Oct. 31                                                                  | stsb:headlines     | —        |
+| That compares with a profit of $1 million, or breakeven, on $1.39 billion in revenue during the same period last year. | Total revenue for the second quarter was $1.48 billion, up 7% from $1.39 billion in the same period last year. | stsb:MSRpar        | —        |
+| A woman is slicing ginger.                                                                                             | A woman is cutting potatoes.                                                                                   | stsb:MSRvid        | —        |
+| Lord Palumbo offers hope for a relationship with his son James                                                         | Oscar Pistorius sent for mental evaluation: what will it mean?                                                 | stsb:headlines     | —        |
 
 **phase2 snli_neutral (label 0)** (n=167, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| Protesters in costumes carry signs through a paved city street. | The protestors wore costumes to relay a serious message. | snli:neutral | — |
-| Two men dressed in identical white jackets with green numbers and logo are studying something on a cellphone with great interest, while other men, identically dressed and standing in a group with these two, are interested in something to their right. | Three men in matching jackets are standing together, one looking at a nearby person, the other two looking at a phone. | snli:neutral | — |
-| A group of children enjoy their time on the beach. | Children are swimming at the beach. | snli:neutral | — |
-| Many people take pictures as a blond woman wearing a cover-up only costume holds a sign proclaiming "Photographers Not Predators" on a pier. | Many people's take photo with a yellow woman | snli:neutral | — |
-| These two poodles, one black and one brown, are playing. | The dogs are playing outside. | snli:neutral | — |
-| A man in a blue suit reached towards a seated women in an office. | The man is giving the woman her paycheck. | snli:neutral | — |
-| Two men with fake mustaches are dressed like archaeologist explorers. | Two actors dress to play a part in a neighborhood theater play. | snli:neutral | — |
-| A black dog running through the forest. | A dog playing fetch outside. | snli:neutral | — |
-| A man in a long-sleeved blue shirt and blue jeans has set up some name trains on the ground looking to sell his wares. | A man is wearing a large blue shirt. | snli:neutral | — |
-| A motorcycle races. | A bike is going fast. | snli:neutral | — |
+| A                                                                                                                                                                                                                                                          | B                                                                                                                      | source       | neg_type |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------ | -------- |
+| Protesters in costumes carry signs through a paved city street.                                                                                                                                                                                            | The protestors wore costumes to relay a serious message.                                                               | snli:neutral | —        |
+| Two men dressed in identical white jackets with green numbers and logo are studying something on a cellphone with great interest, while other men, identically dressed and standing in a group with these two, are interested in something to their right. | Three men in matching jackets are standing together, one looking at a nearby person, the other two looking at a phone. | snli:neutral | —        |
+| A group of children enjoy their time on the beach.                                                                                                                                                                                                         | Children are swimming at the beach.                                                                                    | snli:neutral | —        |
+| Many people take pictures as a blond woman wearing a cover-up only costume holds a sign proclaiming "Photographers Not Predators" on a pier.                                                                                                               | Many people's take photo with a yellow woman                                                                           | snli:neutral | —        |
+| These two poodles, one black and one brown, are playing.                                                                                                                                                                                                   | The dogs are playing outside.                                                                                          | snli:neutral | —        |
+| A man in a blue suit reached towards a seated women in an office.                                                                                                                                                                                          | The man is giving the woman her paycheck.                                                                              | snli:neutral | —        |
+| Two men with fake mustaches are dressed like archaeologist explorers.                                                                                                                                                                                      | Two actors dress to play a part in a neighborhood theater play.                                                        | snli:neutral | —        |
+| A black dog running through the forest.                                                                                                                                                                                                                    | A dog playing fetch outside.                                                                                           | snli:neutral | —        |
+| A man in a long-sleeved blue shirt and blue jeans has set up some name trains on the ground looking to sell his wares.                                                                                                                                     | A man is wearing a large blue shirt.                                                                                   | snli:neutral | —        |
+| A motorcycle races.                                                                                                                                                                                                                                        | A bike is going fast.                                                                                                  | snli:neutral | —        |
 
 **phase2 random_pair (label 0)** (n=166, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| A lot of people walking outside a row of shops with an older man with his hands in his pocket is closer to the camera. | It's just worn out and not safe. | random_repair | — |
-| Three adults and one child are waiting outside of a building, perhaps a school. | A couple practice their jazz dance routine in the alleyway. | random_repair | — |
-| A well safety equipment biker racing on the trail in a wooded area with number 569 on his bike | A toddler slept | random_repair | — |
-| The benchmark 10-year Treasury note yield <US10YT=RR> dipped below 4.20 percent on Tuesday. | You are right on the mark. | random_repair | — |
-| Two women in bathing suit on large rocks at the ocean. | A horse is standing. | random_repair | — |
-| 2 French Journalists Killed in Mali | two women play basketball | random_repair | — |
-| A hispanic fruit market with many different fruits and vegetables in view on a city street with a man passing the store dressed in dark pants and a hoodie. | A girl is wearing a blue jacket. | random_repair | — |
-| A baby wearing a bib makes a funny face at the camera. | The girl likes goats. | random_repair | — |
-| A man is on the side of a mountain and hiking around huge rocks. | The two girls are at the amusement park. | random_repair | — |
-| A man standing behind a small ice cream cart on a street corner. | The man is sitting. | random_repair | — |
+| A                                                                                                                                                           | B                                                           | source        | neg_type |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------- | -------- |
+| A lot of people walking outside a row of shops with an older man with his hands in his pocket is closer to the camera.                                      | It's just worn out and not safe.                            | random_repair | —        |
+| Three adults and one child are waiting outside of a building, perhaps a school.                                                                             | A couple practice their jazz dance routine in the alleyway. | random_repair | —        |
+| A well safety equipment biker racing on the trail in a wooded area with number 569 on his bike                                                              | A toddler slept                                             | random_repair | —        |
+| The benchmark 10-year Treasury note yield <US10YT=RR> dipped below 4.20 percent on Tuesday.                                                                 | You are right on the mark.                                  | random_repair | —        |
+| Two women in bathing suit on large rocks at the ocean.                                                                                                      | A horse is standing.                                        | random_repair | —        |
+| 2 French Journalists Killed in Mali                                                                                                                         | two women play basketball                                   | random_repair | —        |
+| A hispanic fruit market with many different fruits and vegetables in view on a city street with a man passing the store dressed in dark pants and a hoodie. | A girl is wearing a blue jacket.                            | random_repair | —        |
+| A baby wearing a bib makes a funny face at the camera.                                                                                                      | The girl likes goats.                                       | random_repair | —        |
+| A man is on the side of a mountain and hiking around huge rocks.                                                                                            | The two girls are at the amusement park.                    | random_repair | —        |
+| A man standing behind a small ice cream cart on a street corner.                                                                                            | The man is sitting.                                         | random_repair | —        |
 
 **xnot360 negation (label 1)** (n=180, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| If the client is not satisfied with the final product, revisions will be made. | The client is not satisfied with the final product and no revisions are made. | xnot360 | — |
-| If a person is granted parole, they can be released from prison early. | A person is granted parole and they cannot be released from prison early. | xnot360 | — |
-| The warranty covers damages if regular maintenance has been performed | Regular maintenance has been performed and damages are not covered by warranty | xnot360 | — |
-| If a person is found guilty of hate crime, they can be sentenced to prison. | A person is found guilty of hate crime and they cannot be sentenced to prison. | xnot360 | — |
-| If a person is under arrest, they must be read their Miranda rights. | A person is under arrest and they do not need to be read their Miranda rights. | xnot360 | — |
-| The client may terminate the contract if services are unsatisfactory. | Services are unsatisfactory but the client doesn't terminate the contract. | xnot360 | — |
-| If subcontractors are used, they must be approved by the client | Subcontractor is used but not approved by the client | xnot360 | — |
-| If a student does not maintain satisfactory academic progress, financial aid may be revoked. | A student does not maintain satisfactory academic progress but keeps receiving financial aid. | xnot360 | — |
-| If both parties agree to an extension, deadlines can be extended | Both parties agree to an extension and deadlines cannot be extended | xnot360 | — |
-| If a person is evicted, they must leave their residence. | A person is evicted and they do not need to leave their residence. | xnot360 | — |
+| A                                                                                            | B                                                                                             | source  | neg_type |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ------- | -------- |
+| If the client is not satisfied with the final product, revisions will be made.               | The client is not satisfied with the final product and no revisions are made.                 | xnot360 | —        |
+| If a person is granted parole, they can be released from prison early.                       | A person is granted parole and they cannot be released from prison early.                     | xnot360 | —        |
+| The warranty covers damages if regular maintenance has been performed                        | Regular maintenance has been performed and damages are not covered by warranty                | xnot360 | —        |
+| If a person is found guilty of hate crime, they can be sentenced to prison.                  | A person is found guilty of hate crime and they cannot be sentenced to prison.                | xnot360 | —        |
+| If a person is under arrest, they must be read their Miranda rights.                         | A person is under arrest and they do not need to be read their Miranda rights.                | xnot360 | —        |
+| The client may terminate the contract if services are unsatisfactory.                        | Services are unsatisfactory but the client doesn't terminate the contract.                    | xnot360 | —        |
+| If subcontractors are used, they must be approved by the client                              | Subcontractor is used but not approved by the client                                          | xnot360 | —        |
+| If a student does not maintain satisfactory academic progress, financial aid may be revoked. | A student does not maintain satisfactory academic progress but keeps receiving financial aid. | xnot360 | —        |
+| If both parties agree to an extension, deadlines can be extended                             | Both parties agree to an extension and deadlines cannot be extended                           | xnot360 | —        |
+| If a person is evicted, they must leave their residence.                                     | A person is evicted and they do not need to leave their residence.                            | xnot360 | —        |
 
 **xnot360 not-negation (label 0)** (n=180, 10 sampled with seed 0)
 
-| A | B | source | neg_type |
-| --- | --- | --- | --- |
-| If a person is found guilty of embezzlement, they can be ordered to pay restitution. | If a person is not found guilty of embezzlement, they cannot be ordered to pay restitution. | xnot360 | — |
-| If a person is granted parole, they can be released from prison early. | If a person is not granted parole, they cannot be released from prison early. | xnot360 | — |
-| If you establish paternity, you will have legal rights to the child. | If you do not establish paternity, you will have legal rights to the child. | xnot360 | — |
-| If software license fees are not paid annually, access to the software may be revoked. | Software license fees are paid on time yet access to the software is still revoked without reason. | xnot360 | — |
-| If a defendant pleads guilty, they waive their right to a trial. | If a defendant does not plead guilty, they waive their right to a trial. | xnot360 | — |
-| If a person is found guilty of copyright infringement, they can be ordered to pay damages. | If a person is not found guilty of copyright infringement, they cannot be ordered to pay damages. | xnot360 | — |
-| If a client cancels the service within the trial period, no charges will be applied. | The client doesn't cancel during trial yet doesn't get charged afterward either. | xnot360 | — |
-| If a person is found not guilty by reason of insanity, they can be committed to a mental institution. | If a person is not found not guilty by reason of insanity, they cannot be committed to a mental institution. | xnot360 | — |
-| If a defendant is acquitted, they cannot be retried for the same crime. | If a defendant is not acquitted, they cannot be retried for the same crime. | xnot360 | — |
-| If a contract is breached, the injured party can sue. | If a contract is not breached, the injured party can sue. | xnot360 | — |
+| A                                                                                                     | B                                                                                                            | source  | neg_type |
+| ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------- | -------- |
+| If a person is found guilty of embezzlement, they can be ordered to pay restitution.                  | If a person is not found guilty of embezzlement, they cannot be ordered to pay restitution.                  | xnot360 | —        |
+| If a person is granted parole, they can be released from prison early.                                | If a person is not granted parole, they cannot be released from prison early.                                | xnot360 | —        |
+| If you establish paternity, you will have legal rights to the child.                                  | If you do not establish paternity, you will have legal rights to the child.                                  | xnot360 | —        |
+| If software license fees are not paid annually, access to the software may be revoked.                | Software license fees are paid on time yet access to the software is still revoked without reason.           | xnot360 | —        |
+| If a defendant pleads guilty, they waive their right to a trial.                                      | If a defendant does not plead guilty, they waive their right to a trial.                                     | xnot360 | —        |
+| If a person is found guilty of copyright infringement, they can be ordered to pay damages.            | If a person is not found guilty of copyright infringement, they cannot be ordered to pay damages.            | xnot360 | —        |
+| If a client cancels the service within the trial period, no charges will be applied.                  | The client doesn't cancel during trial yet doesn't get charged afterward either.                             | xnot360 | —        |
+| If a person is found not guilty by reason of insanity, they can be committed to a mental institution. | If a person is not found not guilty by reason of insanity, they cannot be committed to a mental institution. | xnot360 | —        |
+| If a defendant is acquitted, they cannot be retried for the same crime.                               | If a defendant is not acquitted, they cannot be retried for the same crime.                                  | xnot360 | —        |
+| If a contract is breached, the injured party can sue.                                                 | If a contract is not breached, the injured party can sue.                                                    | xnot360 | —        |
 
 ### 2.5 Known data quality problems
 
@@ -334,26 +334,26 @@ Measured (table above) and inspected:
    that pair right.
 2. **Many CANNOT "negations" are not negations.** Sampling label-1 pairs
    (§2.4 table) turns up substitutions that change a fact without negating
-   anything: *"His father was the nephew and heir of Dr Alexander Henry
-   Haliday."* → *"His father was the **grandson** and heir…"*; *"It was first
-   developed as a telephony technology."* → *"…as a **telescoping** technology
-   only."*; *"Such churches are referred to as cathedrals."* → *"…as
-   **immemorial basilicas**."* These are the 713 phase-1 positives in the
+   anything: _"His father was the nephew and heir of Dr Alexander Henry
+   Haliday."_ → _"His father was the **grandson** and heir…"_; _"It was first
+   developed as a telephony technology."_ → _"…as a **telescoping** technology
+   only."_; _"Such churches are referred to as cathedrals."_ → _"…as
+   **immemorial basilicas**."_ These are the 713 phase-1 positives in the
    `other` bucket (47% of positives). This is label noise with respect to the
    task as this project defines it, and it is the reason the lexical baseline
    collapses (§4).
 3. **Double negation is labelled as paraphrase, correctly but confusingly.**
-   *"It's personal, guys."* → *"It's **not impersonal**, guys."* is `label=0`
+   _"It's personal, guys."_ → _"It's **not impersonal**, guys."_ is `label=0`
    (SemAntoNeg). Semantically right — it is the K1 cancellation case the
    generator models — but it means phase 1 contains paraphrase pairs whose B has
-   *more* negation cues than A, which is exactly the pattern a cue-counting
+   _more_ negation cues than A, which is exactly the pattern a cue-counting
    baseline calls a negation.
 4. **A is already negated in a large minority of pairs**: 834 of 3,002 phase-1
    pairs and 453 of 2,001 phase-2 pairs have at least one lexicon cue in A. The
    "negation direction" framing assumes A is the affirmative; it often is not.
 5. **Short sentences**: 231 phase-1 and 152 phase-2 pairs have a sentence under
-   20 characters (mostly `sentiment-labelled-sentences`, e.g. *"will definitely
-   return!"*). These carry little signal for any embedding method.
+   20 characters (mostly `sentiment-labelled-sentences`, e.g. _"will definitely
+   return!"_). These carry little signal for any embedding method.
 6. **No duplicate (A, B) pairs** within either phase, and only 6 (phase 1) / 1
    (phase 2) repeated B strings across different A.
 
@@ -376,13 +376,13 @@ phase-2 and xNot360 evaluations they are all 3,002 phase-1 pairs. Embeddings are
 unit-norm, so cosine is a dot product. The six features, in the order the
 coefficients are reported:
 
-| feature | formula |
-|---|---|
-| `p_a` | `emb(A) · axis` |
-| `p_b` | `emb(B) · axis` |
-| `delta_p` | `p_b - p_a` |
-| `c_raw` | `emb(A) · emb(B)` |
-| `c_resid` | `resid(A) · resid(B)` where `resid(x) = normalise(x - (x·axis) axis)` (`detect.py::residual`) |
+| feature     | formula                                                                                                                                                                                                            |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `p_a`       | `emb(A) · axis`                                                                                                                                                                                                    |
+| `p_b`       | `emb(B) · axis`                                                                                                                                                                                                    |
+| `delta_p`   | `p_b - p_a`                                                                                                                                                                                                        |
+| `c_raw`     | `emb(A) · emb(B)`                                                                                                                                                                                                  |
+| `c_resid`   | `resid(A) · resid(B)` where `resid(x) = normalise(x - (x·axis) axis)` (`detect.py::residual`)                                                                                                                      |
 | `cue_delta` | `cue_count(B) - cue_count(A)`, the lexicon counter from `experiments/negation_direction/experiment.py::cue_count` (the project's own word lists plus `-less` / `un-` / `non-` / `im-` / `ir-` / `il-` affix rules) |
 
 Classifier: `sklearn.linear_model.LogisticRegression(max_iter=5000)` — default
@@ -411,11 +411,11 @@ test_reference_sets_split_on_net_polarity` asserts this over 500 records.
 
 For each pair, with `b = emb(B)`:
 
-| similarity | definition (maximised over each set) |
-|---|---|
-| (i) raw cosine | `cos(B, v)` |
+| similarity               | definition (maximised over each set)                                                                     |
+| ------------------------ | -------------------------------------------------------------------------------------------------------- |
+| (i) raw cosine           | `cos(B, v)`                                                                                              |
 | (ii) residual + polarity | `resid(v) · resid(B) − \|p(v) − p(B)\|` — content agreement off the axis, penalised by distance along it |
-| (iii) NLI | `P(entailment)` of the pair `(v, B)` from the cross-encoder |
+| (iii) NLI                | `P(entailment)` of the pair `(v, B)` from the cross-encoder                                              |
 
 `s_neg = max over NEG`, `s_same = max over SAME`, `margin = s_neg − s_same`. An
 empty NEG set scores `s_neg = −1` (cosine) or `−2` (residual), i.e. the pair is
@@ -439,10 +439,10 @@ standardisation, same logistic regression.
 
 ### 3.4 Baselines
 
-| baseline | definition |
-|---|---|
-| raw cosine | score = `−c_raw`; the orientation assumes negations are *less* similar, which §4 shows is wrong on this data |
-| lexical cue delta | score = `cue_delta` |
+| baseline          | definition                                                                                                                                                                                                                                                                                                                       |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| raw cosine        | score = `−c_raw`; the orientation assumes negations are _less_ similar, which §4 shows is wrong on this data                                                                                                                                                                                                                     |
+| lexical cue delta | score = `cue_delta`                                                                                                                                                                                                                                                                                                              |
 | NLI cross-encoder | `cross-encoder/nli-deberta-v3-base`, softmax over its three logits, score = `P(contradiction)` of the ordered pair `(A, B)`. No calibration, no fine-tuning, no threshold tuning beyond the same F1-maximising rule applied to the training rows. `detect.py::NLI`, cached on disk by `(premise, hypothesis)` in `cache/nli.pkl` |
 
 ### 3.5 Embeddings
@@ -475,111 +475,110 @@ a threshold; the only thing computed on test rows is the score.
 
 <!-- generated by report_experiment2.py from results.json / results_mpnet.json -->
 
-
 #### Phase 1, 5-fold CV grouped by A (mean ± sd over folds)
 
-| embedding model | scorer | ROC-AUC | accuracy | precision | recall | F1 |
-| --- | --- | --- | --- | --- | --- | --- |
-| minilm | arch 1 feature scorer | 0.55 ± 0.0394 | 0.5093 ± 0.0105 | 0.5048 ± 0.0097 | 0.9587 ± 0.0232 | 0.6613 ± 0.0125 |
-| minilm | arch 2 margin (cosine) | 0.7444 ± 0.0013 | 0.6879 ± 0.0118 | 0.6679 ± 0.0193 | 0.7477 ± 0.016 | 0.7054 ± 0.0142 |
-| minilm | arch 2 margin (resid+polarity) | 0.7374 ± 0.0047 | 0.6797 ± 0.0172 | 0.6617 ± 0.0228 | 0.7365 ± 0.0203 | 0.6968 ± 0.0172 |
-| minilm | arch 3 hybrid | 0.6448 ± 0.0348 | 0.5525 ± 0.0421 | 0.5364 ± 0.0388 | 0.8666 ± 0.0606 | 0.6597 ± 0.0148 |
-| minilm | baseline raw cosine | 0.4781 ± 0.0207 | 0.5026 ± 0.01 | 0.5013 ± 0.01 | 0.9993 ± 0.0013 | 0.6676 ± 0.0086 |
-| minilm | baseline cue delta | 0.4916 ± 0.0205 | 0.5003 ± 0.0097 | 0.5001 ± 0.0099 | 0.9979 ± 0.0028 | 0.6663 ± 0.0091 |
-| minilm | baseline NLI P(contradiction) | 0.9926 ± 0.0028 | 0.9688 ± 0.0055 | 0.9681 ± 0.0069 | 0.9696 ± 0.0068 | 0.9688 ± 0.0054 |
-| mpnet | arch 1 feature scorer | 0.6521 ± 0.0621 | 0.5252 ± 0.0321 | 0.5144 ± 0.0186 | 0.9704 ± 0.0311 | 0.6717 ± 0.0112 |
-| mpnet | arch 2 margin (cosine) | 0.8048 ± 0.0022 | 0.7605 ± 0.0057 | 0.7786 ± 0.0197 | 0.7293 ± 0.018 | 0.7527 ± 0.0049 |
-| mpnet | arch 2 margin (resid+polarity) | 0.8048 ± 0.0026 | 0.7489 ± 0.0196 | 0.7593 ± 0.0443 | 0.7372 ± 0.0308 | 0.7462 ± 0.0088 |
-| mpnet | arch 3 hybrid | 0.7213 ± 0.0229 | 0.6063 ± 0.0208 | 0.5724 ± 0.0237 | 0.8489 ± 0.0179 | 0.6832 ± 0.0126 |
-| mpnet | baseline raw cosine | 0.6255 ± 0.0209 | 0.5023 ± 0.0108 | 0.5012 ± 0.0106 | 0.9885 ± 0.0109 | 0.665 ± 0.0099 |
-| mpnet | baseline cue delta | 0.4916 ± 0.0205 | 0.5003 ± 0.0097 | 0.5001 ± 0.0099 | 0.9979 ± 0.0028 | 0.6663 ± 0.0091 |
+| embedding model | scorer                         | ROC-AUC         | accuracy        | precision       | recall          | F1              |
+| --------------- | ------------------------------ | --------------- | --------------- | --------------- | --------------- | --------------- |
+| minilm          | arch 1 feature scorer          | 0.55 ± 0.0394   | 0.5093 ± 0.0105 | 0.5048 ± 0.0097 | 0.9587 ± 0.0232 | 0.6613 ± 0.0125 |
+| minilm          | arch 2 margin (cosine)         | 0.7444 ± 0.0013 | 0.6879 ± 0.0118 | 0.6679 ± 0.0193 | 0.7477 ± 0.016  | 0.7054 ± 0.0142 |
+| minilm          | arch 2 margin (resid+polarity) | 0.7374 ± 0.0047 | 0.6797 ± 0.0172 | 0.6617 ± 0.0228 | 0.7365 ± 0.0203 | 0.6968 ± 0.0172 |
+| minilm          | arch 3 hybrid                  | 0.6448 ± 0.0348 | 0.5525 ± 0.0421 | 0.5364 ± 0.0388 | 0.8666 ± 0.0606 | 0.6597 ± 0.0148 |
+| minilm          | baseline raw cosine            | 0.4781 ± 0.0207 | 0.5026 ± 0.01   | 0.5013 ± 0.01   | 0.9993 ± 0.0013 | 0.6676 ± 0.0086 |
+| minilm          | baseline cue delta             | 0.4916 ± 0.0205 | 0.5003 ± 0.0097 | 0.5001 ± 0.0099 | 0.9979 ± 0.0028 | 0.6663 ± 0.0091 |
+| minilm          | baseline NLI P(contradiction)  | 0.9926 ± 0.0028 | 0.9688 ± 0.0055 | 0.9681 ± 0.0069 | 0.9696 ± 0.0068 | 0.9688 ± 0.0054 |
+| mpnet           | arch 1 feature scorer          | 0.6521 ± 0.0621 | 0.5252 ± 0.0321 | 0.5144 ± 0.0186 | 0.9704 ± 0.0311 | 0.6717 ± 0.0112 |
+| mpnet           | arch 2 margin (cosine)         | 0.8048 ± 0.0022 | 0.7605 ± 0.0057 | 0.7786 ± 0.0197 | 0.7293 ± 0.018  | 0.7527 ± 0.0049 |
+| mpnet           | arch 2 margin (resid+polarity) | 0.8048 ± 0.0026 | 0.7489 ± 0.0196 | 0.7593 ± 0.0443 | 0.7372 ± 0.0308 | 0.7462 ± 0.0088 |
+| mpnet           | arch 3 hybrid                  | 0.7213 ± 0.0229 | 0.6063 ± 0.0208 | 0.5724 ± 0.0237 | 0.8489 ± 0.0179 | 0.6832 ± 0.0126 |
+| mpnet           | baseline raw cosine            | 0.6255 ± 0.0209 | 0.5023 ± 0.0108 | 0.5012 ± 0.0106 | 0.9885 ± 0.0109 | 0.665 ± 0.0099  |
+| mpnet           | baseline cue delta             | 0.4916 ± 0.0205 | 0.5003 ± 0.0097 | 0.5001 ± 0.0099 | 0.9979 ± 0.0028 | 0.6663 ± 0.0091 |
 
 #### Phase 2, trained on all of phase 1
 
-| embedding model | scorer | ROC-AUC | accuracy | precision | recall | F1 |
-| --- | --- | --- | --- | --- | --- | --- |
-| minilm | arch 1 feature scorer | 0.7341 | 0.6737 | 0.6127 | 0.943 | 0.7428 |
-| minilm | arch 2 margin (cosine) | 0.6861 | 0.5922 | 0.5682 | 0.766 | 0.6525 |
-| minilm | arch 2 margin (resid+polarity) | 0.6765 | 0.6082 | 0.5856 | 0.739 | 0.6534 |
-| minilm | arch 3 hybrid | 0.7773 | 0.7131 | 0.6646 | 0.86 | 0.7498 |
-| minilm | baseline raw cosine | 0.2619 | 0.5022 | 0.501 | 0.998 | 0.6671 |
-| minilm | baseline cue delta | 0.4912 | 0.4998 | 0.4997 | 0.995 | 0.6653 |
-| minilm | baseline NLI P(contradiction) | 0.8336 | 0.8271 | 0.7527 | 0.974 | 0.8492 |
-| mpnet | arch 1 feature scorer | 0.407 | 0.5057 | 0.5029 | 0.964 | 0.661 |
-| mpnet | arch 2 margin (cosine) | 0.7524 | 0.6697 | 0.6435 | 0.76 | 0.6969 |
-| mpnet | arch 2 margin (resid+polarity) | 0.7566 | 0.6767 | 0.6536 | 0.751 | 0.6989 |
-| mpnet | arch 3 hybrid | 0.5067 | 0.5322 | 0.5187 | 0.886 | 0.6544 |
-| mpnet | baseline raw cosine | 0.3595 | 0.4993 | 0.4995 | 0.992 | 0.6644 |
-| mpnet | baseline cue delta | 0.4912 | 0.4998 | 0.4997 | 0.995 | 0.6653 |
+| embedding model | scorer                         | ROC-AUC | accuracy | precision | recall | F1     |
+| --------------- | ------------------------------ | ------- | -------- | --------- | ------ | ------ |
+| minilm          | arch 1 feature scorer          | 0.7341  | 0.6737   | 0.6127    | 0.943  | 0.7428 |
+| minilm          | arch 2 margin (cosine)         | 0.6861  | 0.5922   | 0.5682    | 0.766  | 0.6525 |
+| minilm          | arch 2 margin (resid+polarity) | 0.6765  | 0.6082   | 0.5856    | 0.739  | 0.6534 |
+| minilm          | arch 3 hybrid                  | 0.7773  | 0.7131   | 0.6646    | 0.86   | 0.7498 |
+| minilm          | baseline raw cosine            | 0.2619  | 0.5022   | 0.501     | 0.998  | 0.6671 |
+| minilm          | baseline cue delta             | 0.4912  | 0.4998   | 0.4997    | 0.995  | 0.6653 |
+| minilm          | baseline NLI P(contradiction)  | 0.8336  | 0.8271   | 0.7527    | 0.974  | 0.8492 |
+| mpnet           | arch 1 feature scorer          | 0.407   | 0.5057   | 0.5029    | 0.964  | 0.661  |
+| mpnet           | arch 2 margin (cosine)         | 0.7524  | 0.6697   | 0.6435    | 0.76   | 0.6969 |
+| mpnet           | arch 2 margin (resid+polarity) | 0.7566  | 0.6767   | 0.6536    | 0.751  | 0.6989 |
+| mpnet           | arch 3 hybrid                  | 0.5067  | 0.5322   | 0.5187    | 0.886  | 0.6544 |
+| mpnet           | baseline raw cosine            | 0.3595  | 0.4993   | 0.4995    | 0.992  | 0.6644 |
+| mpnet           | baseline cue delta             | 0.4912  | 0.4998   | 0.4997    | 0.995  | 0.6653 |
 
 #### xNot360, external, scored once
 
-| embedding model | scorer | ROC-AUC | accuracy | precision | recall | F1 |
-| --- | --- | --- | --- | --- | --- | --- |
-| minilm | arch 1 feature scorer | 0.3644 | 0.5 | 0.5 | 0.9944 | 0.6654 |
-| minilm | arch 2 margin (cosine) | 0.6417 | 0.5167 | 0.5086 | 0.9889 | 0.6717 |
-| minilm | arch 2 margin (resid+polarity) | 0.6238 | 0.5417 | 0.5225 | 0.9667 | 0.6784 |
-| minilm | arch 3 hybrid | 0.3708 | 0.4917 | 0.4956 | 0.9444 | 0.6501 |
-| minilm | baseline raw cosine | 0.6854 | 0.5 | 0.5 | 1.0 | 0.6667 |
-| minilm | baseline cue delta | 0.2797 | 0.5 | 0.5 | 1.0 | 0.6667 |
-| minilm | baseline NLI P(contradiction) | 0.9395 | 0.7444 | 0.663 | 0.9944 | 0.7956 |
-| mpnet | arch 1 feature scorer | 0.5406 | 0.5222 | 0.5117 | 0.9722 | 0.6705 |
-| mpnet | arch 2 margin (cosine) | 0.6762 | 0.7 | 0.6463 | 0.8833 | 0.7465 |
-| mpnet | arch 2 margin (resid+polarity) | 0.6778 | 0.6806 | 0.6457 | 0.8 | 0.7146 |
-| mpnet | arch 3 hybrid | 0.4842 | 0.5278 | 0.5157 | 0.9111 | 0.6586 |
-| mpnet | baseline raw cosine | 0.6644 | 0.5 | 0.5 | 1.0 | 0.6667 |
-| mpnet | baseline cue delta | 0.2797 | 0.5 | 0.5 | 1.0 | 0.6667 |
+| embedding model | scorer                         | ROC-AUC | accuracy | precision | recall | F1     |
+| --------------- | ------------------------------ | ------- | -------- | --------- | ------ | ------ |
+| minilm          | arch 1 feature scorer          | 0.3644  | 0.5      | 0.5       | 0.9944 | 0.6654 |
+| minilm          | arch 2 margin (cosine)         | 0.6417  | 0.5167   | 0.5086    | 0.9889 | 0.6717 |
+| minilm          | arch 2 margin (resid+polarity) | 0.6238  | 0.5417   | 0.5225    | 0.9667 | 0.6784 |
+| minilm          | arch 3 hybrid                  | 0.3708  | 0.4917   | 0.4956    | 0.9444 | 0.6501 |
+| minilm          | baseline raw cosine            | 0.6854  | 0.5      | 0.5       | 1.0    | 0.6667 |
+| minilm          | baseline cue delta             | 0.2797  | 0.5      | 0.5       | 1.0    | 0.6667 |
+| minilm          | baseline NLI P(contradiction)  | 0.9395  | 0.7444   | 0.663     | 0.9944 | 0.7956 |
+| mpnet           | arch 1 feature scorer          | 0.5406  | 0.5222   | 0.5117    | 0.9722 | 0.6705 |
+| mpnet           | arch 2 margin (cosine)         | 0.6762  | 0.7      | 0.6463    | 0.8833 | 0.7465 |
+| mpnet           | arch 2 margin (resid+polarity) | 0.6778  | 0.6806   | 0.6457    | 0.8    | 0.7146 |
+| mpnet           | arch 3 hybrid                  | 0.4842  | 0.5278   | 0.5157    | 0.9111 | 0.6586 |
+| mpnet           | baseline raw cosine            | 0.6644  | 0.5      | 0.5       | 1.0    | 0.6667 |
+| mpnet           | baseline cue delta             | 0.2797  | 0.5      | 0.5       | 1.0    | 0.6667 |
 
 #### Confusion matrices
 
-| model | set | scorer | TP | FP | FN | TN | threshold |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| minilm | phase2 | arch 3 hybrid | 860 | 434 | 140 | 567 | 0.3994 |
-| minilm | phase2 | baseline NLI P(contradiction) | 974 | 320 | 26 | 681 | 0.0062 |
-| minilm | phase2 | arch 2 margin (cosine) | 766 | 582 | 234 | 419 | -0.0169 |
-| minilm | xnot360 | arch 3 hybrid | 170 | 173 | 10 | 7 | 0.3994 |
-| minilm | xnot360 | baseline NLI P(contradiction) | 179 | 91 | 1 | 89 | 0.0062 |
-| minilm | xnot360 | arch 2 margin (cosine) | 178 | 172 | 2 | 8 | -0.0169 |
-| mpnet | phase2 | arch 3 hybrid | 886 | 822 | 114 | 179 | 0.3811 |
-| mpnet | phase2 | arch 2 margin (cosine) | 760 | 421 | 240 | 580 | -0.0044 |
-| mpnet | xnot360 | arch 3 hybrid | 164 | 154 | 16 | 26 | 0.3811 |
-| mpnet | xnot360 | arch 2 margin (cosine) | 159 | 87 | 21 | 93 | -0.0044 |
+| model  | set     | scorer                        | TP  | FP  | FN  | TN  | threshold |
+| ------ | ------- | ----------------------------- | --- | --- | --- | --- | --------- |
+| minilm | phase2  | arch 3 hybrid                 | 860 | 434 | 140 | 567 | 0.3994    |
+| minilm | phase2  | baseline NLI P(contradiction) | 974 | 320 | 26  | 681 | 0.0062    |
+| minilm | phase2  | arch 2 margin (cosine)        | 766 | 582 | 234 | 419 | -0.0169   |
+| minilm | xnot360 | arch 3 hybrid                 | 170 | 173 | 10  | 7   | 0.3994    |
+| minilm | xnot360 | baseline NLI P(contradiction) | 179 | 91  | 1   | 89  | 0.0062    |
+| minilm | xnot360 | arch 2 margin (cosine)        | 178 | 172 | 2   | 8   | -0.0169   |
+| mpnet  | phase2  | arch 3 hybrid                 | 886 | 822 | 114 | 179 | 0.3811    |
+| mpnet  | phase2  | arch 2 margin (cosine)        | 760 | 421 | 240 | 580 | -0.0044   |
+| mpnet  | xnot360 | arch 3 hybrid                 | 164 | 154 | 16  | 26  | 0.3811    |
+| mpnet  | xnot360 | arch 2 margin (cosine)        | 159 | 87  | 21  | 93  | -0.0044   |
 
 #### False-positive rate per negative subtype, phase 2
 
-| model | scorer | paraphrase | sts_low | snli_neutral | random_pair | recall on negations |
-| --- | --- | --- | --- | --- | --- | --- |
-| minilm | arch 1 feature scorer | 0.9341 | 0.2455 | 0.479 | 0.0422 | 0.943 |
-| minilm | arch 2 margin (cosine) | 0.3952 | 0.6946 | 0.7246 | 0.8855 | 0.766 |
-| minilm | arch 2 margin (resid+polarity) | 0.3613 | 0.6287 | 0.6407 | 0.7831 | 0.739 |
-| minilm | arch 3 hybrid | 0.7166 | 0.1916 | 0.1916 | 0.0663 | 0.86 |
-| minilm | baseline raw cosine | 0.986 | 1.0 | 1.0 | 1.0 | 0.998 |
-| minilm | baseline cue delta | 0.992 | 0.994 | 1.0 | 1.0 | 0.995 |
-| minilm | baseline NLI P(contradiction) | 0.0299 | 0.8144 | 0.0958 | 0.9217 | 0.974 |
-| mpnet | arch 1 feature scorer | 0.9042 | 1.0 | 1.0 | 1.0 | 0.964 |
-| mpnet | arch 2 margin (cosine) | 0.1916 | 0.5629 | 0.5689 | 0.8193 | 0.76 |
-| mpnet | arch 2 margin (resid+polarity) | 0.1796 | 0.5689 | 0.5389 | 0.741 | 0.751 |
-| mpnet | arch 3 hybrid | 0.6567 | 0.982 | 0.976 | 1.0 | 0.886 |
-| mpnet | baseline raw cosine | 0.986 | 1.0 | 1.0 | 1.0 | 0.992 |
-| mpnet | baseline cue delta | 0.992 | 0.994 | 1.0 | 1.0 | 0.995 |
+| model  | scorer                         | paraphrase | sts_low | snli_neutral | random_pair | recall on negations |
+| ------ | ------------------------------ | ---------- | ------- | ------------ | ----------- | ------------------- |
+| minilm | arch 1 feature scorer          | 0.9341     | 0.2455  | 0.479        | 0.0422      | 0.943               |
+| minilm | arch 2 margin (cosine)         | 0.3952     | 0.6946  | 0.7246       | 0.8855      | 0.766               |
+| minilm | arch 2 margin (resid+polarity) | 0.3613     | 0.6287  | 0.6407       | 0.7831      | 0.739               |
+| minilm | arch 3 hybrid                  | 0.7166     | 0.1916  | 0.1916       | 0.0663      | 0.86                |
+| minilm | baseline raw cosine            | 0.986      | 1.0     | 1.0          | 1.0         | 0.998               |
+| minilm | baseline cue delta             | 0.992      | 0.994   | 1.0          | 1.0         | 0.995               |
+| minilm | baseline NLI P(contradiction)  | 0.0299     | 0.8144  | 0.0958       | 0.9217      | 0.974               |
+| mpnet  | arch 1 feature scorer          | 0.9042     | 1.0     | 1.0          | 1.0         | 0.964               |
+| mpnet  | arch 2 margin (cosine)         | 0.1916     | 0.5629  | 0.5689       | 0.8193      | 0.76                |
+| mpnet  | arch 2 margin (resid+polarity) | 0.1796     | 0.5689  | 0.5389       | 0.741       | 0.751               |
+| mpnet  | arch 3 hybrid                  | 0.6567     | 0.982   | 0.976        | 1.0         | 0.886               |
+| mpnet  | baseline raw cosine            | 0.986      | 1.0     | 1.0          | 1.0         | 0.992               |
+| mpnet  | baseline cue delta             | 0.992      | 0.994   | 1.0          | 1.0         | 0.995               |
 
 #### Recall per derived negation type, phase 2
 
-| model | scorer | verbal | antonym | other |
-| --- | --- | --- | --- | --- |
-| minilm | arch 1 feature scorer | 0.939 | 0.8345 | 0.98 |
-| minilm | arch 2 margin (cosine) | 0.8756 | 0.6403 | 0.7051 |
-| minilm | arch 2 margin (resid+polarity) | 0.8634 | 0.6475 | 0.6541 |
-| minilm | arch 3 hybrid | 0.8902 | 0.6691 | 0.8914 |
-| minilm | baseline raw cosine | 0.9976 | 1.0 | 0.9978 |
-| minilm | baseline cue delta | 0.9878 | 1.0 | 1.0 |
-| minilm | baseline NLI P(contradiction) | 0.9805 | 0.9784 | 0.9667 |
-| mpnet | arch 1 feature scorer | 0.9683 | 0.9856 | 0.9534 |
-| mpnet | arch 2 margin (cosine) | 0.8707 | 0.6763 | 0.6851 |
-| mpnet | arch 2 margin (resid+polarity) | 0.8512 | 0.6763 | 0.6829 |
-| mpnet | arch 3 hybrid | 0.9341 | 0.7986 | 0.8692 |
-| mpnet | baseline raw cosine | 0.9878 | 1.0 | 0.9933 |
-| mpnet | baseline cue delta | 0.9878 | 1.0 | 1.0 |
+| model  | scorer                         | verbal | antonym | other  |
+| ------ | ------------------------------ | ------ | ------- | ------ |
+| minilm | arch 1 feature scorer          | 0.939  | 0.8345  | 0.98   |
+| minilm | arch 2 margin (cosine)         | 0.8756 | 0.6403  | 0.7051 |
+| minilm | arch 2 margin (resid+polarity) | 0.8634 | 0.6475  | 0.6541 |
+| minilm | arch 3 hybrid                  | 0.8902 | 0.6691  | 0.8914 |
+| minilm | baseline raw cosine            | 0.9976 | 1.0     | 0.9978 |
+| minilm | baseline cue delta             | 0.9878 | 1.0     | 1.0    |
+| minilm | baseline NLI P(contradiction)  | 0.9805 | 0.9784  | 0.9667 |
+| mpnet  | arch 1 feature scorer          | 0.9683 | 0.9856  | 0.9534 |
+| mpnet  | arch 2 margin (cosine)         | 0.8707 | 0.6763  | 0.6851 |
+| mpnet  | arch 2 margin (resid+polarity) | 0.8512 | 0.6763  | 0.6829 |
+| mpnet  | arch 3 hybrid                  | 0.9341 | 0.7986  | 0.8692 |
+| mpnet  | baseline raw cosine            | 0.9878 | 1.0     | 0.9933 |
+| mpnet  | baseline cue delta             | 0.9878 | 1.0     | 1.0    |
 
 #### Architecture 2: generator coverage
 
@@ -594,45 +593,43 @@ a threshold; the only thing computed on test rows is the score.
 
 #### Architecture 2: margin distribution per class, phase 2
 
+_minilm_
 
-*minilm*
+| subtype      | n    | margin > 0 | margin = 0 | margin < 0 | above fitted threshold | threshold |
+| ------------ | ---- | ---------- | ---------- | ---------- | ---------------------- | --------- |
+| negation     | 1000 | 0.646      | 0.01       | 0.344      | 0.766                  | -0.0169   |
+| paraphrase   | 501  | 0.1776     | 0.008      | 0.8144     | 0.3952                 | -0.0169   |
+| random_pair  | 166  | 0.747      | 0.0        | 0.253      | 0.8855                 | -0.0169   |
+| snli_neutral | 167  | 0.5449     | 0.0        | 0.4551     | 0.7246                 | -0.0169   |
+| sts_low      | 167  | 0.509      | 0.0        | 0.491      | 0.6946                 | -0.0169   |
 
-| subtype | n | margin > 0 | margin = 0 | margin < 0 | above fitted threshold | threshold |
-| --- | --- | --- | --- | --- | --- | --- |
-| negation | 1000 | 0.646 | 0.01 | 0.344 | 0.766 | -0.0169 |
-| paraphrase | 501 | 0.1776 | 0.008 | 0.8144 | 0.3952 | -0.0169 |
-| random_pair | 166 | 0.747 | 0.0 | 0.253 | 0.8855 | -0.0169 |
-| snli_neutral | 167 | 0.5449 | 0.0 | 0.4551 | 0.7246 | -0.0169 |
-| sts_low | 167 | 0.509 | 0.0 | 0.491 | 0.6946 | -0.0169 |
+_mpnet_
 
-*mpnet*
-
-| subtype | n | margin > 0 | margin = 0 | margin < 0 | above fitted threshold | threshold |
-| --- | --- | --- | --- | --- | --- | --- |
-| negation | 1000 | 0.738 | 0.007 | 0.255 | 0.76 | -0.0044 |
-| paraphrase | 501 | 0.1457 | 0.002 | 0.8523 | 0.1916 | -0.0044 |
-| random_pair | 166 | 0.753 | 0.0 | 0.247 | 0.8193 | -0.0044 |
-| snli_neutral | 167 | 0.5629 | 0.0 | 0.4371 | 0.5689 | -0.0044 |
-| sts_low | 167 | 0.5329 | 0.0 | 0.4671 | 0.5629 | -0.0044 |
+| subtype      | n    | margin > 0 | margin = 0 | margin < 0 | above fitted threshold | threshold |
+| ------------ | ---- | ---------- | ---------- | ---------- | ---------------------- | --------- |
+| negation     | 1000 | 0.738      | 0.007      | 0.255      | 0.76                   | -0.0044   |
+| paraphrase   | 501  | 0.1457     | 0.002      | 0.8523     | 0.1916                 | -0.0044   |
+| random_pair  | 166  | 0.753      | 0.0        | 0.247      | 0.8193                 | -0.0044   |
+| snli_neutral | 167  | 0.5629     | 0.0        | 0.4371     | 0.5689                 | -0.0044   |
+| sts_low      | 167  | 0.5329     | 0.0        | 0.4671     | 0.5629                 | -0.0044   |
 
 #### Architecture 2: three-way decision, phase 2
 
-
-*minilm* — thresholds: unrelated below max-similarity 0.6685, negation above margin -0.0169; three-way accuracy 0.7541
-
-| gold \ predicted | negation | agrees | unrelated |
-| --- | --- | --- | --- |
-| negation | 757 | 225 | 18 |
-| agrees | 181 | 290 | 30 |
-| unrelated | 20 | 18 | 462 |
-
-*mpnet* — thresholds: unrelated below max-similarity 0.6658, negation above margin -0.0044; three-way accuracy 0.7926
+_minilm_ — thresholds: unrelated below max-similarity 0.6685, negation above margin -0.0169; three-way accuracy 0.7541
 
 | gold \ predicted | negation | agrees | unrelated |
-| --- | --- | --- | --- |
-| negation | 747 | 224 | 29 |
-| agrees | 81 | 382 | 38 |
-| unrelated | 15 | 28 | 457 |
+| ---------------- | -------- | ------ | --------- |
+| negation         | 757      | 225    | 18        |
+| agrees           | 181      | 290    | 30        |
+| unrelated        | 20       | 18     | 462       |
+
+_mpnet_ — thresholds: unrelated below max-similarity 0.6658, negation above margin -0.0044; three-way accuracy 0.7926
+
+| gold \ predicted | negation | agrees | unrelated |
+| ---------------- | -------- | ------ | --------- |
+| negation         | 747      | 224    | 29        |
+| agrees           | 81       | 382    | 38        |
+| unrelated        | 15       | 28     | 457       |
 
 #### Architecture 2 under the NLI similarity (subsample)
 
@@ -641,75 +638,73 @@ a threshold; the only thing computed on test rows is the score.
 
 #### Logistic-regression coefficients (standardised features)
 
+_minilm, arch 1 feature scorer_
 
-*minilm, arch 1 feature scorer*
+| fit                   | p_a     | p_b    | delta_p | c_raw   | c_resid | cue_delta |
+| --------------------- | ------- | ------ | ------- | ------- | ------- | --------- |
+| CV fold mean          | -0.121  | 0.0342 | 0.2156  | -0.9997 | 1.2333  | 0.003     |
+| fit on all of phase 1 | -0.1244 | 0.0193 | 0.213   | -0.4143 | 0.641   | 0.0259    |
 
-| fit | p_a | p_b | delta_p | c_raw | c_resid | cue_delta |
-| --- | --- | --- | --- | --- | --- | --- |
-| CV fold mean | -0.121 | 0.0342 | 0.2156 | -0.9997 | 1.2333 | 0.003 |
-| fit on all of phase 1 | -0.1244 | 0.0193 | 0.213 | -0.4143 | 0.641 | 0.0259 |
+_minilm, arch 3 hybrid_
 
-*minilm, arch 3 hybrid*
+| fit                   | p_a     | p_b    | delta_p | c_raw   | c_resid | cue_delta | margin_cos | margin_res |
+| --------------------- | ------- | ------ | ------- | ------- | ------- | --------- | ---------- | ---------- |
+| CV fold mean          | -0.1373 | 0.0361 | 0.2413  | -1.0259 | 1.3521  | 0.0061    | 3.6972     | -3.591     |
+| fit on all of phase 1 | -0.1478 | 0.0196 | 0.2484  | -0.5894 | 0.9367  | 0.0368    | 4.658      | -4.5497    |
 
-| fit | p_a | p_b | delta_p | c_raw | c_resid | cue_delta | margin_cos | margin_res |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| CV fold mean | -0.1373 | 0.0361 | 0.2413 | -1.0259 | 1.3521 | 0.0061 | 3.6972 | -3.591 |
-| fit on all of phase 1 | -0.1478 | 0.0196 | 0.2484 | -0.5894 | 0.9367 | 0.0368 | 4.658 | -4.5497 |
+_mpnet, arch 1 feature scorer_
 
-*mpnet, arch 1 feature scorer*
+| fit                   | p_a     | p_b     | delta_p | c_raw   | c_resid | cue_delta |
+| --------------------- | ------- | ------- | ------- | ------- | ------- | --------- |
+| CV fold mean          | -0.1484 | -0.0445 | 0.1051  | -3.7081 | 3.307   | 0.0214    |
+| fit on all of phase 1 | -0.1728 | -0.0765 | 0.091   | -4.2964 | 3.8985  | 0.0289    |
 
-| fit | p_a | p_b | delta_p | c_raw | c_resid | cue_delta |
-| --- | --- | --- | --- | --- | --- | --- |
-| CV fold mean | -0.1484 | -0.0445 | 0.1051 | -3.7081 | 3.307 | 0.0214 |
-| fit on all of phase 1 | -0.1728 | -0.0765 | 0.091 | -4.2964 | 3.8985 | 0.0289 |
+_mpnet, arch 3 hybrid_
 
-*mpnet, arch 3 hybrid*
-
-| fit | p_a | p_b | delta_p | c_raw | c_resid | cue_delta | margin_cos | margin_res |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| CV fold mean | -0.1536 | -0.0291 | 0.1255 | -3.7221 | 3.4492 | 0.0154 | 3.2734 | -3.0041 |
-| fit on all of phase 1 | -0.1855 | -0.0669 | 0.1122 | -4.6473 | 4.3671 | 0.02 | 3.9338 | -3.6795 |
+| fit                   | p_a     | p_b     | delta_p | c_raw   | c_resid | cue_delta | margin_cos | margin_res |
+| --------------------- | ------- | ------- | ------- | ------- | ------- | --------- | ---------- | ---------- |
+| CV fold mean          | -0.1536 | -0.0291 | 0.1255  | -3.7221 | 3.4492  | 0.0154    | 3.2734     | -3.0041    |
+| fit on all of phase 1 | -0.1855 | -0.0669 | 0.1122  | -4.6473 | 4.3671  | 0.02      | 3.9338     | -3.6795    |
 
 #### Per-feature ROC-AUC (single feature, no classifier)
 
+_minilm_
 
-*minilm*
-
-| set | p_a | p_b | delta_p | c_raw | c_resid | cue_delta |
-| --- | --- | --- | --- | --- | --- | --- |
-| phase1 | 0.4581 | 0.4975 | 0.5661 | 0.5231 | 0.5237 | 0.4918 |
-| phase2 | 0.4321 | 0.4308 | 0.5085 | 0.7381 | 0.7382 | 0.4912 |
-| xnot360 | 0.5 | 0.467 | 0.4433 | 0.3146 | 0.3132 | 0.2797 |
-
-Mean value by class:
-
-| set | class | p_a | p_b | delta_p | c_raw | c_resid | cue_delta |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| phase1 | label 0 | -0.0393 | -0.0354 | 0.0038 | 0.8402 | 0.8401 | 0.0027 |
-| phase1 | label 1 | -0.0495 | -0.0365 | 0.013 | 0.8587 | 0.8588 | -0.0167 |
-| phase2 | label 0 | -0.0268 | -0.0246 | 0.0022 | 0.5697 | 0.5693 | -0.002 |
-| phase2 | label 1 | -0.0426 | -0.0409 | 0.0017 | 0.851 | 0.851 | -0.02 |
-| xnot360 | label 0 | -0.0516 | -0.0744 | -0.0228 | 0.9274 | 0.9278 | 1.3667 |
-| xnot360 | label 1 | -0.0516 | -0.0824 | -0.0308 | 0.9117 | 0.912 | 0.9222 |
-
-*mpnet*
-
-| set | p_a | p_b | delta_p | c_raw | c_resid | cue_delta |
-| --- | --- | --- | --- | --- | --- | --- |
-| phase1 | 0.424 | 0.4782 | 0.5504 | 0.3747 | 0.378 | 0.4918 |
-| phase2 | 0.4259 | 0.4318 | 0.5058 | 0.6405 | 0.6432 | 0.4912 |
-| xnot360 | 0.5 | 0.4956 | 0.4811 | 0.3356 | 0.3259 | 0.2797 |
+| set     | p_a    | p_b    | delta_p | c_raw  | c_resid | cue_delta |
+| ------- | ------ | ------ | ------- | ------ | ------- | --------- |
+| phase1  | 0.4581 | 0.4975 | 0.5661  | 0.5231 | 0.5237  | 0.4918    |
+| phase2  | 0.4321 | 0.4308 | 0.5085  | 0.7381 | 0.7382  | 0.4912    |
+| xnot360 | 0.5    | 0.467  | 0.4433  | 0.3146 | 0.3132  | 0.2797    |
 
 Mean value by class:
 
-| set | class | p_a | p_b | delta_p | c_raw | c_resid | cue_delta |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| phase1 | label 0 | 0.0016 | 0.004 | 0.0024 | 0.841 | 0.8411 | 0.0027 |
-| phase1 | label 1 | -0.0213 | -0.0046 | 0.0167 | 0.7826 | 0.786 | -0.0167 |
-| phase2 | label 0 | 0.0133 | 0.0116 | -0.0017 | 0.5624 | 0.5626 | -0.002 |
-| phase2 | label 1 | -0.0105 | -0.0109 | -0.0004 | 0.7681 | 0.7716 | -0.02 |
-| xnot360 | label 0 | 0.0437 | -0.0578 | -0.1015 | 0.846 | 0.8528 | 1.3667 |
-| xnot360 | label 1 | 0.0437 | -0.0635 | -0.1072 | 0.8031 | 0.8098 | 0.9222 |
+| set     | class   | p_a     | p_b     | delta_p | c_raw  | c_resid | cue_delta |
+| ------- | ------- | ------- | ------- | ------- | ------ | ------- | --------- |
+| phase1  | label 0 | -0.0393 | -0.0354 | 0.0038  | 0.8402 | 0.8401  | 0.0027    |
+| phase1  | label 1 | -0.0495 | -0.0365 | 0.013   | 0.8587 | 0.8588  | -0.0167   |
+| phase2  | label 0 | -0.0268 | -0.0246 | 0.0022  | 0.5697 | 0.5693  | -0.002    |
+| phase2  | label 1 | -0.0426 | -0.0409 | 0.0017  | 0.851  | 0.851   | -0.02     |
+| xnot360 | label 0 | -0.0516 | -0.0744 | -0.0228 | 0.9274 | 0.9278  | 1.3667    |
+| xnot360 | label 1 | -0.0516 | -0.0824 | -0.0308 | 0.9117 | 0.912   | 0.9222    |
+
+_mpnet_
+
+| set     | p_a    | p_b    | delta_p | c_raw  | c_resid | cue_delta |
+| ------- | ------ | ------ | ------- | ------ | ------- | --------- |
+| phase1  | 0.424  | 0.4782 | 0.5504  | 0.3747 | 0.378   | 0.4918    |
+| phase2  | 0.4259 | 0.4318 | 0.5058  | 0.6405 | 0.6432  | 0.4912    |
+| xnot360 | 0.5    | 0.4956 | 0.4811  | 0.3356 | 0.3259  | 0.2797    |
+
+Mean value by class:
+
+| set     | class   | p_a     | p_b     | delta_p | c_raw  | c_resid | cue_delta |
+| ------- | ------- | ------- | ------- | ------- | ------ | ------- | --------- |
+| phase1  | label 0 | 0.0016  | 0.004   | 0.0024  | 0.841  | 0.8411  | 0.0027    |
+| phase1  | label 1 | -0.0213 | -0.0046 | 0.0167  | 0.7826 | 0.786   | -0.0167   |
+| phase2  | label 0 | 0.0133  | 0.0116  | -0.0017 | 0.5624 | 0.5626  | -0.002    |
+| phase2  | label 1 | -0.0105 | -0.0109 | -0.0004 | 0.7681 | 0.7716  | -0.02     |
+| xnot360 | label 0 | 0.0437  | -0.0578 | -0.1015 | 0.846  | 0.8528  | 1.3667    |
+| xnot360 | label 1 | 0.0437  | -0.0635 | -0.1072 | 0.8031 | 0.8098  | 0.9222    |
 
 #### Runtime and hardware
 
@@ -718,13 +713,13 @@ Hardware: AMD Ryzen 7 7730U, 8 cores / 16 threads, 14 GB RAM, no GPU; PyTorch
 `report_experiment2.py --section bench`, with the model already loaded so that
 one-off load time is excluded:
 
-| component | unit | throughput | wall clock for 2,001 phase-2 pairs |
-| --- | --- | --- | --- |
-| embedding (minilm), model already loaded | sentences/s | 76 | 53 s for 4,002 sentences |
-| embedding (mpnet), model already loaded | sentences/s | 49 | 82 s for 4,002 sentences |
-| arch 1 features (cached embeddings) | pairs/s | 17678 | 0.11 s |
-| arch 2 margins (cached embeddings) | pairs/s | 5124 | 0.4 s |
-| NLI cross-encoder, model already loaded | pairs/s | 20.0 | 1.7 min |
+| component                                | unit        | throughput | wall clock for 2,001 phase-2 pairs |
+| ---------------------------------------- | ----------- | ---------- | ---------------------------------- |
+| embedding (minilm), model already loaded | sentences/s | 76         | 53 s for 4,002 sentences           |
+| embedding (mpnet), model already loaded  | sentences/s | 49         | 82 s for 4,002 sentences           |
+| arch 1 features (cached embeddings)      | pairs/s     | 17678      | 0.11 s                             |
+| arch 2 margins (cached embeddings)       | pairs/s     | 5124       | 0.4 s                              |
+| NLI cross-encoder, model already loaded  | pairs/s     | 20.0       | 1.7 min                            |
 
 Per pair, once embeddings are cached: architecture 1 costs 0.06 ms,
 architecture 2 costs 0.19 ms, the NLI cross-encoder costs 50 ms — three orders
@@ -753,182 +748,179 @@ in §4 come from the same code with `--model mpnet`.
 
 <!-- generated by report_experiment2.py; scores recomputed from the cached embeddings and the same fitting code detect.py uses -->
 
-
 #### arch 3 hybrid — 15 highest-scoring false positives (threshold 0.3994)
 
-| A | B | subtype/neg_type | score | delta_p | c_raw | c_resid | cue_delta | margin_cos |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| A guy with long brown curly hair wearing a white t-shirt is looking into the camera with something in his mouth. a | A stray dog is running on the seaside. | random_pair | 0.8895 | 0.011 | -0.128 | -0.129 | 0 | -0.872 |
-| A group of girls in matching brown dresses and sandals dance in unison. | The woman is on the couch with the dogs. | random_pair | 0.8648 | 0.041 | -0.052 | -0.052 | 0 | -0.948 |
-| A man riding a dirt bike on a racetrack. | Boys are playing basketball. | random_pair | 0.8542 | 0.04 | -0.067 | -0.068 | 0 | -0.933 |
-| A group of horses grazing in a field. | The boy fired once into a wall and sprayed the room with fire extinguishers, making it hard to see, the chief said. | random_pair | 0.8493 | 0.008 | 0.019 | 0.019 | 0 | -1.019 |
-| It looks to me that this is set up for what you want: | The injured were taken to hospitals in Jefferson City and Columbia, about 48km north; their conditions were not immediately available. | random_pair | 0.8377 | -0.035 | -0.096 | -0.1 | 2 | -0.904 |
-| A man in a yellow excavator on a construction site. | A young woman with a giant rack is carrying a bag around a shopping mall. | random_pair | 0.8307 | -0.02 | -0.026 | -0.027 | 0 | -0.974 |
-| A dirt bike rider riding through the woods over logs. | The man knows how to make animals out of balloons. | random_pair | 0.8243 | 0.124 | -0.005 | -0.003 | 0 | -0.995 |
-| The benchmark 10-year Treasury note yield <US10YT=RR> dipped below 4.20 percent on Tuesday. | You are right on the mark. | random_pair | 0.8086 | 0.118 | 0.119 | 0.12 | 0 | -1.119 |
-| The industry's largest association is urging its members not call the more than 50 million home and cellular numbers on the list. | Two bikers compete in a marathon for a charity. | random_pair | 0.7835 | 0.046 | 0.034 | 0.032 | -1 | -1.065 |
-| A woman riding a brown horse. | A woman taking her own photo from above. | sts_low | 0.7803 | 0.065 | 0.235 | 0.235 | 0 | -1.235 |
-| two women in lab coats looking on a image projected on the wall | Scientists are interpreting experimental findings. | snli_neutral | 0.7745 | 0.026 | 0.286 | 0.286 | 0 | -1.286 |
-| A man at the beach, building a sand castle. | A man is using buckets and a shovel. | snli_neutral | 0.7651 | 0.054 | 0.249 | 0.25 | 0 | -1.249 |
-| A moped in front of ruins. | White bus parked in grass in front of building. | sts_low | 0.7604 | 0.07 | 0.268 | 0.269 | 0 | -1.268 |
-| People making a structure out of cards. | Two people are together and one is using a piece of clothing in a different way than intended. | sts_low | 0.7409 | -0.012 | 0.295 | 0.294 | 0 | -1.295 |
-| The best thing you can do is to know your stuff. | My recommendation is not to say anything, and do the best you can. | sts_low | 0.7334 | -0.005 | 0.437 | 0.429 | 1 | -1.437 |
+| A                                                                                                                                 | B                                                                                                                                      | subtype/neg_type | score  | delta_p | c_raw  | c_resid | cue_delta | margin_cos |
+| --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ------ | ------- | ------ | ------- | --------- | ---------- |
+| A guy with long brown curly hair wearing a white t-shirt is looking into the camera with something in his mouth. a                | A stray dog is running on the seaside.                                                                                                 | random_pair      | 0.8895 | 0.011   | -0.128 | -0.129  | 0         | -0.872     |
+| A group of girls in matching brown dresses and sandals dance in unison.                                                           | The woman is on the couch with the dogs.                                                                                               | random_pair      | 0.8648 | 0.041   | -0.052 | -0.052  | 0         | -0.948     |
+| A man riding a dirt bike on a racetrack.                                                                                          | Boys are playing basketball.                                                                                                           | random_pair      | 0.8542 | 0.04    | -0.067 | -0.068  | 0         | -0.933     |
+| A group of horses grazing in a field.                                                                                             | The boy fired once into a wall and sprayed the room with fire extinguishers, making it hard to see, the chief said.                    | random_pair      | 0.8493 | 0.008   | 0.019  | 0.019   | 0         | -1.019     |
+| It looks to me that this is set up for what you want:                                                                             | The injured were taken to hospitals in Jefferson City and Columbia, about 48km north; their conditions were not immediately available. | random_pair      | 0.8377 | -0.035  | -0.096 | -0.1    | 2         | -0.904     |
+| A man in a yellow excavator on a construction site.                                                                               | A young woman with a giant rack is carrying a bag around a shopping mall.                                                              | random_pair      | 0.8307 | -0.02   | -0.026 | -0.027  | 0         | -0.974     |
+| A dirt bike rider riding through the woods over logs.                                                                             | The man knows how to make animals out of balloons.                                                                                     | random_pair      | 0.8243 | 0.124   | -0.005 | -0.003  | 0         | -0.995     |
+| The benchmark 10-year Treasury note yield <US10YT=RR> dipped below 4.20 percent on Tuesday.                                       | You are right on the mark.                                                                                                             | random_pair      | 0.8086 | 0.118   | 0.119  | 0.12    | 0         | -1.119     |
+| The industry's largest association is urging its members not call the more than 50 million home and cellular numbers on the list. | Two bikers compete in a marathon for a charity.                                                                                        | random_pair      | 0.7835 | 0.046   | 0.034  | 0.032   | -1        | -1.065     |
+| A woman riding a brown horse.                                                                                                     | A woman taking her own photo from above.                                                                                               | sts_low          | 0.7803 | 0.065   | 0.235  | 0.235   | 0         | -1.235     |
+| two women in lab coats looking on a image projected on the wall                                                                   | Scientists are interpreting experimental findings.                                                                                     | snli_neutral     | 0.7745 | 0.026   | 0.286  | 0.286   | 0         | -1.286     |
+| A man at the beach, building a sand castle.                                                                                       | A man is using buckets and a shovel.                                                                                                   | snli_neutral     | 0.7651 | 0.054   | 0.249  | 0.25    | 0         | -1.249     |
+| A moped in front of ruins.                                                                                                        | White bus parked in grass in front of building.                                                                                        | sts_low          | 0.7604 | 0.07    | 0.268  | 0.269   | 0         | -1.268     |
+| People making a structure out of cards.                                                                                           | Two people are together and one is using a piece of clothing in a different way than intended.                                         | sts_low          | 0.7409 | -0.012  | 0.295  | 0.294   | 0         | -1.295     |
+| The best thing you can do is to know your stuff.                                                                                  | My recommendation is not to say anything, and do the best you can.                                                                     | sts_low          | 0.7334 | -0.005  | 0.437  | 0.429   | 1         | -1.437     |
 
 #### arch 3 hybrid — 15 lowest-scoring false negatives
 
-| A | B | subtype/neg_type | score | delta_p | c_raw | c_resid | cue_delta | margin_cos |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Oh, it's not foul. | Oh, it's not fair. | antonym | 0.0106 | -0.069 | 0.297 | 0.297 | 0 | -0.654 |
-| It's not ready. | It's not unready. | antonym | 0.0156 | 0.132 | 0.302 | 0.292 | 1 | -0.805 |
-| Because it's not foul. | Because it's not fair. | antonym | 0.0257 | -0.098 | 0.421 | 0.423 | 0 | -0.573 |
-| It's not personal. | It's not impersonal. | antonym | 0.026 | 0.047 | 0.308 | 0.308 | 1 | -0.701 |
-| This is not good. | This is not evil. | antonym | 0.0301 | 0.005 | 0.512 | 0.511 | 0 | -0.737 |
-| And it's not fair. | And it's not foul. | antonym | 0.0338 | 0.085 | 0.365 | 0.366 | 0 | -0.657 |
-| That's not soft. | That's not hard. | antonym | 0.0409 | -0.105 | 0.456 | 0.459 | 0 | -0.501 |
-| The work of the group has been described as pioneering. | The work of the group has been explained as sub-par. | other | 0.0446 | -0.109 | 0.67 | 0.675 | 0 | -0.197 |
-| Do not be glad. | Do not be sad. | antonym | 0.0572 | -0.104 | 0.584 | 0.587 | 0 | -0.533 |
-| That's not supernatural. | That's not natural. | antonym | 0.061 | 0.079 | 0.378 | 0.372 | 0 | -0.576 |
-| You are playful. | You are serious. | antonym | 0.0636 | -0.211 | 0.286 | 0.296 | 0 | 0.086 |
-| Because it's not safe. | Because it's not out. | antonym | 0.0712 | -0.112 | 0.538 | 0.529 | 0 | -0.496 |
-| I know it is not actual. | I know it is not possible. | antonym | 0.0722 | -0.172 | 0.266 | 0.274 | 0 | -0.133 |
-| It's not likely. | It's not improbable. | antonym | 0.0751 | 0.061 | 0.506 | 0.488 | 1 | -0.315 |
-| This is not looking good. | This is not looking evil. | antonym | 0.0815 | 0.008 | 0.679 | 0.678 | 0 | -0.512 |
+| A                                                       | B                                                    | subtype/neg_type | score  | delta_p | c_raw | c_resid | cue_delta | margin_cos |
+| ------------------------------------------------------- | ---------------------------------------------------- | ---------------- | ------ | ------- | ----- | ------- | --------- | ---------- |
+| Oh, it's not foul.                                      | Oh, it's not fair.                                   | antonym          | 0.0106 | -0.069  | 0.297 | 0.297   | 0         | -0.654     |
+| It's not ready.                                         | It's not unready.                                    | antonym          | 0.0156 | 0.132   | 0.302 | 0.292   | 1         | -0.805     |
+| Because it's not foul.                                  | Because it's not fair.                               | antonym          | 0.0257 | -0.098  | 0.421 | 0.423   | 0         | -0.573     |
+| It's not personal.                                      | It's not impersonal.                                 | antonym          | 0.026  | 0.047   | 0.308 | 0.308   | 1         | -0.701     |
+| This is not good.                                       | This is not evil.                                    | antonym          | 0.0301 | 0.005   | 0.512 | 0.511   | 0         | -0.737     |
+| And it's not fair.                                      | And it's not foul.                                   | antonym          | 0.0338 | 0.085   | 0.365 | 0.366   | 0         | -0.657     |
+| That's not soft.                                        | That's not hard.                                     | antonym          | 0.0409 | -0.105  | 0.456 | 0.459   | 0         | -0.501     |
+| The work of the group has been described as pioneering. | The work of the group has been explained as sub-par. | other            | 0.0446 | -0.109  | 0.67  | 0.675   | 0         | -0.197     |
+| Do not be glad.                                         | Do not be sad.                                       | antonym          | 0.0572 | -0.104  | 0.584 | 0.587   | 0         | -0.533     |
+| That's not supernatural.                                | That's not natural.                                  | antonym          | 0.061  | 0.079   | 0.378 | 0.372   | 0         | -0.576     |
+| You are playful.                                        | You are serious.                                     | antonym          | 0.0636 | -0.211  | 0.286 | 0.296   | 0         | 0.086      |
+| Because it's not safe.                                  | Because it's not out.                                | antonym          | 0.0712 | -0.112  | 0.538 | 0.529   | 0         | -0.496     |
+| I know it is not actual.                                | I know it is not possible.                           | antonym          | 0.0722 | -0.172  | 0.266 | 0.274   | 0         | -0.133     |
+| It's not likely.                                        | It's not improbable.                                 | antonym          | 0.0751 | 0.061   | 0.506 | 0.488   | 1         | -0.315     |
+| This is not looking good.                               | This is not looking evil.                            | antonym          | 0.0815 | 0.008   | 0.679 | 0.678   | 0         | -0.512     |
 
 #### arch 2 margin (cosine) — 15 highest-scoring false positives (threshold -0.0169)
 
-| A | B | subtype/neg_type | score | delta_p | c_raw | c_resid | cue_delta | margin_cos |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| It's not unreal. | It's real. | paraphrase | 0.5225 | -0.05 | 0.312 | 0.312 | -1 | 0.523 |
-| It's a good idea. | It's not an evil idea. | paraphrase | 0.4207 | -0.029 | 0.513 | 0.512 | 1 | 0.421 |
-| It's natural. | It's not artificial. | paraphrase | 0.3942 | 0.034 | 0.46 | 0.458 | 1 | 0.394 |
-| Kids are on a amusement ride. | Nobody is standing | random_pair | 0.3838 | -0.074 | -0.07 | -0.069 | 1 | 0.384 |
-| It's clear. | It's not opaque. | paraphrase | 0.3815 | -0.075 | 0.573 | 0.57 | 1 | 0.381 |
-| It's hopeless. | It's not hopeful. | paraphrase | 0.2965 | -0.018 | 0.489 | 0.474 | 0 | 0.296 |
-| A man standing behind a small ice cream cart on a street corner. | The man is sitting. | random_pair | 0.2702 | -0.08 | 0.224 | 0.226 | 0 | 0.27 |
-| The kids are at the theater watching a movie. | it is picture day for the boys | sts_low | 0.2601 | -0.078 | 0.07 | 0.072 | 0 | 0.26 |
-| Sweetheart, that's a good idea. | Sweetheart, that's not an evil idea. | paraphrase | 0.2575 | -0.041 | 0.7 | 0.7 | 1 | 0.257 |
-| It's a good idea. | It's not a bad idea. | paraphrase | 0.1631 | -0.01 | 0.757 | 0.756 | 1 | 0.163 |
-| A male construction worker hammers a nail. | A girl is sitting. | random_pair | 0.1601 | -0.11 | -0.052 | -0.051 | 0 | 0.16 |
-| A female basketball player dribbling down court. | A boy is sitting in the sand. | random_pair | 0.1413 | -0.032 | -0.008 | -0.01 | 0 | 0.141 |
-| A man is erasing a chalk board. | A woman is dancing, and singing. | sts_low | 0.1306 | -0.102 | -0.011 | -0.009 | 0 | 0.131 |
-| A black and white dog is running through the grass. | With the remaining three shuttles grounded in the wake of the Columbia accident, the rookies will have to wait even longer. | random_pair | 0.1282 | -0.045 | -0.119 | -0.119 | 0 | 0.128 |
-| I'm innocent, sir. | I'm not guilty, sir. | paraphrase | 0.1267 | -0.038 | 0.751 | 0.747 | 1 | 0.127 |
+| A                                                                | B                                                                                                                           | subtype/neg_type | score  | delta_p | c_raw  | c_resid | cue_delta | margin_cos |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------- | ------ | ------- | ------ | ------- | --------- | ---------- |
+| It's not unreal.                                                 | It's real.                                                                                                                  | paraphrase       | 0.5225 | -0.05   | 0.312  | 0.312   | -1        | 0.523      |
+| It's a good idea.                                                | It's not an evil idea.                                                                                                      | paraphrase       | 0.4207 | -0.029  | 0.513  | 0.512   | 1         | 0.421      |
+| It's natural.                                                    | It's not artificial.                                                                                                        | paraphrase       | 0.3942 | 0.034   | 0.46   | 0.458   | 1         | 0.394      |
+| Kids are on a amusement ride.                                    | Nobody is standing                                                                                                          | random_pair      | 0.3838 | -0.074  | -0.07  | -0.069  | 1         | 0.384      |
+| It's clear.                                                      | It's not opaque.                                                                                                            | paraphrase       | 0.3815 | -0.075  | 0.573  | 0.57    | 1         | 0.381      |
+| It's hopeless.                                                   | It's not hopeful.                                                                                                           | paraphrase       | 0.2965 | -0.018  | 0.489  | 0.474   | 0         | 0.296      |
+| A man standing behind a small ice cream cart on a street corner. | The man is sitting.                                                                                                         | random_pair      | 0.2702 | -0.08   | 0.224  | 0.226   | 0         | 0.27       |
+| The kids are at the theater watching a movie.                    | it is picture day for the boys                                                                                              | sts_low          | 0.2601 | -0.078  | 0.07   | 0.072   | 0         | 0.26       |
+| Sweetheart, that's a good idea.                                  | Sweetheart, that's not an evil idea.                                                                                        | paraphrase       | 0.2575 | -0.041  | 0.7    | 0.7     | 1         | 0.257      |
+| It's a good idea.                                                | It's not a bad idea.                                                                                                        | paraphrase       | 0.1631 | -0.01   | 0.757  | 0.756   | 1         | 0.163      |
+| A male construction worker hammers a nail.                       | A girl is sitting.                                                                                                          | random_pair      | 0.1601 | -0.11   | -0.052 | -0.051  | 0         | 0.16       |
+| A female basketball player dribbling down court.                 | A boy is sitting in the sand.                                                                                               | random_pair      | 0.1413 | -0.032  | -0.008 | -0.01   | 0         | 0.141      |
+| A man is erasing a chalk board.                                  | A woman is dancing, and singing.                                                                                            | sts_low          | 0.1306 | -0.102  | -0.011 | -0.009  | 0         | 0.131      |
+| A black and white dog is running through the grass.              | With the remaining three shuttles grounded in the wake of the Columbia accident, the rookies will have to wait even longer. | random_pair      | 0.1282 | -0.045  | -0.119 | -0.119  | 0         | 0.128      |
+| I'm innocent, sir.                                               | I'm not guilty, sir.                                                                                                        | paraphrase       | 0.1267 | -0.038  | 0.751  | 0.747   | 1         | 0.127      |
 
 #### arch 2 margin (cosine) — 15 lowest-scoring false negatives
 
-| A | B | subtype/neg_type | score | delta_p | c_raw | c_resid | cue_delta | margin_cos |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| We've not little time. | We've not much time. | antonym | -2.0 | 0.005 | 0.872 | 0.87 | 0 | -2.0 |
-| They keep getting better and better (this isn't my third one and I've had numerous Palms too). | They keep getting better and better (this is my third one and I've had numerous Palms too). | verbal | -1.9944 | 0.005 | 0.994 | 0.994 | -1 | -1.994 |
-| Totally different, with loads of understatement and black comedy, this is a film few get to see, but those who do will remember it. | Totally different, with loads of understatement and black comedy, this isn't a film few get to see, but those who do will remember it. | verbal | -1.9936 | 0.001 | 0.994 | 0.994 | 1 | -1.994 |
-| Totally different, with loads of understatement and black comedy, this isn't a film few get to see, but those who do will remember it. | Totally different, with loads of understatement and black comedy, this is a film few get to see, but those who do will remember it. | verbal | -1.9936 | -0.001 | 0.994 | 0.994 | -1 | -1.994 |
-| The fat computer geek was unbelievable, the bible thumper, the bad-ass girl, who are these actors??? | The fat computer geek wasn't unbelievable, the bible thumper, the bad-ass girl, who are these actors??? | verbal | -1.9934 | -0.006 | 0.993 | 0.993 | 1 | -1.993 |
-| Every time he opened his mouth you expect to hear, "you see kids..." Pulling the plug was a mercy killing for this horrible show. | Every time he opened his mouth you expect to hear, "you don't see kids..." Pulling the plug was a mercy killing for this horrible show. | verbal | -1.9914 | -0.007 | 0.991 | 0.991 | 1 | -1.991 |
-| It is completely unlikely that a connection exists between Keres and the Valkyries of Norse myth. | It is possible that a connection exists between Keres and the Valkyries of Norse myth. | verbal | -1.9847 | 0.014 | 0.985 | 0.985 | -1 | -1.985 |
-| All of the bells are doing this at every change, without any words of command. | Only some of the bells are doing this at every change, without any words of command. | other | -1.9772 | -0.023 | 0.977 | 0.977 | 0 | -1.977 |
-| Species exclude: There is evidence that a few species of Stephania are toxic. | Species include: There is evidence that a few species of Stephania are toxic. | other | -1.9749 | 0.003 | 0.975 | 0.975 | 0 | -1.975 |
-| Problem isn't that the ear loops are made of weak material and break easily. | Problem is that the ear loops are made of weak material and break easily. | verbal | -1.9733 | -0.004 | 0.973 | 0.973 | -1 | -1.973 |
-| But the concept was used without being treated formally prior to that. | But the concept was used without being treated formally only after that. | other | -1.9713 | 0.013 | 0.971 | 0.971 | 0 | -1.971 |
-| The acting is fantastic, the stories are seamlessly woven together, and the dogs are splendid............. A must rent, view, or see. | The acting isn't fantastic, the stories are seamlessly woven together, and the dogs are splendid............. A must rent, view, or see. | verbal | -1.9708 | -0.008 | 0.971 | 0.971 | 1 | -1.971 |
-| The acting isn't fantastic, the stories are seamlessly woven together, and the dogs are splendid............. A must rent, view, or see. | The acting is fantastic, the stories are seamlessly woven together, and the dogs are splendid............. A must rent, view, or see. | verbal | -1.9708 | 0.008 | 0.971 | 0.971 | -1 | -1.971 |
-| I got this phone on recommendation from a relative and I'm glad I did. | I got this phone on recommendation from a relative and I'm not glad I did. | verbal | -1.9698 | -0.032 | 0.97 | 0.97 | 1 | -1.97 |
-| Also absent from the property is a root cellar (1880) and chicken / pig shed (1880). | Also on the property is a root cellar (1880) and chicken / pig shed (1880). | verbal | -1.9507 | 0.006 | 0.951 | 0.951 | -1 | -1.951 |
+| A                                                                                                                                        | B                                                                                                                                        | subtype/neg_type | score   | delta_p | c_raw | c_resid | cue_delta | margin_cos |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ------- | ------- | ----- | ------- | --------- | ---------- |
+| We've not little time.                                                                                                                   | We've not much time.                                                                                                                     | antonym          | -2.0    | 0.005   | 0.872 | 0.87    | 0         | -2.0       |
+| They keep getting better and better (this isn't my third one and I've had numerous Palms too).                                           | They keep getting better and better (this is my third one and I've had numerous Palms too).                                              | verbal           | -1.9944 | 0.005   | 0.994 | 0.994   | -1        | -1.994     |
+| Totally different, with loads of understatement and black comedy, this is a film few get to see, but those who do will remember it.      | Totally different, with loads of understatement and black comedy, this isn't a film few get to see, but those who do will remember it.   | verbal           | -1.9936 | 0.001   | 0.994 | 0.994   | 1         | -1.994     |
+| Totally different, with loads of understatement and black comedy, this isn't a film few get to see, but those who do will remember it.   | Totally different, with loads of understatement and black comedy, this is a film few get to see, but those who do will remember it.      | verbal           | -1.9936 | -0.001  | 0.994 | 0.994   | -1        | -1.994     |
+| The fat computer geek was unbelievable, the bible thumper, the bad-ass girl, who are these actors???                                     | The fat computer geek wasn't unbelievable, the bible thumper, the bad-ass girl, who are these actors???                                  | verbal           | -1.9934 | -0.006  | 0.993 | 0.993   | 1         | -1.993     |
+| Every time he opened his mouth you expect to hear, "you see kids..." Pulling the plug was a mercy killing for this horrible show.        | Every time he opened his mouth you expect to hear, "you don't see kids..." Pulling the plug was a mercy killing for this horrible show.  | verbal           | -1.9914 | -0.007  | 0.991 | 0.991   | 1         | -1.991     |
+| It is completely unlikely that a connection exists between Keres and the Valkyries of Norse myth.                                        | It is possible that a connection exists between Keres and the Valkyries of Norse myth.                                                   | verbal           | -1.9847 | 0.014   | 0.985 | 0.985   | -1        | -1.985     |
+| All of the bells are doing this at every change, without any words of command.                                                           | Only some of the bells are doing this at every change, without any words of command.                                                     | other            | -1.9772 | -0.023  | 0.977 | 0.977   | 0         | -1.977     |
+| Species exclude: There is evidence that a few species of Stephania are toxic.                                                            | Species include: There is evidence that a few species of Stephania are toxic.                                                            | other            | -1.9749 | 0.003   | 0.975 | 0.975   | 0         | -1.975     |
+| Problem isn't that the ear loops are made of weak material and break easily.                                                             | Problem is that the ear loops are made of weak material and break easily.                                                                | verbal           | -1.9733 | -0.004  | 0.973 | 0.973   | -1        | -1.973     |
+| But the concept was used without being treated formally prior to that.                                                                   | But the concept was used without being treated formally only after that.                                                                 | other            | -1.9713 | 0.013   | 0.971 | 0.971   | 0         | -1.971     |
+| The acting is fantastic, the stories are seamlessly woven together, and the dogs are splendid............. A must rent, view, or see.    | The acting isn't fantastic, the stories are seamlessly woven together, and the dogs are splendid............. A must rent, view, or see. | verbal           | -1.9708 | -0.008  | 0.971 | 0.971   | 1         | -1.971     |
+| The acting isn't fantastic, the stories are seamlessly woven together, and the dogs are splendid............. A must rent, view, or see. | The acting is fantastic, the stories are seamlessly woven together, and the dogs are splendid............. A must rent, view, or see.    | verbal           | -1.9708 | 0.008   | 0.971 | 0.971   | -1        | -1.971     |
+| I got this phone on recommendation from a relative and I'm glad I did.                                                                   | I got this phone on recommendation from a relative and I'm not glad I did.                                                               | verbal           | -1.9698 | -0.032  | 0.97  | 0.97    | 1         | -1.97      |
+| Also absent from the property is a root cellar (1880) and chicken / pig shed (1880).                                                     | Also on the property is a root cellar (1880) and chicken / pig shed (1880).                                                              | verbal           | -1.9507 | 0.006   | 0.951 | 0.951   | -1        | -1.951     |
 
 #### Systematic patterns (counts over all 2,001 phase-2 pairs)
 
+_arch 3 hybrid_
 
-*arch 3 hybrid*
+| pair length (words) | n    | accuracy | FPR   | recall |
+| ------------------- | ---- | -------- | ----- | ------ |
+| 0–20                | 764  | 0.682    | 0.384 | 0.776  |
+| 20–40               | 1194 | 0.733    | 0.472 | 0.895  |
+| 40–60               | 38   | 0.711    | 0.5   | 1.0    |
+| 60–∞                | 5    | 0.8      | 1.0   | 1.0    |
 
-| pair length (words) | n | accuracy | FPR | recall |
-| --- | --- | --- | --- | --- |
-| 0–20 | 764 | 0.682 | 0.384 | 0.776 |
-| 20–40 | 1194 | 0.733 | 0.472 | 0.895 |
-| 40–60 | 38 | 0.711 | 0.5 | 1.0 |
-| 60–∞ | 5 | 0.8 | 1.0 | 1.0 |
+_baseline NLI P(contradiction)_
 
-*baseline NLI P(contradiction)*
+| pair length (words) | n    | accuracy | FPR   | recall |
+| ------------------- | ---- | -------- | ----- | ------ |
+| 0–20                | 764  | 0.766    | 0.388 | 0.987  |
+| 20–40               | 1194 | 0.863    | 0.271 | 0.969  |
+| 40–60               | 38   | 0.921    | 0.091 | 0.938  |
+| 60–∞                | 5    | 1.0      | 0.0   | 1.0    |
 
-| pair length (words) | n | accuracy | FPR | recall |
-| --- | --- | --- | --- | --- |
-| 0–20 | 764 | 0.766 | 0.388 | 0.987 |
-| 20–40 | 1194 | 0.863 | 0.271 | 0.969 |
-| 40–60 | 38 | 0.921 | 0.091 | 0.938 |
-| 60–∞ | 5 | 1.0 | 0.0 | 1.0 |
+_Feature-based slices, arch 3 hybrid_
 
-*Feature-based slices, arch 3 hybrid*
+| slice                        | n    | n negations | accuracy | FPR   | recall |
+| ---------------------------- | ---- | ----------- | -------- | ----- | ------ |
+| B contains a hedge word      | 33   | 20          | 0.727    | 0.615 | 0.95   |
+| B is multi-clause            | 457  | 275         | 0.74     | 0.516 | 0.909  |
+| A already negated (cue in A) | 453  | 344         | 0.766    | 0.578 | 0.875  |
+| no cue anywhere in the pair  | 1281 | 440         | 0.687    | 0.415 | 0.882  |
 
-| slice | n | n negations | accuracy | FPR | recall |
-| --- | --- | --- | --- | --- | --- |
-| B contains a hedge word | 33 | 20 | 0.727 | 0.615 | 0.95 |
-| B is multi-clause | 457 | 275 | 0.74 | 0.516 | 0.909 |
-| A already negated (cue in A) | 453 | 344 | 0.766 | 0.578 | 0.875 |
-| no cue anywhere in the pair | 1281 | 440 | 0.687 | 0.415 | 0.882 |
+_Quantified failure modes_
 
-*Quantified failure modes*
+| claim                                                                   | count | of   | share |
+| ----------------------------------------------------------------------- | ----- | ---- | ----- |
+| arch 2 margin (cosine): false negatives with an empty NEG set           | 37    | 234  | 0.158 |
+| arch 2 margin (cosine): false negatives where both A and B carry a cue  | 64    | 234  | 0.274 |
+| arch 2 margin (cosine): false positives that are SemAntoNeg paraphrases | 26    | 582  | 0.045 |
+| arch 3 hybrid: false negatives with an empty NEG set                    | 5     | 140  | 0.036 |
+| arch 3 hybrid: false negatives where both A and B carry a cue           | 36    | 140  | 0.257 |
+| arch 3 hybrid: false positives that are SemAntoNeg paraphrases          | 22    | 434  | 0.051 |
+| pairs whose A has an empty NEG set                                      | 80    | 2001 | 0.04  |
+| recall on pairs with an empty NEG set (arch 2 cosine)                   | 0     | 37   | —     |
 
-| claim | count | of | share |
-| --- | --- | --- | --- |
-| arch 2 margin (cosine): false negatives with an empty NEG set | 37 | 234 | 0.158 |
-| arch 2 margin (cosine): false negatives where both A and B carry a cue | 64 | 234 | 0.274 |
-| arch 2 margin (cosine): false positives that are SemAntoNeg paraphrases | 26 | 582 | 0.045 |
-| arch 3 hybrid: false negatives with an empty NEG set | 5 | 140 | 0.036 |
-| arch 3 hybrid: false negatives where both A and B carry a cue | 36 | 140 | 0.257 |
-| arch 3 hybrid: false positives that are SemAntoNeg paraphrases | 22 | 434 | 0.051 |
-| pairs whose A has an empty NEG set | 80 | 2001 | 0.04 |
-| recall on pairs with an empty NEG set (arch 2 cosine) | 0 | 37 | — |
+_Paraphrase false-positive rate by CANNOT source, phase 2_
 
-*Paraphrase false-positive rate by CANNOT source, phase 2*
-
-| scorer | SemAntoNeg paraphrases (n) | FPR | WikiFactCheck paraphrases (n) | FPR |
-| --- | --- | --- | --- | --- |
-| arch 2 margin (cosine) | 41 | 0.634 | 398 | 0.342 |
-| arch 3 hybrid | 41 | 0.537 | 398 | 0.739 |
-| baseline NLI P(contradiction) | 41 | 0.073 | 398 | 0.03 |
+| scorer                        | SemAntoNeg paraphrases (n) | FPR   | WikiFactCheck paraphrases (n) | FPR   |
+| ----------------------------- | -------------------------- | ----- | ----------------------------- | ----- |
+| arch 2 margin (cosine)        | 41                         | 0.634 | 398                           | 0.342 |
+| arch 3 hybrid                 | 41                         | 0.537 | 398                           | 0.739 |
+| baseline NLI P(contradiction) | 41                         | 0.073 | 398                           | 0.03  |
 
 #### Disagreements between the NLI baseline and arch 3 hybrid
 
-
 **NLI says negation, hybrid says not** — 410 pairs; NLI right on 138, hybrid right on 272. Ten sampled (seed 0):
 
-| A | B | gold | subtype | NLI P(contra) | hybrid P |
-| --- | --- | --- | --- | --- | --- |
-| There are two things to consider: | Two people are on a dinner date. | not negation | random_pair | 0.5549 | 0.2782 |
-| A group of onlookers glance at a person doing a strange trick on her head. | A band is practicing in front of an empty room. | not negation | random_pair | 1.0 | 0.2081 |
-| Two guys and a woman standing and talking in a playground. | Three adults are standing and thinking about space. | not negation | snli_neutral | 0.9982 | 0.3 |
-| A man is playing a flute. | A man is riding a scooter. | not negation | sts_low | 0.9999 | 0.279 |
-| The fraternity sold the property to the Sigma Pi Educational Foundation in 1992. | The fraternity refused to sell the property to the Sigma Pi Educational Foundation in 1992. | negation | negation | 1.0 | 0.3991 |
-| It is the most common palm tree on the Pantanal. | It is the least common pine tree on the Pantanal. | negation | negation | 0.9999 | 0.3482 |
-| The creek has some placer gold deposits being actively mined. | The creek has no placer gold deposits currently being actively mined. | negation | negation | 0.9999 | 0.395 |
-| In both seasons, Gill earned First-Team All- Big Sky Conference honors. | In both seasons, Gill was unable to secure First-Team All- Big Sky Conference honors. | negation | negation | 1.0 | 0.2681 |
-| For instance, despite bilingual-education laws, the use of Sardinian in schools is now encouraged. | For example, despite bilingual-education laws, the use of Sardinian in schools is still discouraged. | negation | negation | 0.9999 | 0.3346 |
-| Because it's not foul. | Because it's not fair. | negation | negation | 0.9992 | 0.0257 |
+| A                                                                                                  | B                                                                                                    | gold         | subtype      | NLI P(contra) | hybrid P |
+| -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------ | ------------ | ------------- | -------- |
+| There are two things to consider:                                                                  | Two people are on a dinner date.                                                                     | not negation | random_pair  | 0.5549        | 0.2782   |
+| A group of onlookers glance at a person doing a strange trick on her head.                         | A band is practicing in front of an empty room.                                                      | not negation | random_pair  | 1.0           | 0.2081   |
+| Two guys and a woman standing and talking in a playground.                                         | Three adults are standing and thinking about space.                                                  | not negation | snli_neutral | 0.9982        | 0.3      |
+| A man is playing a flute.                                                                          | A man is riding a scooter.                                                                           | not negation | sts_low      | 0.9999        | 0.279    |
+| The fraternity sold the property to the Sigma Pi Educational Foundation in 1992.                   | The fraternity refused to sell the property to the Sigma Pi Educational Foundation in 1992.          | negation     | negation     | 1.0           | 0.3991   |
+| It is the most common palm tree on the Pantanal.                                                   | It is the least common pine tree on the Pantanal.                                                    | negation     | negation     | 0.9999        | 0.3482   |
+| The creek has some placer gold deposits being actively mined.                                      | The creek has no placer gold deposits currently being actively mined.                                | negation     | negation     | 0.9999        | 0.395    |
+| In both seasons, Gill earned First-Team All- Big Sky Conference honors.                            | In both seasons, Gill was unable to secure First-Team All- Big Sky Conference honors.                | negation     | negation     | 1.0           | 0.2681   |
+| For instance, despite bilingual-education laws, the use of Sardinian in schools is now encouraged. | For example, despite bilingual-education laws, the use of Sardinian in schools is still discouraged. | negation     | negation     | 0.9999        | 0.3346   |
+| Because it's not foul.                                                                             | Because it's not fair.                                                                               | negation     | negation     | 0.9992        | 0.0257   |
 
 **hybrid says negation, NLI says not** — 410 pairs; NLI right on 386, hybrid right on 24. Ten sampled (seed 0):
 
-| A | B | gold | subtype | NLI P(contra) | hybrid P |
-| --- | --- | --- | --- | --- | --- |
-| As acicular or hexagonal prismatic, poorly terminated crystals, florellestadite can be found. | Fluorellestadite occurs as acicular or hexagonal prismatic, poorly terminated crystals, and as fine-grained aggregates. | not negation | paraphrase | 0.0002 | 0.4969 |
-| The recommendations were released. | They released a set of recommendations. | not negation | paraphrase | 0.0 | 0.5467 |
-| The moment of impact was recorded by a camera. | The camera recorded the moment of impact. | not negation | paraphrase | 0.0001 | 0.5326 |
-| The natural voice prompts encouraged users to think of Wildfire as a real person. | Users were encouraged to think of Wildfire as a real person. | not negation | paraphrase | 0.0001 | 0.5259 |
-| I don't think we'll be back soon. | I don't think we'll be going back anytime soon. | not negation | paraphrase | 0.0001 | 0.5092 |
-| Between 1890 and the 1920s, the area was developed. | The area was primarily developed between 1890 and the 1920s. | not negation | paraphrase | 0.0002 | 0.4822 |
-| It has since been involved in analysing critical global challenges and linkages between them. | It has been involved in analyzing critical global challenges. | not negation | paraphrase | 0.0001 | 0.4768 |
-| Access to any particular piece of information requires need-to-know. | Need-to-know is required for access to any piece of information. | not negation | paraphrase | 0.0001 | 0.5348 |
-| This was part of a larger series of floods affecting the entire Missouri River basin. | The Missouri River basin was affected by a series of floods. | not negation | paraphrase | 0.0001 | 0.5121 |
-| The concentration of gold(III) in the extracts does not go beyond 1 mol/L. | The concentration of gold(III) in the extracts may exceed 1 mol/L. | negation | negation | 0.0059 | 0.6347 |
+| A                                                                                             | B                                                                                                                       | gold         | subtype    | NLI P(contra) | hybrid P |
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------ | ---------- | ------------- | -------- |
+| As acicular or hexagonal prismatic, poorly terminated crystals, florellestadite can be found. | Fluorellestadite occurs as acicular or hexagonal prismatic, poorly terminated crystals, and as fine-grained aggregates. | not negation | paraphrase | 0.0002        | 0.4969   |
+| The recommendations were released.                                                            | They released a set of recommendations.                                                                                 | not negation | paraphrase | 0.0           | 0.5467   |
+| The moment of impact was recorded by a camera.                                                | The camera recorded the moment of impact.                                                                               | not negation | paraphrase | 0.0001        | 0.5326   |
+| The natural voice prompts encouraged users to think of Wildfire as a real person.             | Users were encouraged to think of Wildfire as a real person.                                                            | not negation | paraphrase | 0.0001        | 0.5259   |
+| I don't think we'll be back soon.                                                             | I don't think we'll be going back anytime soon.                                                                         | not negation | paraphrase | 0.0001        | 0.5092   |
+| Between 1890 and the 1920s, the area was developed.                                           | The area was primarily developed between 1890 and the 1920s.                                                            | not negation | paraphrase | 0.0002        | 0.4822   |
+| It has since been involved in analysing critical global challenges and linkages between them. | It has been involved in analyzing critical global challenges.                                                           | not negation | paraphrase | 0.0001        | 0.4768   |
+| Access to any particular piece of information requires need-to-know.                          | Need-to-know is required for access to any piece of information.                                                        | not negation | paraphrase | 0.0001        | 0.5348   |
+| This was part of a larger series of floods affecting the entire Missouri River basin.         | The Missouri River basin was affected by a series of floods.                                                            | not negation | paraphrase | 0.0001        | 0.5121   |
+| The concentration of gold(III) in the extracts does not go beyond 1 mol/L.                    | The concentration of gold(III) in the extracts may exceed 1 mol/L.                                                      | negation     | negation   | 0.0059        | 0.6347   |
 
 ### 5.4 Reading of the error tables
 
-*Measured* above; *inferred* here.
+_Measured_ above; _inferred_ here.
 
 **Architecture 2 fails on exactly the construction the generator is good at.**
 Its worst false positives are SemAntoNeg paraphrases of the form
-*"It's a good idea."* → *"It's not an evil idea."*, *"It's natural."* →
-*"It's not artificial."*, *"I'm innocent, sir."* → *"I'm not guilty, sir."*.
-These are cancellations: *not* + antonym = the original meaning. The generator's
-NEG set for A contains *"It's not a good idea."*, which is lexically one word
-away from the student's *"It's not an evil idea."*, so `s_neg` wins and the
+_"It's a good idea."_ → _"It's not an evil idea."_, _"It's natural."_ →
+_"It's not artificial."_, _"I'm innocent, sir."_ → _"I'm not guilty, sir."_.
+These are cancellations: _not_ + antonym = the original meaning. The generator's
+NEG set for A contains _"It's not a good idea."_, which is lexically one word
+away from the student's _"It's not an evil idea."_, so `s_neg` wins and the
 margin goes positive. The method matches on surface form, and surface form is
 precisely what cancellation manipulates. The effect is measurable by source:
 architecture 2's paraphrase false-positive rate is 0.634 on the 41 SemAntoNeg
@@ -942,8 +934,8 @@ route.
 Every pair with `margin_cos = −2.0` is a pair where the generator produced no
 NEG variant at all: `s_neg` is then the sentinel `−1` and `s_same ≈ +1` because B
 is nearly identical to A. The examples are long, multi-clause review sentences
-(*"Totally different, with loads of understatement and black comedy, this
-isn't a film few get to see…"*) — true verbal negations with cosine 0.99 that
+(_"Totally different, with loads of understatement and black comedy, this
+isn't a film few get to see…"_) — true verbal negations with cosine 0.99 that
 the architecture cannot see because it had nothing to compare them against.
 Quantified: 80 of 2,001 phase-2 pairs (4.0%) have an empty NEG set, 37 of those
 are positives, and architecture 2 recovers **0 of those 37**. Coverage failures
@@ -959,9 +951,9 @@ consequence of training on phase 1, where every negative is a paraphrase: the
 model never saw "unrelated" and has no way to represent it.
 
 **The hybrid's false negatives are double negations.** Fourteen of its fifteen
-lowest-scoring misses are antonym-type pairs where *both* sentences carry a cue —
-*"Oh, it's not foul."* → *"Oh, it's not fair."*, *"This is not good."* →
-*"This is not evil."*. `cue_delta` is 0, `delta_p` is near 0, cosine is 0.3–0.7,
+lowest-scoring misses are antonym-type pairs where _both_ sentences carry a cue —
+_"Oh, it's not foul."_ → _"Oh, it's not fair."_, _"This is not good."_ →
+_"This is not evil."_. `cue_delta` is 0, `delta_p` is near 0, cosine is 0.3–0.7,
 so every feature says "same polarity" while the gold label says the pair flips.
 These are genuinely hard: the negation lives in the antonym, under a cue that
 does not move. Across all 140 of the hybrid's false negatives, 36 (25.7%) have
@@ -977,10 +969,10 @@ cross-encoder's errors concentrate — and short pairs are exactly what
 **Where the two disagree, the hybrid is not simply worse.** Of the 410 pairs
 where the NLI baseline says "negation" and the hybrid says "not", the hybrid is
 right on 272 — these are mostly unrelated pairs that the cross-encoder calls
-contradictions (*"A man is playing a flute."* / *"A man is riding a scooter."*,
+contradictions (_"A man is playing a flute."_ / _"A man is riding a scooter."_,
 P(contradiction) 0.9999). Of the 410 in the other direction, the NLI baseline is
 right on 386 — those are clean paraphrases the hybrid calls negations. The
-cross-encoder's weakness is that *contradiction* and *negation* are not the same
+cross-encoder's weakness is that _contradiction_ and _negation_ are not the same
 relation; ours is that similarity is not polarity.
 
 ## 6. Comparison and interpretation
@@ -990,15 +982,15 @@ relation; ours is that similarity is not polarity.
 **Which of our architectures wins depends on the embedding model**, which is
 itself a result:
 
-| ROC-AUC | phase-1 CV | phase 2 | xNot360 |
-|---|---|---|---|
-| arch 1, MiniLM | 0.550 | 0.734 | 0.364 |
-| arch 1, mpnet | 0.652 | 0.407 | 0.541 |
-| arch 2 cosine, MiniLM | 0.744 | 0.686 | 0.642 |
-| arch 2 cosine, mpnet | **0.805** | **0.752** | **0.676** |
-| arch 3, MiniLM | 0.645 | 0.777 | 0.371 |
-| arch 3, mpnet | 0.721 | 0.507 | 0.484 |
-| NLI baseline (model-independent) | 0.993 | 0.834 | 0.940 |
+| ROC-AUC                          | phase-1 CV | phase 2   | xNot360   |
+| -------------------------------- | ---------- | --------- | --------- |
+| arch 1, MiniLM                   | 0.550      | 0.734     | 0.364     |
+| arch 1, mpnet                    | 0.652      | 0.407     | 0.541     |
+| arch 2 cosine, MiniLM            | 0.744      | 0.686     | 0.642     |
+| arch 2 cosine, mpnet             | **0.805**  | **0.752** | **0.676** |
+| arch 3, MiniLM                   | 0.645      | 0.777     | 0.371     |
+| arch 3, mpnet                    | 0.721      | 0.507     | 0.484     |
+| NLI baseline (model-independent) | 0.993      | 0.834     | 0.940     |
 
 With MiniLM the hybrid looks best on phase 2 (0.777); with mpnet it is the worst
 of the three there (0.507) and the reference-set scorer is best (0.752). The
@@ -1023,7 +1015,7 @@ something of ours is ahead:
   re-pairings and 0.814 on STS-low, against 0.066 and 0.192 for the MiniLM
   hybrid. (Architecture 2 is no better than the cross-encoder here: 0.8855 and
   0.695 with MiniLM, 0.819 and 0.563 with mpnet.) The
-  cross-encoder is detecting *contradiction*, which unrelated sentence pairs
+  cross-encoder is detecting _contradiction_, which unrelated sentence pairs
   frequently exhibit, so this is a task-definition mismatch rather than a
   quality gap — but for a grading system that has to distinguish "wrong answer"
   from "opposite answer", it matters, and it is the one concrete argument for a
@@ -1038,7 +1030,7 @@ cross-encoder wins everywhere: 0.993 against the best of ours at 0.805, and a
 
 ### 6.3 Did phase-1 performance transfer?
 
-See the table in §6.1. With MiniLM, architectures 1 and 3 *rise* from phase 1 to
+See the table in §6.1. With MiniLM, architectures 1 and 3 _rise_ from phase 1 to
 phase 2 and then collapse on xNot360; with mpnet they fall at every step. The rise is not a generalisation success: phase 2 adds 500 unrelated
 pairs, which are separable by plain similarity, and `c_raw` alone scores 0.738
 AUC on phase 2 against 0.523 on phase 1. The collapse on xNot360 is the
@@ -1050,7 +1042,7 @@ learned coefficients invert. Architecture 2 degrades least (0.744 → 0.686 →
 on xNot360 with mpnet, the best of any non-NLI scorer there, because it does not
 ask "how similar are A and B?" but "does B match a negation of A?", and that
 question survives the distribution shift better. The NLI baseline degrades gracefully (0.993 → 0.834
-→ 0.940 AUC) but its *accuracy* on xNot360 is only 0.744 because the threshold
+→ 0.940 AUC) but its _accuracy_ on xNot360 is only 0.744 because the threshold
 carried over from CANNOT is badly calibrated there.
 
 ### 6.4 How much of this is CANNOT's rule-based construction?
@@ -1067,12 +1059,12 @@ CANNOT's two largest components were built by automatic negation
 - **For a shared-distribution explanation for the NLI baseline:** the
   cross-encoder was trained on SNLI+MNLI. WikiFactCheck-English pairs are
   Wikipedia-derived claim/counter-claim pairs, structurally close to MNLI's
-  genre, and 167 of our 500 dissimilar positives come from SNLI's *validation*
+  genre, and 167 of our 500 dissimilar positives come from SNLI's _validation_
   split, which shares its distribution with the model's training data. Its 0.993
   on phase 1 should therefore be read as an upper bound.
 - **Direct evidence of artefact sensitivity in our scorers:** architecture 2's
   paraphrase false positives are concentrated in SemAntoNeg (the source-split
-  table in §5), whose paraphrases are *not + antonym* constructions. That is an
+  table in §5), whose paraphrases are _not + antonym_ constructions. That is an
   artefact of how that corpus was built, and it inflates architecture 2's
   apparent weakness on paraphrases relative to what a real student would write.
 - **Not measurable here:** whether the cross-encoder would hold up on
@@ -1082,9 +1074,9 @@ CANNOT's two largest components were built by automatic negation
 ### 6.5 Relation to experiment 1 (negation direction)
 
 Experiment 1 found a negation axis that ranked generator-made negations above
-their base in 100% of held-out explicit pairs, and found that the *direction* of
+their base in 100% of held-out explicit pairs, and found that the _direction_ of
 the embedding shift separated negation from paraphrase (AUC 0.95–0.99) where the
-*distance* (raw cosine) could not (AUC 0.50). Experiment 2 tests the same claim
+_distance_ (raw cosine) could not (AUC 0.50). Experiment 2 tests the same claim
 on data the generator did not make:
 
 - **The direction-over-distance finding does not survive.** `delta_p` — the
@@ -1099,9 +1091,9 @@ on data the generator did not make:
   was not measuring negation; it was measuring the generator, which builds
   negations out of that lexicon.
 - **The cancellation failure reappears.** Experiment 1 found that MiniLM pushes
-  K1 cancellations (*"never fails to sort"*) as far along the negation axis as a
+  K1 cancellations (_"never fails to sort"_) as far along the negation axis as a
   plain negation. Experiment 2's architecture 2 makes the mirror-image error on
-  real cancellations (*"not an evil idea"* matched to *"not a good idea"*). Both
+  real cancellations (_"not an evil idea"_ matched to _"not a good idea"_). Both
   experiments say the same thing: these representations count negative surface
   material rather than composing it.
 
@@ -1112,7 +1104,7 @@ Ranked by how much each could change the conclusions.
 1. **CANNOT's label noise and construction (could change the ranking).** 47% of
    phase-1 positives fall in the derived `other` bucket, and inspection (§2.5)
    shows many are factual substitutions rather than negations
-   (*nephew → grandson*). At least one positive has A identical to B. A scorer
+   (_nephew → grandson_). At least one positive has A identical to B. A scorer
    that is good at "did the meaning change?" is rewarded, and one that is good
    at "was this negated?" is not fully credited. The cross-encoder is a
    meaning-change detector, so part of its margin may be this.
@@ -1141,7 +1133,7 @@ Ranked by how much each could change the conclusions.
 6. **Subsampling of the NLI similarity function (300 of 2,001–3,002 pairs,
    reference sets capped at 8).** Its AUCs carry sampling error of roughly ±0.03
    at n=300; the comparison against plain NLI is made on the same 300 pairs, so
-   the *relative* claim is safe, the absolute one less so.
+   the _relative_ claim is safe, the absolute one less so.
 7. **Derived negation types.** verbal/antonym/other is a heuristic partition
    (§2.2); the per-type recall table inherits its errors.
 8. **Leakage risk is low but not zero.** Sentence-level disjointness is enforced
@@ -1157,22 +1149,22 @@ Ranked by how much each could change the conclusions.
 
 ## 8. Decisions made that were not in the brief
 
-| decision | what was done | why |
-|---|---|---|
-| CANNOT source attribution | Recovered by exact text match against the per-source files in CANNOT's own repository | The brief requires "record the source of every pair" but the released TSV has no source column |
-| Negation-type derivation | Source-first, then cue-count change, then WordNet antonym swap (§2.2) | The brief says "if derivable"; CANNOT has no such label |
-| Disjointness strictness | Enforced on all sentences, not only on A | The brief says "no sentence may appear in both phase 1 and phase 2"; that is stronger than deduplicating on A, so the stronger rule was used |
-| Quota overshoot | Phases contain 3,002 and 2,001 pairs instead of 3,000 and 2,000 | Pairs sharing an A are assigned as a group to avoid leakage; the last group can cross the quota |
-| SAME set contents | A itself is always included in SAME | Otherwise a paraphrase has nothing to match when the generator produced only NEG variants |
-| Empty-set sentinel | `s_neg = −1` (cosine) / `−2` (residual) when the NEG set is empty | Pushes coverage failures towards "not a negation" rather than leaving them undefined; the alternative (dropping the pair) would hide the failure |
-| "Unrelated" threshold | 5th percentile of the training pairs' max-similarity | Phase 1 has no unrelated pairs to fit against |
-| NLI subsampling | 300 pairs per split, reference sets capped at the 8 nearest by cosine | The full computation is ~110k cross-encoder passes; measured throughput is 13–16 pairs/s on this machine |
-| Similarity (ii) definition | `resid(v)·resid(B) − \|p(v) − p(B)\|` | The brief says "c_resid combined with polarity agreement" without specifying the combination |
-| Cosine baseline orientation | Score = `−c_raw` (lower similarity ⇒ more likely a negation) | The natural reading of "raw cosine alone" as a negation score; §4 shows this orientation is wrong on phase 2, which is itself reported rather than silently flipped |
-| Embedding implementation | `transformers` mean-pooling rather than the `sentence-transformers` package | Identical pipeline for these two models; avoids a dependency, and reuses the first experiment's cache |
-| Module name | The experiment module is `detect.py`, not `experiment.py` | Avoids a module-name collision with `experiments/negation_direction/experiment.py`, which is imported for `embed`/`cue_count`/`unit` |
-| Extra architecture-3 feature | Both margins added, not one | They are cheap and the brief did not forbid it; their opposing coefficients are reported in §4 |
-| mpnet run | Added after the fact, `--no-nli` | This report asks for a scorer × model grid; the NLI baseline does not depend on the embedding model |
+| decision                     | what was done                                                                         | why                                                                                                                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CANNOT source attribution    | Recovered by exact text match against the per-source files in CANNOT's own repository | The brief requires "record the source of every pair" but the released TSV has no source column                                                                      |
+| Negation-type derivation     | Source-first, then cue-count change, then WordNet antonym swap (§2.2)                 | The brief says "if derivable"; CANNOT has no such label                                                                                                             |
+| Disjointness strictness      | Enforced on all sentences, not only on A                                              | The brief says "no sentence may appear in both phase 1 and phase 2"; that is stronger than deduplicating on A, so the stronger rule was used                        |
+| Quota overshoot              | Phases contain 3,002 and 2,001 pairs instead of 3,000 and 2,000                       | Pairs sharing an A are assigned as a group to avoid leakage; the last group can cross the quota                                                                     |
+| SAME set contents            | A itself is always included in SAME                                                   | Otherwise a paraphrase has nothing to match when the generator produced only NEG variants                                                                           |
+| Empty-set sentinel           | `s_neg = −1` (cosine) / `−2` (residual) when the NEG set is empty                     | Pushes coverage failures towards "not a negation" rather than leaving them undefined; the alternative (dropping the pair) would hide the failure                    |
+| "Unrelated" threshold        | 5th percentile of the training pairs' max-similarity                                  | Phase 1 has no unrelated pairs to fit against                                                                                                                       |
+| NLI subsampling              | 300 pairs per split, reference sets capped at the 8 nearest by cosine                 | The full computation is ~110k cross-encoder passes; measured throughput is 13–16 pairs/s on this machine                                                            |
+| Similarity (ii) definition   | `resid(v)·resid(B) − \|p(v) − p(B)\|`                                                 | The brief says "c_resid combined with polarity agreement" without specifying the combination                                                                        |
+| Cosine baseline orientation  | Score = `−c_raw` (lower similarity ⇒ more likely a negation)                          | The natural reading of "raw cosine alone" as a negation score; §4 shows this orientation is wrong on phase 2, which is itself reported rather than silently flipped |
+| Embedding implementation     | `transformers` mean-pooling rather than the `sentence-transformers` package           | Identical pipeline for these two models; avoids a dependency, and reuses the first experiment's cache                                                               |
+| Module name                  | The experiment module is `detect.py`, not `experiment.py`                             | Avoids a module-name collision with `experiments/negation_direction/experiment.py`, which is imported for `embed`/`cue_count`/`unit`                                |
+| Extra architecture-3 feature | Both margins added, not one                                                           | They are cheap and the brief did not forbid it; their opposing coefficients are reported in §4                                                                      |
+| mpnet run                    | Added after the fact, `--no-nli`                                                      | This report asks for a scorer × model grid; the NLI baseline does not depend on the embedding model                                                                 |
 
 ## 9. Reproduction
 
@@ -1240,28 +1232,28 @@ precision it is quoted.
 
 ### Output files
 
-| path | what |
-|---|---|
-| `experiments/negation_detection/results.json` | every number for MiniLM (60 KB) |
-| `experiments/negation_detection/results_mpnet.json` | same for mpnet, without the NLI blocks |
-| `experiments/negation_detection/data/phase1.jsonl` | 3,002 pairs, committed |
-| `experiments/negation_detection/data/phase2.jsonl` | 2,001 pairs, committed |
-| `experiments/negation_detection/data/xnot360.jsonl` | 360 pairs, committed |
-| `experiments/negation_detection/data/refsets.jsonl` | generator output per A, gitignored (7.5 MB) |
-| `experiments/negation_detection/data/raw/` | downloads, gitignored |
-| `experiments/negation_detection/cache/variants_minilm.pkl` | 70,451 variant embeddings (116 MB, gitignored) |
-| `experiments/negation_detection/cache/nli.pkl` | cross-encoder verdicts, keyed by pair (gitignored) |
-| `experiments/negation_detection/plots/scores_minilm.png` | phase-2 score histograms per subtype, one panel per scorer, dashed line = threshold fit on phase 1 |
-| `experiments/negation_detection/plots/margins_minilm.png` | NEG−SAME margin distributions per subtype, both similarity functions |
-| `experiments/negation_detection/plots/resid_vs_deltap_minilm.png` | `c_resid` against `delta_p` for phase 2, coloured by subtype |
-| `experiments/negation_detection/REPORT.md` | the shorter in-tree report |
-| `EXPERIMENT_2_REPORT.md` | this document |
+| path                                                              | what                                                                                               |
+| ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `experiments/negation_detection/results.json`                     | every number for MiniLM (60 KB)                                                                    |
+| `experiments/negation_detection/results_mpnet.json`               | same for mpnet, without the NLI blocks                                                             |
+| `experiments/negation_detection/data/phase1.jsonl`                | 3,002 pairs, committed                                                                             |
+| `experiments/negation_detection/data/phase2.jsonl`                | 2,001 pairs, committed                                                                             |
+| `experiments/negation_detection/data/xnot360.jsonl`               | 360 pairs, committed                                                                               |
+| `experiments/negation_detection/data/refsets.jsonl`               | generator output per A, gitignored (7.5 MB)                                                        |
+| `experiments/negation_detection/data/raw/`                        | downloads, gitignored                                                                              |
+| `experiments/negation_detection/cache/variants_minilm.pkl`        | 70,451 variant embeddings (116 MB, gitignored)                                                     |
+| `experiments/negation_detection/cache/nli.pkl`                    | cross-encoder verdicts, keyed by pair (gitignored)                                                 |
+| `experiments/negation_detection/plots/scores_minilm.png`          | phase-2 score histograms per subtype, one panel per scorer, dashed line = threshold fit on phase 1 |
+| `experiments/negation_detection/plots/margins_minilm.png`         | NEG−SAME margin distributions per subtype, both similarity functions                               |
+| `experiments/negation_detection/plots/resid_vs_deltap_minilm.png` | `c_resid` against `delta_p` for phase 2, coloured by subtype                                       |
+| `experiments/negation_detection/REPORT.md`                        | the shorter in-tree report                                                                         |
+| `EXPERIMENT_2_REPORT.md`                                          | this document                                                                                      |
 
 ## 10. Open questions and recommended next steps
 
 **Things that were guessed and need a human decision**
 
-1. **What counts as a negation for grading.** CANNOT says *nephew → grandson* is
+1. **What counts as a negation for grading.** CANNOT says _nephew → grandson_ is
    one. If the project disagrees, 47% of the positives used here are
    mislabelled for the purpose, and every number changes. This is the single
    most consequential open question.

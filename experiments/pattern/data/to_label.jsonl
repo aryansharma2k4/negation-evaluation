@@ -1,0 +1,571 @@
+{"id": "p500cfb6f82", "a": "The receiver advertises its available buffer space in the window field.", "b": "The receiver's available buffer space is advertised in the window field."}
+{"id": "p55f2c24752", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "Some routing protocols refuse to converge slowly after a link failure."}
+{"id": "pe967a39dba", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "Congestion avoidance surely does not increase the window by one segment per round-trip time."}
+{"id": "p01c673a2e4", "a": "A TCP sender retransmits a segment when its timer expires.", "b": "When its timer expires, a TCP sender retransmits a segment."}
+{"id": "p924d5755a2", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Priority scheduling is by no means vulnerable to starvation of low-priority processes."}
+{"id": "p77c222ae59", "a": "An unsafe state does not always lead to a deadlock.", "b": "An unsafe state does not always result in a deadlock."}
+{"id": "p9886a05588", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "When the bottleneck link is overloaded, all senders must reduce their rates."}
+{"id": "p1b40ba6d06", "a": "The operating system must check permissions before it opens a file.", "b": "The operating system must by no means check permissions before it opens a file."}
+{"id": "p9f5c14ecfb", "a": "Peterson's solution is correct for two processes but does not scale to many processes.", "b": "Peterson's solution is correct for two processes but does not extend to many processes."}
+{"id": "p59fdff595c", "a": "An authoritative server does not need to contact other servers to answer a query.", "b": "An authoritative server does not need to contact other servers to not answer a query."}
+{"id": "pf2f87c64d4", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "The sender certainly does not append a CRC to each frame before transmission."}
+{"id": "p656e944719", "a": "A monitor ensures that only one process is active inside it at any time.", "b": "A monitor ensures that only one process is not active inside it at any time."}
+{"id": "p516b14c65d", "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.", "b": "The critical section must dissatisfy mutual exclusion, progress and bounded waiting."}
+{"id": "p8277566fad", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "DNS never uses UDP because most queries and responses are small."}
+{"id": "p8588d695a6", "a": "The receiver advertises its available buffer space in the window field.", "b": "The receiver advertises its unavailable buffer space in the window field."}
+{"id": "p323dfacae8", "a": "Cached records are valid only until their time-to-live expires.", "b": "Cached records are invalid only until their time-to-live expires."}
+{"id": "p2e6431ec1b", "a": "The operating system must check permissions before it opens a file.", "b": "The operating system must not check permissions before it opens a file."}
+{"id": "pac443a05e1", "a": "The receiver advertises its available buffer space in the window field.", "b": "Multilevel feedback queues cannot move processes between queues based on their observed CPU bursts."}
+{"id": "p3d87e57022", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS definitely does not usually use UDP because most queries and responses are small."}
+{"id": "p8628bf047a", "a": "A monitor ensures that only one process is active inside it at any time.", "b": "A monitor guarantees that only one process is active inside it at any time."}
+{"id": "pcea746a763", "a": "Error correction is expensive because it requires many redundant bits.", "b": "Error correction is possibly not expensive because it requires many redundant bits."}
+{"id": "p8c03575b9e", "a": "Aging gradually increases the priority of processes that wait in the system for a long time.", "b": "Aging gradually raises the priority of processes that wait in the system for a long time."}
+{"id": "p31d727e13b", "a": "An authoritative server does not need to contact other servers to answer a query.", "b": "An authoritative server does not need to contact other servers to respond to a query."}
+{"id": "p191f14a2de", "a": "A preemptive scheduler can interrupt a running process when a higher-priority process arrives.", "b": "A preemptive scheduler may not interrupt a running process when a higher-priority process arrives."}
+{"id": "pdfc44d37fe", "a": "The translation lookaside buffer is a small cache of recent page table entries.", "b": "The translation lookaside buffer is the opposite of a small cache of recent page table entries."}
+{"id": "p559f49cb56", "a": "A race condition occurs when several threads access shared data concurrently.", "b": "A race condition ceases to occur when several threads access shared data concurrently."}
+{"id": "pc35d7b5540", "a": "The banker's algorithm checks whether granting a request leaves the system in a safe state.", "b": "Hard links cannot cross the boundaries between same file systems."}
+{"id": "p640afdbdf1", "a": "A preemptive scheduler can interrupt a running process when a higher-priority process arrives.", "b": "When a higher-priority process arrives, a preemptive scheduler can interrupt a running process."}
+{"id": "pd38e506165", "a": "A directory is a special file that maps names to inode numbers.", "b": "The least recently used policy replaces the page that has been used for the longest time."}
+{"id": "pb1d68341b9", "a": "Deadlock prevention is often expensive because it restricts how processes request resources.", "b": "Deadlock prevention is never expensive because it restricts how processes request resources."}
+{"id": "pd586bf8820", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is possibly not useful when retransmission is slow or impossible."}
+{"id": "p487f324159", "a": "The sender appends a CRC to each frame before transmission.", "b": "The sender never neglects to append a CRC to each frame before transmission."}
+{"id": "p6620ae9a23", "a": "Busy waiting is wasteful on a single-processor system.", "b": "Busy waiting is not wasteful on a single-processor system."}
+{"id": "p5ed0b16a19", "a": "Some routing protocols converge slowly after a link failure.", "b": "Some routing protocols never cease to converge slowly after a link failure."}
+{"id": "p605c5f6659", "a": "The root name servers are essential to the operation of the domain name system.", "b": "The root name servers are never essential to the operation of the domain name system."}
+{"id": "p3b3bdd19a4", "a": "Distance-vector protocols can suffer from the count-to-infinity problem.", "b": "Distance-vector protocols can possibly not suffer from the count-to-infinity problem."}
+{"id": "pd25f942a75", "a": "A race condition occurs when several threads access shared data concurrently.", "b": "A race condition is unable to occur when several threads access shared data concurrently."}
+{"id": "pf748bf759c", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS usually neglects to use UDP because most queries and responses are small."}
+{"id": "p997409061b", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "The sender halves its congestion window when it does not receive three duplicate acknowledgments."}
+{"id": "pca6e30ad90", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is not at all useful when retransmission is slow or impossible."}
+{"id": "pe5c2ac4c87", "a": "The routing table is consulted for every packet that the router forwards.", "b": "The router consults the routing table for every packet that it forwards."}
+{"id": "pf504578ac2", "a": "Fragmentation is a serious problem for file systems that use contiguous allocation.", "b": "Fragmentation is the opposite of a serious problem for file systems that use contiguous allocation."}
+{"id": "pf52eaf1c5b", "a": "Hard links cannot cross the boundaries between different file systems.", "b": "Hard links can cross the boundaries between different file systems."}
+{"id": "p1330319bbb", "a": "The cyclic redundancy check is effective against burst errors.", "b": "The noncyclic redundancy check is not effective against burst errors."}
+{"id": "p6c18ea76aa", "a": "A two-dimensional parity scheme is able to locate a single flipped bit.", "b": "A two-dimensional parity scheme is not at all able to locate a single flipped bit."}
+{"id": "p8569337fad", "a": "A DNS zone transfer copies all records from a primary server to a secondary server.", "b": "The Internet checksum does not detect errors that do not swap two 16-bit words."}
+{"id": "p593c3125e2", "a": "Longest prefix matching selects the most specific route in the forwarding table.", "b": "Longest prefix matching never ceases to select the most specific route in the forwarding table."}
+{"id": "pa276d063b6", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "Congestion avoidance grows the window by one segment per round-trip time."}
+{"id": "p31985988b8", "a": "Dijkstra's algorithm computes the shortest path tree from a single source.", "b": "The shortest path tree from a single source is computed by Dijkstra's algorithm."}
+{"id": "p59184b460a", "a": "The operating system must check permissions before it opens a file.", "b": "The operating system need not check permissions before it opens a file."}
+{"id": "p5ca6aa7aec", "a": "The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.", "b": "The average waiting time for a given set of processes is minimized by the shortest-job-first algorithm."}
+{"id": "p09e591c8b0", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory lets a program run even when it is larger than physical memory."}
+{"id": "paea7711898", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are absolutely not simple to compute, but they miss many multi-bit errors."}
+{"id": "pd35a65cdb4", "a": "The receiver discards a frame when its checksum is incorrect.", "b": "The receiver does not discard a frame when its checksum is not incorrect."}
+{"id": "p13d83f0793", "a": "Most general-purpose operating systems ignore the deadlock problem entirely.", "b": "Most general-purpose operating systems might not ignore the deadlock problem entirely."}
+{"id": "pb26c8078c0", "a": "Aging gradually increases the priority of processes that wait in the system for a long time.", "b": "Aging does not gradually increase the priority of processes that wait in the system for a long time."}
+{"id": "p08dd1021fe", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "A connection is certainly not closed gracefully with a four-way exchange of FIN segments."}
+{"id": "p86ce2b8386", "a": "TCP slow start doubles the congestion window every round-trip time.", "b": "The root name servers might not be essential to the operation of the domain name system."}
+{"id": "peeaad3a69b", "a": "Random early detection drops packets before the router queue becomes full.", "b": "Nonrandom early detection does not drop packets before the router queue becomes full."}
+{"id": "pc9fefc91d1", "a": "The page table maps each virtual page number to a physical frame number.", "b": "The page table maps no virtual page number to a physical frame number."}
+{"id": "pa55c9feff9", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "Congestion avoidance possibly does not increase the window by one segment per round-trip time."}
+{"id": "p4053b79fe5", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "Longest prefix matching never neglects to select the most specific route in the forwarding table."}
+{"id": "p555e616a3d", "a": "First-come first-served scheduling is simple to implement but suffers from the convoy effect.", "b": "First-come first-served scheduling is simple to implement but enjoys from the convoy effect."}
+{"id": "p9d08492f35", "a": "Link-state routing floods topology information to every router in the network.", "b": "A race condition denies occurring when several threads access shared data concurrently."}
+{"id": "p75ff434f38", "a": "Dijkstra's algorithm computes the shortest path tree from a single source.", "b": "Dijkstra's algorithm computes the shortest path tree from a multiple source."}
+{"id": "p98a7dd8b92", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are certainly not simple to compute, but they miss many multi-bit errors."}
+{"id": "p63b1d49f42", "a": "DNS can map several host names to the same IP address.", "b": "Round-robin scheduling is scarcely fair because every process receives an equal time quantum."}
+{"id": "p91f7ac9789", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are compound to compute, but they miss many multi-bit errors."}
+{"id": "p5f027b4a3a", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "No TCP segment carries a sequence number and an acknowledgment number."}
+{"id": "p4067b5e0cc", "a": "Thrashing is common when the combined working sets exceed the available frames.", "b": "Thrashing is uncommon when the combined working sets exceed the available frames."}
+{"id": "p2e6916f272", "a": "The page table maps each virtual page number to a physical frame number.", "b": "The page table scarcely maps each virtual page number to a physical frame number."}
+{"id": "p6d0630c9d2", "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.", "b": "Mutual exclusion, progress and bounded waiting must be satisfied by the critical section."}
+{"id": "p26c38295ea", "a": "Fragmentation is a serious problem for file systems that use contiguous allocation.", "b": "Fragmentation is anything but a serious problem for file systems that use contiguous allocation."}
+{"id": "pf8deda4a9a", "a": "Congestion control is different from flow control, which protects the receiver.", "b": "Congestion control is by no means different from flow control, which protects the receiver."}
+{"id": "p53dd0609c2", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "All senders must not reduce their rates when the bottleneck link is not overloaded."}
+{"id": "pd636cdbc69", "a": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.", "b": "Hierarchical routing is necessary because contrasty routing tables do not scale to the whole Internet."}
+{"id": "pfa8c61cbbe", "a": "A parity bit can detect any single-bit error in a data word.", "b": "A parity bit can detect any multiple-bit error in a data word."}
+{"id": "p1a61aa7978", "a": "Semaphores can solve the producer-consumer problem with a bounded buffer.", "b": "Semaphores can solve the producer-consumer problem in the absence of a bounded buffer."}
+{"id": "p3c9c8ac5eb", "a": "Split horizon never advertises a route back to the neighbor from which it was learned.", "b": "Split horizon never advertises a route back to the neighbor from which it was not learned."}
+{"id": "pf28278c18d", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are complex to compute, but they miss many multi-bit errors."}
+{"id": "pd3da9df258", "a": "Additive increase and multiplicative decrease is stable and fair to competing flows.", "b": "Additive increase and multiplicative decrease is stable and unfair to competing flows."}
+{"id": "pfcdea26085", "a": "The translation lookaside buffer is a small cache of recent page table entries.", "b": "The translation lookaside buffer is a small cache of recently used page table entries."}
+{"id": "pb5fa3fa0f0", "a": "Random early detection drops packets before the router queue becomes full.", "b": "Nonrandom early detection drops packets before the router queue does not become full."}
+{"id": "p1e11da689e", "a": "A spinlock is unsuitable for long critical sections.", "b": "TCP Reno should rarely recover faster than Tahoe from a single lost segment."}
+{"id": "pdac8efcbff", "a": "Demand paging loads a page into memory only when the page is needed.", "b": "Demand fail to page loads a page into memory only when the page is needed."}
+{"id": "pfbcb612445", "a": "The receiver discards a frame when its checksum is incorrect.", "b": "The receiver does not discard a frame when its checksum is incorrect."}
+{"id": "p0e7320b041", "a": "OSPF routers exchange hello packets to discover their neighbors.", "b": "OSPF routers never neglect to exchange hello packets to discover their neighbors."}
+{"id": "pcdfe531d3f", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS does not usually use UDP because most queries and responses are not small."}
+{"id": "pfc5fddc8fc", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory disallows a program to run even when it is larger than physical memory."}
+{"id": "p658cb89ec6", "a": "TCP does not preserve message boundaries in the byte stream.", "b": "TCP preserves message boundaries in the byte stream."}
+{"id": "p2d1d1ada8b", "a": "A recursive resolver queries other servers on behalf of the client.", "b": "A recursive resolver may not query other servers on behalf of the client."}
+{"id": "p7ae8169fd9", "a": "The operating system must check permissions before it opens a file.", "b": "The operating system must check permissions before it does not open a file."}
+{"id": "p35f0fd155d", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "A cycle in the resource allocation graph is not at all necessary for a deadlock to exist."}
+{"id": "pde2ed0b27b", "a": "Multilevel feedback queues can move processes between queues based on their observed CPU bursts.", "b": "Multilevel feedback queues cannot move processes between queues based on their observed CPU bursts."}
+{"id": "p3f4a7d99a1", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "A cycle in the resource allocation graph is not necessary for a deadlock to not exist."}
+{"id": "p9b8bb72738", "a": "Aging gradually increases the priority of processes that wait in the system for a long time.", "b": "Aging gradually decreases the priority of processes that wait in the system for a long time."}
+{"id": "pa216716c2f", "a": "Deadlock prevention is often expensive because it restricts how processes request resources.", "b": "Deadlock prevention is often anything but expensive because it restricts how processes request resources."}
+{"id": "pd615d0845d", "a": "Atomic instructions are necessary for implementing locks on multiprocessor systems.", "b": "Atomic instructions are probably not necessary for implementing locks on multiprocessor systems."}
+{"id": "pa5db2f2c89", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "Atomic instructions are barely necessary for implementing locks on multiprocessor systems."}
+{"id": "pe16c179b09", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are anything but simple to compute, but they miss many multi-bit errors."}
+{"id": "pfcf720df13", "a": "Nagle's algorithm is useful for reducing the number of small packets.", "b": "Nagle's algorithm is anything but useful for reducing the number of small packets."}
+{"id": "p7af8fb1f2f", "a": "Iterative queries are common between local and authoritative name servers.", "b": "Iterative queries are uncommon between local and authoritative name servers."}
+{"id": "p3d3f482582", "a": "The translation lookaside buffer is a small cache of recent page table entries.", "b": "The translation lookaside buffer may not be a small cache of recent page table entries."}
+{"id": "pad71224232", "a": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.", "b": "Nonhierarchical routing is necessary because flat routing tables do not scale to the whole Internet."}
+{"id": "pd722c10206", "a": "A process holding a lock should release it before requesting another resource.", "b": "A process holding a lock should surely not release it before requesting another resource."}
+{"id": "p86f58bfd20", "a": "The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.", "b": "The shortest-job-first algorithm refuses to minimize the average waiting time for a given set of processes."}
+{"id": "p02ef605003", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is far from useful when retransmission is slow or impossible."}
+{"id": "p01db920db4", "a": "Fragmentation is a serious problem for file systems that use contiguous allocation.", "b": "Fragmentation is a major problem for file systems that use contiguous allocation."}
+{"id": "p2d88908b5b", "a": "Thrashing is common when the combined working sets exceed the available frames.", "b": "Thrashing is not common when the combined working sets exceed the unavailable frames."}
+{"id": "p71e4a37e26", "a": "A larger page size can reduce the size of the page table.", "b": "A larger page size can absolutely not reduce the size of the page table."}
+{"id": "p7539279597", "a": "Link-state routing floods topology information to every router in the network.", "b": "Round-robin scheduling is fair because every process receives an unequal time quantum."}
+{"id": "p700fe716a4", "a": "BGP is a path-vector protocol that is used between autonomous systems.", "b": "BGP is a path-vector protocol that is employed between autonomous systems."}
+{"id": "p70af426d4c", "a": "Contiguous allocation is efficient for sequential access to large files.", "b": "Contiguous allocation is inefficient for sequential access to large files."}
+{"id": "p0c06ecdb6e", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS usually refuses to use UDP because most queries and responses are small."}
+{"id": "p132c85693b", "a": "First-come first-served scheduling is simple to implement but suffers from the convoy effect.", "b": "TCP Reno should recover faster than Tahoe from a multiple lost segment."}
+{"id": "p1f098acf1b", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "Threads within the same process scarcely share the address space and open files."}
+{"id": "p58106a11d3", "a": "The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.", "b": "The shortest-job-first algorithm ceases to minimize the average waiting time for a given set of processes."}
+{"id": "pdbc66584fc", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Iterative queries are rarely common between local and authoritative name servers."}
+{"id": "p667972ba5e", "a": "A TCP sender retransmits a segment when its timer expires.", "b": "A TCP sender retransmits a segment when its timer does not expire."}
+{"id": "p9f8e3b6f24", "a": "A process holding a lock should release it before requesting another resource.", "b": "A process holding a lock need not release it before requesting another resource."}
+{"id": "pc385b59cff", "a": "DNS can map several host names to the same IP address.", "b": "DNS cannot map several host names to the same IP address."}
+{"id": "pe3fe33ed48", "a": "Dijkstra's algorithm computes the shortest path tree from a single source.", "b": "Dijkstra's algorithm never refuses to compute the shortest path tree from a single source."}
+{"id": "p4cef5065b5", "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.", "b": "The critical section must hardly satisfy mutual exclusion, progress and bounded waiting."}
+{"id": "p5aaa955828", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "If every process requests resources in increasing order, circular wait never occurs."}
+{"id": "pe1246ab73a", "a": "Split horizon never advertises a route back to the neighbor from which it was learned.", "b": "Split horizon always advertises a route back to the neighbor from which it was learned."}
+{"id": "p54e18a6d4a", "a": "Deadlock prevention is often expensive because it restricts how processes request resources.", "b": "Because it restricts how processes request resources, deadlock prevention is often expensive."}
+{"id": "p0f2b39cb31", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "Circular wait never occurs if every process requests resources in increasing disorder."}
+{"id": "pbeee75a7f9", "a": "Random early detection drops packets before the router queue becomes full.", "b": "Nonrandom early detection drops packets before the router queue becomes full."}
+{"id": "p481c432af5", "a": "Round-robin scheduling is fair because every process receives an equal time quantum.", "b": "Round-robin scheduling is unfair because every process receives an equal time quantum."}
+{"id": "p59b47c71c2", "a": "The banker's algorithm checks whether granting a request leaves the system in a safe state.", "b": "The banker's algorithm determines whether granting a request leaves the system in a safe state."}
+{"id": "pfe83adfa2e", "a": "A DNS zone transfer copies all records from a primary server to a secondary server.", "b": "All records are copied from a primary server to a secondary server in a DNS zone transfer."}
+{"id": "pd07b1dcfe0", "a": "Every TCP segment carries a sequence number and an acknowledgment number.", "b": "Not every TCP segment carries a sequence number and an acknowledgment number."}
+{"id": "p965282b45c", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is certainly not useful when retransmission is slow or impossible."}
+{"id": "p8f2bef9dac", "a": "BGP is a path-vector protocol that is used between autonomous systems.", "b": "BGP is not a path-vector protocol that is not used between autonomous systems."}
+{"id": "pae3be0ad8f", "a": "Additive increase and multiplicative decrease is stable and fair to competing flows.", "b": "Additive increase and multiplicative decrease is stable and foul to competing flows."}
+{"id": "pce9875734a", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Priority scheduling is not vulnerable to starvation of low-priority processes."}
+{"id": "pf444f5750e", "a": "Non-preemptive scheduling does not interrupt a process until it blocks or terminates.", "b": "Non-preemptive scheduling does not interrupt a process until it blocks or exits."}
+{"id": "p8d98287008", "a": "Round-robin scheduling is fair because every process receives an equal time quantum.", "b": "Round-robin scheduling is foul because every process receives an equal time quantum."}
+{"id": "pe58cfe4790", "a": "Hamming codes can correct single-bit errors without retransmission.", "b": "The critical section must maybe not satisfy mutual exclusion, progress and bounded waiting."}
+{"id": "p33dda06cf7", "a": "The buffer cache keeps recently used disk blocks in main memory.", "b": "The buffer cache possibly does not keep recently used disk blocks in main memory."}
+{"id": "pc67c0d3e6f", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "Circular wait occurs if every process requests resources in increasing order."}
+{"id": "pe5de28c526", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS probably does not usually use UDP because most queries and responses are small."}
+{"id": "pc78d7c3906", "a": "Hamming codes can correct single-bit errors without retransmission.", "b": "Hamming codes can falsify single-bit errors without retransmission."}
+{"id": "pac5f7ed304", "a": "The sender can transmit several segments before it receives an acknowledgment.", "b": "Before it receives an acknowledgment, the sender can transmit several segments."}
+{"id": "p897dd59cf0", "a": "Belady's anomaly shows that FIFO replacement does not always improve with more frames.", "b": "Belady's anomaly denies showing that FIFO replacement does not always improve with more frames."}
+{"id": "p288c4d9324", "a": "A TCP sender retransmits a segment when its timer expires.", "b": "A TCP sender ceases to retransmit a segment when its timer expires."}
+{"id": "p5b7006bc0b", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "A TCP sender fails to retransmit a segment when its timer expires."}
+{"id": "pa74eb36e8e", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Priority scheduling is susceptible to starvation of low-priority processes."}
+{"id": "p63b1fe9a1f", "a": "Congestion control is different from flow control, which protects the receiver.", "b": "Congestion control is far from different from flow control, which protects the receiver."}
+{"id": "paa93143274", "a": "The translation lookaside buffer is a small cache of recent page table entries.", "b": "Deadlock prevention is rarely often expensive because it restricts how processes request resources."}
+{"id": "p978699bb47", "a": "First-come first-served scheduling is simple to implement but suffers from the convoy effect.", "b": "First-come first-served scheduling is scarcely simple to implement but suffers from the convoy effect."}
+{"id": "p7e23f520a2", "a": "The receiver discards a frame when its checksum is incorrect.", "b": "The receiver ceases to discard a frame when its checksum is incorrect."}
+{"id": "p97a76e0ef4", "a": "A monitor ensures that only one process is active inside it at any time.", "b": "BGP might not be a path-vector protocol that is used between autonomous systems."}
+{"id": "p240e90bc56", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "A cycle in the resource allocation graph is anything but necessary for a deadlock to exist."}
+{"id": "pa6d8f09fa7", "a": "Aging gradually increases the priority of processes that wait in the system for a long time.", "b": "Rejuvenating gradually increases the priority of processes that wait in the system for a long time."}
+{"id": "pe3fbc5eb6d", "a": "DNS translates human-readable host names into IP addresses.", "b": "DNS does not translate nonhuman-readable host names into IP addresses."}
+{"id": "p153eb03000", "a": "The cyclic redundancy check is effective against burst errors.", "b": "The acyclic redundancy check is effective against burst errors."}
+{"id": "p0a1d0d12b6", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "Not all senders must reduce their rates when the bottleneck link is overloaded."}
+{"id": "pdbf9352dbd", "a": "Distance-vector protocols can suffer from the count-to-infinity problem.", "b": "Distance-vector protocols may not suffer from the count-to-infinity problem."}
+{"id": "p12bbc81505", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "When they run after every resource request, deadlock detection algorithms are costly."}
+{"id": "p7e57dfce34", "a": "An authoritative server does not need to contact other servers to answer a query.", "b": "Nagle's algorithm is not at all useful for reducing the number of small packets."}
+{"id": "p6419cf5a97", "a": "Link-state routing floods topology information to every router in the network.", "b": "Congestion avoidance neglects to increase the window by one segment per round-trip time."}
+{"id": "p8e3f94460d", "a": "Hamming codes can correct single-bit errors without retransmission.", "b": "A connection is scarcely closed gracefully with a four-way exchange of FIN segments."}
+{"id": "pcb15c81127", "a": "The operating system must check permissions before it opens a file.", "b": "Before it opens a file, the operating system must check permissions."}
+{"id": "p47b6db59a3", "a": "Multilevel feedback queues can move processes between queues based on their observed CPU bursts.", "b": "Multilevel feedback queues may not move processes between queues based on their observed CPU bursts."}
+{"id": "pb8f21a9400", "a": "Thrashing is common when the combined working sets exceed the available frames.", "b": "Thrashing is far from common when the combined working sets exceed the available frames."}
+{"id": "p4667defe6c", "a": "Every TCP segment carries a sequence number and an acknowledgment number.", "b": "No TCP segment carries a sequence number and an acknowledgment number."}
+{"id": "p9ceb914999", "a": "A monitor ensures that only one process is active inside it at any time.", "b": "Longest prefix matching never neglects to select the most specific route in the forwarding table."}
+{"id": "p49dd1647dc", "a": "Multilevel feedback queues can move processes between queues based on their observed CPU bursts.", "b": "Distance-vector protocols may not suffer from the count-to-infinity problem."}
+{"id": "paa77d408e8", "a": "A process holding a lock should release it before requesting another resource.", "b": "A process holding a lock should not release it before requesting another resource."}
+{"id": "p3fbdb3f56a", "a": "Threads within the same process share the address space and open files.", "b": "The banker's algorithm checks whether granting a request leaves the system in a out state."}
+{"id": "p18863927e3", "a": "The receiver advertises its available buffer space in the window field.", "b": "The receiver is unable to advertise its available buffer space in the window field."}
+{"id": "p4b2d3e996c", "a": "Congestion control is different from flow control, which protects the receiver.", "b": "Congestion control is never different from flow control, which protects the receiver."}
+{"id": "p5c5ff5345c", "a": "The receiver discards a frame when its checksum is incorrect.", "b": "The receiver discards a frame when its checksum is correct."}
+{"id": "pb839e90934", "a": "Semaphores can solve the producer-consumer problem with a bounded buffer.", "b": "Semaphores may not solve the producer-consumer problem with a bounded buffer."}
+{"id": "pe1e4c97e9a", "a": "Round-robin scheduling is fair because every process receives an equal time quantum.", "b": "Because every process receives an equal time quantum, round-robin scheduling is fair."}
+{"id": "p2e141abf31", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "A connection is maybe not closed gracefully with a four-way exchange of FIN segments."}
+{"id": "pa336b62b17", "a": "A spinlock is unsuitable for long critical sections.", "b": "A spinlock is unsuitable for long uncritical sections."}
+{"id": "p6f2d14d410", "a": "A local DNS server caches responses to reduce lookup latency.", "b": "A local DNS server caches responses to lower lookup latency."}
+{"id": "p4986b19f0b", "a": "TCP is a connection-oriented protocol, while UDP is a datagram protocol.", "b": "TCP is the opposite of a connection-oriented protocol, while UDP is a datagram protocol."}
+{"id": "p33d80333ec", "a": "Distance-vector protocols can suffer from the count-to-infinity problem.", "b": "Distance-vector protocols can surely not suffer from the count-to-infinity problem."}
+{"id": "pbfaaf9b7c7", "a": "Four necessary conditions must hold simultaneously for a deadlock to occur in a system.", "b": "Four necessary conditions must not hold simultaneously for a deadlock to not occur in a system."}
+{"id": "p57de0e6bdc", "a": "Busy waiting is wasteful on a single-processor system.", "b": "Busy waiting is wasteful on a multiple-processor system."}
+{"id": "pf5f1285128", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Random early detection fails to drop packets before the router queue becomes full."}
+{"id": "p5bcd16a251", "a": "Some routing protocols converge slowly after a link failure.", "b": "Some routing protocols deny converging slowly after a link failure."}
+{"id": "pfdfd09a8bb", "a": "A process holding a lock should release it before requesting another resource.", "b": "A process holding a lock should free it before requesting another resource."}
+{"id": "p8942f8d159", "a": "Peterson's solution is correct for two processes but does not scale to many processes.", "b": "Peterson's solution is incorrect for two processes but does not scale to many processes."}
+{"id": "pa653a2199c", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are simple to compute, but they have many multi-bit errors."}
+{"id": "p1ff817576e", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is useless when retransmission is slow or impossible."}
+{"id": "p34192c79ab", "a": "The Internet checksum does not detect errors that swap two 16-bit words.", "b": "The Internet checksum detects errors that swap two 16-bit words."}
+{"id": "p9d7e57f266", "a": "Belady's anomaly shows that FIFO replacement does not always improve with more frames.", "b": "The shortest-job-first algorithm maybe does not minimize the average waiting time for a given set of processes."}
+{"id": "p63350c205d", "a": "Random early detection drops packets before the router queue becomes full.", "b": "Random early detection does not drop packets before the router queue does not become full."}
+{"id": "p0559ff0dd7", "a": "The sender appends a CRC to each frame before transmission.", "b": "The sender appends a CRC to no frame before transmission."}
+{"id": "pa84470fbce", "a": "Peterson's solution is correct for two processes but does not scale to many processes.", "b": "Peterson's solution is correct for two processes but scales to many processes."}
+{"id": "p58a3d24ae4", "a": "Journaling file systems can recover quickly after a crash.", "b": "Journaling file systems may not recover quickly after a crash."}
+{"id": "pf27d5df1f1", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "Congestion avoidance does not increase the window by one segment per round-trip time."}
+{"id": "pd931e0dbff", "a": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.", "b": "Nonhierarchical routing is not necessary because flat routing tables do not scale to the whole Internet."}
+{"id": "p962f805e0a", "a": "Additive increase and multiplicative decrease is stable and fair to competing flows.", "b": "Additive increase and multiplicative decrease is far from stable and fair to competing flows."}
+{"id": "p883797fc41", "a": "A spinlock is unsuitable for long critical sections.", "b": "A spinlock is inappropriate for long critical sections."}
+{"id": "paeced184cd", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "All senders need not reduce their rates when the bottleneck link is overloaded."}
+{"id": "p7020679db8", "a": "DNS translates human-readable host names into IP addresses.", "b": "DNS ceases to translate human-readable host names into IP addresses."}
+{"id": "p16c0fb7910", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "Circular wait never occurs if every process does not request resources in increasing order."}
+{"id": "p797eabd309", "a": "A race condition occurs when several threads access shared data concurrently.", "b": "A race condition does not occur when several threads access shared data concurrently."}
+{"id": "p8d660edb62", "a": "A local DNS server caches responses to reduce lookup latency.", "b": "A national DNS server caches responses to reduce lookup latency."}
+{"id": "p6199c3708b", "a": "A mutex is a lock that only one thread can hold at a time.", "b": "A mutex is the opposite of a lock that only one thread can hold at a time."}
+{"id": "p171b52a104", "a": "DNS translates human-readable host names into IP addresses.", "b": "DNS translates nonhuman-readable host names into IP addresses."}
+{"id": "p40406d807c", "a": "Indexed allocation supports direct access without external fragmentation.", "b": "Indexed allocation supports indirect access without external fragmentation."}
+{"id": "p17bf4bafec", "a": "Random early detection drops packets before the router queue becomes full.", "b": "Before the router queue becomes full, random early detection drops packets."}
+{"id": "pa8616922f0", "a": "The dispatcher saves the state of the current process during a context switch.", "b": "The dispatcher absolutely does not save the state of the current process during a context switch."}
+{"id": "pa9912fe1eb", "a": "A recursive resolver queries other servers on behalf of the client.", "b": "A recursive resolver never refuses to query other servers on behalf of the client."}
+{"id": "p4db4e53975", "a": "A directory is a special file that maps names to inode numbers.", "b": "A cycle in the resource allocation graph is definitely not necessary for a deadlock to exist."}
+{"id": "p184038022f", "a": "Hard links cannot cross the boundaries between different file systems.", "b": "Hard links cannot uncross the boundaries between different file systems."}
+{"id": "pe67342d4cd", "a": "OSPF routers exchange hello packets to discover their neighbors.", "b": "OSPF routers maybe do not exchange hello packets to discover their neighbors."}
+{"id": "p0b48e57884", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is by no means useful when retransmission is slow or impossible."}
+{"id": "p1f84239886", "a": "Dijkstra's algorithm computes the shortest path tree from a single source.", "b": "Dijkstra's algorithm hardly computes the shortest path tree from a single source."}
+{"id": "p2f90ed579a", "a": "The buffer cache keeps recently used disk blocks in main memory.", "b": "The buffer cache seldom keeps recently used disk blocks in main memory."}
+{"id": "p8336302c27", "a": "First-come first-served scheduling is simple to implement but suffers from the convoy effect.", "b": "First-come first-served scheduling is easy to implement but suffers from the convoy effect."}
+{"id": "p00f337597f", "a": "The file allocation table records the next block of each file.", "b": "The file allocation table never records the next block of each file."}
+{"id": "pd0cfa04d1b", "a": "Four necessary conditions must hold simultaneously for a deadlock to occur in a system.", "b": "Four necessary conditions must hold at the same time for a deadlock to occur in a system."}
+{"id": "p1d00779360", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Priority scheduling is invulnerable to starvation of low-priority processes."}
+{"id": "p475d9ab7c6", "a": "The buffer cache keeps recently used disk blocks in main memory.", "b": "Recently used disk blocks are kept in main memory by the buffer cache."}
+{"id": "pb291554709", "a": "A larger page size can reduce the size of the page table.", "b": "A larger page size may not reduce the size of the page table."}
+{"id": "pc8fc157881", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "BGP is certainly not a path-vector protocol that is used between autonomous systems."}
+{"id": "pd017a34206", "a": "Additive increase and multiplicative decrease is stable and fair to competing flows.", "b": "Additive increase and multiplicative decrease is barely stable and fair to competing flows."}
+{"id": "p5604a39303", "a": "A DNS zone transfer copies all records from a primary server to a secondary server.", "b": "A DNS zone transfer copies none of the records from a primary server to a secondary server."}
+{"id": "p9f993e24a2", "a": "DNS translates human-readable host names into IP addresses.", "b": "DNS never neglects to translate human-readable host names into IP addresses."}
+{"id": "pdd5e7cd9ce", "a": "The dispatcher saves the state of the current process during a context switch.", "b": "The three-way handshake might not establish a connection before the sender transmits data."}
+{"id": "pc64157d2a1", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "Congestion avoidance might not increase the window by one segment per round-trip time."}
+{"id": "pf02ecb6a0a", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "The sender appends a CRC to no frame before transmission."}
+{"id": "p6c87dc3952", "a": "The receiver advertises its available buffer space in the window field.", "b": "The receiver never advertises its available buffer space in the window field."}
+{"id": "paeb33c3c7a", "a": "Most general-purpose operating systems ignore the deadlock problem entirely.", "b": "Most general-purpose operating systems deny ignoring the deadlock problem entirely."}
+{"id": "p2dd6f0dd4a", "a": "A mutex is a lock that only one thread can hold at a time.", "b": "A mutex is a lock that only a single thread can hold at a time."}
+{"id": "pcb113daacc", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Fragmentation is far from a serious problem for file systems that use contiguous allocation."}
+{"id": "p7cff98e295", "a": "TCP Reno should recover faster than Tahoe from a single lost segment.", "b": "TCP Reno need not recover faster than Tahoe from a single lost segment."}
+{"id": "pad8b85b6b9", "a": "Thrashing is common when the combined working sets exceed the available frames.", "b": "Thrashing is not uncommon when the combined working sets exceed the available frames."}
+{"id": "p1bf54870fb", "a": "The cyclic redundancy check is effective against burst errors.", "b": "The cyclic redundancy check is anything but effective against burst errors."}
+{"id": "p58faf29631", "a": "Error correction is expensive because it requires many redundant bits.", "b": "Error correction is never expensive because it requires many redundant bits."}
+{"id": "p4d8ca07dab", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Priority scheduling is anything but vulnerable to starvation of low-priority processes."}
+{"id": "pdd7cd51cf6", "a": "The file allocation table records the next block of each file.", "b": "The file allocation table never fails to record the next block of each file."}
+{"id": "p6804c23920", "a": "TCP provides reliable, in-order delivery of a byte stream between two hosts.", "b": "Reliable, in-order delivery of a byte stream between two hosts is provided by TCP."}
+{"id": "p15db23f32d", "a": "Atomic instructions are necessary for implementing locks on multiprocessor systems.", "b": "Atomic instructions are not necessary for implementing locks on multiprocessor systems."}
+{"id": "p6b020739e3", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Busy waiting is barely wasteful on a single-processor system."}
+{"id": "pc4663db61f", "a": "The three-way handshake establishes a connection before the sender transmits data.", "b": "The three-way handshake maybe does not establish a connection before the sender transmits data."}
+{"id": "p22cc170931", "a": "TCP is a connection-oriented protocol, while UDP is a datagram protocol.", "b": "TCP is not a connection-oriented protocol, while UDP is not a datagram protocol."}
+{"id": "p8b353eda49", "a": "Multilevel feedback queues can move processes between queues based on their observed CPU bursts.", "b": "Processes can be moved between multilevel feedback queues based on their observed CPU bursts."}
+{"id": "p62081f5a08", "a": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.", "b": "Because flat routing tables do not scale to the whole Internet, hierarchical routing is necessary."}
+{"id": "pc57ab6dc2a", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "The sender does not halve its congestion window when it receives three duplicate acknowledgments."}
+{"id": "p05000e257a", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory allows a program to run even when it is not larger than physical memory."}
+{"id": "pd0a58d14fe", "a": "Semaphores can solve the producer-consumer problem with a bounded buffer.", "b": "Semaphores can never solve the producer-consumer problem with a bounded buffer."}
+{"id": "pd7c4db8652", "a": "The receiver advertises its available buffer space in the window field.", "b": "The receiver never neglects to advertise its available buffer space in the window field."}
+{"id": "p4a8aaf858d", "a": "TCP slow start doubles the congestion window every round-trip time.", "b": "TCP slow start neglects to double the congestion window every round-trip time."}
+{"id": "p6805db576f", "a": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.", "b": "Hierarchical routing is far from necessary because flat routing tables do not scale to the whole Internet."}
+{"id": "p8654391488", "a": "Additive increase and multiplicative decrease is stable and fair to competing flows.", "b": "The least recently used policy replaces the page that has been used for the longest time."}
+{"id": "pb3a8edcc2d", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "A cycle in the resource allocation graph is never necessary for a deadlock to exist."}
+{"id": "pe4c33adbec", "a": "A DNS zone transfer copies all records from a primary server to a secondary server.", "b": "Atomic instructions are not necessary for implementing locks on multiprocessor systems."}
+{"id": "p663e2392bc", "a": "The routing table is consulted for every packet that the router forwards.", "b": "The optimal replacement algorithm is possible to implement in practice."}
+{"id": "p622d21309b", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "A cycle in the resource allocation graph is required for a deadlock to exist."}
+{"id": "p77d487e8f4", "a": "A larger page size can reduce the size of the page table.", "b": "A larger page size can decrease the size of the page table."}
+{"id": "pdec986639f", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS never uses UDP because most queries and responses are small."}
+{"id": "p3ff334aa88", "a": "The sender appends a CRC to each frame before transmission.", "b": "The sender scarcely appends a CRC to each frame before transmission."}
+{"id": "p7d4a7213ff", "a": "DNS translates human-readable host names into IP addresses.", "b": "DNS probably does not translate human-readable host names into IP addresses."}
+{"id": "p5169549ccb", "a": "A recursive resolver queries other servers on behalf of the client.", "b": "A recursive resolver definitely does not query other servers on behalf of the client."}
+{"id": "pe97a886c07", "a": "A recursive resolver queries other servers on behalf of the client.", "b": "A recursive resolver might not query other servers on behalf of the client."}
+{"id": "p7b38d873c0", "a": "A monitor ensures that only one process is active inside it at any time.", "b": "A monitor does not ensure that only one process is not active inside it at any time."}
+{"id": "p3ce8bc208d", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "First-come first-served scheduling is not simple to implement but suffers from the convoy effect."}
+{"id": "p5d86f6ef3a", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "A cycle in the resource allocation graph is unnecessary for a deadlock to not exist."}
+{"id": "pdc7b0f68ff", "a": "TCP Reno should recover faster than Tahoe from a single lost segment.", "b": "TCP Reno should not recover faster than Tahoe from a single lost segment."}
+{"id": "pc5b19b9ddb", "a": "A larger page size can reduce the size of the page table.", "b": "A larger page size cannot reduce the size of the page table."}
+{"id": "p6133c5481d", "a": "The operating system must check permissions before it opens a file.", "b": "The operating system must check permissions before it closes a file."}
+{"id": "pf25bd7f101", "a": "Contiguous allocation is efficient for sequential access to large files.", "b": "Contiguous allocation is never efficient for sequential access to large files."}
+{"id": "p32e7a46310", "a": "Journaling file systems can recover quickly after a crash.", "b": "Journaling file systems can recover rapidly after a crash."}
+{"id": "pd6ec27924a", "a": "Four necessary conditions must hold simultaneously for a deadlock to occur in a system.", "b": "Four unnecessary conditions must not hold simultaneously for a deadlock to occur in a system."}
+{"id": "p9f5531efcf", "a": "Most general-purpose operating systems ignore the deadlock problem entirely.", "b": "Most general-purpose operating systems never cease to ignore the deadlock problem entirely."}
+{"id": "p1c9371e0ee", "a": "The file allocation table records the next block of each file.", "b": "The file allocation table records the next block of no file."}
+{"id": "pc75d93cdf7", "a": "Longest prefix matching selects the most specific route in the forwarding table.", "b": "The operating system must certainly not check permissions before it opens a file."}
+{"id": "pd0c30eae7f", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "The sender is unable to halve its congestion window when it receives three duplicate acknowledgments."}
+{"id": "pfcbdad5117", "a": "The receiver discards a frame when its checksum is incorrect.", "b": "The receiver denies discarding a frame when its checksum is incorrect."}
+{"id": "p32a3c00d23", "a": "TCP slow start doubles the congestion window every round-trip time.", "b": "TCP slow start refuses to double the congestion window every round-trip time."}
+{"id": "p605aef0935", "a": "Four necessary conditions must hold simultaneously for a deadlock to occur in a system.", "b": "Four necessary conditions need not hold simultaneously for a deadlock to occur in a system."}
+{"id": "p9f7c3c2964", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "A monitor ensures that only one process is passive inside it at any time."}
+{"id": "pa65f469a9a", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Priority scheduling is vulnerable to starvation of high-priority processes."}
+{"id": "p1ffdb2e888", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "Deadlock prevention is often expensive because it derestricts how processes request resources."}
+{"id": "p04cc0b3ce5", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory neglects to allow a program to run even when it is larger than physical memory."}
+{"id": "pda0bc3093e", "a": "The operating system can recover from a deadlock by terminating one or more processes.", "b": "The operating system may not recover from a deadlock by terminating one or more processes."}
+{"id": "peb679ac470", "a": "The CPU scheduler selects a process from the ready queue whenever the processor becomes idle.", "b": "The CPU scheduler selects a process from the unready queue whenever the processor becomes idle."}
+{"id": "p2bc43d3b5b", "a": "A monitor ensures that only one process is active inside it at any time.", "b": "A monitor ensures that only one process is inactive inside it at any time."}
+{"id": "p3187e7d42d", "a": "Error correction is expensive because it requires many redundant bits.", "b": "Error correction is anything but expensive because it requires many redundant bits."}
+{"id": "p903159b877", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "A race condition might not occur when several threads access shared data concurrently."}
+{"id": "pe6fbf39573", "a": "Congestion control is different from flow control, which protects the receiver.", "b": "Congestion control is same from flow control, which protects the receiver."}
+{"id": "p9e8ca36496", "a": "The banker's algorithm checks whether granting a request leaves the system in a safe state.", "b": "Contiguous allocation is barely efficient for sequential access to large files."}
+{"id": "pcdd100644c", "a": "A page fault occurs when a process references a page that is not in memory.", "b": "A page fault neglects to occur when a process references a page that is not in memory."}
+{"id": "p991de03d0f", "a": "A race condition occurs when several threads access shared data concurrently.", "b": "When several threads access shared data concurrently, a race condition occurs."}
+{"id": "pdd152d0e3c", "a": "Longest prefix matching selects the most specific route in the forwarding table.", "b": "Longest prefix matching selects the most nonspecific route in the forwarding table."}
+{"id": "p1e217f1583", "a": "Some routing protocols converge slowly after a link failure.", "b": "Some routing protocols probably do not converge slowly after a link failure."}
+{"id": "pb759df1d0b", "a": "The cyclic redundancy check is effective against burst errors.", "b": "The cyclic redundancy check is ineffective against burst errors."}
+{"id": "p25d9d0125a", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "The optimal replacement algorithm is possible to implement in practice."}
+{"id": "p3ae73625a6", "a": "The network cannot sustain an offered load that exceeds its capacity.", "b": "The network cannot sustain an offered load that exceeds its incapacity."}
+{"id": "p24db13c719", "a": "DNS can map several host names to the same IP address.", "b": "Round-robin scheduling is never fair because every process receives an equal time quantum."}
+{"id": "p5ab1110a03", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "Circular wait never occurs if no process requests resources in increasing order."}
+{"id": "pdacc8f3112", "a": "Dijkstra's algorithm computes the shortest path tree from a single source.", "b": "Dijkstra's algorithm is unable to compute the shortest path tree from a single source."}
+{"id": "pe2593747d1", "a": "Split horizon never advertises a route back to the neighbor from which it was learned.", "b": "Split horizon never announces a route back to the neighbor from which it was learned."}
+{"id": "pb46360a77c", "a": "A process holding a lock should release it before requesting another resource.", "b": "Peterson's solution might not be correct for two processes but does not scale to many processes."}
+{"id": "p3abadb30ec", "a": "BGP is a path-vector protocol that is used between autonomous systems.", "b": "BGP is a path-vector protocol that is not used between autonomous systems."}
+{"id": "p09f84bb1e9", "a": "The page table maps each virtual page number to a physical frame number.", "b": "Threads within the same process never fail to share the address space and open files."}
+{"id": "p60fd5572b8", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "Deadlock detection algorithms are never costly when they run after every resource request."}
+{"id": "pf2c9ccf453", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "The optimal replacement algorithm is not impossible to implement in practice."}
+{"id": "pccf3d4a1c3", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory allows a program to run even when it is no larger than physical memory."}
+{"id": "p0588e670d8", "a": "Peterson's solution is correct for two processes but does not scale to many processes.", "b": "Peterson's solution is far from correct for two processes but does not scale to many processes."}
+{"id": "pad71c70ccc", "a": "The page table maps each virtual page number to a physical frame number.", "b": "The page table rarely maps each virtual page number to a physical frame number."}
+{"id": "p744be566b6", "a": "Nagle's algorithm is useful for reducing the number of small packets.", "b": "First-come first-served scheduling is surely not simple to implement but suffers from the convoy effect."}
+{"id": "p39c0c0b28e", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "A connection is closed ungracefully with a four-way exchange of FIN segments."}
+{"id": "p158ec23a94", "a": "Indexed allocation supports direct access without external fragmentation.", "b": "Direct access without external fragmentation is supported by indexed allocation."}
+{"id": "pa4c1222e6c", "a": "Iterative queries are common between local and authoritative name servers.", "b": "Iterative queries are possibly not common between local and authoritative name servers."}
+{"id": "p4789f6dc45", "a": "Iterative queries are common between local and authoritative name servers.", "b": "Iterative queries are anything but common between local and authoritative name servers."}
+{"id": "p745aa21db6", "a": "Contiguous allocation is efficient for sequential access to large files.", "b": "For sequential access to large files, contiguous allocation is efficient."}
+{"id": "pd3e117bbab", "a": "TCP slow start doubles the congestion window every round-trip time.", "b": "TCP slow start doubles the congestion window no round-trip time."}
+{"id": "p7966e12879", "a": "The cyclic redundancy check is effective against burst errors.", "b": "Iterative queries are barely common between local and authoritative name servers."}
+{"id": "p2996e8a9ea", "a": "The receiver discards a frame when its checksum is incorrect.", "b": "The receiver rarely discards a frame when its checksum is incorrect."}
+{"id": "p1f0e1e9172", "a": "Threads within the same process share the address space and open files.", "b": "Threads within the same process deny sharing the address space and open files."}
+{"id": "pb88a194334", "a": "Journaling file systems can recover quickly after a crash.", "b": "Journaling file systems cannot recover quickly after a crash."}
+{"id": "p282f00593f", "a": "The sender can transmit several segments before it receives an acknowledgment.", "b": "The sender cannot transmit several segments before it receives an acknowledgment."}
+{"id": "pae7c0029e2", "a": "Dijkstra's algorithm computes the shortest path tree from a single source.", "b": "Dijkstra's algorithm surely does not compute the shortest path tree from a single source."}
+{"id": "p45c1f8fb11", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory rarely allows a program to run even when it is larger than physical memory."}
+{"id": "pfa58d72caa", "a": "A preemptive scheduler can interrupt a running process when a higher-priority process arrives.", "b": "A preemptive scheduler cannot interrupt a running process when a higher-priority process arrives."}
+{"id": "ped6ea1e367", "a": "A directory is a special file that maps names to inode numbers.", "b": "A directory is the opposite of a special file that maps names to inode numbers."}
+{"id": "p94ddfc3d7d", "a": "DNS can map several host names to the same IP address.", "b": "DNS can definitely not map several host names to the same IP address."}
+{"id": "p342181d87b", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "All senders must not reduce their rates when the bottleneck link is overloaded."}
+{"id": "p97e19b7ffa", "a": "Four necessary conditions must hold simultaneously for a deadlock to occur in a system.", "b": "Four necessary conditions must hold simultaneously for a deadlock to not occur in a system."}
+{"id": "p3476fe89c2", "a": "The dispatcher saves the state of the current process during a context switch.", "b": "The state of the current process is saved by the dispatcher during a context switch."}
+{"id": "pe8d9088650", "a": "Cached records are valid only until their time-to-live expires.", "b": "Circular wait never occurs if every process requests resources in decreasing order."}
+{"id": "pcd8fe18f2e", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is useful when retransmission is slow or possible."}
+{"id": "pfa704a5dcb", "a": "The page table maps each virtual page number to a physical frame number.", "b": "The page table never refuses to map each virtual page number to a physical frame number."}
+{"id": "p9ac1743d76", "a": "Semaphores can solve the producer-consumer problem with a bounded buffer.", "b": "Semaphores cannot solve the producer-consumer problem with a bounded buffer."}
+{"id": "p5cdad1f906", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "A connection is closed gracefully in the absence of a four-way exchange of FIN segments."}
+{"id": "p7e98e00be0", "a": "Contiguous allocation is efficient for sequential access to large files.", "b": "Contiguous allocation is efficient for sequential access to small files."}
+{"id": "p3c013757fc", "a": "TCP slow start doubles the congestion window every round-trip time.", "b": "TCP slow start fails to double the congestion window every round-trip time."}
+{"id": "p7059b31e91", "a": "Link-state routing floods topology information to every router in the network.", "b": "The optimal replacement algorithm is not impossible to implement in practice."}
+{"id": "pd0f5eacc35", "a": "Every TCP segment carries a sequence number and an acknowledgment number.", "b": "Every TCP segment does not carry a sequence number and an acknowledgment number."}
+{"id": "p60205229b8", "a": "Busy waiting is wasteful on a single-processor system.", "b": "Busy waiting is wasteful on a uniprocessor system."}
+{"id": "p02caa9ce8a", "a": "First-come first-served scheduling is simple to implement but suffers from the convoy effect.", "b": "First-come first-served scheduling is compound to implement but suffers from the convoy effect."}
+{"id": "p5fc3d37b34", "a": "The receiver advertises its available buffer space in the window field.", "b": "The receiver does not advertise its unavailable buffer space in the window field."}
+{"id": "p6012a4ee80", "a": "Iterative queries are common between local and authoritative name servers.", "b": "Iterative queries are typical between local and authoritative name servers."}
+{"id": "pa6606cf52c", "a": "The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.", "b": "The shortest-job-first algorithm maximizes the average waiting time for a given set of processes."}
+{"id": "p511d024e0e", "a": "Random early detection drops packets before the router queue becomes full.", "b": "Random early detection may not drop packets before the router queue becomes full."}
+{"id": "p109ae72b56", "a": "Indexed allocation supports direct access without external fragmentation.", "b": "A monitor neglects to ensure that only one process is active inside it at any time."}
+{"id": "pd9f3fbf8eb", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS usually uses UDP because most queries and responses are not small."}
+{"id": "p9838f86d5d", "a": "A parity bit can detect any single-bit error in a data word.", "b": "A parity bit can scarcely detect any single-bit error in a data word."}
+{"id": "pecee4614d5", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "When it receives three duplicate acknowledgments, the sender halves its congestion window."}
+{"id": "p22c2859e04", "a": "A mutex is a lock that only one thread can hold at a time.", "b": "A mutex is not a lock that only one thread cannot hold at a time."}
+{"id": "pd38cf46db5", "a": "Nagle's algorithm is useful for reducing the number of small packets.", "b": "Nagle's algorithm is not useless for reducing the number of small packets."}
+{"id": "p62e6325122", "a": "A directory is a special file that maps names to inode numbers.", "b": "A directory is not a special file that does not map names to inode numbers."}
+{"id": "pc7ace1509d", "a": "Nagle's algorithm is useful for reducing the number of small packets.", "b": "Nagle's algorithm is never useful for reducing the number of small packets."}
+{"id": "pd6e51d9cff", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are not simple to compute, but they miss many multi-bit errors."}
+{"id": "p25baeb368a", "a": "TCP Reno should recover faster than Tahoe from a single lost segment.", "b": "TCP Reno might not recover faster than Tahoe from a single lost segment."}
+{"id": "pa4cd21a6fc", "a": "The CPU scheduler selects a process from the ready queue whenever the processor becomes idle.", "b": "The CPU scheduler denies selecting a process from the ready queue whenever the processor becomes idle."}
+{"id": "pbaa6c78291", "a": "A timeout is a strong signal that the network is congested.", "b": "TCP is not at all a connection-oriented protocol, while UDP is a datagram protocol."}
+{"id": "p86f1a29fbd", "a": "Semaphores can solve the producer-consumer problem with a bounded buffer.", "b": "Semaphores can definitely not solve the producer-consumer problem with a bounded buffer."}
+{"id": "p3e67b48a6b", "a": "BGP is a path-vector protocol that is used between autonomous systems.", "b": "BGP is far from a path-vector protocol that is used between autonomous systems."}
+{"id": "p09daa08c3d", "a": "Contiguous allocation is efficient for sequential access to large files.", "b": "Contiguous allocation is not efficient for sequential access to large files."}
+{"id": "pd9c835ffcc", "a": "DNS translates human-readable host names into IP addresses.", "b": "DNS absolutely does not translate human-readable host names into IP addresses."}
+{"id": "pee904bb94e", "a": "A spinlock is unsuitable for long critical sections.", "b": "A spinlock is far from unsuitable for long critical sections."}
+{"id": "p761efe1143", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "The receiver ceases to advertise its available buffer space in the window field."}
+{"id": "p8ab1cadb06", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "Congestion avoidance never refuses to increase the window by one segment per round-trip time."}
+{"id": "p29b32b3963", "a": "The CPU scheduler selects a process from the ready queue whenever the processor becomes idle.", "b": "The CPU scheduler refuses to select a process from the ready queue whenever the processor becomes idle."}
+{"id": "p1af0a37e60", "a": "The optimal replacement algorithm is impossible to implement in practice.", "b": "The optimal replacement algorithm is impossible to implement in real systems."}
+{"id": "peff217d833", "a": "Congestion control is different from flow control, which protects the receiver.", "b": "Congestion control is distinct from flow control, which protects the receiver."}
+{"id": "pbd8faa97e5", "a": "TCP Reno should recover faster than Tahoe from a single lost segment.", "b": "TCP Reno should recover no faster than Tahoe from a single lost segment."}
+{"id": "p513b4a99a5", "a": "Iterative queries are common between local and authoritative name servers.", "b": "Iterative queries are individual between local and authoritative name servers."}
+{"id": "p9a6376f79d", "a": "A recursive resolver queries other servers on behalf of the client.", "b": "A recursive resolver never ceases to query other servers on behalf of the client."}
+{"id": "p2b30b1b6e3", "a": "TCP provides reliable, in-order delivery of a byte stream between two hosts.", "b": "TCP provides unreliable, in-order delivery of a byte stream between two hosts."}
+{"id": "p3b322e2504", "a": "Round-robin scheduling is fair because every process receives an equal time quantum.", "b": "Split horizon never advertises a route back to the neighbor from which it was not learned."}
+{"id": "p2570747fd7", "a": "The least recently used policy replaces the page that has not been used for the longest time.", "b": "Checksums are simple to compute, but they have many multi-bit errors."}
+{"id": "p9a03db1464", "a": "The least recently used policy replaces the page that has not been used for the longest time.", "b": "The receiver possibly does not advertise its available buffer space in the window field."}
+{"id": "p2ea682df62", "a": "Threads within the same process share the address space and open files.", "b": "Threads within the same process may not share the address space and open files."}
+{"id": "pb41dea7bd2", "a": "Hard links cannot cross the boundaries between different file systems.", "b": "The boundaries between different file systems cannot be crossed by hard links."}
+{"id": "p85e579c000", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "All senders must gain their rates when the bottleneck link is overloaded."}
+{"id": "pdcde4fa875", "a": "Journaling file systems can recover quickly after a crash.", "b": "Journaling file systems can possibly not recover quickly after a crash."}
+{"id": "p0a458a19d7", "a": "DNS translates human-readable host names into IP addresses.", "b": "DNS never fails to translate human-readable host names into IP addresses."}
+{"id": "p019899ff64", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "Circular wait always occurs if every process requests resources in increasing order."}
+{"id": "pb5020c15db", "a": "The banker's algorithm checks whether granting a request leaves the system in a safe state.", "b": "The banker's algorithm checks whether granting a request arrives the system in a safe state."}
+{"id": "p86a9418c37", "a": "OSPF routers exchange hello packets to discover their neighbors.", "b": "OSPF routers certainly do not exchange hello packets to discover their neighbors."}
+{"id": "p0425934ff4", "a": "The cyclic redundancy check is effective against burst errors.", "b": "The cyclic redundancy check is barely effective against burst errors."}
+{"id": "pccdd5dae70", "a": "Demand paging loads a page into memory only when the page is needed.", "b": "Under demand paging, a page is loaded into memory only when the page is needed."}
+{"id": "p8a3f6ef962", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "The sender certainly does not halve its congestion window when it receives three duplicate acknowledgments."}
+{"id": "p876c111aa3", "a": "The receiver discards a frame when its checksum is incorrect.", "b": "The receiver discards a frame when its checksum is not incorrect."}
+{"id": "p8fad435bb4", "a": "The network cannot sustain an offered load that exceeds its capacity.", "b": "The network can sustain an offered load that exceeds its capacity."}
+{"id": "pa9eb28a0e6", "a": "The receiver advertises its available buffer space in the window field.", "b": "The receiver never refuses to advertise its available buffer space in the window field."}
+{"id": "pd943dd4d75", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "A connection is closed gracelessly with a four-way exchange of FIN segments."}
+{"id": "p2196b5b863", "a": "Non-preemptive scheduling does not interrupt a process until it blocks or terminates.", "b": "Non-preemptive scheduling interrupts a process until it blocks or terminates."}
+{"id": "p7f211640bc", "a": "Four necessary conditions must hold simultaneously for a deadlock to occur in a system.", "b": "Four necessary conditions must not hold simultaneously for a deadlock to occur in a system."}
+{"id": "p68d179914a", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "None of the senders must reduce their rates when the bottleneck link is overloaded."}
+{"id": "p35d38a7e72", "a": "A page fault occurs when a process references a page that is not in memory.", "b": "A page fault is unable to occur when a process references a page that is not in memory."}
+{"id": "p3f05224cb0", "a": "Belady's anomaly shows that FIFO replacement does not always improve with more frames.", "b": "Belady's anomaly neglects to show that FIFO replacement does not always improve with more frames."}
+{"id": "p111e75a8d0", "a": "Longest prefix matching selects the most specific route in the forwarding table.", "b": "The operating system cannot recover from a deadlock by terminating one or more processes."}
+{"id": "p1da3ec5b2a", "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.", "b": "The noncritical section must not satisfy mutual exclusion, progress and bounded waiting."}
+{"id": "p636f519240", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "The sender probably does not halve its congestion window when it receives three duplicate acknowledgments."}
+{"id": "p1ffca51ff9", "a": "Round-robin scheduling is fair because every process receives an equal time quantum.", "b": "Round-robin scheduling is fair because every process receives an unequal time quantum."}
+{"id": "pd7123b0f66", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "A connection is not closed gracefully with a four-way exchange of FIN segments."}
+{"id": "p8e56b11a25", "a": "The sender can transmit several segments before it receives an acknowledgment.", "b": "The sender may not transmit several segments before it receives an acknowledgment."}
+{"id": "pce7c3252f3", "a": "Threads within the same process share the address space and open files.", "b": "OSPF routers do not exchange hello packets to discover their neighbors."}
+{"id": "p0793d2921b", "a": "The operating system can recover from a deadlock by terminating one or more processes.", "b": "BGP is certainly not a path-vector protocol that is used between autonomous systems."}
+{"id": "p6474913fa9", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "Because most queries and responses are small, DNS usually uses UDP."}
+{"id": "p26b043762a", "a": "Some routing protocols converge slowly after a link failure.", "b": "No routing protocols converge slowly after a link failure."}
+{"id": "pea6ae26d1f", "a": "Demand paging loads a page into memory only when the page is needed.", "b": "Demand do not page loads a page into memory only when the page is needed."}
+{"id": "p55fd898fb2", "a": "A mutex is a lock that only one thread can hold at a time.", "b": "A mutex is far from a lock that only one thread can hold at a time."}
+{"id": "p391e29c131", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "A cycle in the resource allocation graph is far from necessary for a deadlock to exist."}
+{"id": "p3180e4dce4", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "A connection is closed gracefully without a four-way exchange of FIN segments."}
+{"id": "p60d59ce0b5", "a": "DNS translates human-readable host names into IP addresses.", "b": "A monitor ceases to ensure that only one process is active inside it at any time."}
+{"id": "p8fabb35c86", "a": "The dispatcher saves the state of the current process during a context switch.", "b": "The dispatcher certainly does not save the state of the current process during a context switch."}
+{"id": "p1960f93fdb", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "Congestion avoidance never ceases to increase the window by one segment per round-trip time."}
+{"id": "p90dc9e528c", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "Deadlock detection algorithms are anything but costly when they run after every resource request."}
+{"id": "p138dbb102a", "a": "A TCP sender retransmits a segment when its timer expires.", "b": "A TCP sender never retransmits a segment when its timer expires."}
+{"id": "pb4af0d6844", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "The operating system can surely not recover from a deadlock by terminating one or more processes."}
+{"id": "p2c4fdd5480", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory allows a program to not run even when it is larger than physical memory."}
+{"id": "paa787ff404", "a": "TCP does not preserve message boundaries in the byte stream.", "b": "TCP does not maintain message boundaries in the byte stream."}
+{"id": "p3e6e1f64d5", "a": "Thrashing is common when the combined working sets exceed the available frames.", "b": "When the combined working sets exceed the available frames, thrashing is common."}
+{"id": "p6e01f9ade1", "a": "The least recently used policy replaces the page that has not been used for the longest time.", "b": "The page that has not been used for the longest time is replaced by the least recently used policy."}
+{"id": "pef8d854dd1", "a": "Aging gradually increases the priority of processes that wait in the system for a long time.", "b": "Aging may not gradually increase the priority of processes that wait in the system for a long time."}
+{"id": "pf4688f1969", "a": "A parity bit can detect any single-bit error in a data word.", "b": "A parity bit may not detect any single-bit error in a data word."}
+{"id": "p5b4aa668a0", "a": "Congestion control is different from flow control, which protects the receiver.", "b": "Congestion control is anything but different from flow control, which protects the receiver."}
+{"id": "p93318f22cb", "a": "Busy waiting is wasteful on a single-processor system.", "b": "Busy waiting is anything but wasteful on a single-processor system."}
+{"id": "p814f017f2a", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "Congestion avoidance maybe does not increase the window by one segment per round-trip time."}
+{"id": "paa37609819", "a": "Link-state routing floods topology information to every router in the network.", "b": "Link-state routing floods topology information to no router in the network."}
+{"id": "pe7074f81cc", "a": "A spinlock is unsuitable for long critical sections.", "b": "A spinlock is unsuitable for long noncritical sections."}
+{"id": "p8e4bea6ff8", "a": "Priority scheduling is vulnerable to starvation of low-priority processes.", "b": "Priority scheduling might not be vulnerable to starvation of low-priority processes."}
+{"id": "pf66e65d53b", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "A cycle in the resource allocation graph is necessary for a deadlock to not exist."}
+{"id": "p4e3034b775", "a": "Deadlock prevention is often expensive because it restricts how processes request resources.", "b": "Deadlock prevention is often expensive because it restricts how processes do not request resources."}
+{"id": "p0aab8889c3", "a": "The sender can transmit several segments before it receives an acknowledgment.", "b": "The sender cannot transmit several segments before it does not receive an acknowledgment."}
+{"id": "pdbbbfe3d62", "a": "Belady's anomaly shows that FIFO replacement does not always improve with more frames.", "b": "Belady's anomaly fails to show that FIFO replacement does not always improve with more frames."}
+{"id": "p2d5d699a91", "a": "Atomic instructions are necessary for implementing locks on multiprocessor systems.", "b": "Atomic instructions are unnecessary for implementing locks on multiprocessor systems."}
+{"id": "pf34063b799", "a": "BGP is a path-vector protocol that is used between autonomous systems.", "b": "BGP is the opposite of a path-vector protocol that is used between autonomous systems."}
+{"id": "pd74a29c252", "a": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.", "b": "Hierarchical routing is not necessary because flat routing tables do not scale to the whole Internet."}
+{"id": "p124c201c86", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "Deadlock detection algorithms are by no means costly when they run after every resource request."}
+{"id": "p36dba7a126", "a": "Most general-purpose operating systems ignore the deadlock problem entirely.", "b": "Most general-purpose operating systems maybe do not ignore the deadlock problem entirely."}
+{"id": "pc72a909b3d", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are never simple to compute, but they miss many multi-bit errors."}
+{"id": "p1a6f21ec9a", "a": "Distance-vector protocols can suffer from the count-to-infinity problem.", "b": "Distance-vector protocols cannot suffer from the count-to-infinity problem."}
+{"id": "pda34cb978b", "a": "Split horizon never advertises a route back to the neighbor from which it was learned.", "b": "Split horizon advertises a route back to the neighbor from which it was learned."}
+{"id": "p043f739165", "a": "The cyclic redundancy check is effective against burst errors.", "b": "A cycle in the resource allocation graph is unnecessary for a deadlock to exist."}
+{"id": "p4e01b1d94e", "a": "The dispatcher saves the state of the current process during a context switch.", "b": "The dispatcher saves the state of the noncurrent process during a context switch."}
+{"id": "pf0560ec46e", "a": "A preemptive scheduler can interrupt a running process when a higher-priority process arrives.", "b": "A preemptive scheduler can never interrupt a running process when a higher-priority process arrives."}
+{"id": "pacdd6e505a", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "Deadlock detection algorithms are costly when they do not run after every resource request."}
+{"id": "pcd45215fa3", "a": "A parity bit can detect any single-bit error in a data word.", "b": "The noncritical section must satisfy mutual exclusion, progress and bounded waiting."}
+{"id": "p2719ed0e3a", "a": "Belady's anomaly shows that FIFO replacement does not always improve with more frames.", "b": "Belady's anomaly demonstrates that FIFO replacement does not always improve with more frames."}
+{"id": "p3c4f6043b7", "a": "The root name servers are essential to the operation of the domain name system.", "b": "The root name servers are vital to the operation of the domain name system."}
+{"id": "pde83383148", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "A cycle in the resource allocation graph is unnecessary for a deadlock to exist."}
+{"id": "p917dd610ab", "a": "Some routing protocols converge slowly after a link failure.", "b": "After a link failure, some routing protocols converge slowly."}
+{"id": "p8fb06d3f7c", "a": "The sender appends a CRC to each frame before transmission.", "b": "The sender may not append a CRC to each frame before transmission."}
+{"id": "p72869bfc90", "a": "Semaphores can solve the producer-consumer problem with a bounded buffer.", "b": "Semaphores can probably not solve the producer-consumer problem with a bounded buffer."}
+{"id": "p75a1d923d3", "a": "Aging gradually increases the priority of processes that wait in the system for a long time.", "b": "Aging does not gradually increase the priority of processes that do not wait in the system for a long time."}
+{"id": "p3748218e62", "a": "A cycle in the resource allocation graph is necessary for a deadlock to exist.", "b": "Iterative queries might not be common between local and authoritative name servers."}
+{"id": "pbad0e67354", "a": "A recursive resolver queries other servers on behalf of the client.", "b": "Other servers are queried by a recursive resolver on behalf of the client."}
+{"id": "p8adad5c406", "a": "TCP is a connection-oriented protocol, while UDP is a datagram protocol.", "b": "TCP is anything but a connection-oriented protocol, while UDP is a datagram protocol."}
+{"id": "p97eaedf3a0", "a": "The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.", "b": "The shortest-job-first algorithm neglects to minimize the average waiting time for a given set of processes."}
+{"id": "pb38eb67d29", "a": "The sender appends a CRC to each frame before transmission.", "b": "The sender never appends a CRC to each frame before transmission."}
+{"id": "p92cb42e8de", "a": "Nagle's algorithm is useful for reducing the number of small packets.", "b": "Nagle's algorithm is useless for reducing the number of small packets."}
+{"id": "p58b4dce0a7", "a": "Longest prefix matching selects the most specific route in the forwarding table.", "b": "Longest prefix matching chooses the most specific route in the forwarding table."}
+{"id": "p7e6a889743", "a": "Belady's anomaly shows that FIFO replacement does not always improve with more frames.", "b": "An authoritative server does not need to contact other servers to not answer a query."}
+{"id": "pbda233cbda", "a": "A monitor ensures that only one process is active inside it at any time.", "b": "A monitor refuses to ensure that only one process is active inside it at any time."}
+{"id": "p1feba6703f", "a": "The CPU scheduler selects a process from the ready queue whenever the processor becomes idle.", "b": "The CPU scheduler selects a process from the unready queue whenever the processor does not become idle."}
+{"id": "pb4b7a400f1", "a": "Threads within the same process share the address space and open files.", "b": "The address space and open files are shared by threads within the same process."}
+{"id": "p240d382c4b", "a": "A local DNS server caches responses to reduce lookup latency.", "b": "A local DNS server caches responses to gain lookup latency."}
+{"id": "p7556d22bf2", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "Nagle's algorithm is hardly useful for reducing the number of small packets."}
+{"id": "pf03d47c83b", "a": "The shortest-job-first algorithm minimizes the average waiting time for a given set of processes.", "b": "The shortest-job-first algorithm never fails to minimize the average waiting time for a given set of processes."}
+{"id": "pb99d6a1f6c", "a": "A TCP sender retransmits a segment when its timer expires.", "b": "A TCP sender might not retransmit a segment when its timer expires."}
+{"id": "p95a0cd1113", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "Deadlock detection algorithms are not at all costly when they run after every resource request."}
+{"id": "pa108e1de15", "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.", "b": "The critical section need not satisfy mutual exclusion, progress and bounded waiting."}
+{"id": "p9ae6a86eb0", "a": "A directory is a special file that maps names to inode numbers.", "b": "A directory is a special file that associates names with inode numbers."}
+{"id": "p7fdcee20ae", "a": "A recursive resolver queries other servers on behalf of the client.", "b": "A recursive resolver never queries other servers on behalf of the client."}
+{"id": "p59476b9593", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is useless when retransmission is not slow or impossible."}
+{"id": "p648d9506d5", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is not useful when retransmission is not slow or impossible."}
+{"id": "p19cef2c90b", "a": "The root name servers are essential to the operation of the domain name system.", "b": "The root name servers are inessential to the operation of the domain name system."}
+{"id": "p758e495bb7", "a": "The dispatcher saves the state of the current process during a context switch.", "b": "The dispatcher never fails to save the state of the current process during a context switch."}
+{"id": "pee17b07694", "a": "The operating system must check permissions before it opens a file.", "b": "The operating system must not check permissions before it does not open a file."}
+{"id": "pbe1b1d5b59", "a": "Semaphores can solve the producer-consumer problem with a bounded buffer.", "b": "The producer-consumer problem with a bounded buffer can be solved with semaphores."}
+{"id": "p37a82f1f88", "a": "The page table maps each virtual page number to a physical frame number.", "b": "The page table maybe does not map each virtual page number to a physical frame number."}
+{"id": "p24f06ca0fe", "a": "TCP is a connection-oriented protocol, while UDP is a datagram protocol.", "b": "The banker's algorithm checks whether granting a request leaves the system in a dangerous state."}
+{"id": "p0a837ae363", "a": "The translation lookaside buffer is a small cache of recent page table entries.", "b": "The translation lookaside buffer is barely a small cache of recent page table entries."}
+{"id": "pd73c1bb33b", "a": "Belady's anomaly shows that FIFO replacement does not always improve with more frames.", "b": "Belady's anomaly shows that FIFO replacement always improves with more frames."}
+{"id": "p5a453ea02a", "a": "TCP is a connection-oriented protocol, while UDP is a datagram protocol.", "b": "TCP is a connection-oriented protocol, while UDP is not a datagram protocol."}
+{"id": "p1719a59a2d", "a": "All senders must reduce their rates when the bottleneck link is overloaded.", "b": "All senders must reduce their rates when the bottleneck link is not overloaded."}
+{"id": "pdb5e544e42", "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.", "b": "The noncritical section must satisfy mutual exclusion, progress and bounded waiting."}
+{"id": "pa41a8cb7f0", "a": "A parity bit can detect any single-bit error in a data word.", "b": "A parity bit cannot detect any single-bit error in a data word."}
+{"id": "p5bb994d16e", "a": "Iterative queries are common between local and authoritative name servers.", "b": "Iterative queries are far from common between local and authoritative name servers."}
+{"id": "pedefa84dcf", "a": "The three-way handshake establishes a connection before the sender transmits data.", "b": "The three-way handshake ceases to establish a connection before the sender transmits data."}
+{"id": "p4eb5e0b3dd", "a": "The page table maps each virtual page number to a physical frame number.", "b": "Each virtual page number is mapped to a physical frame number by the page table."}
+{"id": "p593b4a8335", "a": "TCP provides reliable, in-order delivery of a byte stream between two hosts.", "b": "TCP does not provide unreliable, in-order delivery of a byte stream between two hosts."}
+{"id": "p0d9920f0c8", "a": "Nagle's algorithm is useful for reducing the number of small packets.", "b": "Nagle's algorithm is helpful for reducing the number of small packets."}
+{"id": "p870830bbbd", "a": "Iterative queries are common between local and authoritative name servers.", "b": "Iterative queries are by no means common between local and authoritative name servers."}
+{"id": "p4d438552fa", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS usually uses UDP because most queries and responses are large."}
+{"id": "pc69791ffd4", "a": "Fragmentation is a serious problem for file systems that use contiguous allocation.", "b": "Fragmentation is a serious problem for file systems that do not use contiguous allocation."}
+{"id": "p45adc74ada", "a": "TCP slow start doubles the congestion window every round-trip time.", "b": "TCP slow start may not double the congestion window every round-trip time."}
+{"id": "p00c2dbb5b8", "a": "TCP provides reliable, in-order delivery of a byte stream between two hosts.", "b": "TCP does not provide reliable, in-disorder delivery of a byte stream between two hosts."}
+{"id": "pa3671067e8", "a": "The cyclic redundancy check is effective against burst errors.", "b": "The noncyclic redundancy check is effective against burst errors."}
+{"id": "p2ab573bfcb", "a": "A timeout is a strong signal that the network is congested.", "b": "A timeout is a strong indication that the network is congested."}
+{"id": "p2c0f3b7613", "a": "The root name servers are essential to the operation of the domain name system.", "b": "The root name servers are far from essential to the operation of the domain name system."}
+{"id": "p4cd50cd11f", "a": "Deadlock prevention is often expensive because it restricts how processes request resources.", "b": "Deadlock prevention is not often expensive because it does not restrict how processes request resources."}
+{"id": "pd5b9ec5b75", "a": "Every TCP segment carries a sequence number and an acknowledgment number.", "b": "Every TCP segment contains a sequence number and an acknowledgment number."}
+{"id": "pa0624437a8", "a": "A mutex is a lock that only one thread can hold at a time.", "b": "A mutex is not at all a lock that only one thread can hold at a time."}
+{"id": "p0ff618aed9", "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.", "b": "The uncritical section must not satisfy mutual exclusion, progress and bounded waiting."}
+{"id": "pbfc7cff8eb", "a": "The network cannot sustain an offered load that exceeds its capacity.", "b": "The network cannot sustain an offered load that does not exceed its capacity."}
+{"id": "p83da37ef58", "a": "Longest prefix matching selects the most specific route in the forwarding table.", "b": "Longest prefix matching never fails to select the most specific route in the forwarding table."}
+{"id": "pab3fe98851", "a": "Atomic instructions are necessary for implementing locks on multiprocessor systems.", "b": "Atomic instructions are never necessary for implementing locks on multiprocessor systems."}
+{"id": "pa0b38659f1", "a": "Additive increase and multiplicative decrease is stable and fair to competing flows.", "b": "Additive increase and multiplicative decrease might not be stable and fair to competing flows."}
+{"id": "p08bc301d39", "a": "A two-dimensional parity scheme is able to locate a single flipped bit.", "b": "A two-dimensional parity scheme is far from able to locate a single flipped bit."}
+{"id": "paa35ca8f9e", "a": "The dispatcher saves the state of the current process during a context switch.", "b": "The dispatcher never neglects to save the state of the current process during a context switch."}
+{"id": "p7c1fc52a9e", "a": "An inode stores the metadata of a file but not its name.", "b": "An inode holds the metadata of a file but not its name."}
+{"id": "p89e7e333a6", "a": "Checksums are simple to compute, but they miss many multi-bit errors.", "b": "Checksums are not simple to compute, but they do not miss many multi-bit errors."}
+{"id": "p583726c941", "a": "Round-robin scheduling is fair because every process receives an equal time quantum.", "b": "Round-robin scheduling is anything but fair because every process receives an equal time quantum."}
+{"id": "p18d2f1bb1a", "a": "OSPF routers exchange hello packets to discover their neighbors.", "b": "Hello packets are exchanged by OSPF routers to discover their neighbors."}
+{"id": "pe51a2b84d2", "a": "The root name servers are essential to the operation of the domain name system.", "b": "The root name servers are anything but essential to the operation of the domain name system."}
+{"id": "p2ab936271f", "a": "TCP provides reliable, in-order delivery of a byte stream between two hosts.", "b": "TCP provides reliable, in-disorder delivery of a byte stream between two hosts."}
+{"id": "pb7ce875fd0", "a": "Peterson's solution is correct for two processes but does not scale to many processes.", "b": "Peterson's solution is not correct for two processes but does not scale to many processes."}
+{"id": "pb9dc909703", "a": "Error correction is expensive because it requires many redundant bits.", "b": "Deadlock detection algorithms are scarcely costly when they run after every resource request."}
+{"id": "p3a9a32243f", "a": "The sender halves its congestion window when it receives three duplicate acknowledgments.", "b": "DNS usually refuses to use UDP because most queries and responses are small."}
+{"id": "p59bd41d446", "a": "Deadlock detection algorithms are costly when they run after every resource request.", "b": "Deadlock detection algorithms are costly when they run after no resource request."}
+{"id": "p02d6d735b9", "a": "DNS can map several host names to the same IP address.", "b": "DNS may not map several host names to the same IP address."}
+{"id": "pcc1f8d02a0", "a": "DNS usually uses UDP because most queries and responses are small.", "b": "DNS usually is unable to use UDP because most queries and responses are small."}
+{"id": "pa674e28f65", "a": "Journaling file systems can recover quickly after a crash.", "b": "Journaling file systems can maybe not recover quickly after a crash."}
+{"id": "p18f7b0f418", "a": "Congestion avoidance increases the window by one segment per round-trip time.", "b": "The least recently used policy replaces the page that has been used for the longest time."}
+{"id": "pdd1cc6e4f1", "a": "Most general-purpose operating systems ignore the deadlock problem entirely.", "b": "The deadlock problem is ignored entirely by most general-purpose operating systems."}
+{"id": "p1d08e3cf9e", "a": "A two-dimensional parity scheme is able to locate a single flipped bit.", "b": "Demand cease to page loads a page into memory only when the page is needed."}
+{"id": "p906e2992d5", "a": "The operating system can recover from a deadlock by terminating one or more processes.", "b": "The operating system cannot recover from a deadlock by terminating one or more processes."}
+{"id": "p128cfbf9f5", "a": "TCP Reno should recover faster than Tahoe from a single lost segment.", "b": "TCP Reno should recover more quickly than Tahoe from a single lost segment."}
+{"id": "p4ec53c8090", "a": "TCP provides reliable, in-order delivery of a byte stream between two hosts.", "b": "TCP fails to provide reliable, in-order delivery of a byte stream between two hosts."}
+{"id": "p597cdf53bb", "a": "The three-way handshake establishes a connection before the sender transmits data.", "b": "The three-way handshake does not establish a connection before the sender does not transmit data."}
+{"id": "p25cf28614d", "a": "Round-robin scheduling is fair because every process receives an equal time quantum.", "b": "Round-robin scheduling is fair because no process receives an equal time quantum."}
+{"id": "pc3020a4910", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is useful when retransmission is not slow or impossible."}
+{"id": "p6908c760c6", "a": "Dijkstra's algorithm computes the shortest path tree from a single source.", "b": "Dijkstra's algorithm fails to compute the shortest path tree from a single source."}
+{"id": "p2b51ffa971", "a": "Threads within the same process share the address space and open files.", "b": "Threads within the same process seldom share the address space and open files."}
+{"id": "pdb799900d4", "a": "Journaling file systems can recover quickly after a crash.", "b": "Journaling file systems can recover slowly after a crash."}
+{"id": "p3cfd41c8b5", "a": "The buffer cache keeps recently used disk blocks in main memory.", "b": "The operating system can certainly not recover from a deadlock by terminating one or more processes."}
+{"id": "p28d1e9e46a", "a": "Peterson's solution is correct for two processes but does not scale to many processes.", "b": "Peterson's solution is not incorrect for two processes but does not scale to many processes."}
+{"id": "pb13bfba985", "a": "Semaphores can solve the producer-consumer problem with a bounded buffer.", "b": "Semaphores can solve the producer-consumer problem without a bounded buffer."}
+{"id": "p77aa8b6621", "a": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.", "b": "Hierarchical routing is unnecessary because flat routing tables do not scale to the whole Internet."}
+{"id": "p856ba74a0c", "a": "DNS can map several host names to the same IP address.", "b": "A spinlock is maybe not unsuitable for long critical sections."}
+{"id": "pdefe595f64", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory denies a program to run even when it is larger than physical memory."}
+{"id": "pf9bed586af", "a": "Link-state routing floods topology information to every router in the network.", "b": "Soft links cannot cross the boundaries between different file systems."}
+{"id": "p7f68bdf8a9", "a": "A preemptive scheduler can interrupt a running process when a higher-priority process arrives.", "b": "A preemptive scheduler cannot interrupt a running process when a higher-priority process does not arrive."}
+{"id": "pa5075dbda1", "a": "Busy waiting is wasteful on a single-processor system.", "b": "Busy waiting is far from wasteful on a single-processor system."}
+{"id": "p352fc8b799", "a": "Atomic instructions are necessary for implementing locks on multiprocessor systems.", "b": "For implementing locks on multiprocessor systems, atomic instructions are necessary."}
+{"id": "p29bd32bef7", "a": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet.", "b": "Hierarchical routing is definitely not necessary because flat routing tables do not scale to the whole Internet."}
+{"id": "pa4acaa273e", "a": "The file allocation table records the next block of each file.", "b": "The file allocation table erases the next block of each file."}
+{"id": "p88c8f5dde8", "a": "Cached records are valid only until their time-to-live expires.", "b": "Cached records remain valid only until their time-to-live expires."}
+{"id": "p81a93bea5b", "a": "DNS can map several host names to the same IP address.", "b": "Several host names can be mapped to the same IP address by DNS."}
+{"id": "p3871c4a549", "a": "The receiver advertises its available buffer space in the window field.", "b": "The receiver surely does not advertise its available buffer space in the window field."}
+{"id": "p5066554ac9", "a": "Round-robin scheduling is fair because every process receives an equal time quantum.", "b": "Round-robin scheduling is not at all fair because every process receives an equal time quantum."}
+{"id": "p2adc187bf9", "a": "The file allocation table records the next block of each file.", "b": "The next block of each file is recorded in the file allocation table."}
+{"id": "p33bbb0d54d", "a": "Busy waiting is wasteful on a single-processor system.", "b": "Busy waiting is probably not wasteful on a single-processor system."}
+{"id": "pb8f80368fe", "a": "The three-way handshake establishes a connection before the sender transmits data.", "b": "Before the sender transmits data, the three-way handshake establishes a connection."}
+{"id": "p024ea5c6f7", "a": "The CPU scheduler selects a process from the ready queue whenever the processor becomes idle.", "b": "Whenever the processor becomes idle, the CPU scheduler selects a process from the ready queue."}
+{"id": "paf2929bb30", "a": "The least recently used policy replaces the page that has not been used for the longest time.", "b": "The least recently used policy replaces the page that has been used for the longest time."}
+{"id": "p89f2362716", "a": "TCP is a connection-oriented protocol, while UDP is a datagram protocol.", "b": "UDP is a datagram protocol, while TCP is a connection-oriented protocol."}
+{"id": "p0c7b0c53d8", "a": "A mutex is a lock that only one thread can hold at a time.", "b": "A mutex is a lock that only one thread cannot hold at a time."}
+{"id": "pbf7d847639", "a": "The operating system can recover from a deadlock by terminating one or more processes.", "b": "The operating system can recover from a deadlock by killing one or more processes."}
+{"id": "pe8777fac88", "a": "Congestion control is different from flow control, which protects the receiver.", "b": "The three-way handshake neglects to establish a connection before the sender transmits data."}
+{"id": "pa3e17a5d65", "a": "Demand paging loads a page into memory only when the page is needed.", "b": "Demand do not page loads a page into memory only when the page is not needed."}
+{"id": "p614cd70c6d", "a": "Forward error correction is useful when retransmission is slow or impossible.", "b": "Forward error correction is absolutely not useful when retransmission is slow or impossible."}
+{"id": "p8889826fe3", "a": "A connection is closed gracefully with a four-way exchange of FIN segments.", "b": "A four-way exchange of FIN segments closes a connection gracefully."}
+{"id": "pdd3ffe4873", "a": "Peterson's solution is correct for two processes but does not scale to many processes.", "b": "Peterson's solution is definitely not correct for two processes but does not scale to many processes."}
+{"id": "p3ee668349e", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory does not allow a program to not run even when it is larger than physical memory."}
+{"id": "p5196cda475", "a": "The banker's algorithm checks whether granting a request leaves the system in a safe state.", "b": "The CPU scheduler selects a process from the ready queue whenever the processor becomes busy."}
+{"id": "p195d579af5", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory barely allows a program to run even when it is larger than physical memory."}
+{"id": "pcc4ffee183", "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.", "b": "The critical section must not satisfy mutual exclusion, progress and bounded waiting."}
+{"id": "pa9ba897cd1", "a": "A spinlock is unsuitable for long critical sections.", "b": "A spinlock is absolutely not unsuitable for long critical sections."}
+{"id": "pe6855b1b75", "a": "A page fault occurs when a process references a page that is not in memory.", "b": "When a process references a page that is not in memory, a page fault occurs."}
+{"id": "p08f1e2aa0e", "a": "Some routing protocols converge slowly after a link failure.", "b": "Some routing protocols converge quickly after a link failure."}
+{"id": "p613aeb9d42", "a": "A monitor ensures that only one process is active inside it at any time.", "b": "A monitor does not ensure that only one process is inactive inside it at any time."}
+{"id": "p4c0dd5527b", "a": "Circular wait never occurs if every process requests resources in increasing order.", "b": "The network cannot sustain an offered load that does not exceed its capacity."}
+{"id": "p4927347070", "a": "Link-state routing floods topology information to every router in the network.", "b": "Topology information is flooded to every router in the network by link-state routing."}
+{"id": "p78325cddfa", "a": "Virtual memory allows a program to run even when it is larger than physical memory.", "b": "Virtual memory fails to allow a program to run even when it is larger than physical memory."}
+{"id": "p38f0334801", "a": "DNS translates human-readable host names into IP addresses.", "b": "Human-readable host names are translated into IP addresses by DNS."}

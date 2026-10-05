@@ -1,0 +1,2133 @@
+{
+  "seed": 0,
+  "n_boot": 10000,
+  "n_perm": 1000,
+  "gate": {
+    "krippendorff_min": 0.6,
+    "paraphrase_mean_min": 4.0,
+    "unrelated_mean_max": 1.0,
+    "passed": false
+  },
+  "gate_alpha": 0.5863724653929085,
+  "labeller": "qwen2.5:7b",
+  "A": {
+    "krippendorff": {
+      "all": {
+        "n": 571,
+        "alpha": 0.5863724653929085
+      },
+      "negation_only": {
+        "n": 405,
+        "alpha": 0.36474758532897134
+      },
+      "anchors_only": {
+        "n": 166,
+        "alpha": 0.8575374570981154
+      }
+    },
+    "family_table": {
+      "ANCHOR_paraphrase": {
+        "n": 86,
+        "mean": 4.976744186046512,
+        "median": 5.0,
+        "std": 0.15159886590034527,
+        "ci95_mean": [
+          4.941860465116279,
+          5.0
+        ],
+        "share_median_0": 0.0,
+        "counts": {
+          "4.0": 2,
+          "5.0": 84
+        }
+      },
+      "ANCHOR_unrelated": {
+        "n": 80,
+        "mean": 0.9625,
+        "median": 0.0,
+        "std": 1.2969657871989364,
+        "ci95_mean": [
+          0.6875,
+          1.25
+        ],
+        "share_median_0": 0.5125,
+        "counts": {
+          "0.0": 41,
+          "1.0": 22,
+          "2.0": 1,
+          "3.0": 12,
+          "4.0": 3,
+          "5.0": 1
+        }
+      },
+      "A_syntactic": {
+        "n": 35,
+        "mean": 0.9428571428571428,
+        "median": 0.0,
+        "std": 1.532833921836535,
+        "ci95_mean": [
+          0.45714285714285713,
+          1.457142857142857
+        ],
+        "share_median_0": 0.7142857142857143,
+        "counts": {
+          "0.0": 25,
+          "3.0": 7,
+          "4.0": 3
+        }
+      },
+      "B_quantifier": {
+        "n": 16,
+        "mean": 0.8125,
+        "median": 0.0,
+        "std": 1.2763881332363862,
+        "ci95_mean": [
+          0.25,
+          1.4375
+        ],
+        "share_median_0": 0.6875,
+        "counts": {
+          "0.0": 11,
+          "2.0": 2,
+          "3.0": 3
+        }
+      },
+      "C_neg_adverb": {
+        "n": 35,
+        "mean": 0.8571428571428571,
+        "median": 0.0,
+        "std": 1.4580982203432205,
+        "ci95_mean": [
+          0.42857142857142855,
+          1.3714285714285714
+        ],
+        "share_median_0": 0.7142857142857143,
+        "counts": {
+          "0.0": 25,
+          "1.0": 1,
+          "2.0": 1,
+          "3.0": 5,
+          "4.0": 3
+        }
+      },
+      "D_affixal": {
+        "n": 35,
+        "mean": 1.8,
+        "median": 2.0,
+        "std": 1.8278885279437134,
+        "ci95_mean": [
+          1.2285714285714286,
+          2.4
+        ],
+        "share_median_0": 0.4857142857142857,
+        "counts": {
+          "0.0": 17,
+          "2.0": 1,
+          "3.0": 7,
+          "4.0": 10
+        }
+      },
+      "E_antonym": {
+        "n": 35,
+        "mean": 1.8857142857142857,
+        "median": 3.0,
+        "std": 1.6763305263621031,
+        "ci95_mean": [
+          1.3142857142857143,
+          2.4285714285714284
+        ],
+        "share_median_0": 0.4,
+        "counts": {
+          "0.0": 14,
+          "1.0": 1,
+          "2.0": 2,
+          "3.0": 11,
+          "4.0": 7
+        }
+      },
+      "F_implicit": {
+        "n": 35,
+        "mean": 0.7428571428571429,
+        "median": 0.0,
+        "std": 1.4621269185848473,
+        "ci95_mean": [
+          0.3142857142857143,
+          1.2571428571428571
+        ],
+        "share_median_0": 0.7714285714285715,
+        "counts": {
+          "0.0": 27,
+          "1.0": 1,
+          "3.0": 3,
+          "4.0": 4
+        }
+      },
+      "G_prepositional": {
+        "n": 4,
+        "mean": 1.5,
+        "median": 1.5,
+        "std": 1.7320508075688772,
+        "ci95_mean": [
+          0.0,
+          3.0
+        ],
+        "share_median_0": 0.5,
+        "counts": {
+          "0.0": 2,
+          "3.0": 2
+        }
+      },
+      "H_hedged": {
+        "n": 35,
+        "mean": 1.9428571428571428,
+        "median": 2.0,
+        "std": 1.532833921836535,
+        "ci95_mean": [
+          1.4285714285714286,
+          2.4571428571428573
+        ],
+        "share_median_0": 0.34285714285714286,
+        "counts": {
+          "0.0": 12,
+          "2.0": 6,
+          "3.0": 12,
+          "4.0": 5
+        }
+      },
+      "I_intensified": {
+        "n": 35,
+        "mean": 0.17142857142857143,
+        "median": 0.0,
+        "std": 0.7065123239304082,
+        "ci95_mean": [
+          0.0,
+          0.42857142857142855
+        ],
+        "share_median_0": 0.9428571428571428,
+        "counts": {
+          "0.0": 33,
+          "3.0": 2
+        }
+      },
+      "J_contrastive": {
+        "n": 35,
+        "mean": 0.37142857142857144,
+        "median": 0.0,
+        "std": 1.0595702315704476,
+        "ci95_mean": [
+          0.08571428571428572,
+          0.7428571428571429
+        ],
+        "share_median_0": 0.8857142857142857,
+        "counts": {
+          "0.0": 31,
+          "3.0": 3,
+          "4.0": 1
+        }
+      },
+      "K1_cancellation": {
+        "n": 35,
+        "mean": 3.1714285714285713,
+        "median": 4.0,
+        "std": 1.9924226206203504,
+        "ci95_mean": [
+          2.4857142857142858,
+          3.8
+        ],
+        "share_median_0": 0.2571428571428571,
+        "counts": {
+          "0.0": 9,
+          "3.0": 4,
+          "4.0": 11,
+          "5.0": 11
+        }
+      },
+      "K2_compound": {
+        "n": 35,
+        "mean": 1.7714285714285714,
+        "median": 0.0,
+        "std": 2.2107453399211754,
+        "ci95_mean": [
+          1.0571428571428572,
+          2.5142857142857142
+        ],
+        "share_median_0": 0.5714285714285714,
+        "counts": {
+          "0.0": 20,
+          "1.0": 1,
+          "3.0": 3,
+          "4.0": 3,
+          "5.0": 8
+        }
+      },
+      "L_scope_position": {
+        "n": 4,
+        "mean": 0.0,
+        "median": 0.0,
+        "std": 0.0,
+        "ci95_mean": [
+          0.0,
+          0.0
+        ],
+        "share_median_0": 1.0,
+        "counts": {
+          "0.0": 4
+        }
+      },
+      "M_modal": {
+        "n": 31,
+        "mean": 1.3225806451612903,
+        "median": 0.0,
+        "std": 1.7773969126073776,
+        "ci95_mean": [
+          0.7419354838709677,
+          1.935483870967742
+        ],
+        "share_median_0": 0.6129032258064516,
+        "counts": {
+          "0.0": 19,
+          "2.0": 1,
+          "3.0": 7,
+          "4.0": 2,
+          "5.0": 2
+        }
+      }
+    },
+    "ci_nonoverlap": {
+      "families_n_ge_10": [
+        "A_syntactic",
+        "B_quantifier",
+        "C_neg_adverb",
+        "D_affixal",
+        "E_antonym",
+        "F_implicit",
+        "H_hedged",
+        "I_intensified",
+        "J_contrastive",
+        "K1_cancellation",
+        "K2_compound",
+        "M_modal"
+      ],
+      "pairs": 66,
+      "disjoint_pairs": 23,
+      "disjoint": [
+        "A_syntactic / I_intensified",
+        "A_syntactic / K1_cancellation",
+        "B_quantifier / K1_cancellation",
+        "C_neg_adverb / H_hedged",
+        "C_neg_adverb / K1_cancellation",
+        "D_affixal / I_intensified",
+        "D_affixal / J_contrastive",
+        "D_affixal / K1_cancellation",
+        "E_antonym / F_implicit",
+        "E_antonym / I_intensified",
+        "E_antonym / J_contrastive",
+        "E_antonym / K1_cancellation",
+        "F_implicit / H_hedged",
+        "F_implicit / K1_cancellation",
+        "H_hedged / I_intensified",
+        "H_hedged / J_contrastive",
+        "H_hedged / K1_cancellation",
+        "I_intensified / K1_cancellation",
+        "I_intensified / K2_compound",
+        "I_intensified / M_modal",
+        "J_contrastive / K1_cancellation",
+        "J_contrastive / K2_compound",
+        "K1_cancellation / M_modal"
+      ]
+    },
+    "k1": {
+      "n": 35,
+      "counts": {
+        "0.0": 9,
+        "3.0": 4,
+        "4.0": 11,
+        "5.0": 11
+      },
+      "share_ge_4": 0.6285714285714286,
+      "share_eq_0": 0.2571428571428571,
+      "mean": 3.1714285714285713,
+      "paraphrase_mean": 4.976744186046512,
+      "mean_diff_vs_paraphrase": -1.8053156146179403,
+      "mannwhitney_p_vs_paraphrase": 8.540075065804646e-16,
+      "by_subtype": {
+        "cancel_impossible": {
+          "n": 1,
+          "mean": 0.0
+        },
+        "clause_copula": {
+          "n": 1,
+          "mean": 0.0
+        },
+        "never_ceases_to": {
+          "n": 5,
+          "mean": 3.6
+        },
+        "never_fails_to": {
+          "n": 5,
+          "mean": 4.2
+        },
+        "never_neglects_to": {
+          "n": 5,
+          "mean": 4.8
+        },
+        "never_refuses_to": {
+          "n": 5,
+          "mean": 4.2
+        },
+        "not_prefix_dis": {
+          "n": 1,
+          "mean": 0.0
+        },
+        "not_prefix_in": {
+          "n": 1,
+          "mean": 5.0
+        },
+        "not_prefix_non": {
+          "n": 5,
+          "mean": 1.6
+        },
+        "not_prefix_un": {
+          "n": 5,
+          "mean": 2.2
+        },
+        "not_suffix_less": {
+          "n": 1,
+          "mean": 3.0
+        }
+      },
+      "examples": [
+        {
+          "id": "pa9eb28a0e6",
+          "family": "K1_cancellation",
+          "subtype": "never_refuses_to",
+          "a": "The receiver advertises its available buffer space in the window field.",
+          "b": "The receiver never refuses to advertise its available buffer space in the window field.",
+          "scores": [
+            4,
+            5,
+            0
+          ],
+          "label": 4.0
+        },
+        {
+          "id": "p1960f93fdb",
+          "family": "K1_cancellation",
+          "subtype": "never_ceases_to",
+          "a": "Congestion avoidance increases the window by one segment per round-trip time.",
+          "b": "Congestion avoidance never ceases to increase the window by one segment per round-trip time.",
+          "scores": [
+            0,
+            3,
+            0
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "p1330319bbb",
+          "family": "K1_cancellation",
+          "subtype": "not_prefix_non",
+          "a": "The cyclic redundancy check is effective against burst errors.",
+          "b": "The noncyclic redundancy check is not effective against burst errors.",
+          "scores": [
+            0,
+            0,
+            0
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "pf2c9ccf453",
+          "family": "K1_cancellation",
+          "subtype": "cancel_impossible",
+          "a": "The optimal replacement algorithm is impossible to implement in practice.",
+          "b": "The optimal replacement algorithm is not impossible to implement in practice.",
+          "scores": [
+            4,
+            0,
+            0
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "p00c2dbb5b8",
+          "family": "K1_cancellation",
+          "subtype": "not_prefix_dis",
+          "a": "TCP provides reliable, in-order delivery of a byte stream between two hosts.",
+          "b": "TCP does not provide reliable, in-disorder delivery of a byte stream between two hosts.",
+          "scores": [
+            5,
+            0,
+            0
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "p0ff618aed9",
+          "family": "K1_cancellation",
+          "subtype": "not_prefix_un",
+          "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.",
+          "b": "The uncritical section must not satisfy mutual exclusion, progress and bounded waiting.",
+          "scores": [
+            0,
+            0,
+            5
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "p9f5531efcf",
+          "family": "K1_cancellation",
+          "subtype": "never_ceases_to",
+          "a": "Most general-purpose operating systems ignore the deadlock problem entirely.",
+          "b": "Most general-purpose operating systems never cease to ignore the deadlock problem entirely.",
+          "scores": [
+            5,
+            5,
+            5
+          ],
+          "label": 5.0
+        },
+        {
+          "id": "pdd7cd51cf6",
+          "family": "K1_cancellation",
+          "subtype": "never_fails_to",
+          "a": "The file allocation table records the next block of each file.",
+          "b": "The file allocation table never fails to record the next block of each file.",
+          "scores": [
+            5,
+            5,
+            5
+          ],
+          "label": 5.0
+        },
+        {
+          "id": "p1da3ec5b2a",
+          "family": "K1_cancellation",
+          "subtype": "not_prefix_non",
+          "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.",
+          "b": "The noncritical section must not satisfy mutual exclusion, progress and bounded waiting.",
+          "scores": [
+            0,
+            0,
+            3
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "pa9912fe1eb",
+          "family": "K1_cancellation",
+          "subtype": "never_refuses_to",
+          "a": "A recursive resolver queries other servers on behalf of the client.",
+          "b": "A recursive resolver never refuses to query other servers on behalf of the client.",
+          "scores": [
+            4,
+            3,
+            4
+          ],
+          "label": 4.0
+        }
+      ],
+      "never_x_to": {
+        "n": 20,
+        "mean": 4.2,
+        "share_ge_4": 0.9,
+        "share_eq_0": 0.05
+      },
+      "not_prefix_or_suffix": {
+        "n": 13,
+        "mean": 2.076923076923077,
+        "share_ge_4": 0.3076923076923077,
+        "share_eq_0": 0.46153846153846156
+      }
+    },
+    "neighbour_moved": {
+      "n": 49,
+      "n_total": 571,
+      "by_family": {
+        "ANCHOR_paraphrase": {
+          "moved": 0,
+          "share_of_moved": 0.0,
+          "share_of_all": 0.15061295971978983,
+          "rate_within_family": 0.0
+        },
+        "ANCHOR_unrelated": {
+          "moved": 11,
+          "share_of_moved": 0.22448979591836735,
+          "share_of_all": 0.14010507880910683,
+          "rate_within_family": 0.1375
+        },
+        "A_syntactic": {
+          "moved": 4,
+          "share_of_moved": 0.08163265306122448,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.11428571428571428
+        },
+        "B_quantifier": {
+          "moved": 1,
+          "share_of_moved": 0.02040816326530612,
+          "share_of_all": 0.028021015761821366,
+          "rate_within_family": 0.0625
+        },
+        "C_neg_adverb": {
+          "moved": 1,
+          "share_of_moved": 0.02040816326530612,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.02857142857142857
+        },
+        "D_affixal": {
+          "moved": 2,
+          "share_of_moved": 0.04081632653061224,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.05714285714285714
+        },
+        "E_antonym": {
+          "moved": 2,
+          "share_of_moved": 0.04081632653061224,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.05714285714285714
+        },
+        "F_implicit": {
+          "moved": 4,
+          "share_of_moved": 0.08163265306122448,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.11428571428571428
+        },
+        "G_prepositional": {
+          "moved": 0,
+          "share_of_moved": 0.0,
+          "share_of_all": 0.0070052539404553416,
+          "rate_within_family": 0.0
+        },
+        "H_hedged": {
+          "moved": 5,
+          "share_of_moved": 0.10204081632653061,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.14285714285714285
+        },
+        "I_intensified": {
+          "moved": 3,
+          "share_of_moved": 0.061224489795918366,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.08571428571428572
+        },
+        "J_contrastive": {
+          "moved": 4,
+          "share_of_moved": 0.08163265306122448,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.11428571428571428
+        },
+        "K1_cancellation": {
+          "moved": 6,
+          "share_of_moved": 0.12244897959183673,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.17142857142857143
+        },
+        "K2_compound": {
+          "moved": 4,
+          "share_of_moved": 0.08163265306122448,
+          "share_of_all": 0.06129597197898424,
+          "rate_within_family": 0.11428571428571428
+        },
+        "L_scope_position": {
+          "moved": 0,
+          "share_of_moved": 0.0,
+          "share_of_all": 0.0070052539404553416,
+          "rate_within_family": 0.0
+        },
+        "M_modal": {
+          "moved": 2,
+          "share_of_moved": 0.04081632653061224,
+          "share_of_all": 0.0542907180385289,
+          "rate_within_family": 0.06451612903225806
+        }
+      },
+      "direction_pass3_up": 28,
+      "direction_pass3_down": 21,
+      "examples": [
+        {
+          "id": "p876c111aa3",
+          "family": "K1_cancellation",
+          "subtype": "clause_copula",
+          "a": "The receiver discards a frame when its checksum is incorrect.",
+          "b": "The receiver discards a frame when its checksum is not incorrect.",
+          "scores": [
+            0,
+            0,
+            5
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "pa65f469a9a",
+          "family": "E_antonym",
+          "subtype": "antonym_adj",
+          "a": "Priority scheduling is vulnerable to starvation of low-priority processes.",
+          "b": "Priority scheduling is vulnerable to starvation of high-priority processes.",
+          "scores": [
+            3,
+            3,
+            0
+          ],
+          "label": 3.0
+        },
+        {
+          "id": "p0aab8889c3",
+          "family": "K2_compound",
+          "subtype": "existing_aux+do_support",
+          "a": "The sender can transmit several segments before it receives an acknowledgment.",
+          "b": "The sender cannot transmit several segments before it does not receive an acknowledgment.",
+          "scores": [
+            3,
+            3,
+            0
+          ],
+          "label": 3.0
+        },
+        {
+          "id": "pf27d5df1f1",
+          "family": "A_syntactic",
+          "subtype": "do_support",
+          "a": "Congestion avoidance increases the window by one segment per round-trip time.",
+          "b": "Congestion avoidance does not increase the window by one segment per round-trip time.",
+          "scores": [
+            0,
+            0,
+            4
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "p111e75a8d0",
+          "family": "ANCHOR_unrelated",
+          "subtype": "cross_subtopic",
+          "a": "Longest prefix matching selects the most specific route in the forwarding table.",
+          "b": "The operating system cannot recover from a deadlock by terminating one or more processes.",
+          "scores": [
+            0,
+            0,
+            3
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "pce9875734a",
+          "family": "A_syntactic",
+          "subtype": "copula",
+          "a": "Priority scheduling is vulnerable to starvation of low-priority processes.",
+          "b": "Priority scheduling is not vulnerable to starvation of low-priority processes.",
+          "scores": [
+            4,
+            4,
+            0
+          ],
+          "label": 4.0
+        },
+        {
+          "id": "p1d00779360",
+          "family": "D_affixal",
+          "subtype": "prefix_in",
+          "a": "Priority scheduling is vulnerable to starvation of low-priority processes.",
+          "b": "Priority scheduling is invulnerable to starvation of low-priority processes.",
+          "scores": [
+            0,
+            0,
+            4
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "p0ff618aed9",
+          "family": "K1_cancellation",
+          "subtype": "not_prefix_un",
+          "a": "The critical section must satisfy mutual exclusion, progress and bounded waiting.",
+          "b": "The uncritical section must not satisfy mutual exclusion, progress and bounded waiting.",
+          "scores": [
+            0,
+            0,
+            5
+          ],
+          "label": 0.0
+        },
+        {
+          "id": "p1f098acf1b",
+          "family": "ANCHOR_unrelated",
+          "subtype": "cross_subtopic",
+          "a": "Circular wait never occurs if every process requests resources in increasing order.",
+          "b": "Threads within the same process scarcely share the address space and open files.",
+          "scores": [
+            3,
+            3,
+            0
+          ],
+          "label": 3.0
+        },
+        {
+          "id": "p648d9506d5",
+          "family": "K2_compound",
+          "subtype": "copula+copula",
+          "a": "Forward error correction is useful when retransmission is slow or impossible.",
+          "b": "Forward error correction is not useful when retransmission is not slow or impossible.",
+          "scores": [
+            5,
+            5,
+            0
+          ],
+          "label": 5.0
+        }
+      ]
+    }
+  },
+  "B": {
+    "per_pass": {
+      "all_families": {
+        "per_pass_means": {
+          "pass1": {
+            "A_syntactic": 1.0285714285714285,
+            "B_quantifier": 1.0625,
+            "C_neg_adverb": 0.9142857142857143,
+            "D_affixal": 1.3714285714285714,
+            "E_antonym": 1.6571428571428573,
+            "F_implicit": 1.0,
+            "G_prepositional": 1.25,
+            "H_hedged": 2.142857142857143,
+            "I_intensified": 0.2857142857142857,
+            "J_contrastive": 0.4857142857142857,
+            "K1_cancellation": 3.4857142857142858,
+            "K2_compound": 1.9714285714285715,
+            "L_scope_position": 1.0,
+            "M_modal": 1.903225806451613
+          },
+          "pass2": {
+            "A_syntactic": 2.1714285714285713,
+            "B_quantifier": 1.75,
+            "C_neg_adverb": 1.3142857142857143,
+            "D_affixal": 1.8857142857142857,
+            "E_antonym": 2.7142857142857144,
+            "F_implicit": 1.2857142857142858,
+            "G_prepositional": 1.25,
+            "H_hedged": 1.3714285714285714,
+            "I_intensified": 0.7142857142857143,
+            "J_contrastive": 1.4,
+            "K1_cancellation": 3.4571428571428573,
+            "K2_compound": 2.342857142857143,
+            "L_scope_position": 0.0,
+            "M_modal": 1.032258064516129
+          },
+          "pass3": {
+            "A_syntactic": 0.9428571428571428,
+            "B_quantifier": 0.25,
+            "C_neg_adverb": 0.5142857142857142,
+            "D_affixal": 1.6,
+            "E_antonym": 1.4,
+            "F_implicit": 0.6857142857142857,
+            "G_prepositional": 2.0,
+            "H_hedged": 2.2,
+            "I_intensified": 0.4857142857142857,
+            "J_contrastive": 0.7142857142857143,
+            "K1_cancellation": 2.8857142857142857,
+            "K2_compound": 1.2285714285714286,
+            "L_scope_position": 0.0,
+            "M_modal": 1.5806451612903225
+          }
+        },
+        "spearman": {
+          "pass1_vs_pass2": 0.530253346170072,
+          "pass1_vs_pass3": 0.7854790231647956,
+          "pass2_vs_pass3": 0.43736263736263736
+        },
+        "spearman_mean": 0.5843650022325017,
+        "ranks": {
+          "pass1": {
+            "K1_cancellation": 1,
+            "H_hedged": 2,
+            "K2_compound": 3,
+            "M_modal": 4,
+            "E_antonym": 5,
+            "D_affixal": 6,
+            "G_prepositional": 7,
+            "B_quantifier": 8,
+            "A_syntactic": 9,
+            "F_implicit": 10,
+            "L_scope_position": 11,
+            "C_neg_adverb": 12,
+            "J_contrastive": 13,
+            "I_intensified": 14
+          },
+          "pass2": {
+            "K1_cancellation": 1,
+            "E_antonym": 2,
+            "K2_compound": 3,
+            "A_syntactic": 4,
+            "D_affixal": 5,
+            "B_quantifier": 6,
+            "J_contrastive": 7,
+            "H_hedged": 8,
+            "C_neg_adverb": 9,
+            "F_implicit": 10,
+            "G_prepositional": 11,
+            "M_modal": 12,
+            "I_intensified": 13,
+            "L_scope_position": 14
+          },
+          "pass3": {
+            "K1_cancellation": 1,
+            "H_hedged": 2,
+            "G_prepositional": 3,
+            "D_affixal": 4,
+            "M_modal": 5,
+            "E_antonym": 6,
+            "K2_compound": 7,
+            "A_syntactic": 8,
+            "J_contrastive": 9,
+            "F_implicit": 10,
+            "C_neg_adverb": 11,
+            "I_intensified": 12,
+            "B_quantifier": 13,
+            "L_scope_position": 14
+          }
+        }
+      },
+      "families_n_ge_10": {
+        "per_pass_means": {
+          "pass1": {
+            "A_syntactic": 1.0285714285714285,
+            "B_quantifier": 1.0625,
+            "C_neg_adverb": 0.9142857142857143,
+            "D_affixal": 1.3714285714285714,
+            "E_antonym": 1.6571428571428573,
+            "F_implicit": 1.0,
+            "H_hedged": 2.142857142857143,
+            "I_intensified": 0.2857142857142857,
+            "J_contrastive": 0.4857142857142857,
+            "K1_cancellation": 3.4857142857142858,
+            "K2_compound": 1.9714285714285715,
+            "M_modal": 1.903225806451613
+          },
+          "pass2": {
+            "A_syntactic": 2.1714285714285713,
+            "B_quantifier": 1.75,
+            "C_neg_adverb": 1.3142857142857143,
+            "D_affixal": 1.8857142857142857,
+            "E_antonym": 2.7142857142857144,
+            "F_implicit": 1.2857142857142858,
+            "H_hedged": 1.3714285714285714,
+            "I_intensified": 0.7142857142857143,
+            "J_contrastive": 1.4,
+            "K1_cancellation": 3.4571428571428573,
+            "K2_compound": 2.342857142857143,
+            "M_modal": 1.032258064516129
+          },
+          "pass3": {
+            "A_syntactic": 0.9428571428571428,
+            "B_quantifier": 0.25,
+            "C_neg_adverb": 0.5142857142857142,
+            "D_affixal": 1.6,
+            "E_antonym": 1.4,
+            "F_implicit": 0.6857142857142857,
+            "H_hedged": 2.2,
+            "I_intensified": 0.4857142857142857,
+            "J_contrastive": 0.7142857142857143,
+            "K1_cancellation": 2.8857142857142857,
+            "K2_compound": 1.2285714285714286,
+            "M_modal": 1.5806451612903225
+          }
+        },
+        "spearman": {
+          "pass1_vs_pass2": 0.5454545454545455,
+          "pass1_vs_pass3": 0.8111888111888113,
+          "pass2_vs_pass3": 0.4545454545454546
+        },
+        "spearman_mean": 0.6037296037296037,
+        "ranks": {
+          "pass1": {
+            "K1_cancellation": 1,
+            "H_hedged": 2,
+            "K2_compound": 3,
+            "M_modal": 4,
+            "E_antonym": 5,
+            "D_affixal": 6,
+            "B_quantifier": 7,
+            "A_syntactic": 8,
+            "F_implicit": 9,
+            "C_neg_adverb": 10,
+            "J_contrastive": 11,
+            "I_intensified": 12
+          },
+          "pass2": {
+            "K1_cancellation": 1,
+            "E_antonym": 2,
+            "K2_compound": 3,
+            "A_syntactic": 4,
+            "D_affixal": 5,
+            "B_quantifier": 6,
+            "J_contrastive": 7,
+            "H_hedged": 8,
+            "C_neg_adverb": 9,
+            "F_implicit": 10,
+            "M_modal": 11,
+            "I_intensified": 12
+          },
+          "pass3": {
+            "K1_cancellation": 1,
+            "H_hedged": 2,
+            "D_affixal": 3,
+            "M_modal": 4,
+            "E_antonym": 5,
+            "K2_compound": 6,
+            "A_syntactic": 7,
+            "J_contrastive": 8,
+            "F_implicit": 9,
+            "C_neg_adverb": 10,
+            "I_intensified": 11,
+            "B_quantifier": 12
+          }
+        }
+      },
+      "consistent_top3_n_ge_10": [
+        "K1_cancellation"
+      ],
+      "consistent_bottom3_n_ge_10": [
+        "I_intensified"
+      ],
+      "max_rank_shift_n_ge_10": {
+        "A_syntactic": 4,
+        "B_quantifier": 6,
+        "C_neg_adverb": 1,
+        "D_affixal": 3,
+        "E_antonym": 3,
+        "F_implicit": 1,
+        "H_hedged": 6,
+        "I_intensified": 1,
+        "J_contrastive": 4,
+        "K1_cancellation": 0,
+        "K2_compound": 3,
+        "M_modal": 7
+      },
+      "permutation_null_n_ge_10": {
+        "n_perm": 1000,
+        "median": 0.3506100242121767,
+        "p95": 0.6263357188357269,
+        "p_value": 0.06893106893106893
+      }
+    },
+    "floor": {
+      "n_off_floor": 156,
+      "n_on_floor": 249,
+      "table": {
+        "A_syntactic": {
+          "n": 10,
+          "mean": 3.3
+        },
+        "B_quantifier": {
+          "n": 5,
+          "mean": 2.6
+        },
+        "C_neg_adverb": {
+          "n": 10,
+          "mean": 3.0
+        },
+        "D_affixal": {
+          "n": 18,
+          "mean": 3.5
+        },
+        "E_antonym": {
+          "n": 21,
+          "mean": 3.142857142857143
+        },
+        "F_implicit": {
+          "n": 8,
+          "mean": 3.25
+        },
+        "G_prepositional": {
+          "n": 2,
+          "mean": 3.0
+        },
+        "H_hedged": {
+          "n": 23,
+          "mean": 2.9565217391304346
+        },
+        "I_intensified": {
+          "n": 2,
+          "mean": 3.0
+        },
+        "J_contrastive": {
+          "n": 4,
+          "mean": 3.25
+        },
+        "K1_cancellation": {
+          "n": 26,
+          "mean": 4.269230769230769
+        },
+        "K2_compound": {
+          "n": 15,
+          "mean": 4.133333333333334
+        },
+        "L_scope_position": {
+          "n": 0,
+          "mean": null
+        },
+        "M_modal": {
+          "n": 12,
+          "mean": 3.4166666666666665
+        }
+      },
+      "families_off_floor_n_ge_5": [
+        "A_syntactic",
+        "B_quantifier",
+        "C_neg_adverb",
+        "D_affixal",
+        "E_antonym",
+        "F_implicit",
+        "H_hedged",
+        "K1_cancellation",
+        "K2_compound",
+        "M_modal"
+      ],
+      "spearman_off_vs_full_means": 0.3939393939393939,
+      "pearson_family_mean_vs_floor_share_n_ge_10": -0.9582210863734116,
+      "kruskal_full_n_ge_10": {
+        "H": 82.15625186345657,
+        "p": 5.641572284532926e-13
+      },
+      "kruskal_off_floor": {
+        "H": 46.03471580884631,
+        "p": 5.933394545952166e-07
+      },
+      "off_floor_profile": {
+        "n": 156,
+        "mean_words_b": 12.794871794871796,
+        "mean_words_a": 11.435897435897436,
+        "share_input_negated": 0.1346153846153846,
+        "share_operation": {
+          "affirm": 0.038461538461538464,
+          "negate": 0.9615384615384616
+        },
+        "mean_net_negation": 0.8910256410256411,
+        "subtopic": {
+          "concurrency": 12,
+          "congestion_control": 23,
+          "deadlock": 17,
+          "dns": 17,
+          "error_detection": 17,
+          "file_systems": 9,
+          "routing": 10,
+          "scheduling": 19,
+          "tcp": 17,
+          "virtual_memory": 15
+        }
+      },
+      "on_floor_profile": {
+        "n": 249,
+        "mean_words_b": 13.068273092369479,
+        "mean_words_a": 11.642570281124499,
+        "share_input_negated": 0.15261044176706828,
+        "share_operation": {
+          "affirm": 0.03614457831325301,
+          "negate": 0.963855421686747
+        },
+        "mean_net_negation": 1.0080321285140563,
+        "subtopic": {
+          "concurrency": 37,
+          "congestion_control": 23,
+          "deadlock": 20,
+          "dns": 23,
+          "error_detection": 32,
+          "file_systems": 20,
+          "routing": 26,
+          "scheduling": 22,
+          "tcp": 24,
+          "virtual_memory": 22
+        }
+      },
+      "floor_share_by_subtopic": {
+        "concurrency": 0.7551020408163265,
+        "congestion_control": 0.5,
+        "deadlock": 0.5405405405405406,
+        "dns": 0.575,
+        "error_detection": 0.6530612244897959,
+        "file_systems": 0.6896551724137931,
+        "routing": 0.7222222222222222,
+        "scheduling": 0.5365853658536586,
+        "tcp": 0.5853658536585366,
+        "virtual_memory": 0.5945945945945946
+      },
+      "floor_share_by_operation": {
+        "affirm": 0.6,
+        "negate": 0.6153846153846154
+      },
+      "floor_share_by_input_polarity": {
+        "affirmative": 0.6098265895953757,
+        "negated": 0.6440677966101694
+      }
+    },
+    "lobo": {
+      "A_syntactic": {
+        "n": 35,
+        "n_bases": 33,
+        "mean": 0.9428571428571428,
+        "min": 0.8529411764705882,
+        "max": 1.0,
+        "range": 0.1470588235294118,
+        "max_swing": -0.08991596638655464,
+        "worst_base_line": 4,
+        "worst_base_pairs": 1,
+        "worst_base_sentence": "Priority scheduling is vulnerable to starvation of low-priority processes."
+      },
+      "B_quantifier": {
+        "n": 16,
+        "n_bases": 16,
+        "mean": 0.8125,
+        "min": 0.6666666666666666,
+        "max": 0.8666666666666667,
+        "range": 0.20000000000000007,
+        "max_swing": -0.14583333333333337,
+        "worst_base_line": 18,
+        "worst_base_pairs": 1,
+        "worst_base_sentence": "Circular wait never occurs if every process requests resources in increasing order."
+      },
+      "C_neg_adverb": {
+        "n": 35,
+        "n_bases": 30,
+        "mean": 0.8571428571428571,
+        "min": 0.6666666666666666,
+        "max": 0.9090909090909091,
+        "range": 0.24242424242424243,
+        "max_swing": -0.19047619047619047,
+        "worst_base_line": 18,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "Circular wait never occurs if every process requests resources in increasing order."
+      },
+      "D_affixal": {
+        "n": 35,
+        "n_bases": 29,
+        "mean": 1.8,
+        "min": 1.7352941176470589,
+        "max": 1.9090909090909092,
+        "range": 0.1737967914438503,
+        "max_swing": 0.10909090909090913,
+        "worst_base_line": 68,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "Hierarchical routing is necessary because flat routing tables do not scale to the whole Internet."
+      },
+      "E_antonym": {
+        "n": 35,
+        "n_bases": 28,
+        "mean": 1.8857142857142857,
+        "min": 1.8125,
+        "max": 2.0,
+        "range": 0.1875,
+        "max_swing": 0.11428571428571432,
+        "worst_base_line": 21,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "Virtual memory allows a program to run even when it is larger than physical memory."
+      },
+      "F_implicit": {
+        "n": 35,
+        "n_bases": 21,
+        "mean": 0.7428571428571429,
+        "min": 0.6470588235294118,
+        "max": 0.8125,
+        "range": 0.1654411764705882,
+        "max_swing": -0.09579831932773109,
+        "worst_base_line": 24,
+        "worst_base_pairs": 1,
+        "worst_base_sentence": "Demand paging loads a page into memory only when the page is needed."
+      },
+      "G_prepositional": {
+        "n": 4,
+        "n_bases": 2,
+        "mean": 1.5,
+        "min": 0.0,
+        "max": 3.0,
+        "range": 3.0,
+        "max_swing": -1.5,
+        "worst_base_line": 43,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "Semaphores can solve the producer-consumer problem with a bounded buffer."
+      },
+      "H_hedged": {
+        "n": 35,
+        "n_bases": 30,
+        "mean": 1.9428571428571428,
+        "min": 1.8823529411764706,
+        "max": 2.0,
+        "range": 0.11764705882352944,
+        "max_swing": -0.060504201680672276,
+        "worst_base_line": 7,
+        "worst_base_pairs": 1,
+        "worst_base_sentence": "Aging gradually increases the priority of processes that wait in the system for a long time."
+      },
+      "I_intensified": {
+        "n": 35,
+        "n_bases": 29,
+        "mean": 0.17142857142857143,
+        "min": 0.0,
+        "max": 0.1935483870967742,
+        "range": 0.1935483870967742,
+        "max_swing": -0.17142857142857143,
+        "worst_base_line": 93,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "Checksums are simple to compute, but they miss many multi-bit errors."
+      },
+      "J_contrastive": {
+        "n": 35,
+        "n_bases": 26,
+        "mean": 0.37142857142857144,
+        "min": 0.2647058823529412,
+        "max": 0.3939393939393939,
+        "range": 0.12923351158645274,
+        "max_swing": -0.10672268907563026,
+        "worst_base_line": 50,
+        "worst_base_pairs": 1,
+        "worst_base_sentence": "A spinlock is unsuitable for long critical sections."
+      },
+      "K1_cancellation": {
+        "n": 35,
+        "n_bases": 25,
+        "mean": 3.1714285714285713,
+        "min": 3.0625,
+        "max": 3.3636363636363638,
+        "range": 0.30113636363636376,
+        "max_swing": 0.1922077922077925,
+        "worst_base_line": 48,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "The critical section must satisfy mutual exclusion, progress and bounded waiting."
+      },
+      "K2_compound": {
+        "n": 35,
+        "n_bases": 29,
+        "mean": 1.7714285714285714,
+        "min": 1.5757575757575757,
+        "max": 1.878787878787879,
+        "range": 0.3030303030303032,
+        "max_swing": -0.19567099567099566,
+        "worst_base_line": 14,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "A cycle in the resource allocation graph is necessary for a deadlock to exist."
+      },
+      "L_scope_position": {
+        "n": 4,
+        "n_bases": 2,
+        "mean": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "range": 0.0,
+        "max_swing": 0.0,
+        "worst_base_line": 56,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "Every TCP segment carries a sequence number and an acknowledgment number."
+      },
+      "M_modal": {
+        "n": 31,
+        "n_bases": 16,
+        "mean": 1.3225806451612903,
+        "min": 1.1724137931034482,
+        "max": 1.4137931034482758,
+        "range": 0.24137931034482762,
+        "max_swing": -0.15016685205784208,
+        "worst_base_line": 58,
+        "worst_base_pairs": 2,
+        "worst_base_sentence": "The sender can transmit several segments before it receives an acknowledgment."
+      }
+    },
+    "lobo_ranking_spearman_min": 0.9720279720279721,
+    "lobo_ranking_spearman_median": 1.0
+  },
+  "C": {
+    "n": 405,
+    "folds": 5,
+    "fold_sizes": [
+      72,
+      99,
+      79,
+      81,
+      74
+    ],
+    "no_base_sentence_spans_folds": true,
+    "cv": {
+      "flat_0.7": {
+        "overall": {
+          "mae": 0.437268935383102,
+          "pearson_r": 0.05175237708853327,
+          "n": 405
+        },
+        "per_family": {
+          "A_syntactic": {
+            "mae": 0.49022822363036017,
+            "pearson_r": 0.0026190907422536658,
+            "n": 35
+          },
+          "B_quantifier": {
+            "mae": 0.4675869189202785,
+            "pearson_r": 0.3883379880051058,
+            "n": 16
+          },
+          "C_neg_adverb": {
+            "mae": 0.4258901335511889,
+            "pearson_r": 0.43700766676404756,
+            "n": 35
+          },
+          "D_affixal": {
+            "mae": 0.3757384020941598,
+            "pearson_r": 0.0897980718276621,
+            "n": 35
+          },
+          "E_antonym": {
+            "mae": 0.3285103287015642,
+            "pearson_r": 0.1419152572532861,
+            "n": 35
+          },
+          "F_implicit": {
+            "mae": 0.5073727636677878,
+            "pearson_r": 0.013254865799088585,
+            "n": 35
+          },
+          "G_prepositional": {
+            "mae": 0.36876780986785884,
+            "pearson_r": 0.8719442817876703,
+            "n": 4
+          },
+          "H_hedged": {
+            "mae": 0.28904560106141225,
+            "pearson_r": -0.055910000025095524,
+            "n": 35
+          },
+          "I_intensified": {
+            "mae": 0.5481605866977147,
+            "pearson_r": 0.24953464666604744,
+            "n": 35
+          },
+          "J_contrastive": {
+            "mae": 0.5381411826610565,
+            "pearson_r": 0.13396693258501569,
+            "n": 35
+          },
+          "K1_cancellation": {
+            "mae": 0.37342999168804714,
+            "pearson_r": -0.20495818094801244,
+            "n": 35
+          },
+          "K2_compound": {
+            "mae": 0.4803058271748679,
+            "pearson_r": -0.1990712613400257,
+            "n": 35
+          },
+          "L_scope_position": {
+            "mae": 0.6092181429266929,
+            "pearson_r": NaN,
+            "n": 4
+          },
+          "M_modal": {
+            "mae": 0.4261863833473574,
+            "pearson_r": 0.12094085474310876,
+            "n": 31
+          }
+        }
+      },
+      "best_flat": {
+        "overall": {
+          "mae": 0.3259969337804178,
+          "pearson_r": 0.027093068594402945,
+          "n": 405
+        },
+        "per_family": {
+          "A_syntactic": {
+            "mae": 0.307493240032341,
+            "pearson_r": 0.03981458682854707,
+            "n": 35
+          },
+          "B_quantifier": {
+            "mae": 0.2553597455014228,
+            "pearson_r": 0.4017747252739622,
+            "n": 16
+          },
+          "C_neg_adverb": {
+            "mae": 0.2695205584077828,
+            "pearson_r": 0.3843991474128866,
+            "n": 35
+          },
+          "D_affixal": {
+            "mae": 0.35033289692978276,
+            "pearson_r": 0.05907267295340086,
+            "n": 35
+          },
+          "E_antonym": {
+            "mae": 0.3247198308442353,
+            "pearson_r": 0.07493808970047287,
+            "n": 35
+          },
+          "F_implicit": {
+            "mae": 0.2963148821109775,
+            "pearson_r": -0.019319576425302135,
+            "n": 35
+          },
+          "G_prepositional": {
+            "mae": 0.2924547351645667,
+            "pearson_r": 0.8994291498688832,
+            "n": 4
+          },
+          "H_hedged": {
+            "mae": 0.30574607597735437,
+            "pearson_r": -0.03268161538279238,
+            "n": 35
+          },
+          "I_intensified": {
+            "mae": 0.2572925142198953,
+            "pearson_r": 0.18508164625258444,
+            "n": 35
+          },
+          "J_contrastive": {
+            "mae": 0.2733758049996796,
+            "pearson_r": 0.14425444234384052,
+            "n": 35
+          },
+          "K1_cancellation": {
+            "mae": 0.5159419030440578,
+            "pearson_r": -0.21101053784812168,
+            "n": 35
+          },
+          "K2_compound": {
+            "mae": 0.4021383947921314,
+            "pearson_r": -0.24220332181288157,
+            "n": 35
+          },
+          "L_scope_position": {
+            "mae": 0.267073764922824,
+            "pearson_r": NaN,
+            "n": 4
+          },
+          "M_modal": {
+            "mae": 0.32594273242446936,
+            "pearson_r": -0.04992023723353409,
+            "n": 31
+          }
+        }
+      },
+      "per_family": {
+        "overall": {
+          "mae": 0.2744812691293548,
+          "pearson_r": 0.38603413005964704,
+          "n": 405
+        },
+        "per_family": {
+          "A_syntactic": {
+            "mae": 0.273840781957526,
+            "pearson_r": -0.18263044533052647,
+            "n": 35
+          },
+          "B_quantifier": {
+            "mae": 0.23229052180426615,
+            "pearson_r": -0.32704370992763265,
+            "n": 16
+          },
+          "C_neg_adverb": {
+            "mae": 0.25078755151384,
+            "pearson_r": -0.03793413286544068,
+            "n": 35
+          },
+          "D_affixal": {
+            "mae": 0.3526810744728196,
+            "pearson_r": -0.0689630434105564,
+            "n": 35
+          },
+          "E_antonym": {
+            "mae": 0.32032821712437204,
+            "pearson_r": -0.27896211608870514,
+            "n": 35
+          },
+          "F_implicit": {
+            "mae": 0.2319086218692159,
+            "pearson_r": -0.1884228656317433,
+            "n": 35
+          },
+          "G_prepositional": {
+            "mae": 0.5864583206749256,
+            "pearson_r": -0.9996673833555529,
+            "n": 4
+          },
+          "H_hedged": {
+            "mae": 0.27141542856474843,
+            "pearson_r": -0.09092595570548342,
+            "n": 35
+          },
+          "I_intensified": {
+            "mae": 0.07466917983516422,
+            "pearson_r": -0.5220661766974452,
+            "n": 35
+          },
+          "J_contrastive": {
+            "mae": 0.13248994432095496,
+            "pearson_r": -0.17761391894135078,
+            "n": 35
+          },
+          "K1_cancellation": {
+            "mae": 0.3673411887508926,
+            "pearson_r": -0.24472185448131617,
+            "n": 35
+          },
+          "K2_compound": {
+            "mae": 0.42408407086906563,
+            "pearson_r": -0.3887019087224115,
+            "n": 35
+          },
+          "L_scope_position": {
+            "mae": 0.0,
+            "pearson_r": NaN,
+            "n": 4
+          },
+          "M_modal": {
+            "mae": 0.3425264610022493,
+            "pearson_r": -0.3928468807179794,
+            "n": 31
+          }
+        }
+      },
+      "linear": {
+        "overall": {
+          "mae": 0.27534908792188506,
+          "pearson_r": 0.3805601466187285,
+          "n": 405
+        },
+        "per_family": {
+          "A_syntactic": {
+            "mae": 0.28235350966084594,
+            "pearson_r": -0.18568728009009872,
+            "n": 35
+          },
+          "B_quantifier": {
+            "mae": 0.23936337117286857,
+            "pearson_r": -0.5506355670604747,
+            "n": 16
+          },
+          "C_neg_adverb": {
+            "mae": 0.23430514637014335,
+            "pearson_r": 0.10042665218847734,
+            "n": 35
+          },
+          "D_affixal": {
+            "mae": 0.35470166368362066,
+            "pearson_r": -0.13240449041330724,
+            "n": 35
+          },
+          "E_antonym": {
+            "mae": 0.3193111637460152,
+            "pearson_r": -0.17441411901365295,
+            "n": 35
+          },
+          "F_implicit": {
+            "mae": 0.23405773637950858,
+            "pearson_r": -0.19928117851895571,
+            "n": 35
+          },
+          "G_prepositional": {
+            "mae": 0.47999579150307004,
+            "pearson_r": -0.985629100045706,
+            "n": 4
+          },
+          "H_hedged": {
+            "mae": 0.26843426777045365,
+            "pearson_r": 0.007515389884444307,
+            "n": 35
+          },
+          "I_intensified": {
+            "mae": 0.07464219208549155,
+            "pearson_r": -0.38088333120433626,
+            "n": 35
+          },
+          "J_contrastive": {
+            "mae": 0.1369067491837962,
+            "pearson_r": -0.1278468791833878,
+            "n": 35
+          },
+          "K1_cancellation": {
+            "mae": 0.37766844824855855,
+            "pearson_r": -0.2963353322155368,
+            "n": 35
+          },
+          "K2_compound": {
+            "mae": 0.4246562059182753,
+            "pearson_r": -0.5164813040797662,
+            "n": 35
+          },
+          "L_scope_position": {
+            "mae": 0.08210316243915654,
+            "pearson_r": NaN,
+            "n": 4
+          },
+          "M_modal": {
+            "mae": 0.34489912732883343,
+            "pearson_r": -0.4740941060674294,
+            "n": 31
+          }
+        }
+      },
+      "tree_depth3": {
+        "overall": {
+          "mae": 0.2852276818940838,
+          "pearson_r": 0.3534982099026784,
+          "n": 405
+        },
+        "per_family": {
+          "A_syntactic": {
+            "mae": 0.2922823620908738,
+            "pearson_r": -0.11951257331381887,
+            "n": 35
+          },
+          "B_quantifier": {
+            "mae": 0.2277479191271008,
+            "pearson_r": 0.32942584725068536,
+            "n": 16
+          },
+          "C_neg_adverb": {
+            "mae": 0.22853530084238916,
+            "pearson_r": 0.526660676329889,
+            "n": 35
+          },
+          "D_affixal": {
+            "mae": 0.3201520090872671,
+            "pearson_r": 0.3914481086270878,
+            "n": 35
+          },
+          "E_antonym": {
+            "mae": 0.33081344333181734,
+            "pearson_r": -0.10694178105067234,
+            "n": 35
+          },
+          "F_implicit": {
+            "mae": 0.2449096485472179,
+            "pearson_r": -0.005287500337087324,
+            "n": 35
+          },
+          "G_prepositional": {
+            "mae": 0.2872743902807363,
+            "pearson_r": 0.9850201419354315,
+            "n": 4
+          },
+          "H_hedged": {
+            "mae": 0.2183648155536473,
+            "pearson_r": 0.5219191175052245,
+            "n": 35
+          },
+          "I_intensified": {
+            "mae": 0.1743799004264736,
+            "pearson_r": -0.523663176161483,
+            "n": 35
+          },
+          "J_contrastive": {
+            "mae": 0.21121345002169653,
+            "pearson_r": 0.13326336894699675,
+            "n": 35
+          },
+          "K1_cancellation": {
+            "mae": 0.36734118875089267,
+            "pearson_r": -0.24472185448131634,
+            "n": 35
+          },
+          "K2_compound": {
+            "mae": 0.39483339598438905,
+            "pearson_r": -0.05122199265504811,
+            "n": 35
+          },
+          "L_scope_position": {
+            "mae": 0.19407626962065172,
+            "pearson_r": NaN,
+            "n": 4
+          },
+          "M_modal": {
+            "mae": 0.4048048002961785,
+            "pearson_r": -0.6612069273959075,
+            "n": 31
+          }
+        }
+      },
+      "no_penalty_1.0 (reference)": {
+        "overall": {
+          "mae": 0.6285787812280066,
+          "pearson_r": 0.051752377088533245,
+          "n": 405
+        },
+        "per_family": {
+          "A_syntactic": {
+            "mae": 0.7350102278164454,
+            "pearson_r": 0.002619090742253711,
+            "n": 35
+          },
+          "B_quantifier": {
+            "mae": 0.7376241698861122,
+            "pearson_r": 0.3883379880051056,
+            "n": 16
+          },
+          "C_neg_adverb": {
+            "mae": 0.6310039843831744,
+            "pearson_r": 0.4370076667640475,
+            "n": 35
+          },
+          "D_affixal": {
+            "mae": 0.5593952356066021,
+            "pearson_r": 0.08979807182766208,
+            "n": 35
+          },
+          "E_antonym": {
+            "mae": 0.5494697168895176,
+            "pearson_r": 0.14191525725328596,
+            "n": 35
+          },
+          "F_implicit": {
+            "mae": 0.722002317905426,
+            "pearson_r": 0.013254865799088529,
+            "n": 35
+          },
+          "G_prepositional": {
+            "mae": 0.6553825855255127,
+            "pearson_r": 0.8719442817876708,
+            "n": 4
+          },
+          "H_hedged": {
+            "mae": 0.49105060952050344,
+            "pearson_r": -0.05591000002509553,
+            "n": 35
+          },
+          "I_intensified": {
+            "mae": 0.7977804299763271,
+            "pearson_r": 0.24953464666604744,
+            "n": 35
+          },
+          "J_contrastive": {
+            "mae": 0.7839957329205104,
+            "pearson_r": 0.1339669325850158,
+            "n": 35
+          },
+          "K1_cancellation": {
+            "mae": 0.3355907947676522,
+            "pearson_r": -0.2049581809480124,
+            "n": 35
+          },
+          "K2_compound": {
+            "mae": 0.6020530404363359,
+            "pearson_r": -0.19907126134002573,
+            "n": 35
+          },
+          "L_scope_position": {
+            "mae": 0.8703116327524185,
+            "pearson_r": NaN,
+            "n": 4
+          },
+          "M_modal": {
+            "mae": 0.6262038596214786,
+            "pearson_r": 0.12094085474310866,
+            "n": 31
+          }
+        }
+      }
+    },
+    "contrasts": {
+      "per_family - best_flat": {
+        "mae_diff": -0.051515664651063,
+        "ci95": [
+          -0.06749826123476568,
+          -0.03420635452354937
+        ]
+      },
+      "per_family - flat_0.7": {
+        "mae_diff": -0.16278766625374724,
+        "ci95": [
+          -0.20035344948443887,
+          -0.125985519111021
+        ]
+      },
+      "best_flat - flat_0.7": {
+        "mae_diff": -0.11127200160268425,
+        "ci95": [
+          -0.14765380626411903,
+          -0.07591848499835611
+        ]
+      },
+      "linear - best_flat": {
+        "mae_diff": -0.050647845858532714,
+        "ci95": [
+          -0.0675574353961647,
+          -0.03428491321478674
+        ]
+      },
+      "tree_depth3 - best_flat": {
+        "mae_diff": -0.04076925188633396,
+        "ci95": [
+          -0.05914099760125784,
+          -0.0221869227808321
+        ]
+      },
+      "linear - per_family": {
+        "mae_diff": 0.0008678187925302838,
+        "ci95": [
+          -0.003118061848759894,
+          0.005080374316416505
+        ]
+      },
+      "flat_0.7 - no_penalty_1.0 (reference)": {
+        "mae_diff": -0.19130984584490457,
+        "ci95": [
+          -0.20842210824341917,
+          -0.17229808948125164
+        ]
+      }
+    },
+    "best_flat_alpha_full": 0.3033620142102461,
+    "per_family_alpha": {
+      "A_syntactic": {
+        "alpha": 0.20272589542672553,
+        "n": 35,
+        "ci95": [
+          0.10273077165720786,
+          0.31716295607656547
+        ]
+      },
+      "B_quantifier": {
+        "alpha": 0.18886543819738486,
+        "n": 16,
+        "ci95": [
+          0.059752484697418326,
+          0.3257788122733574
+        ]
+      },
+      "C_neg_adverb": {
+        "alpha": 0.2290347378162268,
+        "n": 35,
+        "ci95": [
+          0.10400283165438251,
+          0.3641472198563022
+        ]
+      },
+      "D_affixal": {
+        "alpha": 0.3918805914998378,
+        "n": 35,
+        "ci95": [
+          0.2794309135912433,
+          0.5157447961375986
+        ]
+      },
+      "E_antonym": {
+        "alpha": 0.40953235951948885,
+        "n": 35,
+        "ci95": [
+          0.28635154337120133,
+          0.5180871095044197
+        ]
+      },
+      "F_implicit": {
+        "alpha": 0.16979000803552355,
+        "n": 35,
+        "ci95": [
+          0.07398172088846859,
+          0.29789713763243886
+        ]
+      },
+      "G_prepositional": {
+        "alpha": 0.32103330157356585,
+        "n": 4,
+        "ci95": [
+          0.0,
+          0.6138410592305006
+        ]
+      },
+      "H_hedged": {
+        "alpha": 0.4404349567340325,
+        "n": 35,
+        "ci95": [
+          0.3350698898427155,
+          0.5408647125498728
+        ]
+      },
+      "I_intensified": {
+        "alpha": 0.04515520486492237,
+        "n": 35,
+        "ci95": [
+          0.0,
+          0.13717675208309218
+        ]
+      },
+      "J_contrastive": {
+        "alpha": 0.08882750205550499,
+        "n": 35,
+        "ci95": [
+          0.01778987681466872,
+          0.1859374707648515
+        ]
+      },
+      "K1_cancellation": {
+        "alpha": 0.7555377987735133,
+        "n": 35,
+        "ci95": [
+          0.5706130801479273,
+          0.9183713517008738
+        ]
+      },
+      "K2_compound": {
+        "alpha": 0.38973336843297895,
+        "n": 35,
+        "ci95": [
+          0.22563764795188074,
+          0.5559284022284277
+        ]
+      },
+      "L_scope_position": {
+        "alpha": 0.0,
+        "n": 4,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "M_modal": {
+        "alpha": 0.3026167814131055,
+        "n": 31,
+        "ci95": [
+          0.16897799943897132,
+          0.44601585838108115
+        ]
+      }
+    },
+    "linear_coefficients": {
+      "intercept": 0.32358969218953104,
+      "family=B_quantifier": -0.017765757546549417,
+      "family=C_neg_adverb": -0.06453104691448627,
+      "family=D_affixal": 0.17331808170918497,
+      "family=E_antonym": 0.19450744287474372,
+      "family=F_implicit": -0.02795268315851397,
+      "family=G_prepositional": 0.10868463872380704,
+      "family=H_hedged": 0.1227772822522817,
+      "family=I_intensified": -0.0640488519269802,
+      "family=J_contrastive": -0.09224505556301835,
+      "family=K1_cancellation": 0.4679419582148297,
+      "family=K2_compound": 0.28598112101061357,
+      "family=L_scope_position": -0.15914825100574853,
+      "family=M_modal": 0.08946188196069173,
+      "net_negation": -0.0857925610416297,
+      "intensity=hedged": 0.12277728225228299,
+      "intensity=intensified": -0.06404885192698016,
+      "intensity=partial": 0.17650137607077485,
+      "cue_count": -0.018525308759156894,
+      "scope_span_ratio": -0.01713515623003041,
+      "A_already_negated": -0.039882318075898676
+    },
+    "linear_ridge_lambda": 1.0,
+    "tree_rules": "|--- family=K1_cancellation <= 0.500\n|   |--- scope_span_ratio <= 0.125\n|   |   |--- family=M_modal <= 0.500\n|   |   |   |--- value: [0.490]\n|   |   |--- family=M_modal >  0.500\n|   |   |   |--- value: [0.066]\n|   |--- scope_span_ratio >  0.125\n|   |   |--- family=I_intensified <= 0.500\n|   |   |   |--- value: [0.239]\n|   |   |--- family=I_intensified >  0.500\n|   |   |   |--- value: [0.045]\n|--- family=K1_cancellation >  0.500\n|   |--- value: [0.756]\n",
+    "ablation": {
+      "family": {
+        "mae": 0.2761920712340096,
+        "pearson_r": 0.3929071379085101,
+        "n": 405
+      },
+      "net_negation": {
+        "mae": 0.321403728738305,
+        "pearson_r": 0.09633807733741098,
+        "n": 405
+      },
+      "intensity_hint": {
+        "mae": 0.30993803630645217,
+        "pearson_r": 0.19002680885511092,
+        "n": 405
+      },
+      "cue_count": {
+        "mae": 0.3266376084310224,
+        "pearson_r": -0.0004020901349119552,
+        "n": 405
+      },
+      "scope_span_ratio": {
+        "mae": 0.3262283222802445,
+        "pearson_r": -0.016352760542071382,
+        "n": 405
+      },
+      "input_negated": {
+        "mae": 0.32658810135132366,
+        "pearson_r": -0.0058142415996664445,
+        "n": 405
+      },
+      "family + net_negation": {
+        "mae": 0.2760271090464756,
+        "pearson_r": 0.39224611937044723,
+        "n": 405
+      },
+      "family + intensity_hint": {
+        "mae": 0.27458946022425684,
+        "pearson_r": 0.3922344921148324,
+        "n": 405
+      },
+      "family + cue_count": {
+        "mae": 0.2759670834677186,
+        "pearson_r": 0.39374813563207983,
+        "n": 405
+      },
+      "family + scope_span_ratio": {
+        "mae": 0.2769401006562812,
+        "pearson_r": 0.38287022840679075,
+        "n": 405
+      },
+      "family + input_negated": {
+        "mae": 0.2770272570563794,
+        "pearson_r": 0.3857514562558793,
+        "n": 405
+      },
+      "family + net_negation + intensity_hint + cue_count + scope_span_ratio + input_negated": {
+        "mae": 0.27534908792188506,
+        "pearson_r": 0.3805601466187285,
+        "n": 405
+      }
+    },
+    "ablation_vs_family": {
+      "family + net_negation": {
+        "mae_diff": -0.00016496218753397215,
+        "ci95": [
+          -0.0012680204066891291,
+          0.001094357088041359
+        ]
+      },
+      "family + intensity_hint": {
+        "mae_diff": -0.0016026110097527148,
+        "ci95": [
+          -0.003807500190485976,
+          0.0007155406725143328
+        ]
+      },
+      "family + cue_count": {
+        "mae_diff": -0.000224987766290994,
+        "ci95": [
+          -0.0008226309840673891,
+          0.00036193288905359607
+        ]
+      },
+      "family + scope_span_ratio": {
+        "mae_diff": 0.0007480294222716508,
+        "ci95": [
+          -0.0006120267251843468,
+          0.002164508074451568
+        ]
+      },
+      "family + input_negated": {
+        "mae_diff": 0.0008351858223698234,
+        "ci95": [
+          -0.0005479671267348078,
+          0.00269192125806429
+        ]
+      }
+    },
+    "sim_base": "SBERT all-mpnet-base-v2 cosine (STAND-IN for the HSS backbone)"
+  },
+  "D": {
+    "ci_disjoint_share": 0.3484848484848485,
+    "rank_spearman_mean_n_ge_10": 0.6037296037296037,
+    "rank_null_p95": 0.6263357188357269,
+    "rank_stable_beyond_null": false,
+    "graded_beats_flat_cv": true,
+    "per_family_minus_best_flat": {
+      "mae_diff": -0.051515664651063,
+      "ci95": [
+        -0.06749826123476568,
+        -0.03420635452354937
+      ]
+    },
+    "family_mean_vs_floor_share_r": -0.9582210863734116,
+    "negation_only_alpha": 0.36474758532897134,
+    "negation_floor_share": 0.6148148148148148
+  }
+}
