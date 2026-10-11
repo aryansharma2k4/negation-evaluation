@@ -589,3 +589,39 @@ alternative, low-overlap MNLI / SNLI training pairs, which does not depend on th
 ```sh
 ./venv/bin/python experiments/f2/rebalance.py --step 3.1
 ```
+
+### 3.2 Three training augmentations: natural, generated, mixed
+
+`experiments/f2/rebalance.py --step 3.2` → `results/3_2_augmentation.json`. Every augmentation is added to
+clean DEV for training only. The builder **asserts no sentence of any augmentation appears in VALIDATION,
+TEST or `val_ood`**: 0 clashes were found.
+
+| augmentation | negations (label 1) | non-negations (label 0) | how chosen |
+| --- | --- | --- | --- |
+| **natural** (human-written) | 548: MNLI-train contradictions 300, SNLI-train contradictions 248 | 552: MNLI entailment 151 + neutral 151, SNLI entailment 125 + neutral 125 | one sentence each, 5–40 words, overlap < 0.6, mpnet cosine ≥ 0.6, negatives overlap-matched in 0.1 bins (the `val_ood` recipe applied to the *training* splits); seed 0 |
+| **generated** (**machine-generated**) | 600: clean-DEV base negations with overlap < 0.6 (H 251, I 178, F 114, A 20, G 13, J 10, N 8, E 6) | 600 random re-pairings of clean-DEV bases with other bases' variants | the only low-overlap generated material that exists (step 3.1) |
+| **mixed** | 1,148 | 1,152 | natural + generated |
+
+Overlap distribution, original vs augmented:
+
+| training set | negations: median overlap | negations: share < 0.4 | non-negations: median | non-negations: share < 0.4 |
+| --- | ---: | ---: | ---: | ---: |
+| clean DEV (original) | 0.700 | 1.5% | 0.471 | 42.4% |
+| clean DEV + natural | 0.667 | **20.6%** | 0.400 | 49.3% |
+| clean DEV + generated | 0.647 | 2.5% | 0.273 | 56.2% |
+| clean DEV + mixed | 0.588 | 17.1% | 0.286 | 59.3% |
+
+**The natural augmentation does what the brief asked.** It puts low-overlap negations *and* low-overlap,
+same-topic non-negations into training, in equal measure, so "low overlap" stops predicting the label.
+**The generated one cannot.** Its negations are only moderately low (median 0.545, 5% below 0.4), and its
+only low-overlap non-negations are random pairs (median 0.037). That teaches the old rule, "very low
+overlap ⇒ unrelated", more firmly. The generator has no paraphrase family, so it has no same-topic
+low-overlap non-negations to offer.
+
+**Caveat:** natural augmentation from MNLI-train makes `val_ood` (MNLI validation) in-distribution for
+the combiner too. For any configuration trained on it, the TEST low-overlap columns are the only
+independent check of rewording.
+
+```sh
+./venv/bin/python experiments/f2/rebalance.py --step 3.2
+```

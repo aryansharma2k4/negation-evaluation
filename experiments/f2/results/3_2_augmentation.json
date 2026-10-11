@@ -1,0 +1,145 @@
+{
+  "composition": {
+    "natural": {
+      "aug_mnli_contradiction": 300,
+      "aug_mnli_entailment": 151,
+      "aug_mnli_neutral": 151,
+      "aug_snli_contradiction": 248,
+      "aug_snli_entailment": 125,
+      "aug_snli_neutral": 125
+    },
+    "generated": {
+      "aug_gen_H_hedged": 251,
+      "aug_gen_I_intensified": 178,
+      "aug_gen_F_implicit": 114,
+      "aug_gen_E_antonym": 6,
+      "aug_gen_G_prepositional": 13,
+      "aug_gen_A_syntactic": 20,
+      "aug_gen_N_affirmation": 8,
+      "aug_gen_J_contrastive": 10,
+      "aug_gen_random_pair": 600
+    },
+    "mixed": {
+      "aug_mnli_contradiction": 300,
+      "aug_mnli_entailment": 151,
+      "aug_mnli_neutral": 151,
+      "aug_snli_contradiction": 248,
+      "aug_snli_entailment": 125,
+      "aug_snli_neutral": 125,
+      "aug_gen_H_hedged": 251,
+      "aug_gen_I_intensified": 178,
+      "aug_gen_F_implicit": 114,
+      "aug_gen_E_antonym": 6,
+      "aug_gen_G_prepositional": 13,
+      "aug_gen_A_syntactic": 20,
+      "aug_gen_N_affirmation": 8,
+      "aug_gen_J_contrastive": 10,
+      "aug_gen_random_pair": 600
+    }
+  },
+  "overlap": {
+    "clean DEV": {
+      "negations": {
+        "n": 1501,
+        "median": 0.7,
+        "share_below_0.4": 0.015,
+        "share_below_0.6": 0.12
+      },
+      "non-negations": {
+        "n": 1901,
+        "median": 0.471,
+        "share_below_0.4": 0.424,
+        "share_below_0.6": 0.733
+      }
+    },
+    "clean DEV + natural": {
+      "negations": {
+        "n": 2049,
+        "median": 0.667,
+        "share_below_0.4": 0.206,
+        "share_below_0.6": 0.355
+      },
+      "non-negations": {
+        "n": 2453,
+        "median": 0.4,
+        "share_below_0.4": 0.493,
+        "share_below_0.6": 0.793
+      }
+    },
+    "natural alone": {
+      "negations": {
+        "n": 548,
+        "median": 0.294,
+        "share_below_0.4": 0.73,
+        "share_below_0.6": 1.0
+      },
+      "non-negations": {
+        "n": 552,
+        "median": 0.29,
+        "share_below_0.4": 0.732,
+        "share_below_0.6": 1.0
+      }
+    },
+    "clean DEV + generated": {
+      "negations": {
+        "n": 2101,
+        "median": 0.647,
+        "share_below_0.4": 0.025,
+        "share_below_0.6": 0.371
+      },
+      "non-negations": {
+        "n": 2501,
+        "median": 0.273,
+        "share_below_0.4": 0.562,
+        "share_below_0.6": 0.797
+      }
+    },
+    "generated alone": {
+      "negations": {
+        "n": 600,
+        "median": 0.545,
+        "share_below_0.4": 0.05,
+        "share_below_0.6": 1.0
+      },
+      "non-negations": {
+        "n": 600,
+        "median": 0.037,
+        "share_below_0.4": 1.0,
+        "share_below_0.6": 1.0
+      }
+    },
+    "clean DEV + mixed": {
+      "negations": {
+        "n": 2649,
+        "median": 0.588,
+        "share_below_0.4": 0.171,
+        "share_below_0.6": 0.501
+      },
+      "non-negations": {
+        "n": 3053,
+        "median": 0.286,
+        "share_below_0.4": 0.593,
+        "share_below_0.6": 0.834
+      }
+    },
+    "mixed alone": {
+      "negations": {
+        "n": 1148,
+        "median": 0.444,
+        "share_below_0.4": 0.375,
+        "share_below_0.6": 1.0
+      },
+      "non-negations": {
+        "n": 1152,
+        "median": 0.1,
+        "share_below_0.4": 0.872,
+        "share_below_0.6": 1.0
+      }
+    }
+  },
+  "asserted_disjoint_from": [
+    "validation",
+    "test",
+    "val_ood"
+  ]
+}
