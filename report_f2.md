@@ -409,3 +409,45 @@ The detector now supports the override as a stage, "low-overlap NLI override", r
 ```sh
 ./venv/bin/python experiments/f2/para2.py
 ```
+
+### 2.1 `report_f1.md`'s DeBERTa swap: retrained, so the collapse was real, and here is why
+
+`experiments/f2/deberta.py --step 2.1` → `results/2_1_swap_diagnosis.json`.
+
+**It was retrained.** In `experiments/f1/ensemble.py` (lines 274–278), the swap writes DeBERTa-anli's three
+probabilities into the clean-DEV feature matrix, and `fit_gbm(sets, Xf["dev_clean"])` refits the full grid on
+it. The trees were fit to the new model's outputs. **The 78.9% → 57.2% xNot360 collapse is a real result, not
+a bug.**
+
+**Why a better NLI model makes the combiner worse.** The damage is on xNot360's conditional inverses (*If P, Q*
+/ *If not P, not Q*, label 0, n = 133). Share of them called a negation:
+
+| system | inverses called negation (n = 133) |
+| --- | ---: |
+| DeBERTa-anli **standalone** (threshold 0.931) | **9.8%** |
+| reference standalone (threshold 0.975) | 32.3% |
+| Phase 0 GBM on the reference model | 33.1% |
+| **GBM retrained on DeBERTa-anli** | **91.7%** |
+
+DeBERTa-anli is the best *standalone* judge of inverses: its P(contradiction) on them has median 0.019 and
+lower quartile 0.016. It is the combiner that turns them into negations. **The trees learned to read the
+fourth decimal place of P(contradiction):**
+
+- **Where the GBM splits.** 58% of the retrained GBM's 133 splits on DeBERTa-anli's P(contradiction) fall
+  below 0.05, with median split value 0.014. The final threshold on its output is 0.239.
+- **Why those splits are right on clean DEV.** Among clean-DEV pairs with overlap ≥ 0.6, those with
+  DeBERTa-anli P in [0, 0.005) are 2.3% negations (n = 439). In [0.005, 0.05) the share is **47.7%** (n = 44),
+  and in [0.05, 0.5) it is **83.0%** (n = 47). On CANNOT, "barely above zero" really does mean "probably a
+  negation".
+- **Why they fail out of distribution.** xNot360's inverses sit at 0.014–0.02, inside the band the trees
+  learned to call negations.
+- **The reference model behaves differently.** Its outputs are more often exactly zero for high-overlap
+  non-negations (P < 0.005 for 477 of 518 such pairs), so it has no such band.
+
+A model's near-zero tail is not stable across datasets, and the GBM's splits treat it as if it were. A
+remedy would be to clip or calibrate probabilities before the combiner sees them, so that trees cannot
+split at 0.014. It was not tried; see next steps.
+
+```sh
+./venv/bin/python experiments/f2/deberta.py --step 2.1
+```

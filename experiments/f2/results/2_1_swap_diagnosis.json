@@ -1,0 +1,68 @@
+{
+  "retrained": true,
+  "evidence": "experiments/f1/ensemble.py lines 274-278: Xf['dev_clean'] carries the ANLI probabilities and fit_gbm(sets, Xf['dev_clean']) refits the full grid; the swap was retrained, so the 57.2% is a real result, not a bug",
+  "models": {
+    "deberta_base": {
+      "dev negations, overlap >= 0.6": {
+        "q10": 0.99,
+        "q25": 0.999,
+        "q50": 1.0,
+        "q75": 1.0
+      },
+      "dev non-negations, overlap >= 0.6 (paraphrase-like)": {
+        "q10": 0.0,
+        "q25": 0.0,
+        "q50": 0.0,
+        "q75": 0.0
+      },
+      "dev non-negations with P_c > 0.5, overlap >= 0.6": 45,
+      "xNot360 conditional inverse pairs (label 0)": {
+        "q10": 0.001,
+        "q25": 0.001,
+        "q50": 0.002,
+        "q75": 0.988
+      },
+      "n_inverse": 133,
+      "share of inverse pairs with P_c > 0.5": 0.338,
+      "share of dev high-overlap negations with P_c > 0.5": 0.941
+    },
+    "ml_deberta_base_anli": {
+      "dev negations, overlap >= 0.6": {
+        "q10": 0.958,
+        "q25": 0.994,
+        "q50": 0.998,
+        "q75": 0.999
+      },
+      "dev non-negations, overlap >= 0.6 (paraphrase-like)": {
+        "q10": 0.0,
+        "q25": 0.0,
+        "q50": 0.001,
+        "q75": 0.002
+      },
+      "dev non-negations with P_c > 0.5, overlap >= 0.6": 48,
+      "xNot360 conditional inverse pairs (label 0)": {
+        "q10": 0.014,
+        "q25": 0.016,
+        "q50": 0.019,
+        "q75": 0.712
+      },
+      "n_inverse": 133,
+      "share of inverse pairs with P_c > 0.5": 0.263,
+      "share of dev high-overlap negations with P_c > 0.5": 0.947
+    }
+  },
+  "inverse_slice_called_negation": {
+    "Phase 0 GBM (reference model)": 0.331,
+    "GBM retrained on DeBERTa-anli": 0.917,
+    "DeBERTa-anli standalone (thr 0.931)": 0.098,
+    "reference standalone (thr 0.975)": 0.323
+  },
+  "gbm_threshold_anli": 0.23871019816747024,
+  "importances_anli_gbm": {
+    "p_contradiction": 0.6666,
+    "token_overlap": 0.2565,
+    "antonym_aligned": 0.0177,
+    "p_entailment": 0.0116,
+    "p_neutral": 0.0113
+  }
+}
