@@ -1,0 +1,45 @@
+{
+  "path": "data/val_ood.csv",
+  "sections": {
+    "mnli_lowoverlap": {
+      "mnli_contradiction|1": 400,
+      "mnli_entailment|0": 200,
+      "mnli_neutral|0": 200
+    }
+  },
+  "overlap_by_kind": {
+    "mnli_contradiction": {
+      "n": 400,
+      "mean": 0.281,
+      "median": 0.263
+    },
+    "mnli_neutral": {
+      "n": 200,
+      "mean": 0.279,
+      "median": 0.263
+    },
+    "mnli_entailment": {
+      "n": 200,
+      "mean": 0.279,
+      "median": 0.268
+    }
+  },
+  "filters": "one sentence each, 5-40 words, overlap < 0.6, mpnet cosine >= 0.6; negatives overlap-matched in 0.1 bins",
+  "disjoint_from": [
+    "test",
+    "validation",
+    "dev_clean"
+  ],
+  "halves": {
+    "fit": {
+      "mnli_contradiction|1": 209,
+      "mnli_entailment|0": 106,
+      "mnli_neutral|0": 102
+    },
+    "select": {
+      "mnli_contradiction|1": 191,
+      "mnli_entailment|0": 94,
+      "mnli_neutral|0": 98
+    }
+  }
+}

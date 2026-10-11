@@ -169,3 +169,49 @@ recall on reworded negations buys the precision on unrelated pairs (step 0.1).
 ```sh
 ./venv/bin/python experiments/f2/overlap.py --step 0.2
 ```
+
+### 0.3 `val_ood`: an out-of-distribution validation slice, and the selection rule for this round
+
+`experiments/f2/val_ood.py` → `data/val_ood.csv`, `results/0_3_val_ood.json`. Built from **MNLI
+validation** (matched + mismatched; GLUE revision `bcdcba79`, sha256-verified via
+`experiments/f2/fetch_data.py`). MNLI is in no earlier split. The builder **asserts that no sentence
+(normalised) appears in TEST, VALIDATION or clean DEV**. Everything in it is human-written.
+
+| section | label | n | median overlap | how chosen |
+| --- | ---: | ---: | ---: | --- |
+| MNLI contradiction | 1 (negation) | 400 | 0.263 | premise and hypothesis each one sentence, 5–40 words; overlap < 0.6; mpnet cosine ≥ 0.6 (same topic); random 400 (seed 0) |
+| MNLI entailment | 0 | 200 | 0.268 | same filters, sampled to match the positives' overlap in 0.1-wide bins |
+| MNLI neutral | 0 | 200 | 0.263 | same |
+| synthetic conditionals (**machine-generated**) | rule-derived | — | — | appended in step 5.1 |
+
+**Departures from the brief, with reasons:**
+
+1. **Same-topic and overlap-matched, not raw low-overlap contradictions.** An MNLI or SNLI contradiction
+   is not the same thing as a negation. At low overlap many contradictions are simply different events,
+   and clean DEV labels those *not a negation* (its SNLI-neutral and STS-low pairs). The cosine floor keeps
+   same-topic pairs. Matching negatives on overlap means a model cannot score well on `val_ood` by
+   reading overlap. **The labels are still MNLI's, and "contradiction" remains broader than CANNOT's
+   "negation". `val_ood` accuracies are read with that in mind.** Examples: *Sorry but that's how it is.* /
+   *This is how things are and there are no apologies about it.* (contradiction, reworded); *When a
+   baseball player is removed by the manager, the organist plays Auld Lang Syne.* / *There is no organ
+   music when the manager has to remove a baseball player.* (contradiction).
+2. **SNLI not used.** Its contradictions are mostly image-caption event mismatches (*A man is sleeping* /
+   *A man is running*), the kind of pair clean DEV labels as not a negation.
+3. **No CANNOT phase-1 pairs moved out of clean DEV.** Moving them would mean retraining everything. MNLI
+   supplied enough low-overlap pairs without it.
+4. **A fixed fit / select split.** The brief asks Phase 1 to fit θ and ρ on clean DEV plus `val_ood`, and then
+   to select on `val_ood`, which would select on the data the parameters were fit to. So every row gets a
+   fixed half by sha1 hash of the pair. The **fit** half (417 rows: 209 / 106 / 102) may be used for
+   fitting. The **select** half (383 rows: 191 / 94 / 98) is used only for the selection rule. **"val_ood"
+   in every table means the select half** unless marked otherwise.
+
+**Selection rule for the rest of this round, stated before any Phase 1 run.** A change is adopted only if
+**VALIDATION accuracy and `val_ood` (select-half) accuracy are both non-decreasing** against the current
+adopted configuration. If one rises and the other falls, both are reported and the change is not
+adopted. When several candidates pass, the one with the highest sum of the two gains is taken, with
+clean-DEV accuracy as tie-break.
+
+```sh
+./venv/bin/python experiments/f2/fetch_data.py
+./venv/bin/python experiments/f2/val_ood.py
+```

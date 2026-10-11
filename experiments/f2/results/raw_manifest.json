@@ -1,0 +1,30 @@
+{
+ "mnli_validation_matched.parquet": {
+  "dataset": "nyu-mll/glue",
+  "revision": "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+  "path": "mnli/validation_matched-00000-of-00001.parquet",
+  "sha256": "7f918c09d9c35446b8e8f06a5672f8ab704e2897fecbf52e2e154141f3d7c421",
+  "size": 1214936
+ },
+ "mnli_validation_mismatched.parquet": {
+  "dataset": "nyu-mll/glue",
+  "revision": "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+  "path": "mnli/validation_mismatched-00000-of-00001.parquet",
+  "sha256": "04aba92823a954be36fe1b69b61eed334c9eb1009daba0dd79f69d77b87c535c",
+  "size": 1251152
+ },
+ "mnli_train.parquet": {
+  "dataset": "nyu-mll/glue",
+  "revision": "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+  "path": "mnli/train-00000-of-00001.parquet",
+  "sha256": "49a4a5508b89b8fed2c6e81d2c47d00f4759050a7048c6cc5d95d31122ced3c1",
+  "size": 52224361
+ },
+ "snli_train.parquet": {
+  "dataset": "stanfordnlp/snli",
+  "revision": "cdb5c3d5eed6ead6e5a341c8e56e669bb666725b",
+  "path": "plain_text/train-00000-of-00001.parquet",
+  "sha256": "ef9a7b25d97390a62aeda7abe26aec8640600f50b818eaeb9107097d60ac6620",
+  "size": 19614612
+ }
+}
