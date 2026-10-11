@@ -488,3 +488,41 @@ near-zero tail). Adding the reference model's probabilities alongside (B) neutra
 there is no gain either. The pruned ensemble (C) is the best combiner on TEST, as `report_f1.md` saw. **Its
 low-overlap recall is no better than the baseline's (79.1% vs 75.2%)**, so on its own it does not address
 this round's problem. With the override it does.
+
+### 2.3 Overfitting check and selection: the pruned ensemble + override is adopted
+
+**The step-0.3 rule.** Against the current configuration (VALIDATION 97.8%, `val_ood` 94.3%), only **C +
+override** keeps both non-decreasing: VALIDATION 98.0%, `val_ood` 94.3%. It is adopted.
+
+Rejected, with the measurement that rejected it:
+
+| configuration | rejected because |
+| --- | --- |
+| A | `val_ood` 58.2% |
+| A + override | VALIDATION 97.3% |
+| B | VALIDATION 97.5%, `val_ood` 60.1% |
+| B + override | VALIDATION 97.5% |
+| C | `val_ood` 62.1%, the overlap shortcut intact |
+
+**The overfitting check** (`report_f1.md` 2.5: out-of-fold DEV − TEST accuracy):
+
+| configuration | out-of-fold DEV | TEST (all) | gap |
+| --- | ---: | ---: | ---: |
+| current (Phase 0 + override) | 96.6% | 93.1% | **+3.5 pts** |
+| A / A + override | 96.4% | 89.7% / 88.7% | +6.8 / +7.7 pts |
+| B / B + override | 96.8% | 94.0% / 93.0% | +2.8 / +3.8 pts |
+| C / **C + override** | 97.0% | 94.5% / 93.7% | +2.4 / **+3.3 pts** |
+
+**The check, read literally, vetoes everything, including the incumbent.** Every configuration's gap
+exceeds 2 pts, because TEST contains xNot360 and out-of-fold DEV does not. A rule that rejects the
+configuration already in use cannot choose between candidates. So it is applied comparatively: a
+candidate whose gap exceeds the incumbent's shows evidence of *additional* overfitting and is not adopted.
+C + override's gap (3.3) is smaller than the incumbent's (3.5). This reading of the brief's rule is
+recorded as a departure. Under it, A (6.8 / 7.7) would be rejected even if it passed the selection rule.
+
+**The adopted configuration's cost against Phase 0, in one sentence:**
+
+- **buys:** low-overlap negation recall 75.2% → **90.7%** (+15.5 pts, n = 129), phase 2 +0.3 pts (p = 0.54), and
+  `val_ood` 59.8% → 94.3%;
+- **costs:** xNot360 −1.9 pts (p = 0.37), all TEST −0.2 pts (p = 0.82), precision 93.0% → 90.7%, low-overlap
+  non-negation FPR 0.5% → 5.6%, and four NLI models instead of one (step 2.4).

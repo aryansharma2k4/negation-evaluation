@@ -1,7 +1,7 @@
 {
- "nli_keys": ["deberta_base"],
- "method": "phase0",
+ "nli_keys": ["deberta_base", "roberta_base", "ml_deberta_base_anli", "bart_large"],
+ "method": "gbm_all_probs",
  "guardrail": null,
  "rule": {"theta": 0.5, "rho": 0.9, "kappa": 0.6},
- "note": "report_f2 step 1.3: Phase 0 baseline + low-overlap NLI override with topic floor; later phases update this file"
+ "note": "report_f2 step 2.3: pruned 4-model GBM (26 features) + low-overlap NLI override; later phases update this file"
 }
