@@ -1,0 +1,45 @@
+{
+  "setup": "CPU (Ryzen 7 7730U), 8 torch threads, batch 16, max_length 256, 64 clean-DEV pairs after one warm-up batch, nothing else running",
+  "models": {
+    "deberta_base": {
+      "hub_id": "cross-encoder/nli-deberta-v3-base",
+      "revision": "6c749ce3425cd33b46d187e45b92bbf96ee12ec7",
+      "parameters": "184M",
+      "ms_per_pair": 45.2,
+      "projected_minutes_all_rows": 4.4,
+      "rows": 5854
+    },
+    "roberta_base": {
+      "hub_id": "cross-encoder/nli-roberta-base",
+      "revision": "1be0567456f0543475805e758725f151f283705a",
+      "parameters": "125M",
+      "ms_per_pair": 36.1,
+      "projected_minutes_all_rows": 3.5,
+      "rows": 5854
+    },
+    "distilroberta": {
+      "hub_id": "cross-encoder/nli-distilroberta-base",
+      "revision": "b14d131f9d32668a5e6a982729b57ff6ed5dfcbd",
+      "parameters": "82M",
+      "ms_per_pair": 18.5,
+      "projected_minutes_all_rows": 1.8,
+      "rows": 5854
+    },
+    "ml_deberta_base_anli": {
+      "hub_id": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+      "revision": "6f5cf0a2b59cabb106aca4c287eed12e357e90eb",
+      "parameters": "184M",
+      "ms_per_pair": 48.0,
+      "projected_minutes_all_rows": 4.7,
+      "rows": 5854
+    },
+    "bart_large": {
+      "hub_id": "facebook/bart-large-mnli",
+      "revision": "d7645e127eaf1aefc7862fd59a17a5aa8558b8ce",
+      "parameters": "407M",
+      "ms_per_pair": 145.7,
+      "projected_minutes_all_rows": 14.2,
+      "rows": 5854
+    }
+  }
+}

@@ -388,3 +388,46 @@ The failure buckets and the blocklist are in step 1.2.
 ```sh
 ./venv/bin/python experiments/f1/phase1.py --step 1.3
 ```
+
+### 2.1 Five NLI cross-encoders scored, revision-pinned, cached
+
+`experiments/f1/nli_models.py` scores every pair of clean DEV (3,402), VALIDATION (601), TEST (1,760)
+and K1 (91), 5,854 rows in all. Premise is A, hypothesis is B, as in every earlier number.
+Probabilities are mapped by each model's own `id2label`, because label order differs between models.
+Caches: `experiments/f1/cache/nli_<key>.pkl` (gitignored). The reference model's probabilities are
+the exact values the baseline features already use.
+
+| model | size | revision | ms / pair (isolated) | minutes for 5,854 rows | kept for 2.2 |
+| --- | ---: | --- | ---: | ---: | --- |
+| `cross-encoder/nli-deberta-v3-base` (reference) | 184M | `6c749ce3` | 45.2 | 4.4 | yes |
+| `cross-encoder/nli-roberta-base` | 125M | `1be05674` | 36.1 | 3.5 | yes |
+| `cross-encoder/nli-distilroberta-base` | 82M | `b14d131f` | 18.5 | 1.8 | yes |
+| `MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli` | 184M | `6f5cf0a2` | 48.0 | 4.7 | yes |
+| `facebook/bart-large-mnli` | 407M | `d7645e12` | 145.7 | 14.2 | yes |
+
+Timing setup: Ryzen 7 7730U, 8 torch threads, batch 16, max length 256, 64 clean-DEV pairs after one
+warm-up batch, nothing else running (`results/2_1_timing.json`). bart-large is projected at 14.2
+minutes, under the brief's 40-minute limit, so **`deberta-v3-small` was not substituted**.
+
+What went wrong on the way, all fixed:
+
+1. **Download bandwidth was the binding constraint.** The Hugging Face CDN gave ~65 KB/s per
+   connection on this machine, so bart-large over one connection was ~7 hours.
+   `experiments/f1/fetch_models.py` downloads each pinned revision with many parallel range
+   requests, persists chunks so a killed run resumes (one did), and **verifies every weight file
+   against the hub's LFS sha256** for that exact revision.
+2. **fp16 checkpoint slowed CPU inference 5×.** The MoritzLaurer checkpoint is stored in fp16, and
+   transformers 5 keeps the stored dtype, so it ran at 238 ms/pair. Every model is now loaded in
+   float32 (48.0 ms/pair). Its scores were deleted and recomputed in fp32. The other checkpoints were
+   already fp32, so their scores are unchanged.
+3. **Extensions to the list were considered and not run.** I planned two larger adversarial-NLI models
+   (`MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli`, 435M; `ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli`,
+   355M) and pinned their revisions in `MODELS`. They were dropped: together they would have added
+   about 3.2 GB of downloads, an estimated 1.5 hours at the measured rate. This is listed under
+   "approaches considered and not tried".
+
+```sh
+./venv/bin/python experiments/f1/fetch_models.py roberta_base distilroberta ml_deberta_base_anli bart_large
+./venv/bin/python experiments/f1/nli_models.py --score roberta_base distilroberta ml_deberta_base_anli bart_large
+./venv/bin/python experiments/f1/nli_models.py --time deberta_base roberta_base distilroberta ml_deberta_base_anli bart_large
+```
