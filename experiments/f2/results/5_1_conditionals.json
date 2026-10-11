@@ -1,0 +1,107 @@
+{
+  "content_tuples": 44,
+  "topics": {
+    "OS": 11,
+    "CN": 11,
+    "DBMS": 11,
+    "everyday": 11
+  },
+  "pairs": 528,
+  "by_template": {
+    "antecedent flip|preposed": 44,
+    "inverse|preposed": 44,
+    "consequent flip|preposed": 44,
+    "logical negation|fact": 44,
+    "contrapositive|preposed": 44,
+    "unless|preposed": 44,
+    "even if|preposed": 44,
+    "only if|postposed": 44,
+    "antecedent flip|postposed": 44,
+    "inverse|postposed": 44,
+    "consequent flip|postposed": 44,
+    "contrapositive|postposed": 44
+  },
+  "labels": {
+    "0": 396,
+    "1": 132
+  },
+  "halves": {
+    "select": 262,
+    "fit": 266
+  },
+  "val_ood_total": 1328,
+  "examples": [
+    {
+      "a": "If a process holds a lock, other processes wait.",
+      "b": "If a process does not hold a lock, other processes wait.",
+      "label": 0,
+      "template": "antecedent flip|preposed"
+    },
+    {
+      "a": "If a process holds a lock, other processes wait.",
+      "b": "If a process does not hold a lock, other processes do not wait.",
+      "label": 0,
+      "template": "inverse|preposed"
+    },
+    {
+      "a": "If a process holds a lock, other processes wait.",
+      "b": "If a process holds a lock, other processes do not wait.",
+      "label": 1,
+      "template": "consequent flip|preposed"
+    },
+    {
+      "a": "If a process holds a lock, other processes wait.",
+      "b": "A process holds a lock, but other processes do not wait.",
+      "label": 1,
+      "template": "logical negation|fact"
+    },
+    {
+      "a": "If a process holds a lock, other processes wait.",
+      "b": "If other processes do not wait, a process does not hold a lock.",
+      "label": 0,
+      "template": "contrapositive|preposed"
+    },
+    {
+      "a": "If a process holds a lock, other processes wait.",
+      "b": "Unless a process holds a lock, other processes wait.",
+      "label": 0,
+      "template": "unless|preposed"
+    },
+    {
+      "a": "If a process holds a lock, other processes wait.",
+      "b": "Even if a process does not hold a lock, other processes wait.",
+      "label": 0,
+      "template": "even if|preposed"
+    },
+    {
+      "a": "If a process holds a lock, other processes wait.",
+      "b": "Other processes wait only if a process holds a lock.",
+      "label": 0,
+      "template": "only if|postposed"
+    },
+    {
+      "a": "Other processes wait if a process holds a lock.",
+      "b": "Other processes wait if a process does not hold a lock.",
+      "label": 0,
+      "template": "antecedent flip|postposed"
+    },
+    {
+      "a": "Other processes wait if a process holds a lock.",
+      "b": "Other processes do not wait if a process does not hold a lock.",
+      "label": 0,
+      "template": "inverse|postposed"
+    },
+    {
+      "a": "Other processes wait if a process holds a lock.",
+      "b": "Other processes do not wait if a process holds a lock.",
+      "label": 1,
+      "template": "consequent flip|postposed"
+    },
+    {
+      "a": "Other processes wait if a process holds a lock.",
+      "b": "A process does not hold a lock if other processes do not wait.",
+      "label": 0,
+      "template": "contrapositive|postposed"
+    }
+  ]
+}

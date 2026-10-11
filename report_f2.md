@@ -794,3 +794,34 @@ Two tests in `tests/test_affirmation.py` pin it:
   *… but it is the capital of India*.
 
 Both pass.
+
+### 5.1 A synthetic conditional validation set — **machine-generated**
+
+`experiments/f2/conditional_val.py --step 5.1` → appended to `data/val_ood.csv` (section
+`val_ood_conditionals`), `results/5_1_conditionals.json`.
+
+- **Content:** 44 hand-written content tuples (P, not-P, Q, not-Q), 11 each for OS, CN, DBMS and everyday
+  topics, with the negated clauses written by hand rather than generated, so that every label follows
+  from the logic.
+- **Templates:** 12 rows per tuple → **528 pairs** (132 negations, 396 non-negations), preposed and postposed,
+  with *unless*, *even if* and *only if*.
+- **Splits:** asserted disjoint from TEST, VALIDATION and clean DEV, and split into `val_ood` fit / select
+  halves (266 / 262) by the same hash.
+
+| row | A | B | label | derivation |
+| --- | --- | --- | ---: | --- |
+| antecedent flip | If P, Q. | If not P, Q. | 0 | both can be true (Q whatever P is) |
+| inverse | If P, Q. | If not P, not Q. | 0 | both can be true (Q iff P); B is not A's negation |
+| consequent flip | If P, Q. | If P, not Q. | 1 | cannot both be true whenever P can hold |
+| logical negation | If P, Q. | P, but not Q. | 1 | B is exactly ¬(P → Q) = P ∧ ¬Q |
+| contrapositive | If P, Q. | If not Q, not P. | 0 | logically equivalent to A |
+| **unless** | If P, Q. | Unless P, Q. | **0** | *unless P* means *if not P*, so B is an antecedent flip of A: both can be true (Q holds either way) |
+| even if | If P, Q. | Even if not P, Q. | 0 | asserts Q regardless of P, so it entails A |
+| only if | If P, Q. | Q only if P. | 0 | *Q only if P* = *if Q then P*, the converse; compatible with A |
+
+Rows 1, 2, 3 and 5 also appear postposed (*Q if P.* / *Q if not P.* …), 44 each. Example (OS): *If a process
+holds a lock, other processes wait.* / *A process holds a lock, but other processes do not wait.* → 1.
+
+**From this step on, `val_ood` = MNLI section + conditional section.** The select half is 383 + 262 = 645 pairs.
+Earlier selection decisions (Phases 1–3) were made on the MNLI section alone, which is labelled "val_ood
+(v1)" where it matters.
