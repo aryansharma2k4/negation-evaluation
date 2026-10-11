@@ -1,0 +1,335 @@
+{
+  "definitions": 500,
+  "items": 2645,
+  "by_category": {
+    "paraphrase": 484,
+    "partial": 411,
+    "wrong_related": 484,
+    "cancellation": 500,
+    "negation": 458,
+    "antonym_negation": 308
+  },
+  "by_category_subject": {
+    "paraphrase|OS": 166,
+    "partial|OS": 145,
+    "wrong_related|OS": 166,
+    "cancellation|OS": 167,
+    "negation|OS": 147,
+    "antonym_negation|OS": 105,
+    "paraphrase|CN": 161,
+    "negation|CN": 160,
+    "partial|CN": 139,
+    "wrong_related|CN": 161,
+    "cancellation|CN": 167,
+    "antonym_negation|CN": 113,
+    "paraphrase|DBMS": 157,
+    "negation|DBMS": 151,
+    "partial|DBMS": 127,
+    "wrong_related|DBMS": 157,
+    "cancellation|DBMS": 166,
+    "antonym_negation|DBMS": 90
+  },
+  "not_buildable": {
+    "negation": 42,
+    "antonym_negation": 192,
+    "partial": 89,
+    "paraphrase": 16,
+    "wrong_related": 16
+  },
+  "cancellation_template_fallbacks": 489,
+  "negation_families": {
+    "H_hedged": 98,
+    "I_intensified": 106,
+    "C_neg_adverb": 114,
+    "A_syntactic": 126,
+    "B_quantifier": 5,
+    "F_implicit": 5,
+    "D_affixal": 4
+  },
+  "examples": {
+    "antonym_negation": [
+      {
+        "definition_id": "def001",
+        "subject": "OS",
+        "term": "Adaptive partition scheduler",
+        "teacher": "Adaptive partition schedulers are a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "category": "antonym_negation",
+        "label": 1,
+        "student": "Adaptive partition schedulers are a relatively worn type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "how": "generator E_antonym/antonym_adj",
+        "authorship": "machine",
+        "extra_category": true
+      },
+      {
+        "definition_id": "def002",
+        "subject": "OS",
+        "term": "Advanced Message Queuing Protocol",
+        "teacher": "The Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware.",
+        "category": "antonym_negation",
+        "label": 1,
+        "student": "The Advanced Message Queuing Protocol is an closed standard application layer protocol for message-oriented middleware.",
+        "how": "generator E_antonym/antonym_adj",
+        "authorship": "machine",
+        "extra_category": true
+      },
+      {
+        "definition_id": "def004",
+        "subject": "OS",
+        "term": "Anonymous pipe",
+        "teacher": "In computer science, an anonymous pipe is a simplex FIFO communication channel that may be used for one-way interprocess communication.",
+        "category": "antonym_negation",
+        "label": 1,
+        "student": "In computer science, an onymous pipe is a simplex FIFO communication channel that may be used for one-way interprocess communication.",
+        "how": "generator E_antonym/antonym_adj",
+        "authorship": "machine",
+        "extra_category": true
+      },
+      {
+        "definition_id": "def006",
+        "subject": "OS",
+        "term": "Apple Partition Map",
+        "teacher": "Apple Partition Map is a partition scheme used to define the low-level organization of data on disks formatted for use with 68k and PowerPC Macintosh computers.",
+        "category": "antonym_negation",
+        "label": 1,
+        "student": "Apple Partition Map is a partition scheme used to define the high-level organization of data on disks formatted for use with 68k and PowerPC Macintosh computers.",
+        "how": "generator E_antonym/antonym_adj",
+        "authorship": "machine",
+        "extra_category": true
+      }
+    ],
+    "cancellation": [
+      {
+        "definition_id": "def000",
+        "subject": "OS",
+        "term": ".bss",
+        "teacher": "In computer programming, the block starting symbol is the portion of an object file, executable, or assembly language code that contains statically allocated variables that are declared but have not been assigned a value yet.",
+        "category": "cancellation",
+        "label": 0,
+        "student": "It is not untrue that in computer programming, the block starting symbol is the portion of an object file, executable, or assembly language code that contains statically allocated variables that are declared but have not been assigned a value yet.",
+        "how": "template (no K1 variant)",
+        "authorship": "machine",
+        "template_fallback": true
+      },
+      {
+        "definition_id": "def001",
+        "subject": "OS",
+        "term": "Adaptive partition scheduler",
+        "teacher": "Adaptive partition schedulers are a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "category": "cancellation",
+        "label": 0,
+        "student": "It is not untrue that adaptive partition schedulers are a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "how": "template (no K1 variant)",
+        "authorship": "machine",
+        "template_fallback": true
+      },
+      {
+        "definition_id": "def002",
+        "subject": "OS",
+        "term": "Advanced Message Queuing Protocol",
+        "teacher": "The Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware.",
+        "category": "cancellation",
+        "label": 0,
+        "student": "It is not untrue that the Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware.",
+        "how": "template (no K1 variant)",
+        "authorship": "machine",
+        "template_fallback": true
+      },
+      {
+        "definition_id": "def003",
+        "subject": "OS",
+        "term": "Allocate-on-flush",
+        "teacher": "Allocate-on-flush is a file system feature implemented in HFS+, XFS, Reiser4, ZFS, Btrfs, and ext4.",
+        "category": "cancellation",
+        "label": 0,
+        "student": "It is not untrue that Allocate-on-flush is a file system feature implemented in HFS+, XFS, Reiser4, ZFS, Btrfs, and ext4.",
+        "how": "template (no K1 variant)",
+        "authorship": "machine",
+        "template_fallback": true
+      }
+    ],
+    "negation": [
+      {
+        "definition_id": "def001",
+        "subject": "OS",
+        "term": "Adaptive partition scheduler",
+        "teacher": "Adaptive partition schedulers are a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "category": "negation",
+        "label": 1,
+        "student": "Adaptive partition schedulers may not be a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "how": "generator H_hedged/may_not",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def002",
+        "subject": "OS",
+        "term": "Advanced Message Queuing Protocol",
+        "teacher": "The Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware.",
+        "category": "negation",
+        "label": 1,
+        "student": "The Advanced Message Queuing Protocol is certainly not an open standard application layer protocol for message-oriented middleware.",
+        "how": "generator I_intensified/certainly_not",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def003",
+        "subject": "OS",
+        "term": "Allocate-on-flush",
+        "teacher": "Allocate-on-flush is a file system feature implemented in HFS+, XFS, Reiser4, ZFS, Btrfs, and ext4.",
+        "category": "negation",
+        "label": 1,
+        "student": "Allocate-on-flush is possibly not a file system feature implemented in HFS+, XFS, Reiser4, ZFS, Btrfs, and ext4.",
+        "how": "generator H_hedged/possibly_not",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def004",
+        "subject": "OS",
+        "term": "Anonymous pipe",
+        "teacher": "In computer science, an anonymous pipe is a simplex FIFO communication channel that may be used for one-way interprocess communication.",
+        "category": "negation",
+        "label": 1,
+        "student": "In computer science, an anonymous pipe is barely a simplex FIFO communication channel that may be used for one-way interprocess communication.",
+        "how": "generator C_neg_adverb/partial",
+        "authorship": "machine"
+      }
+    ],
+    "paraphrase": [
+      {
+        "definition_id": "def000",
+        "subject": "OS",
+        "term": ".bss",
+        "teacher": "In computer programming, the block starting symbol is the portion of an object file, executable, or assembly language code that contains statically allocated variables that are declared but have not been assigned a value yet.",
+        "category": "paraphrase",
+        "label": 0,
+        "student": "The portion of an object file, executable, or assembly language code that contains statically allocated variables that are declared but have not been assigned a value yet: that is what the block starting symbol means.",
+        "how": "template",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def001",
+        "subject": "OS",
+        "term": "Adaptive partition scheduler",
+        "teacher": "Adaptive partition schedulers are a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "category": "paraphrase",
+        "label": 0,
+        "student": "Put simply, adaptive partition schedulers are a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "how": "template",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def002",
+        "subject": "OS",
+        "term": "Advanced Message Queuing Protocol",
+        "teacher": "The Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware.",
+        "category": "paraphrase",
+        "label": 0,
+        "student": "Put simply, the Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware.",
+        "how": "template",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def003",
+        "subject": "OS",
+        "term": "Allocate-on-flush",
+        "teacher": "Allocate-on-flush is a file system feature implemented in HFS+, XFS, Reiser4, ZFS, Btrfs, and ext4.",
+        "category": "paraphrase",
+        "label": 0,
+        "student": "The term Allocate-on-flush refers to a file system feature implemented in HFS+, XFS, Reiser4, ZFS, Btrfs, and ext4.",
+        "how": "template",
+        "authorship": "machine"
+      }
+    ],
+    "partial": [
+      {
+        "definition_id": "def000",
+        "subject": "OS",
+        "term": ".bss",
+        "teacher": "In computer programming, the block starting symbol is the portion of an object file, executable, or assembly language code that contains statically allocated variables that are declared but have not been assigned a value yet.",
+        "category": "partial",
+        "label": 0,
+        "student": "The block starting symbol is the portion of an object file.",
+        "how": "template: tail cut",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def001",
+        "subject": "OS",
+        "term": "Adaptive partition scheduler",
+        "teacher": "Adaptive partition schedulers are a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "category": "partial",
+        "label": 0,
+        "student": "Adaptive partition schedulers are a relatively new type of partition scheduler.",
+        "how": "template: tail cut",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def002",
+        "subject": "OS",
+        "term": "Advanced Message Queuing Protocol",
+        "teacher": "The Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware.",
+        "category": "partial",
+        "label": 0,
+        "student": "The Advanced Message Queuing Protocol is an open standard application layer protocol.",
+        "how": "template: tail cut",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def003",
+        "subject": "OS",
+        "term": "Allocate-on-flush",
+        "teacher": "Allocate-on-flush is a file system feature implemented in HFS+, XFS, Reiser4, ZFS, Btrfs, and ext4.",
+        "category": "partial",
+        "label": 0,
+        "student": "Allocate-on-flush is a file system feature implemented in HFS+.",
+        "how": "template: tail cut",
+        "authorship": "machine"
+      }
+    ],
+    "wrong_related": [
+      {
+        "definition_id": "def000",
+        "subject": "OS",
+        "term": ".bss",
+        "teacher": "In computer programming, the block starting symbol is the portion of an object file, executable, or assembly language code that contains statically allocated variables that are declared but have not been assigned a value yet.",
+        "category": "wrong_related",
+        "label": 0,
+        "student": "The block starting symbol is a data structure used by a virtual memory system in a computer to store mappings between virtual addresses and physical addresses.",
+        "how": "template: predicate of def108",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def001",
+        "subject": "OS",
+        "term": "Adaptive partition scheduler",
+        "teacher": "Adaptive partition schedulers are a relatively new type of partition scheduler, which in turn is a kind of scheduling algorithm, pioneered with the most recent version of the QNX operating system.",
+        "category": "wrong_related",
+        "label": 0,
+        "student": "Adaptive partition schedulers are a free and open-source project that allows QNX-style synchronous message passing by adding a Linux library using user space techniques like shared memory and Unix pipes to implement SendMssg/ReceiveMssg/ReplyMssg inter-process messaging mechanisms.",
+        "how": "template: predicate of def126",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def002",
+        "subject": "OS",
+        "term": "Advanced Message Queuing Protocol",
+        "teacher": "The Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware.",
+        "category": "wrong_related",
+        "label": 0,
+        "student": "The Advanced Message Queuing Protocol is a measure of a delay in executing certain operations and earliness is a measure of finishing operations before due time.",
+        "how": "template: predicate of def151",
+        "authorship": "machine"
+      },
+      {
+        "definition_id": "def003",
+        "subject": "OS",
+        "term": "Allocate-on-flush",
+        "teacher": "Allocate-on-flush is a file system feature implemented in HFS+, XFS, Reiser4, ZFS, Btrfs, and ext4.",
+        "category": "wrong_related",
+        "label": 0,
+        "student": "Allocate-on-flush is a technique used in operating system design to improve the performance of microkernel-based systems.",
+        "how": "template: predicate of def025",
+        "authorship": "machine"
+      }
+    ]
+  }
+}

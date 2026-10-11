@@ -1109,3 +1109,34 @@ were removed from 268 of the 500. Each row keeps the raw lead sentence, the URL 
 ```sh
 ./venv/bin/python experiments/f1/fetch_definitions.py
 ```
+
+### 5.2 Student answers: **machine-generated**, five categories plus one
+
+`experiments/f1/make_student_answers.py` → `data/student_answers.jsonl` (2,645 items) and
+`results/5_2_answers.json`. **Every answer is machine-generated**, by the generator or a template. Labels
+follow from the category by construction, and nobody checked them.
+
+| category | label | how | items (OS / CN / DBMS) | not buildable |
+| --- | ---: | --- | ---: | ---: |
+| correct paraphrase | 0 | one of four templates (*X can be described as …*, *The term X refers to …*, *Put simply, X is …*, *…: that is what X means*), seeded draw | 484 (166 / 161 / 157) | 16 (no copula split) |
+| negation of the definition | 1 | generator, one stage-1 variant with flipped parity from the cue families (A 126, C 114, I 106, H 98, B 5, F 5, D 4) | 458 (147 / 160 / 151) | 42 (no variant) |
+| partially correct | 0 | template: the definition cut back to its first predicate (*TCP is a transport protocol.*) | 411 (145 / 139 / 127) | 89 (no cut point) |
+| wrong but topically related | 0 | another same-subject definition's predicate, with this term as subject | 484 (166 / 161 / 157) | 16 |
+| cancellation form | 0 | generator K1_cancellation; **template *It is not untrue that …* for 489 of 500**, where K1 produced nothing | 500 (167 / 167 / 166) | 0 |
+| *extra:* antonym negation | 1 | generator E_antonym (a content word swapped for its antonym) | 308 (105 / 113 / 90) | 192 |
+
+**The generator could not make cancellations of definitions.** K1 needs a predicative adjective it can
+prefix (*not un-X*), and definitions are *X is a NOUN that …*, so only 11 of 500 got a K1 variant. The
+other 489 use one template, flagged `template_fallback: true`. This is a coverage limit of the
+generator, found here.
+
+**The extra category was added because the five miss a realistic failure:** a student who uses the
+wrong one of a pair of opposites (*an open standard* → *a closed standard*). It is reported separately.
+**Its labels are noisier than any other category's.** The antonym swap often hits a name or a fixed
+phrase rather than the claim: *Stop-and-wait ARQ* → ***Start**-and-wait ARQ*, *also known as* → *also
+**ignored** as*, *anonymous pipe* → *onymous pipe*. It also has generator grammar errors (*an closed
+standard*). Such items are labelled negations by construction, but many are really nonsense or renamings.
+
+```sh
+./venv/bin/python experiments/f1/make_student_answers.py
+```
