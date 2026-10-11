@@ -132,3 +132,85 @@ classified the same either way.
 ```sh
 ./venv/bin/python experiments/f1/phase0.py --step 0.3
 ```
+
+### 1.1 Affirmation generator (`N_affirmation`)
+
+**The brief's premise was wrong, and the fix is smaller for it.** The brief says the generator
+"cannot take a sentence that is already negative and produce its positive form". It can.
+`negation/generators/affirm.py` (634 lines, registered since stage 2) already removes one cue per
+family: do-support collapse, aux / copula negator, quantifier flip, negative adverb, affixal strip,
+and implicit trigger. Writing a second one would have duplicated it. So I ran the brief's table through the
+existing code first. It handled most rows, and the probe exposed **five defects**. Four of them
+are things the brief's warnings anticipate:
+
+| defect found | example (before) | fix |
+| --- | --- | --- |
+| contracted modals lose their stem | *can't access* → "**ca** access", *won't respond* → "**wo** respond" | `affirm._delete_negator`: restore *can / will / shall* when *n't* is fused to *ca / wo / sha* (shared by every removal path, including `rescope`) |
+| **never → always** (warning 1, live in the code) | *He never calls* → "He always calls" | `lexicons.NEG_ADVERB_AFFIRMATIONS["never"] = ("", "sometimes")`; plain removal is primary, *sometimes* secondary; a regression test pins "always" as wrong |
+| litotes come out as negations, unflagged | *It is not uncommon …* → "It is uncommon …", "It is not common …" | litotes rule: *not un-X* → *X*, tagged `approximate: true`, `polarity_flip: false`; the two one-cue removals are kept as secondary readings (they are negations of the litotes) |
+| relative clauses get affirmed | *A process that is not running is blocked* → "… that is running is blocked" | only cues inside `clause_scope(ROOT)` are removed |
+| no *avoid*, and *deny* / *refuse* only promote the complement | *He denies taking the money* → "He takes the money" | curated swap lexicon is primary (*deny → admit*, *refuse → agree*, *fail → manage*, *neglect / forget → remember*, *cease → continue*); promotion kept as secondary; *avoid* promotes its gerund |
+
+What was built (`negation/generators/n_affirmation.py`, 290 lines, imports
+`negation.nlp_core.clause_scope`, no second scope implementation):
+
+- `affirm(sentence)` returns `Affirmation` records: `text`, `kind` (cue type), `cue`, `primary`,
+  `approximate`, `polarity_flip`, `rule`, `family = "N_affirmation"`.
+- It runs the registered affirm generators and their filters. It keeps an output only if the removed
+  cue is in the main clause's scope, and only if an affixal strip passes the step-0.1 eligibility rules:
+  predicative adjective or whitelisted noun, never in a compound or hyphenated term.
+- On top of those it adds the lexicon swaps, *avoid*, and litotes.
+- `polarity_flip = False` marks outputs that are rewordings, not negations (litotes). Phase 3 uses
+  only `polarity_flip = True` outputs as negations of T.
+- **Affixal exception blocklist** (`negation/affixes.AFFIXAL_BLOCKLIST`) is enforced inside
+  `is_negative_derivative`, the one gate both directions pass through. That means D_affixal also
+  stops producing *valuable → invaluable*. Seeded with *invaluable, inflammable, disgruntled*; the
+  clean-DEV scan is step 1.2.
+
+**Choice: how to restore inflection.** Reverse do-support (*did not run* → *ran*) rebuilds a surface
+verb from its lemma plus the auxiliary's Tense / Person / Number. Every inflected verb already in
+clean DEV is a gold example of that operation, so each candidate was given (spaCy lemma, Penn tag)
+and asked to reproduce the written form. Data: 5,788 tokens, 1,657 distinct (lemma, tag, form) types,
+from 6,151 sentences (`experiments/f1/inflection_bench.py` → `results/1_1_inflection.json`).
+
+| inflector | token accuracy | type accuracy | VBZ / VBD / VBN / VBG (tokens) | typical errors |
+| --- | ---: | ---: | --- | --- |
+| hand-rolled rules (`nlp_core.inflect_verb`, what `affirm.py` used) | 93.5% | 90.7% | 98.1 / 92.3 / 91.3 / 94.2 | *considerred*, *developped*, *beared* |
+| **lemminflect** | 97.9% | **97.8%** | 98.1 / 98.7 / 98.3 / 96.9 | *rid → ridding* (spaCy lemma error) |
+| pyinflect | **98.4%** | 96.5% | 98.6 / 98.2 / 98.1 / 98.6 | ***work → wrought*** |
+
+**The selection rule was revised on DEV, after the first run, and this is the record of it.** As
+first stated, the rule was token accuracy, and it picked pyinflect. The probe then produced *The
+kernel did not work* → "The kernel **wrought**". *work* is a common verb in OS text, and pyinflect's
+lexicon has only *wrought* for it. pyinflect's 0.5-pt token lead also comes mostly from one SNLI
+word: spaCy lemmatises *riding* as *rid* (53 tokens), and pyinflect happens to map *rid* back to
+*riding*. That is an upstream error cancelling out, not better inflection. Counting each distinct
+verb form once removes that weighting, and on that count lemminflect leads by 1.3 pts (37 vs 58
+type errors). **Adopted: lemminflect, with the rules as fallback** (`nlp_core.inflect_lexical`). It is
+used only on the affirmation path; the negation generators keep the rules, because stage 1 output is
+pinned by a regression test. The selection was made on DEV only, and no TEST was read.
+
+Other choices:
+
+- **Antonym lookup:** WordNet for affixal (the existing antonymy gate plus the blocklist), and a
+  curated lexicon for implicit negatives. WordNet antonyms of *refuse* / *deny* include
+  *accept* / *admit*, but also senses that do not fit the complement (*deny* → *allow*). Curated pairs
+  keep the complement's syntax.
+- **One or all affirmations per sentence:** all valid ones, each labelled `primary` or secondary, so
+  callers choose.
+- The method stays rule-based; no LLM is used anywhere.
+
+Tests: `tests/test_affirmation.py`, 29 tests, one per table row:
+
+- *is / were / does / did / do not*, *cannot*, *can't*, *will not*, *won't*, *has not*;
+- *no → some* (and **not** *all*), affixal *un- / in-*, *-less → -ful*, *lack → have*;
+- the four implicit swaps, *never* (with *always* pinned as wrong), the three blocklisted words;
+- the term-position rule, litotes, the main-clause restriction, *did not work → worked* (not
+  *wrought*), and an affirmative input.
+
+Full suite: 414 pass (385 before).
+
+```sh
+./venv/bin/python -m pytest tests -q
+./venv/bin/python experiments/f1/inflection_bench.py
+```

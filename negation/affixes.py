@@ -96,6 +96,16 @@ def eligible(token: Token) -> bool:
     return _predicative(token)
 
 
+#: Prefixed or suffixed words that are *not* negations of the stem they appear to contain,
+#: whatever WordNet links: *invaluable* is not *not valuable*, *inflammable* means
+#: *flammable*, *disgruntled* has no attested *gruntled*.  Checked in both directions
+#: (deriving and stripping).  Seeded from the brief; extended by scanning the affirmation
+#: generator's output over clean DEV (report_f1.md step 1.2).
+AFFIXAL_BLOCKLIST: frozenset[str] = frozenset({
+    "invaluable", "inflammable", "disgruntled",
+})
+
+
 def is_negative_derivative(stem: str, candidate: str, pos: str | None) -> bool:
     """True when WordNet links ``stem`` and ``candidate`` as antonyms.
 
@@ -103,7 +113,7 @@ def is_negative_derivative(stem: str, candidate: str, pos: str | None) -> bool:
     symmetric across the pair (*linear* has no antonym, but *nonlinear* points
     back at it).
     """
-    if pos is None:
+    if pos is None or candidate in AFFIXAL_BLOCKLIST:
         return False
     if not in_wordnet(candidate, pos):
         return False

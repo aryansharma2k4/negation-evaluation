@@ -237,6 +237,24 @@ def inflect_verb(lemma: str, tag: str) -> str:
     return lemma  # VB, VBP
 
 
+def inflect_lexical(lemma: str, tag: str) -> str:
+    """:func:`inflect_verb`, but from lemminflect's lexicon first, rules as the fallback.
+
+    Used where an affirmation restores a verb's morphology (do-support collapse, implicit
+    triggers).  Over the distinct inflected verbs of clean DEV, lemminflect reproduces the written
+    form 97.8% of the time, pyinflect 96.5% and the rules 90.7% (report_f1.md step 1.1); the rules
+    double consonants they should not (*considerred*), and pyinflect has *work* -> *wrought*.  The
+    negation generators keep :func:`inflect_verb`, because stage 1's output is pinned by a
+    regression test.
+    """
+    try:
+        from lemminflect import getInflection
+    except ImportError:  # pragma: no cover
+        return inflect_verb(lemma, tag)
+    forms = getInflection(lemma, tag=tag)
+    return forms[0] if forms else inflect_verb(lemma, tag)
+
+
 def match_inflection(new_lemma: str, model: Token) -> str:
     """Re-inflect ``new_lemma`` so it fills ``model``'s morphological slot.
 

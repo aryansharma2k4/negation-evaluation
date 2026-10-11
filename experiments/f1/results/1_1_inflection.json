@@ -1,0 +1,466 @@
+{
+  "sentences": 6151,
+  "verb_tokens": 5788,
+  "by_tag": {
+    "VBD": 1008,
+    "VBN": 2030,
+    "VBG": 1806,
+    "VBZ": 944
+  },
+  "inflectors": {
+    "hand-rolled nlp_core.inflect_verb": {
+      "accuracy": 0.9347,
+      "errors": 378,
+      "type_accuracy": 0.9065,
+      "types": 1657,
+      "type_errors": 155,
+      "accuracy_by_tag": {
+        "VBZ": 0.9809,
+        "VBD": 0.9226,
+        "VBN": 0.9128,
+        "VBG": 0.9419
+      },
+      "error_examples": [
+        [
+          [
+            "rid",
+            "VBG",
+            "riding",
+            "ridding"
+          ],
+          44
+        ],
+        [
+          [
+            "consider",
+            "VBN",
+            "considered",
+            "considerred"
+          ],
+          23
+        ],
+        [
+          [
+            "develop",
+            "VBN",
+            "developed",
+            "developped"
+          ],
+          16
+        ],
+        [
+          [
+            "rid",
+            "VBZ",
+            "rides",
+            "rids"
+          ],
+          9
+        ],
+        [
+          [
+            "endanger",
+            "VBN",
+            "endangered",
+            "endangerred"
+          ],
+          8
+        ],
+        [
+          [
+            "s",
+            "VBZ",
+            "s",
+            "ses"
+          ],
+          8
+        ],
+        [
+          [
+            "develop",
+            "VBG",
+            "developing",
+            "developping"
+          ],
+          6
+        ],
+        [
+          [
+            "bear",
+            "VBN",
+            "born",
+            "beared"
+          ],
+          6
+        ],
+        [
+          [
+            "cover",
+            "VBN",
+            "covered",
+            "coverred"
+          ],
+          6
+        ],
+        [
+          [
+            "happen",
+            "VBD",
+            "happened",
+            "happenned"
+          ],
+          5
+        ],
+        [
+          [
+            "cod",
+            "VBG",
+            "coding",
+            "codding"
+          ],
+          4
+        ],
+        [
+          [
+            "offer",
+            "VBN",
+            "offered",
+            "offerred"
+          ],
+          4
+        ],
+        [
+          [
+            "re",
+            "VBN",
+            "re",
+            "red"
+          ],
+          4
+        ],
+        [
+          [
+            "co",
+            "VBN",
+            "co",
+            "coed"
+          ],
+          4
+        ],
+        [
+          [
+            "seek",
+            "VBD",
+            "sought",
+            "seeked"
+          ],
+          4
+        ]
+      ]
+    },
+    "lemminflect.getInflection": {
+      "accuracy": 0.9791,
+      "errors": 121,
+      "type_accuracy": 0.9777,
+      "types": 1657,
+      "type_errors": 37,
+      "accuracy_by_tag": {
+        "VBZ": 0.9809,
+        "VBD": 0.9871,
+        "VBN": 0.9833,
+        "VBG": 0.969
+      },
+      "error_examples": [
+        [
+          [
+            "rid",
+            "VBG",
+            "riding",
+            "ridding"
+          ],
+          44
+        ],
+        [
+          [
+            "rid",
+            "VBZ",
+            "rides",
+            "rids"
+          ],
+          9
+        ],
+        [
+          [
+            "s",
+            "VBZ",
+            "s",
+            "ses"
+          ],
+          8
+        ],
+        [
+          [
+            "cod",
+            "VBG",
+            "coding",
+            "codding"
+          ],
+          4
+        ],
+        [
+          [
+            "re",
+            "VBN",
+            "re",
+            "red"
+          ],
+          4
+        ],
+        [
+          [
+            "co",
+            "VBN",
+            "co",
+            "coed"
+          ],
+          4
+        ],
+        [
+          [
+            "tungsten",
+            "VBN",
+            "tungsten",
+            "tungstened"
+          ],
+          3
+        ],
+        [
+          [
+            "label",
+            "VBN",
+            "labelled",
+            "labeled"
+          ],
+          3
+        ],
+        [
+          [
+            "prove",
+            "VBN",
+            "proven",
+            "proved"
+          ],
+          3
+        ],
+        [
+          [
+            "chile",
+            "VBD",
+            "chile",
+            "chiled"
+          ],
+          2
+        ],
+        [
+          [
+            "leave",
+            "VBN",
+            "leaved",
+            "left"
+          ],
+          2
+        ],
+        [
+          [
+            "rat",
+            "VBN",
+            "rated",
+            "ratted"
+          ],
+          2
+        ],
+        [
+          [
+            "whine",
+            "VBD",
+            "whine",
+            "whined"
+          ],
+          2
+        ],
+        [
+          [
+            "burn",
+            "VBN",
+            "burnt",
+            "burned"
+          ],
+          2
+        ],
+        [
+          [
+            "bend",
+            "VBN",
+            "bend",
+            "bent"
+          ],
+          2
+        ]
+      ]
+    },
+    "pyinflect.getInflection": {
+      "accuracy": 0.9836,
+      "errors": 95,
+      "type_accuracy": 0.965,
+      "types": 1657,
+      "type_errors": 58,
+      "accuracy_by_tag": {
+        "VBZ": 0.9862,
+        "VBD": 0.9821,
+        "VBN": 0.9813,
+        "VBG": 0.9856
+      },
+      "error_examples": [
+        [
+          [
+            "work",
+            "VBD",
+            "worked",
+            "wrought"
+          ],
+          6
+        ],
+        [
+          [
+            "cod",
+            "VBG",
+            "coding",
+            "codding"
+          ],
+          4
+        ],
+        [
+          [
+            "travel",
+            "VBG",
+            "traveling",
+            "travelling"
+          ],
+          4
+        ],
+        [
+          [
+            "grandfathere",
+            "VBN",
+            "grandfathered",
+            "grandfathere"
+          ],
+          3
+        ],
+        [
+          [
+            "prove",
+            "VBN",
+            "proven",
+            "proved"
+          ],
+          3
+        ],
+        [
+          [
+            "lioptilode",
+            "VBZ",
+            "lioptilodes",
+            "lioptilode"
+          ],
+          3
+        ],
+        [
+          [
+            "work",
+            "VBN",
+            "worked",
+            "wrought"
+          ],
+          3
+        ],
+        [
+          [
+            "woode",
+            "VBN",
+            "wooded",
+            "woode"
+          ],
+          3
+        ],
+        [
+          [
+            "outbuilde",
+            "VBG",
+            "outbuilding",
+            "outbuilde"
+          ],
+          2
+        ],
+        [
+          [
+            "leave",
+            "VBN",
+            "leaved",
+            "left"
+          ],
+          2
+        ],
+        [
+          [
+            "unrequire",
+            "VBN",
+            "unrequired",
+            "unrequire"
+          ],
+          2
+        ],
+        [
+          [
+            "whine",
+            "VBD",
+            "whine",
+            "whined"
+          ],
+          2
+        ],
+        [
+          [
+            "hide",
+            "VBN",
+            "hidden",
+            "hid"
+          ],
+          2
+        ],
+        [
+          [
+            "mixture",
+            "VBZ",
+            "mixtures",
+            "mixture"
+          ],
+          2
+        ],
+        [
+          [
+            "stick",
+            "VBZ",
+            "sticks",
+            "stickes"
+          ],
+          2
+        ]
+      ]
+    }
+  },
+  "rule_as_first_stated": "highest token accuracy over all clean-DEV inflected verbs",
+  "chosen_by_first_rule": "pyinflect.getInflection",
+  "rule": "highest type accuracy (distinct lemma, tag, written form); token accuracy breaks a tie",
+  "chosen": "lemminflect.getInflection"
+}

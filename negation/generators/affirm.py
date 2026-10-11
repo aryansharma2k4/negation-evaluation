@@ -48,7 +48,7 @@ from ..lexicons import (
     NEG_ADVERB_AFFIRMATIONS,
 )
 from ..nlp_core import (
-    inflect_verb,
+    inflect_lexical,
     match_inflection,
     matches_case,
     root_of,
@@ -150,6 +150,21 @@ def _delete(token: Token) -> Edit:
     return Edit.replace(token.idx, token.idx + len(token.text), "")
 
 
+#: spaCy splits *can't* / *won't* / *shan't* into ``ca`` / ``wo`` / ``sha`` + ``n't``, so
+#: cutting the ``n't`` alone leaves *"ca access"*: the auxiliary's full form has to come back.
+_CONTRACTED_AUX: dict[str, str] = {"ca": "can", "wo": "will", "sha": "shall"}
+
+
+def _delete_negator(neg: Token) -> Edit:
+    """Remove a negator, restoring a contracted auxiliary it was fused to."""
+    if neg.lower_ == "n't" and neg.i > 0:
+        aux = neg.doc[neg.i - 1]
+        if aux.lower_ in _CONTRACTED_AUX and aux.idx + len(aux.text) == neg.idx:
+            return Edit.replace(aux.idx, neg.idx + len(neg.text),
+                                matches_case(_CONTRACTED_AUX[aux.lower_], aux))
+    return _delete(neg)
+
+
 # ---------------------------------------------------------------------------
 # A_syntactic, run backwards
 # ---------------------------------------------------------------------------
@@ -199,7 +214,7 @@ def clausal_negator_removal(neg: Token) -> Optional[list[Edit]]:
             # "Does it compile?", not to "*It compiles?".  So the do-support
             # collapse is suppressed and only the negator comes out.
             return [_delete(neg)]
-        restored = inflect_verb(verb.lemma_, DO_FORM_TAGS[aux.lower_])
+        restored = inflect_lexical(verb.lemma_, DO_FORM_TAGS[aux.lower_])
         # Two separate deletions rather than one cut across the whole span:
         # anything sitting between the auxiliary and the negator belongs to the
         # sentence, and the spacing filter closes the gaps they leave.
@@ -210,7 +225,7 @@ def clausal_negator_removal(neg: Token) -> Optional[list[Edit]]:
         ]
     plain = _plain_aux_of(neg)
     if plain is not None and plain.i < neg.i:
-        return [_delete(neg)]
+        return [_delete_negator(neg)]
     if verb.lemma_ == "be" and verb.pos_ in ("AUX", "VERB") and neg.i > verb.i:
         return [_delete(neg)]
     return None
@@ -294,7 +309,7 @@ class RemoveAuxNegation(Affirmation):
         if neg is None:
             return []
         record = self.build_affirmation(
-            doc, [_delete(neg)], neg.i, subtype="drop_aux_negator"
+            doc, [_delete_negator(neg)], neg.i, subtype="drop_aux_negator"
         )
         return [record] if record else []
 
@@ -609,7 +624,7 @@ class ImplicitStrip(Affirmation):
         finite = _finite_slot_for(trigger) if mode == "copular" else trigger
         if finite is None:
             return []
-        restored = inflect_verb(complement.lemma_, finite.tag_)
+        restored = inflect_lexical(complement.lemma_, finite.tag_)
         start = min(finite.idx, trigger.idx)
         end = complement.idx + len(complement.text)
         if start >= end:

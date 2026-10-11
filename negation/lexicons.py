@@ -316,7 +316,10 @@ NEGATIVE_QUANTIFIER_BIGRAMS: dict[tuple[str, str], str] = {
 #: approximative negatives get both, because deleting *rarely* and replacing it
 #: are different claims.
 NEG_ADVERB_AFFIRMATIONS: dict[str, tuple[str, ...]] = {
-    "never": ("", "always"),
+    # *never* affirms to "at least once", not "always": the negation of *He never calls*
+    # is *He calls (at least once)*.  "always" is the contrary, and is pinned as wrong in
+    # tests/test_affirmation.py.
+    "never": ("", "sometimes"),
     "rarely": ("", "often"),
     "seldom": ("", "often"),
     "hardly": ("",),
