@@ -676,3 +676,26 @@ The generated augmentation fails differently. Its 600 random re-pairings reinfor
 unrelated" (importance stays 0.221), and its 600 hedged and intensified negations at moderate overlap teach
 the trees to call moderate-overlap, single-cue edits negations. That is precisely xNot360's inverse shape
 (*If P, Q* / *If not P, not Q*), so xNot360 collapses to 56.7%.
+
+### 3.4 What the families bought
+
+**Nothing, as training data for this problem, and the reason is now measured:**
+
+- **No family rewords.** All 15 generator families produce negations at median overlap 0.75–0.93, and
+  only 0.24% of 44,046 fall below 0.4 (step 3.1). A family-rebalanced training set has no low-overlap
+  negations to rebalance with.
+- **What the generator can supply is harmful.** Its low-overlap tail is short base sentences with long
+  insertions, and its only low-overlap non-negations are random pairs.
+- **The cost of using it anyway.** Training on that material raises low-overlap recall (75.2% → 91.5%
+  without the override, n = 129), and in the same sentence collapses xNot360 (−22.2 pts, p = 0.0001) and
+  doubles K1 FPR (2.2% → 4.4%, machine-generated).
+
+**This is a finding about synthetic negation data, and it holds beyond this project.** A rule-based
+negation generator that edits sentences produces training data whose overlap distribution is *higher*
+than the human benchmarks' (median 0.75–0.93, against CANNOT's 0.71). Training on it can only deepen an
+overlap shortcut, never remove it.
+
+Removing the shortcut needs pairs where the same meaning-flip is written in different words. Here those
+came from natural NLI data, which did remove it (importance 0.327 → 0.042), but at a cost on conditionals
+that the selection rule did not accept. The families remain useful for what `report_f1.md` found:
+cancellation, morphology and affirmation. Phase 6 below also uses them for severity.
