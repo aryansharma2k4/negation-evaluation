@@ -699,3 +699,35 @@ Removing the shortcut needs pairs where the same meaning-flip is written in diff
 came from natural NLI data, which did remove it (importance 0.327 → 0.042), but at a cost on conditionals
 that the selection rule did not accept. The families remain useful for what `report_f1.md` found:
 cancellation, morphology and affirmation. Phase 6 below also uses them for severity.
+
+### 4.1 Affirmation beyond the single main clause
+
+`negation/generators/n_affirmation.py` (`clause_kinds`, `affirm_doc(doc, extended=True)`), plus one change to
+`negation/generators/affirm.py`. Every scope comes from `negation.nlp_core.clause_scope`; there is no second
+scope implementation.
+
+| clause | how it is found | affirmed? | `polarity_flip` |
+| --- | --- | --- | --- |
+| main | `clause_scope(ROOT)` | yes (as before) | true |
+| **coordinated** | `clause_scope` of a verbal `conj` of ROOT, recursively | **yes (new)** | true: flipping a coordinated main clause flips the sentence's claim |
+| **adverbial / complement** | `clause_scope` of an `advcl` / `ccomp` of a main or coordinated head | **yes (new)** | **false**: it flips a subordinate claim. For *If not P, Q* that is an antecedent flip, which is not a negation of the sentence (Phase 5) |
+| relative clause / noun modifier | `relcl`, `acl` | **no** (the step-1.1 restriction, kept) | — |
+
+Each `Affirmation` now carries its `clause`. The `polarity_flip = false` tag keeps adverbial and complement
+affirmations out of anything that treats them as negations of T, such as the guardrail's variant set.
+
+**A defect fixed on the way.** `RemoveCopulaNegation` accepted only a negator attached to the ROOT, so *Mumbai
+is a large city, but it is not the capital of India* could not be affirmed. That is a coordinated copular
+clause. It now also accepts a copula that is a `conj` of the ROOT. The stage-1 regression pin (448 variants) is
+unchanged.
+
+Tests (`tests/test_affirmation.py`, 7 new, suite 423 pass), one per shape:
+
+- coordinated (*… and does not print …*);
+- coordinated after *but* (*… but it cannot preempt …*);
+- `advcl` (*If the process does not hold the lock, it waits* → affirmed, `polarity_flip` false);
+- `ccomp` (*He said that the server is not running*);
+- the relative clause still refused (*A process that is not running is blocked*);
+- the headline case (*Delhi is not the capital of India* → *Delhi is the capital of India*);
+- the headline shape in a coordinated clause (*… but it is not the capital of India* → *… but it is the
+  capital of India*), which is step 4.3.

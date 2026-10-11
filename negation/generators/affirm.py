@@ -335,10 +335,13 @@ class RemoveCopulaNegation(Affirmation):
             return None
         neg = doc[cue.token_idx]
         root = root_of(doc)
-        if root is None or neg.head.i != root.i:
+        head = neg.head
+        # the root's copula, or a coordinated copular clause of it (*X is a city, but it is not the
+        # capital*; report_f2 step 4.1); relative and subordinate clauses stay excluded
+        if root is None or not (head.i == root.i or (head.dep_ == "conj" and head.head.i == root.i)):
             return None
-        frame = detect_frame(root)
-        if frame is None or frame.subtype != COPULA or neg.i < root.i:
+        frame = detect_frame(head)
+        if frame is None or frame.subtype != COPULA or neg.i < head.i:
             return None
         return neg
 

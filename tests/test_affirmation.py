@@ -97,3 +97,42 @@ def test_sentence_adverb_is_not_a_litotes():
 def test_a_complementiser_in_the_base_does_not_block_the_variant():
     # "that the" matched the doubled_determiner blacklist and vetoed every variant (step 1.2)
     assert "I thought that the instructions were helpful." in texts("I didn't think that the instructions were helpful.")
+
+
+# --- report_f2 step 4.1: cues outside the single main clause -------------------------------------------
+
+def test_coordinated_main_clause_is_affirmed():
+    got = {a.text: a for a in affirm("The function sorts the array and does not print the result.")}
+    a = got["The function sorts the array and prints the result."]
+    assert a.clause == "coordinated" and a.polarity_flip
+
+
+def test_coordinated_clause_after_but_is_affirmed():
+    got = {a.text: a for a in affirm("The kernel schedules the thread, but it cannot preempt the driver.")}
+    assert got["The kernel schedules the thread, but it can preempt the driver."].clause == "coordinated"
+
+
+def test_adverbial_clause_is_affirmed_but_not_as_a_negation_of_the_sentence():
+    got = {a.text: a for a in affirm("If the process does not hold the lock, it waits.")}
+    a = got["If the process holds the lock, it waits."]
+    assert a.clause == "advcl" and not a.polarity_flip      # an antecedent flip, not a negation
+
+
+def test_complement_clause_is_affirmed_but_not_as_a_negation_of_the_sentence():
+    got = {a.text: a for a in affirm("He said that the server is not running.")}
+    a = got["He said that the server is running."]
+    assert a.clause == "ccomp" and not a.polarity_flip
+
+
+def test_relative_clause_is_still_not_affirmed():
+    assert texts("A process that is not running is blocked.") == set()      # step-1.1 restriction, no regression
+
+
+def test_headline_case_still_works():
+    got = {a.text: a for a in affirm("Delhi is not the capital of India.")}
+    assert got["Delhi is the capital of India."].clause == "main" and got["Delhi is the capital of India."].primary
+
+
+def test_headline_case_in_a_coordinated_clause():
+    got = {a.text for a in affirm("Mumbai is a large city, but it is not the capital of India.")}
+    assert "Mumbai is a large city, but it is the capital of India." in got

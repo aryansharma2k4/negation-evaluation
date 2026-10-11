@@ -67,11 +67,47 @@ class Affirmation:
     polarity_flip: bool    # True: a negation of the input. False: a rewording (litotes)
     rule: str              # generator / subtype that produced it
     family: str = FAMILY
+    clause: str = "main"   # report_f2 4.1: main | coordinated | advcl | ccomp (the removed cue's clause)
 
 
 def main_scope(doc: Doc) -> frozenset[int]:
     root = root_of(doc)
     return clause_scope(root) if root is not None else frozenset()
+
+
+_VERBAL = frozenset({"VERB", "AUX", "ADJ", "NOUN"})
+
+
+def clause_kinds(doc: Doc) -> dict[int, str]:
+    """token index -> the affirmable clause it belongs to (report_f2 step 4.1).
+
+    main         clause_scope(ROOT)
+    coordinated  clause_scope of a verbal conj of ROOT (recursively): *X sorts the list and does not print it*
+    advcl/ccomp  clause_scope of an adverbial or complement clause of a main or coordinated head
+
+    Relative clauses and other noun modifiers (relcl, acl) are never included: affirming *A process that is
+    not running is blocked* would change the subject, not the claim (the step-1.1 restriction).
+    Every scope comes from negation.nlp_core.clause_scope; nothing here defines scope again.
+    """
+    root = root_of(doc)
+    if root is None:
+        return {}
+    kinds: dict[int, str] = {i: "main" for i in clause_scope(root)}
+    heads, stack = [root], [root]
+    while stack:
+        h = stack.pop()
+        for c in h.children:
+            if c.dep_ == "conj" and c.pos_ in _VERBAL and c.pos_ != "NOUN" or (c.dep_ == "conj" and h.i == root.i and c.pos_ == "AUX"):
+                for i in clause_scope(c):
+                    kinds.setdefault(i, "coordinated")
+                heads.append(c)
+                stack.append(c)
+    for h in heads:
+        for c in h.children:
+            if c.dep_ in ("advcl", "ccomp") and c.pos_ in ("VERB", "AUX", "ADJ"):
+                for i in clause_scope(c):
+                    kinds.setdefault(i, c.dep_)
+    return kinds
 
 
 def cue_type(doc: Doc, idx: int) -> str:
@@ -129,7 +165,7 @@ def _splice(doc: Doc, edits: list[Edit]) -> str:
     return normalize_spacing(text, cues)[0]
 
 
-def _from_generators(doc: Doc, scope: frozenset[int]) -> list[Affirmation]:
+def _from_generators(doc: Doc, scope) -> list[Affirmation]:
     profile = classify_input(doc)
     candidates = []
     for g in registry():
@@ -149,14 +185,15 @@ def _from_generators(doc: Doc, scope: frozenset[int]) -> list[Affirmation]:
             continue
         secondary = (v.family == FAM_NEG_ADVERB and not v.subtype.startswith("strip_")) or \
                     (v.family == FAM_IMPLICIT and t.lemma_.lower() in IMPLICIT_SWAPS)
+        clause = scope.get(idx, "main") if isinstance(scope, dict) else "main"
         out.append(Affirmation(
             text=v.variant, kind=cue_type(doc, idx), cue=t.text, primary=not secondary,
             approximate=v.family == FAM_NEG_ADVERB and t.lower_ in _APPROXIMATE_ADVERBS,
-            polarity_flip=True, rule=f"{v.generator}/{v.subtype}"))
+            polarity_flip=clause in ("main", "coordinated"), rule=f"{v.generator}/{v.subtype}", clause=clause))
     return out
 
 
-def _implicit(doc: Doc, scope: frozenset[int]) -> list[Affirmation]:
+def _implicit(doc: Doc, scope) -> list[Affirmation]:
     out = []
     for t in doc:
         lem = t.lemma_.lower()
@@ -168,7 +205,8 @@ def _implicit(doc: Doc, scope: frozenset[int]) -> list[Affirmation]:
             new = matches_case(inflect_lexical(IMPLICIT_SWAPS[lem], t.tag_), t)
             out.append(Affirmation(_splice(doc, [Edit.replace(t.idx, t.idx + len(t.text), new)]),
                                    kind=cue_type(doc, t.i), cue=t.text, primary=True, approximate=False,
-                                   polarity_flip=True, rule=f"implicit_swap/{lem}_to_{IMPLICIT_SWAPS[lem]}"))
+                                   polarity_flip=_flip(scope, t.i), rule=f"implicit_swap/{lem}_to_{IMPLICIT_SWAPS[lem]}",
+                                   clause=_clause(scope, t.i)))
         elif lem in _PROMOTE_ONLY:
             comp = _gerund_complement(t)
             if comp is None:
@@ -176,8 +214,19 @@ def _implicit(doc: Doc, scope: frozenset[int]) -> list[Affirmation]:
             restored = inflect_lexical(comp.lemma_, t.tag_)
             out.append(Affirmation(_splice(doc, [Edit.replace(t.idx, comp.idx + len(comp.text), restored)]),
                                    kind="implicit (avoid)", cue=t.text, primary=True, approximate=False,
-                                   polarity_flip=True, rule=f"implicit_promote/{lem}"))
+                                   polarity_flip=_flip(scope, t.i), rule=f"implicit_promote/{lem}", clause=_clause(scope, t.i)))
     return out
+
+
+def _clause(scope, i: int) -> str:
+    return scope.get(i, "main") if isinstance(scope, dict) else "main"
+
+
+def _flip(scope, i: int) -> bool:
+    """Affirming a main or coordinated clause flips the sentence's claim; affirming an adverbial or
+    complement clause flips a subordinate claim (for *if not P* that is an antecedent flip), which is
+    not a negation of the sentence."""
+    return _clause(scope, i) in ("main", "coordinated")
 
 
 def litotes(doc: Doc, scope: Optional[frozenset[int]] = None) -> Optional[Affirmation]:
@@ -202,14 +251,16 @@ def litotes(doc: Doc, scope: Optional[frozenset[int]] = None) -> Optional[Affirm
                        approximate=True, polarity_flip=False, rule="litotes")
 
 
-def affirm_doc(doc: Doc) -> list[Affirmation]:
+def affirm_doc(doc: Doc, extended: bool = True) -> list[Affirmation]:
+    """``extended=False`` reproduces report_f1.md's main-clause-only behaviour (for the old-vs-new table)."""
     scope = main_scope(doc)
+    kinds = clause_kinds(doc) if extended else {i: "main" for i in scope}
     out = []
     lit = litotes(doc, scope)
     if lit is not None:
         out.append(lit)
-    out.extend(_implicit(doc, scope))
-    out.extend(_from_generators(doc, scope))
+    out.extend(_implicit(doc, kinds))
+    out.extend(_from_generators(doc, kinds))
     if lit is not None:   # the one-cue removals of a litotes are negations of it, not its positive form
         out = [out[0]] + [a if a is lit else Affirmation(**{**a.__dict__, "primary": False}) for a in out[1:]]
     seen, uniq = set(), []
@@ -225,16 +276,18 @@ def affirm(sentence: str) -> list[Affirmation]:
     return affirm_doc(parse_bases([sentence])[0])
 
 
-def failure_reason(doc: Doc) -> Optional[str]:
+def failure_reason(doc: Doc, extended: bool = True) -> Optional[str]:
     """Why a sentence with a cue got no affirmation (named bucket), or None if it got one."""
-    if affirm_doc(doc):
+    if affirm_doc(doc, extended):
         return None
     profile = classify_input(doc)
-    scope = main_scope(doc)
+    scope = set(clause_kinds(doc)) if extended else main_scope(doc)
     if not profile.existing_cues:
         return "no cue the generator's classifier recognises"
     inside = [c for c in profile.existing_cues if c.token_idx in scope]
     if not inside:
+        if extended:
+            return "every cue is in a relative clause or attached to a noun phrase (not an affirmable clause)"
         return "every cue is outside the main clause (relative / subordinate / coordinated clause)"
     t = doc[inside[0].token_idx]
     fam = inside[0].family_guess
