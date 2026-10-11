@@ -639,7 +639,7 @@ independent check of rewording.
 
 | configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood | `token_overlap` importance |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| current: C + override | 98.0% (97.2–98.7) | 93.7% | 76.9% | 90.7% | 97.4% | 93.9% | 1.3% | 4.7% | 0.0% | 0.0% | 43.3% | 93.7% | 2.2% | 90.7% | 5.6% | 98.0% | 94.3% | 0.256* |
+| current: C + override | 98.0% (97.2–98.7) | 93.7% | 76.9% | 90.7% | 97.4% | 93.9% | 1.3% | 4.7% | 0.0% | 0.0% | 43.3% | 93.7% | 2.2% | 90.7% | 5.6% | 98.0% | 94.3% | 0.231* |
 | + natural (1,100) | 97.9% (97.1–98.6) | 92.0% | 69.4% | 87.9% | 97.5% | 92.5% | 1.6% | 3.9% | 0.9% | 0.0% | 59.4% | 95.8% | 2.2% | **94.6%** | 6.6% | 97.0% | 94.5% | **0.042** |
 | + natural + override | 97.7% (96.9–98.4) | 91.8% | 68.6% | 87.5% | 97.5% | 92.2% | 1.6% | 5.5% | 0.9% | 0.0% | 61.1% | 95.8% | 2.2% | 94.6% | 6.8% | 97.0% | 95.3% | 0.042 |
 | + generated (1,200, **machine-gen.**) | 98.1% (97.4–98.8) | 89.7% | **56.7%** | 84.5% | 97.3% | 90.4% | 1.0% | 3.1% | 0.0% | 0.0% | 83.9% | 94.7% | 4.4% | 91.5% | 1.5% | 97.8% | 60.8% | 0.221 |
@@ -647,7 +647,7 @@ independent check of rewording.
 | + mixed (2,300) | 97.3% (96.4–98.1) | 87.7% | **50.6%** | 81.5% | 97.7% | 88.9% | 2.6% | 7.9% | 0.9% | 0.0% | 98.3% | 96.8% | 4.4% | 96.9% | 8.1% | 96.5% | 95.0% | 0.108 |
 | + mixed + override | identical to the row above | | | | | | | | | | | | | | | | | |
 
-\* `token_overlap` importance in the current C model (from the 2.2 fit); the Phase 0 GBM's is 0.327.
+\* `token_overlap` importance in the current C model (refit of the 2.2 model; `report_f1.md` 2.5 reported 0.2305 for the same model); the Phase 0 GBM's is 0.327.
 
 Paired permutation against the Phase 0 baseline (uncorrected), without / with override:
 
@@ -666,7 +666,7 @@ Paired permutation against the Phase 0 baseline (uncorrected), without / with ov
 The current configuration stays.
 
 **What the numbers say, in plain language.** **Natural augmentation does exactly what this round set out to do
-to the shortcut.** `token_overlap`'s importance drops from 0.256 to **0.042**, and low-overlap negation recall
+to the shortcut.** `token_overlap`'s importance drops from 0.231 to **0.042**, and low-overlap negation recall
 reaches **94.6% without any override** (n = 129). The combiner now leaves rewordings to NLI, as intended.
 The bill comes from xNot360's conditional inverses: FPR 43.3% → 59.4%. MNLI and SNLI contradictions teach
 "high P(contradiction) at moderate overlap means negation", and xNot360's inverses look exactly like that. CANNOT
