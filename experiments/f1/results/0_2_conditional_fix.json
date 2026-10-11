@@ -1,0 +1,144 @@
+{
+  "dev_clean": {
+    "n": 3402,
+    "old": {
+      "cannot_phase1|A only": 4,
+      "cannot_phase1|B only": 3,
+      "cannot_phase1|both": 30,
+      "cannot_phase1|neither": 2215,
+      "random|B only": 2,
+      "random|neither": 248,
+      "snli|neither": 400,
+      "stsb|A only": 1,
+      "stsb|B only": 4,
+      "stsb|both": 6,
+      "stsb|neither": 489
+    },
+    "new": {
+      "cannot_phase1|A only": 4,
+      "cannot_phase1|B only": 3,
+      "cannot_phase1|both": 30,
+      "cannot_phase1|neither": 2215,
+      "random|B only": 2,
+      "random|neither": 248,
+      "snli|neither": 400,
+      "stsb|A only": 1,
+      "stsb|B only": 4,
+      "stsb|both": 6,
+      "stsb|neither": 489
+    },
+    "pairs_changing_coverage_class": 0,
+    "pairs_changing_marker_only": 2,
+    "changed": [
+      {
+        "a": "The characters aren't interesting, even if a bit predictable.",
+        "b": "The characters are interesting, even if a bit predictable.",
+        "old": "both",
+        "new": "both",
+        "old_markers": [
+          "if",
+          "if"
+        ],
+        "new_markers": [
+          "even if",
+          "even if"
+        ]
+      },
+      {
+        "a": "The process takes floor time even if the attempt is unsuccessful.",
+        "b": "Even if a filibuster attempt is unsuccessful, the process takes floor time.",
+        "old": "both",
+        "new": "both",
+        "old_markers": [
+          "if",
+          "if"
+        ],
+        "new_markers": [
+          "even if",
+          "even if"
+        ]
+      }
+    ]
+  },
+  "validation": {
+    "n": 601,
+    "old": {
+      "cannot_phase2|B only": 1,
+      "cannot_phase2|both": 4,
+      "cannot_phase2|neither": 596
+    },
+    "new": {
+      "cannot_phase2|B only": 1,
+      "cannot_phase2|both": 3,
+      "cannot_phase2|neither": 597
+    },
+    "pairs_changing_coverage_class": 1,
+    "pairs_changing_marker_only": 1,
+    "changed": [
+      {
+        "a": "Once again, this is even if all formats do not meet the chart rules.",
+        "b": "Once again, this is only if all formats meet the chart rules.",
+        "old": "both",
+        "new": "both",
+        "old_markers": [
+          "if",
+          "if"
+        ],
+        "new_markers": [
+          "even if",
+          "only if"
+        ]
+      },
+      {
+        "a": "In addition it feels &amp; looks as if the phone isn't all lightweight cheap plastic.",
+        "b": "in addition it feels &amp; looks as if the phone is all lightweight cheap plastic.",
+        "old": "both",
+        "new": "neither",
+        "old_markers": [
+          "if",
+          "if"
+        ],
+        "new_markers": []
+      }
+    ]
+  },
+  "test": {
+    "n": 1760,
+    "old": {
+      "cannot_phase2|A only": 3,
+      "cannot_phase2|B only": 5,
+      "cannot_phase2|both": 14,
+      "cannot_phase2|neither": 1378,
+      "xnot360|A only": 190,
+      "xnot360|both": 134,
+      "xnot360|neither": 36
+    },
+    "new": {
+      "cannot_phase2|A only": 3,
+      "cannot_phase2|B only": 5,
+      "cannot_phase2|both": 14,
+      "cannot_phase2|neither": 1378,
+      "xnot360|A only": 190,
+      "xnot360|both": 134,
+      "xnot360|neither": 36
+    },
+    "pairs_changing_coverage_class": 0,
+    "pairs_changing_marker_only": 1,
+    "changed": [
+      {
+        "a": "Even if a policy violation is found, corrective action might not be taken because the person who filed the complaint might not be informed.",
+        "b": "Microsoft has said that corrective action might not be taken even if a policy violation was found, and that the person who filed the complaint might not be informed.",
+        "old": "both",
+        "new": "both",
+        "old_markers": [
+          "if",
+          "if"
+        ],
+        "new_markers": [
+          "even if",
+          "even if"
+        ]
+      }
+    ]
+  }
+}

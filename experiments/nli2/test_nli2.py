@@ -123,3 +123,29 @@ def test_thresholds_cannot_be_fit_on_test():
     splits, _ = load_clean()
     with pytest.raises(AssertionError, match="fit attempted"):
         youden_threshold(splits["test"], [r["nli_c"] for r in splits["test"]])
+
+
+# --- f1 step 0.2: as if / even if / only if ----------------------------------------------
+
+def test_as_if_is_not_a_conditional():
+    assert cond("It looks as if the phone isn't all plastic.") is None
+    assert cond("The phone looks as if it is plastic.") is None
+
+
+@pytest.mark.parametrize("sentence,marker", [
+    ("You will pass even if you fail the quiz.", "even if"),
+    ("Even if it rains, the match goes on.", "even if"),
+    ("You will pass only if you attend.", "only if"),
+    ("Only if you attend will you pass.", "only if"),
+    ("You will pass if you attend.", "if"),
+])
+def test_even_if_and_only_if_are_distinct_connectives(sentence, marker):
+    assert cond(sentence).marker == marker
+
+
+def test_connective_change_is_not_read_as_a_polarity_flip():
+    # CANNOT VALIDATION shape (Report_NLI2 3.3): the connective changes, not the antecedent's polarity
+    assert decision("The chart is valid even if all formats do not meet the rules.",
+                    "The chart is valid only if all formats meet the rules.") is None
+    # same connective on both sides: the polarity rule still applies
+    assert decision("You will pass even if you attend.", "You will pass even if you do not attend.") == "not_negation"

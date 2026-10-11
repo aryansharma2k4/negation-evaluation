@@ -5,6 +5,7 @@ K1 vs K2); nothing here defines scope again. A conditional is an adverbial claus
 attached to its consequent's head, marked by one of MARKERS. spaCy parses the markers three ways:
 
     if / unless / whenever   mark child of the advcl head         "If you sign, ..."
+      (not after *as*; *even if* / *only if* are kept as distinct connectives, f1 step 0.2)
     when / whenever          advmod child of the advcl head       "When it rains, ..."
     provided / assuming      the marker heads the clause; the     "Provided that you sign, ..."
                              antecedent is its ccomp
@@ -32,6 +33,7 @@ from common import C, CACHE, REPO  # noqa: F401  (REPO on sys.path for negation.
 from negation.nlp_core import clause_scope, parse_batch  # noqa: E402
 
 MARKERS = frozenset({"if", "unless", "when", "whenever", "provided", "assuming"})
+DISTINCT_CONNECTIVES = frozenset({"even if", "only if"})
 _HEADED = frozenset({"provide", "provided", "assume", "assuming"})
 
 
@@ -62,6 +64,16 @@ def _span(heads) -> tuple[int, ...]:
     return tuple(sorted(i for i in idx if not doc[i].is_punct))
 
 
+def _if_connective(if_tok) -> str | None:
+    """f1 step 0.2: *as if* is a comparison, not a condition (None); *even if* and *only if*
+    are their own connectives, so a pair that swaps one for the other is not read as a
+    polarity flip of plain *if*."""
+    prev = if_tok.doc[if_tok.i - 1].lower_ if if_tok.i > 0 else ""
+    if prev == "as":
+        return None
+    return f"{prev} if" if prev in ("even", "only") else "if"
+
+
 def find(doc) -> list[Cond]:
     found = []
     for tok in doc:
@@ -69,6 +81,8 @@ def find(doc) -> list[Cond]:
         if tok.dep_ == "advcl":
             kids = {c.lower_: c for c in tok.children if c.dep_ in ("mark", "advmod")}
             hit = next((m for m in ("if", "unless", "whenever", "when") if m in kids), None)
+            if hit == "if":
+                hit = _if_connective(kids["if"])
             if hit:
                 marker, ante = hit, tok
         if marker is None and tok.lower_ in ("provided", "assuming") and tok.dep_ in ("advcl", "prep"):
@@ -91,7 +105,7 @@ def find(doc) -> list[Cond]:
     return out
 
 
-_PATH = CACHE / "conditionals.pkl"
+_PATH = CACHE / "conditionals_v2.pkl"     # v2: after the f1 step 0.2 fix (as if / even if / only if)
 _cache: dict | None = None
 
 
@@ -131,6 +145,8 @@ def decide(ca: Cond | None, cb: Cond | None, aa, ab) -> str | None:
     """'negation', 'contraposition', 'not_negation' or None (no decision)."""
     if ca is None or cb is None:
         return None
+    if ca.marker != cb.marker and {ca.marker, cb.marker} & DISTINCT_CONNECTIVES:
+        return None              # the connective itself changed (even if -> only if): no polarity rule applies
     pa, pb = polarities(ca, aa), polarities(cb, ab)
     ante_flip, cons_flip = pa[0] != pb[0], pa[1] != pb[1]
     if ante_flip and cons_flip:

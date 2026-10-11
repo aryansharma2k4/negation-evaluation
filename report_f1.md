@@ -70,3 +70,43 @@ decision. Its effect is on the cancellation shapes our generator makes, which is
 ```sh
 ./venv/bin/python experiments/f1/phase0.py --step 0.1
 ```
+
+### 0.2 Conditional detection fix: *as if*, *even if*, *only if*
+
+`experiments/nli2/conditionals.py` (the shared detector, fixed in place so every caller gets it).
+Recount: `experiments/f1/phase0.py --step 0.2` → `experiments/f1/results/0_2_conditional_fix.json`.
+
+- ***as if*** is a comparison, not a condition. When the token before *if* is *as*, the clause is no
+  longer taken for a conditional.
+- ***even if*** and ***only if*** are now their own markers, not plain *if*. When A and B use
+  different connectives and one of them is *even if* or *only if*, the polarity rule returns no
+  decision. The connective changed, not the antecedent's polarity, so the combiner decides. A pair
+  that keeps the same connective on both sides is still read by the polarity rule.
+- The detector's cache file moves to `conditionals_v2.pkl`. The old cache is left in place, so the
+  recount compares against the pre-fix output directly. **Rerunning nli2's Phase 3 / 4 scripts after
+  this commit gives slightly different conditional features**; `Report_NLI2.md`'s numbers reproduce at
+  its own commit hashes.
+
+Unit tests (`experiments/nli2/test_nli2.py`, 25 pass, 7 new): two *as if* sentences are not
+conditionals; *even if* / *only if* are recognised in preposed and postposed position, with plain *if*
+unchanged; *even if → only if* gives no decision; *even if → even if* with the antecedent flipped is
+still `not_negation`.
+
+How many pairs change (no labels read):
+
+| split | n | coverage class changes | marker-only changes | the changes |
+| --- | ---: | ---: | ---: | --- |
+| clean DEV | 3,402 | 0 | 2 | two *even if* pairs (both sides), previously *if* |
+| VALIDATION | 601 | **1** | 1 | *… looks as if the phone isn't all lightweight cheap plastic* / *… is all …*: both → neither; *… even if all formats do not meet the chart rules* / *… only if all formats meet …*: if/if → even if/only if |
+| TEST | 1,760 | 0 | 1 | one xNot360 *even if* pair (both sides) |
+
+Coverage per split after the fix: clean DEV 36 both-conditional pairs (unchanged), VALIDATION 3 (was 4),
+TEST unchanged (CANNOT 14, xNot360 134). These are exactly the two VALIDATION pairs `Report_NLI2.md`
+step 3.3 traced its VALIDATION drop to. The fix touches 5 pairs in 5,763 and cannot move any headline
+number by more than a pair or two. Its value is that the conditional features and rules now mean what
+they say.
+
+```sh
+./venv/bin/python -m pytest experiments/nli2 -q
+./venv/bin/python experiments/f1/phase0.py --step 0.2
+```
