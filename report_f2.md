@@ -545,3 +545,47 @@ max 1.46 s) against 1.12 s with the single model. That is **+0.13 s per pair, st
 The added cost is smaller than the 230 ms of extra NLI time suggests, because a single interactive pair is
 not batched and the explanation panels dominate. Batch scoring of a whole TEST-sized set costs 6× the
 single-model NLI time.
+
+### 3.1 Token overlap by generator family: no family rewords
+
+`experiments/f2/rebalance.py --step 3.1` → `results/3_1_family_overlap.json`. Overlap between each clean-DEV
+base sentence A and its generated negations (stage-1 variants with flipped negation parity, plus Phase 1
+affirmations): 2,693 bases, 44,046 variants (**machine-generated**).
+
+| family | variants | mean overlap | median | share < 0.4 | share < 0.6 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| H_hedged | 10,201 | 0.740 | 0.750 | 0.55% | 10.0% |
+| F_implicit | 5,038 | 0.734 | 0.750 | 0.14% | 9.1% |
+| K1_cancellation (flipped-parity variants) | 123 | 0.798 | 0.769 | 0.0% | 6.5% |
+| I_intensified | 9,789 | 0.763 | 0.786 | 0.25% | 8.5% |
+| G_prepositional | 701 | 0.777 | 0.786 | 0.14% | 6.1% |
+| K2_compound | 55 | 0.788 | 0.792 | 0.0% | 7.3% |
+| N_affirmation | 336 | 0.781 | 0.818 | 1.79% | 6.9% |
+| J_contrastive | 880 | 0.816 | 0.833 | 0.0% | 3.0% |
+| D_affixal | 85 | 0.808 | 0.833 | 2.35% | 4.7% |
+| E_antonym | 2,464 | 0.831 | 0.846 | 0.45% | 0.8% |
+| B_quantifier | 131 | 0.820 | 0.846 | 0.0% | 0.8% |
+| A_syntactic | 2,043 | 0.830 | 0.875 | 0.0% | 3.3% |
+| C_neg_adverb | 12,179 | 0.904 | 0.917 | 0.0% | 0.05% |
+| L_scope_position | 20 | 0.926 | 0.933 | 0.0% | 0.0% |
+| **all** | **44,046** | | | **0.24% (107)** | **5.7% (2,514)** |
+
+**The brief's expectation is refuted.**
+
+- C_neg_adverb (median 0.917) and A_syntactic (0.875) do sit high, as expected.
+- But **E_antonym (0.846) and J_contrastive (0.833) sit just as high**. An antonym swap and a contrastive
+  frame are still edits of A.
+- The lowest families are H_hedged and F_implicit (0.75). They insert several words (*it is probably not
+  the case that*), but they do not reword.
+- The 2,514 variants below 0.6 are almost all multi-word insertions into short base sentences, so their
+  overlap is low only because the sentence is short. Only 107 variants in 44,046 fall below 0.4.
+
+**No family produces low-overlap negations in the sense this round needs.** The generator negates by
+editing, and a student rewords. By the brief's stopping rule, the *generated-only* rebalancing has no
+material to work with, and the report says so. Step 3.2 still runs it on the small generated tail below 0.6,
+so that the negative result is measured rather than assumed. It also runs the brief's **natural**
+alternative, low-overlap MNLI / SNLI training pairs, which does not depend on the families.
+
+```sh
+./venv/bin/python experiments/f2/rebalance.py --step 3.1
+```

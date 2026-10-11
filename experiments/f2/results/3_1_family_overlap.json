@@ -1,0 +1,117 @@
+{
+  "bases": 2845,
+  "families": {
+    "H_hedged": {
+      "n": 10201,
+      "mean": 0.74,
+      "median": 0.75,
+      "share_below_0.4": 0.0055,
+      "share_below_0.6": 0.1002
+    },
+    "F_implicit": {
+      "n": 5038,
+      "mean": 0.734,
+      "median": 0.75,
+      "share_below_0.4": 0.0014,
+      "share_below_0.6": 0.0905
+    },
+    "N_affirmation_approx": {
+      "n": 1,
+      "mean": 0.75,
+      "median": 0.75,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0
+    },
+    "K1_cancellation": {
+      "n": 123,
+      "mean": 0.798,
+      "median": 0.769,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.065
+    },
+    "I_intensified": {
+      "n": 9789,
+      "mean": 0.763,
+      "median": 0.786,
+      "share_below_0.4": 0.0025,
+      "share_below_0.6": 0.0853
+    },
+    "G_prepositional": {
+      "n": 701,
+      "mean": 0.777,
+      "median": 0.786,
+      "share_below_0.4": 0.0014,
+      "share_below_0.6": 0.0613
+    },
+    "K2_compound": {
+      "n": 55,
+      "mean": 0.788,
+      "median": 0.792,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0727
+    },
+    "N_affirmation": {
+      "n": 336,
+      "mean": 0.781,
+      "median": 0.818,
+      "share_below_0.4": 0.0179,
+      "share_below_0.6": 0.0685
+    },
+    "J_contrastive": {
+      "n": 880,
+      "mean": 0.816,
+      "median": 0.833,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0295
+    },
+    "D_affixal": {
+      "n": 85,
+      "mean": 0.808,
+      "median": 0.833,
+      "share_below_0.4": 0.0235,
+      "share_below_0.6": 0.0471
+    },
+    "E_antonym": {
+      "n": 2464,
+      "mean": 0.831,
+      "median": 0.846,
+      "share_below_0.4": 0.0045,
+      "share_below_0.6": 0.0077
+    },
+    "B_quantifier": {
+      "n": 131,
+      "mean": 0.82,
+      "median": 0.846,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0076
+    },
+    "A_syntactic": {
+      "n": 2043,
+      "mean": 0.83,
+      "median": 0.875,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0328
+    },
+    "C_neg_adverb": {
+      "n": 12179,
+      "mean": 0.904,
+      "median": 0.917,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0005
+    },
+    "L_scope_position": {
+      "n": 20,
+      "mean": 0.926,
+      "median": 0.933,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0
+    },
+    "_all": {
+      "n": 44046,
+      "share_below_0.4": 0.0024,
+      "share_below_0.6": 0.0571,
+      "n_below_0.6": 2514,
+      "n_below_0.4": 107
+    }
+  }
+}
