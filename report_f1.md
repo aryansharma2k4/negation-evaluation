@@ -14,6 +14,441 @@ called negations. *AUC* is the probability that a random negation scores above a
 permutation tests (10,000 permutations, seed 0), **not corrected for multiple comparisons**. Every
 TEST read is logged in `experiments/f1/results/test_reads.json`.*
 
+## 1. Summary
+
+**The best configuration this evidence supports is the Phase 0 baseline: `Report_NLI2.md`'s gradient-boosted
+combiner with the cancellation veto as a hard override in front, and the conditional detector fixed.
+It reaches 97.7% on CANNOT phase 2 (95% CI 96.9–98.5) and 93.9% on all of TEST (92.7–95.0).** Against
+`Report_NLI2.md`'s final GBM (97.9% / 94.0%), that is −0.2 pts on phase 2 (p = 0.50, 3 real negations
+lost). In the same sentence, the K1 cancellation FPR falls from 9.9% to 2.2% (n = 91, machine-generated).
+
+Nothing in Phases 1–3 beat it under the stated selection rules:
+
+- **Phase 1:** the affirmation generator works. 659 of 960 negative clean-DEV sentences get an
+  affirmation, 25 of 30 spot-checked are correct (machine-judged), and it is the best-covering
+  generator family in Phase 3.
+- **Phase 2:** a five-model NLI ensemble won on VALIDATION. It was carried no further: the brief's
+  pre-stated overfitting rule fired, because out-of-fold DEV exceeded TEST by 4.3 pts. It buys +0.9 pts
+  on phase 2 (p = 0.018) at the cost of −9.4 pts on xNot360 and −1.25 pts on all TEST (p = 0.012).
+- **Phase 3:** the generate-and-match guardrail cuts recall from 94.9% to 35–81%, depending on the variant.
+
+**The single biggest caveat:** the combiner learned what CANNOT negations look like, which is
+near-copies of A. It does not recognise a negation the writer rewords, and student answers reword. On
+the machine-authored paragraph set (28 items), it catches 6 of 11 contradictions where the NLI model
+alone catches 9 of 11. On the 10 model-written negations of real definitions, it catches 6, against
+95.6% of generator-made negations. Both slices are small and machine-written. But they point the same
+way, and the headline accuracy cannot see the problem, because TEST is mostly CANNOT.
+
+## 2. Full ablation
+
+All on TEST (n = 1,760; CANNOT phase 2 n = 1,400; xNot360 n = 360) unless noted, generated from
+`experiments/f1/results/final_f1.json` (`final_f1.py`), plus the post-hoc row from `2_5_overfit.json`.
+Every threshold is fit on clean DEV; every selection is by VALIDATION (or the brief's 2.5 rule, marked).
+"Phase 1 alone" has no row of numbers, because the affirmation generator changes no detector decision;
+it feeds the guardrail, whose rows are "Phase 3 alone". K1 is machine-generated (n = 91).
+
+| configuration | phase-2 acc (95% CI) | all-TEST acc | AUC | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91, machine-gen.) | VAL acc | source |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Report_NLI2 final (GBM, no override) | 97.9% (97.1–98.6%) | 94.0% | 0.981 | 93.0% | 95.1% | 94.1% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 9.9% | 97.8% | `0_1` |
+| Phase 0 baseline (GBM + cancellation override, fixed conditionals) | 97.7% (96.9–98.5%) | 93.9% | 0.978 | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | 97.8% | `0_3` |
+| + Phase 1 alone (affirmation generator): no change to the detector's decisions; it feeds the guardrail only | — | — | — | — | — | — | — | — | — | — | — | — | — | — | `1_2` |
+| + Phase 2: (a) mean P(contradiction) [all: 5 models] | 82.8% (80.8–84.6%) | 83.9% | 0.874 | 80.3% | 89.9% | 84.8% | 0.0% | 64.6% | 0.9% | 62.2% | 21.1% | 77.9% | 0.0% | 84.7% | `2_4` |
+| + Phase 2: (a') median P(contradiction) [all: 5 models] | 82.6% (80.6–84.4%) | 82.0% | 0.865 | 75.9% | 93.9% | 84.0% | 0.0% | 72.4% | 2.6% | 82.3% | 38.9% | 89.5% | 0.0% | 86.4% | `2_4` |
+| + Phase 2: (c) calibrated mean P(contradiction) [all: 5 models] | 82.8% (80.8–84.6%) | 84.2% | 0.871 | 80.3% | 90.7% | 85.2% | 0.0% | 63.8% | 0.9% | 69.8% | 17.8% | 79.0% | 0.0% | 84.5% | `2_4` |
+| + Phase 2: (d) logistic stacker over model probabilities [all: 5 models] | 85.1% (83.3–86.9%) | 84.3% | 0.897 | 80.1% | 91.5% | 85.4% | 0.3% | 62.2% | 2.6% | 48.7% | 33.3% | 90.5% | 0.0% | 88.7% | `2_4` |
+| + Phase 2: (b) GBM, 17 features + every model's probabilities [all: 5 models] ← VALIDATION pick; not carried forward (2.5 rule) | 98.6% (97.9–99.1%) | 92.6% | 0.982 | 90.1% | 95.8% | 92.9% | 0.7% | 0.8% | 0.0% | 0.0% | 50.0% | 94.7% | 2.2% | 98.5% | `2_4` |
+| + Phase 2: (e) GBM, 17 features with NLI probabilities averaged across models [all: 5 models] | 98.1% (97.4–98.8%) | 90.6% | 0.984 | 86.0% | 97.1% | 91.2% | 1.6% | 7.1% | 0.0% | 0.0% | 69.4% | 95.8% | 1.1% | 97.7% | `2_4` |
+| + Phase 2: (a) mean P(contradiction) [pruned: 4 models] | 83.5% (81.6–85.4%) | 84.2% | 0.887 | 80.9% | 89.5% | 85.0% | 0.0% | 62.2% | 0.9% | 54.6% | 22.8% | 80.0% | 0.0% | 85.7% | `2_4` |
+| + Phase 2: (a') median P(contradiction) [pruned: 4 models] | 83.7% (81.8–85.6%) | 84.9% | 0.874 | 81.9% | 89.9% | 85.7% | 0.0% | 61.4% | 0.9% | 57.1% | 16.1% | 74.7% | 0.0% | 85.4% | `2_4` |
+| + Phase 2: (c) calibrated mean P(contradiction) [pruned: 4 models] | 83.3% (81.4–85.1%) | 84.7% | 0.880 | 81.5% | 90.0% | 85.5% | 0.0% | 63.0% | 0.9% | 59.7% | 16.1% | 76.8% | 0.0% | 85.5% | `2_4` |
+| + Phase 2: (d) logistic stacker over model probabilities [pruned: 4 models] | 84.9% (83.1–86.7%) | 84.4% | 0.903 | 79.4% | 93.0% | 85.7% | 0.3% | 68.5% | 1.7% | 54.6% | 32.2% | 92.6% | 0.0% | 88.7% | `2_4` |
+| + Phase 2: (b) GBM, 17 features + every model's probabilities [pruned: 4 models] | 98.4% (97.6–99.0%) | 94.5% | 0.983 | 93.6% | 95.7% | 94.6% | 1.0% | 0.8% | 0.0% | 0.0% | 30.0% | 92.6% | 2.2% | 98.2% | `2_4` |
+| + Phase 2: (e) GBM, 17 features with NLI probabilities averaged across models [pruned: 4 models] | 98.1% (97.3–98.7%) | 94.3% | 0.984 | 93.0% | 95.9% | 94.4% | 1.3% | 3.9% | 0.0% | 0.0% | 30.6% | 96.8% | 1.1% | 98.0% | `2_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=cos, agg=max, δ on all DEV | 81.6% (79.6–83.7%) | 81.7% | 0.705 | 97.8% | 64.9% | 78.0% | 0.0% | 2.4% | 0.0% | 0.0% | 5.6% | 64.2% | 2.2% | 82.2% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=cos, agg=max, δ on DEV pairs called negation (out-of-fold) | 85.4% (83.5–87.1%) | 85.1% | 0.777 | 96.7% | 72.8% | 83.1% | 0.0% | 3.1% | 0.0% | 0.0% | 10.0% | 66.3% | 2.2% | 86.7% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=cos, agg=top3, δ on all DEV | 80.9% (78.7–82.9%) | 81.1% | 0.696 | 97.4% | 64.1% | 77.3% | 0.0% | 2.4% | 0.0% | 0.0% | 6.7% | 63.2% | 2.2% | 81.7% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=cos, agg=top3, δ on DEV pairs called negation (out-of-fold) | 86.3% (84.5–88.1%) | 85.9% | 0.797 | 95.8% | 75.1% | 84.2% | 0.0% | 3.1% | 0.0% | 0.0% | 13.9% | 68.4% | 2.2% | 87.2% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=jaccard, agg=max, δ on all DEV | 69.3% (66.7–71.6%) | 71.0% | 0.520 | 91.2% | 46.8% | 61.8% | 0.0% | 0.8% | 0.0% | 0.0% | 21.7% | 55.8% | 2.2% | 70.7% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=jaccard, agg=max, δ on DEV pairs called negation (out-of-fold) | 89.3% (87.6–90.9%) | 87.3% | 0.842 | 93.3% | 80.5% | 86.4% | 1.6% | 0.8% | 0.0% | 0.0% | 25.0% | 62.1% | 2.2% | 89.3% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=jaccard, agg=top3, δ on all DEV | 67.2% (64.6–69.7%) | 65.3% | 0.410 | 88.7% | 35.4% | 50.6% | 0.0% | 0.8% | 0.0% | 0.0% | 21.7% | 55.8% | 2.2% | 67.4% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=jaccard, agg=top3, δ on DEV pairs called negation (out-of-fold) | 88.9% (87.1–90.5%) | 86.9% | 0.835 | 93.2% | 79.7% | 86.0% | 1.6% | 0.8% | 0.0% | 0.0% | 25.0% | 60.0% | 2.2% | 89.0% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=mix, agg=max, δ on all DEV | 79.6% (77.4–81.7%) | 80.5% | 0.686 | 96.7% | 63.2% | 76.4% | 0.0% | 0.8% | 0.0% | 0.0% | 10.0% | 60.0% | 2.2% | 79.9% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=mix, agg=max, δ on DEV pairs called negation (out-of-fold) | 88.1% (86.4–89.9%) | 86.4% | 0.822 | 93.3% | 78.5% | 85.2% | 0.3% | 2.4% | 0.0% | 0.0% | 25.6% | 63.2% | 2.2% | 87.5% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=mix, agg=top3, δ on all DEV | 76.9% (74.6–79.1%) | 78.0% | 0.637 | 96.8% | 58.0% | 72.5% | 0.0% | 0.8% | 0.0% | 0.0% | 8.9% | 59.0% | 2.2% | 76.9% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + guardrail sim=mix, agg=top3, δ on DEV pairs called negation (out-of-fold) | 86.6% (84.7–88.4%) | 85.3% | 0.801 | 93.1% | 76.3% | 83.9% | 0.7% | 2.4% | 0.0% | 0.0% | 25.0% | 62.1% | 2.2% | 86.5% | `3_4` |
+| + Phase 3 alone: Phase 0 baseline + margin (cos, max) as an extra combiner feature | 97.9% (97.1–98.6%) | 94.0% | 0.980 | 92.9% | 95.4% | 94.1% | 1.9% | 3.9% | 0.0% | 0.8% | 28.9% | 97.9% | 2.2% | 97.3% | `3_4` |
+| *post-hoc (after the 2.4 TEST read; not adoptable):* 17 features with DeBERTa-anli swapped in | 98.0% (97.2–98.7%) | 89.7% | 0.978 | 84.7% | 96.8% | 90.4% | 1.9% | 7.1% | 0.0% | 0.0% | 77.2% | 94.7% | 2.2% | 97.8% | `2_5` |
+| **Adopted combination = Phase 0 baseline** (no Phase 1–3 change adopted) | 97.7% (96.9–98.5%) | 93.9% | 0.978 | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | 97.8% | `final_f1` |
+
+Paired permutation tests against the Phase 0 baseline (10,000 permutations, **not corrected for
+multiple comparisons**; about 30 configurations are compared):
+
+| configuration | phase 2 | all TEST | xNot360 |
+| --- | --- | --- | --- |
+| Phase 0 baseline vs Report_NLI2 GBM (the override) | −0.1 pts (p = 0.50) | −0.1 pts (p = 0.50) | 0.0 pts (p = 1.0) |
+| (b) GBM, 5 models (VALIDATION pick) | **+0.9 pts (p = 0.018)** | **−1.25 pts (p = 0.012)** | **−9.4 pts (p = 0.0001)** |
+| (b) GBM, 4 models | +0.6 pts (p = 0.052) | +0.7 pts (p = 0.042) | +0.8 pts (p = 0.58) |
+| margin as combiner feature | +0.2 pts (p = 0.63) | +0.2 pts (p = 0.71) | 0.0 pts (p = 1.0) |
+| guardrail, brief default (cos, max, δ on all DEV) | −16.1 pts (p = 0.0001) | −12.2 pts (p = 0.0001) | +2.8 pts (p = 0.29) |
+
+(The override comparison is −0.14 pts on phase 2 and −0.11 pts on all TEST, which round to the −0.2 / −0.1
+quoted in the summary as differences of the rounded accuracies.)
+
+## 3. The guardrail's precondition: generator coverage
+
+From step 3.3 (`results/3_3_coverage.json`), clean DEV gold negations, with no TEST read: the best mpnet
+cosine between the real negation B and any generated negation of A.
+
+| gold negations | n | best sim ≥ 0.9 | ≥ 0.8 | ≥ 0.7 | no variant at all |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| all | 1,501 | **53.5%** | 77.3% | 86.8% | 104 (6.9%) |
+| verbal | 580 | 66.2% | 82.1% | 86.4% | |
+| antonym | 208 | 54.3% | 61.5% | 69.7% | |
+| other (lexical) | 713 | 42.9% | 78.0% | 92.2% | |
+
+The margin's AUC on clean DEV is 0.776 with cosine and 0.545 with Jaccard. The margin is positive for
+74% of negations, and also for 14% of paraphrases and 81% of random pairs.
+
+**In plain language:** the generator writes something close to the real negation about half the
+time, and the margin separates negations from paraphrases only moderately (AUC 0.78, against the
+combiner's 0.98). The precondition was met just well enough to test the guardrail, and it predicted the
+result: a much weaker second opinion, used as a veto, removes more right answers than wrong ones (step
+3.4: 265 of 315 downgrades were real negations). The families the generator covers worst are I_intensified,
+B_quantifier, C_neg_adverb, A_syntactic and G_prepositional (24–28% at ≥ 0.9). The best is Phase 1's
+N_affirmation (71%), followed by L_scope_position (59%, n = 17) and E_antonym (44%).
+
+## 4. NLI models standalone and their disagreement
+
+From steps 2.2–2.3 (`results/2_2_standalone.json`, `2_3_disagreement.json`). Each model has its own
+clean-DEV Youden threshold, with no other features.
+
+| model | size | ms / pair | phase-2 acc (95% CI) | all-TEST | xNot360 (n = 360) | AUC | F1 | xNot360 not_neg FPR | antonym recall (n = 95) | K1 FPR (n = 91) | VAL |
+| --- | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| deberta-v3-base (reference) | 184M | 45.2 | 82.8% (80.9–84.6) | 81.8% | 77.8% | 0.840 | 83.7% | 40.0% | 88.4% | 4.4% | 86.0% |
+| roberta-base | 125M | 36.1 | 81.1% (79.1–83.1) | 81.3% | 81.9% | 0.843 | 83.4% | 35.0% | 84.2% | 7.7% | 84.7% |
+| distilroberta-base | 82M | 18.5 | 78.1% (75.9–80.1) | 74.0% | 58.1% | 0.796 | 77.7% | 82.2% | 80.0% | 19.8% | 81.0% |
+| **DeBERTa-v3-base mnli-fever-anli** | 184M | 48.0 | **84.8% (82.9–86.6)** | **85.2%** | **86.7%** | **0.894** | **86.1%** | **22.2%** | 85.3% | 1.1% | **88.8%** |
+| bart-large-mnli | 407M | 145.7 | 82.9% (81.1–84.8) | 81.8% | 77.2% | 0.863 | 83.8% | 45.0% | 89.5% | 6.6% | 85.7% |
+
+Disagreement on TEST (share of pairs with different decisions):
+
+| | deberta | roberta | distil | DeBERTa-anli | bart |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| deberta | — | 6.6% | 14.1% | 8.4% | 7.0% |
+| roberta | 6.6% | — | 11.3% | 10.4% | 7.2% |
+| distil | 14.1% | 11.3% | — | 17.2% | 13.9% |
+| DeBERTa-anli | 8.4% | 10.4% | 17.2% | — | 8.9% |
+| bart | 7.0% | 7.2% | 13.9% | 8.9% | — |
+
+Mean pairwise correlation of P(contradiction): 0.84. No pair agrees on more than 95%.
+
+- **Kept** for the ensemble experiments: all five ("all"), and four without distilroberta ("pruned", by
+  the DEV / VALIDATION rule).
+- **Dropped** from the adopted system: all four extra models, because 2.5 carried the 17-feature model
+  forward.
+- **Not tried:** the two larger adversarial-NLI models (download bandwidth, step 2.1).
+
+## 5. Affirmation inventory (Phase 1)
+
+From steps 1.2–1.3. The generator already existed; this phase fixed five defects in it and added the
+`N_affirmation` layer (step 1.1). On 960 negative clean-DEV sentences: **659 (68.6%) get an affirmation;
+the spot-check finds 25 of 30 correct** (machine-judged; failures are 3 negative-polarity items, 1 idiom,
+1 *manage* with an inanimate passive).
+
+| cue type | count | produced | spot-check |
+| --- | ---: | ---: | ---: |
+| be + not (copula) | 238 | 200 (84%) | 9 / 10 |
+| affixal prefix | 171 | 90 (53%) | 3 / 3 |
+| implicit (refuse / deny / fail / lack / unable …) | 112 | 93 (83%) | 4 / 5 |
+| negative quantifier | 97 | 72 (74%) | 2 / 2 |
+| *not*, other position | 58 | 1 (2%) | — |
+| be + not (aux / passive / progressive) | 47 | 38 (81%) | 1 / 2 |
+| did / do / does not V | 39 / 37 / 26 | 32 / 24 / 24 | 0 / 1, —, 3 / 3 |
+| never | 33 | 24 (73%) | 3 / 3 |
+| has not (perfect) / other modal + not / can't | 23 / 22 / 18 | 15 / 16 / 12 | — |
+| without / will not / rarely… / -less / other | 12 / 10 / 9 / 4 / 4 | 0 / 9 / 6 / 2 / 1 | 0 / 1 for *will not*, else — |
+
+**Failure buckets** (301 sentences):
+
+| bucket | count |
+| --- | ---: |
+| every cue outside the main clause | 214 |
+| affixal in term position or unattested | 38 |
+| *not* with no auxiliary | 21 |
+| uncovered parse shape | 13 |
+| *without* | 9 |
+| implicit with no complement | 5 |
+| quantifier form | 1 |
+
+**Exception blocklist:** *invaluable, inflammable, disgruntled* (the brief), plus *disorder, immeasurably,
+disarmament, disappearance, impersonal* (clean-DEV scan). Litotes: 38 sentences, tagged approximate.
+Round trip: 97.8% of 4,880 affirmed negations recover S exactly, 99.3% within one word.
+
+## 6. Paragraph case study (Phase 4) — **machine-authored items only**
+
+28 teacher / student paragraph pairs (93 teacher sentences, 91 student sentences), **written by the
+model for this report**. Human subset: **0 items** (the stub awaits people). Optimal assignment, cosine
+cells, τ = 0.661 fit on clean DEV.
+
+| | n | result |
+| --- | ---: | --- |
+| teacher-sentence verdict accuracy | 93 | **88.2%** (covered 66 / 72, contradicted 6 / 11, missing 10 / 10) |
+| all units (teacher + student sentences) | 184 | 90.8% |
+| contradictions caught / false alarms | 11 gold | **6 / 2** |
+| extra student sentences found / false extras | 8 gold | 8 / 6 |
+| cancellation forms wrongly flagged | 4 items | **0** |
+| contradiction count exactly right | 28 paragraphs | 21 |
+| *side by side (not selected):* NLI alone as the verdict | 93 | 92.5%; contradictions 9 / 11, 1 false alarm |
+
+Optimal and greedy assignment differ on 2 items (4 sentences), and optimal is 1 sentence better. The 7
+paragraphs with a contradiction error are quoted in full in step 4.5. In all 7, NLI alone was right and
+the combiner wrong.
+
+## 7. Domain case study (Phase 5) — **machine-generated answers; never merged into a headline**
+
+500 real definitions (Wikipedia lead sentences: OS 167, CN 167, DBMS 166). **The student answers are
+machine-generated** by our generator and templates, so these numbers measure the detector against our own
+generator's distribution, not against real student writing. This is the confound `Report_NLI2.md` step
+1.1 removed from the headline.
+
+| subset | n | accuracy | precision | recall |
+| --- | ---: | ---: | ---: | ---: |
+| machine, the brief's five categories | 2,337 | 93.3% | 76.2% | 95.6% |
+| machine, + antonym negation (noisy labels) | 2,645 | 94.0% | 84.5% | 97.1% |
+| machine by subject: OS / DBMS / CN | 896 / 848 / 901 | 94.6% / 94.3% / 93.0% | | |
+| **model-written placeholder "human" subset** | 50 | 92.0% | 100% | **60% (n = 10)** |
+
+By category (machine; 5 categories):
+
+| category | n | accuracy |
+| --- | ---: | ---: |
+| paraphrase | 484 | 82.9% |
+| negation | 458 | 95.6% |
+| partial | 411 | 99.3% |
+| wrong-but-related | 484 | 100% |
+| cancellation | 500 | 89.8% |
+
+The machine false alarms come almost entirely from two of our templates: *"Put simply, …"* (70 of the
+83 paraphrase errors) and *"It is not untrue that …"* (51). **The gap is the finding.** Recall is 95.6% on
+generator negations (minimal edits) and 60% on written ones (rewordings; 95% CI roughly 31–83%).
+
+## 8. Error analysis (adopted configuration, TEST)
+
+`results/final_f1.json` → `errors`. **63 false positives and 45 false negatives.** 20 of each were sampled at
+random (seed 0). Bucket rule: `experiments/nli2/final.py:bucket`, unchanged from `Report_NLI2.md`, assigned
+by source, type and features, not by hand. Counts over all errors are given too.
+
+**False positives:**
+
+| bucket | sample of 20 | all 63 | example (A / B) |
+| --- | ---: | ---: | --- |
+| xNot360 both sides conditional: inverse / antecedent flip read as negation | **15** | **44** | *If you follow traffic signals, you will avoid accidents.* / *If you do not follow traffic signals, you will avoid accidents.* |
+| xNot360 non-conditional legal / policy pair | 3 | 8 | *Being punctual at work leads to a good reputation* / *Not being punctual at work leads to a good reputation* |
+| topically related, different claim (STS-low / SNLI neutral) | 2 | 5 | *A man is cycling.* / *A man is talking.* |
+| CANNOT paraphrase with a content change | 0 | 6 | — |
+
+**False negatives:**
+
+| bucket | sample of 20 | all 45 | example (A / B) |
+| --- | ---: | ---: | --- |
+| xNot360 non-conditional legal / policy pair | 6 | 10 | *Studying hard will result in good grades* / *Studying hard but not getting good grades* |
+| xNot360 conditional restated as a fact (P and not Q) | 5 | **13** | *If an author doesn't deliver their manuscript by the deadline, they may lose their advance payment.* / *An author misses their manuscript deadline but doesn't lose their advance payment.* |
+| antonym negation missed | 4 | 7 | *I could be an evil son.* / *I could be a good son.* |
+| cue on both sides / double negation | 2 | 4 | *The ripped banana wasn't not only ripped, …* / *… was not only ripped, …* (an override fire) |
+| lexical substitution, no cue on either side | 2 | 8 | *The handset just has a transmitter integrated circuit …* / *The handset contains a keypad and a transmitter …* |
+| verbal negation missed (single cue) | 1 | 2 | *Acetaldehyde is less toxic … and is not responsible …* / *… more toxic … is responsible …* (an override fire) |
+| xNot360 conditional negation missed | 0 | 1 | — |
+
+**The biggest bucket is unchanged from `Report_NLI2.md`: conditional inverses in xNot360**, 44 of the 63 false
+positives (70%). Nothing adopted in this round touches them. The 0.2 fix changed detection, not the
+decision, and the conditional features still have no training data. **What would fix it:** conditional
+pairs in the combiner's training data, or `Report_NLI2.md`'s post-hoc variant B (an inverse is not a
+negation), confirmed on a conditional set that is not TEST. The guardrail also fixes this slice (66.4% →
+94.0%, n = 134), but at a cost of 16 pts on CANNOT. The FN side is dominated by xNot360 restatements (23 of
+45), which are surface rewordings, the same weakness Phases 4–5 found.
+
+## 9. Approaches considered
+
+Every design choice, what was tried, the numbers, what was selected, and the rule that selected it.
+VAL = VALIDATION accuracy.
+
+| phase / choice | approaches tried (key numbers) | selected | rule |
+| --- | --- | --- | --- |
+| 0.1 override | GBM alone (K1 FPR 9.9%, VAL 97.8%) vs override in front (2.2%, 97.8%) | override | brief mandates it; kept unless VAL drops |
+| 1.1 inflection | hand rules (type acc 90.7%), lemminflect (97.8%), pyinflect (96.5%; token acc 98.4% but *work → wrought*) | lemminflect | type accuracy on clean-DEV verbs (**revised after the first DEV run**; first rule picked pyinflect) |
+| 1.1 antonyms for affirmation | WordNet (affixal) + curated lexicon (implicit) | both, by cue type | WordNet antonyms of implicit verbs break the complement's syntax |
+| 1.1 one vs all affirmations | all, tagged primary / approximate / polarity_flip | all | callers choose; Phase 3 uses only polarity flips |
+| 2 model set | all 5 vs pruned 4 (DEV / VAL rule) | both evaluated | stated pruning rule |
+| 2 ensembling | (a) mean 84.7% VAL, (a') median 86.4%, (c) calibrated mean 84.5%, (d) logistic stacker 88.7%, (b) GBM + probs 98.5% / 98.2%, (e) GBM 17 averaged 97.7% / 98.0% | VAL: (b) 5 models; **carried forward: Phase 0** | VAL, then the brief's 2.5 rule (OOF − TEST > 2 pts) |
+| 3 similarity × aggregation × δ fit | cos / Jaccard / mix × max / top-3 × all-DEV / called-pairs (VAL 67.4–89.3%); margin as feature (97.3%) | no guardrail (97.8%) | VAL, tie clean DEV |
+| 4 assignment | greedy (87.1%) vs optimal (88.2%) | optimal | fixed in advance (no paragraph DEV) |
+| 4 cells | cosine (88.2%), Jaccard (22.6%), mix (53.8%) | cosine | fixed in advance |
+| 4 threshold | before vs after assignment (identical) | before | fixed in advance |
+| 4 verdict | adopted detector (88.2%) vs NLI alone (92.5%) | adopted detector, NLI reported side by side | no held-out paragraph data to select on |
+| 5 extra category | antonym negation (E_antonym), reported separately | added | realistic failure mode the five miss |
+| 6 framework | Streamlit (default) | Streamlit | no concrete reason to switch |
+
+**Departures from the brief:**
+
+| the brief said | what I did | evidence |
+| --- | --- | --- |
+| "the generator cannot … produce its positive form"; build it | built `N_affirmation` on the existing 634-line `affirm.py`, fixing five defects (one was the brief's own warning 1, *never → always*, live in the code) | step 1.1 probe table |
+| the disagreement matrix on TEST, and choose models on it | reported on TEST; pruning decided on clean DEV / VAL | choosing on TEST disagreement is selection on TEST |
+| select by VAL | VAL selected ensemble (b); the brief's own 2.5 rule then carried the 17-feature model forward | OOF DEV − TEST = 4.3 pts; all TEST −1.25 pts (p = 0.012) |
+| implicit lexicon *fail → succeed* | *fail → manage* | *succeeds to X* is ungrammatical |
+| measure latency | first measurement 10.5 s/pair; fixed to 1.1 s | step 6.1 |
+| use the generator for the cancellation category | generator for 11 of 500; template for 489 | K1 needs a predicative adjective, which definitions lack |
+
+**Considered and not tried:**
+
+- the two larger ANLI-trained models (3.2 GB of downloads, ~1.5 h on this link);
+- `deberta-v3-small` (bart was within budget, so no substitute was needed);
+- NLI-based similarity for the guardrail (~18 NLI calls per pair);
+- weighting guardrail variants by family or by the `approximate` flag (only 2 bases carry an approximate
+  variant);
+- many-to-one paragraph matching (no gold case in the data);
+- an NPI table for the affirmer (found in the spot-check, not added, so the 25 / 30 stays honest);
+- retraining the combiner with conditional or reworded data (out of this brief's scope, and the top next
+  step).
+
+## 10. What did not work
+
+- **The NLI ensemble, as adopted by VALIDATION.** +0.9 pts on phase 2 (p = 0.018), at a cost of −9.4 pts on
+  xNot360 (p = 0.0001) and −1.25 pts on all TEST (p = 0.012). Three of the four extra models earn below 0.007
+  importance, so most of the extra 200 ms per pair buys nothing.
+- **Swapping the best standalone NLI model into the combiner** (post-hoc). xNot360 collapses 78.9% → 57.2%
+  (−21.7 pts), so a better NLI model made the combiner worse out of distribution.
+- **Ensembling NLI scores without the other features.** Mean, median, calibrated mean and logistic stacker
+  reach 82–85% on phase 2, 12.6–15.1 pts below the baseline (p = 0.0001 each).
+- **Calibration.** Platt scaling before averaging moved VAL by −0.2 pts (84.7% → 84.5%). Youden's threshold
+  is invariant to monotone rescaling, so calibration only matters through the averaging, and there it did
+  nothing.
+- **The guardrail as a veto, every variant.** The brief's default costs 16.1 pts on phase 2 and 30 pts of
+  recall. The best variant still costs 8.4 pts. 84% of the default's downgrades were real negations.
+- **Jaccard similarity** for the guardrail (margin AUC 0.545) and for paragraph cells (22.6% verdict
+  accuracy, because τ is fit on near-copy DEV pairs).
+- **The cancellation override catching everything.** K1 FPR is 2.2%, not the 1.1% the brief expected (2 of
+  91 K1 pairs are not shapes the veto knows). It costs 3 real TEST negations.
+- **The combiner on reworded negations** (Phases 4–5). 6 of 11 paragraph contradictions, and 6 of 10
+  written definition negations.
+- **Generator coverage of definitions.** K1 cancellation could be built for 11 of 500 definitions, and
+  antonym negation for 308, with noisy labels.
+
+## 11. Caveats
+
+1. **TEST reads.** This round logged 8 TEST reads (`experiments/f1/results/test_reads.json`: steps 0.1, 0.3,
+   2.2, 2.3, 2.4, 2.5, 3.4, final), on top of the 14 in `Report_NLI2.md` and the earlier experiments.
+   Two further runs computed TEST predictions without metrics: a step-2.4 dry run of the code on DEV /
+   VAL, and an unlogged first 2.5 run before the post-hoc row was added. **No parameter, threshold or
+   model was fit on TEST.** One decision used TEST: the brief's pre-stated 2.5 rule, which replaced the
+   VALIDATION pick with the 17-feature model (step 2.5). It is a TEST-informed choice, recorded as such.
+2. **p-values are not corrected for multiple comparisons.** About 30 configurations are compared. Read
+   p = 0.012–0.05 as suggestive.
+3. **Machine-generated or machine-written evaluation data:**
+   - K1 (n = 91), generator output;
+   - the paragraph set (28 items, model-written, with model-written gold);
+   - the domain answers (2,645, generator / templates);
+   - the 50-item "human" subset, which is model-written (a placeholder);
+   - the affirmation spot-check verdicts (model-judged).
+4. **Slices under 50 carrying a claim:**
+   - paragraph tags (3–33 teacher sentences each), with contradictions n = 11;
+   - the human-subset negation recall (n = 10);
+   - SemAntoNeg (27 TEST / 41 phase 2);
+   - B_quantifier and D_affixal round trips (38, 28);
+   - L_scope_position and K2 coverage (17, 45);
+   - the xNot360 conditional slice (n = 134) is above 50.
+5. **The ensemble choice and the guardrail choice could not see xNot360.** VALIDATION is CANNOT-only, so a
+   rule that selects by VALIDATION is blind to the out-of-distribution failure that decided Phase 2.
+6. **The paragraph τ and the domain labels are fit or built on different distributions.** τ comes from
+   clean DEV (near-copies), and is too strict for rewording under Jaccard. Domain labels follow from the
+   category and were never checked.
+7. **Template artefacts drive the domain case study's errors:** *Put simply* (70 of 83 paraphrase
+   errors) and *It is not untrue that* (51 cancellation errors).
+8. **Cached analyses.** clean DEV / VALIDATION / TEST polarity analyses come from nli2's cache, keyed by the
+   DEV sha256. They predate this round's blocklist and blacklist fixes, which change cue counts for a
+   handful of sentences (*disorder* …). New sentences (paragraphs, definitions) use the current code.
+9. **Rerunning nli2's Phase 3 / 4 scripts after commit `baf01c1`** uses the fixed conditional detector and
+   gives slightly different conditional features. `Report_NLI2.md` reproduces at its own commits.
+10. **One seed (0).** Bootstrap CIs resample pairs. They do not capture seed, fold or template variation.
+11. **Hardware and network.** CPU-only (Ryzen 7 7730U). Model downloads ran at ~65 KB/s per connection,
+    which ruled out the larger models. The MoritzLaurer checkpoint is fp16 and was run in fp32. Its first,
+    fp16 scores were discarded and recomputed.
+12. **Wikipedia text** is CC BY-SA 4.0, attributed per row (URL + revision id). 50 of 500 definitions mention a
+    vendor or product.
+13. **Not tried:** see section 9.
+
+## 12. Reproduction
+
+Seed 0 everywhere. Python 3.14, torch 2.14.0+cpu, transformers 5.17.0, scikit-learn 1.9.1, scipy 1.18.1,
+spaCy 3.8.16 (`en_core_web_sm` 3.8.0), lemminflect 0.2.3, streamlit 1.65.0, playwright (system Chromium for
+screenshots). Prerequisites as in `Report_NLI2.md` §9 (clean DEV rebuilt and checked by sha256, the
+nli2 / polarity / composite caches).
+
+| model | hub id | revision |
+| --- | --- | --- |
+| NLI reference | `cross-encoder/nli-deberta-v3-base` | `6c749ce3425cd33b46d187e45b92bbf96ee12ec7` |
+| NLI | `cross-encoder/nli-roberta-base` | `1be0567456f0543475805e758725f151f283705a` |
+| NLI | `cross-encoder/nli-distilroberta-base` | `b14d131f9d32668a5e6a982729b57ff6ed5dfcbd` |
+| NLI | `MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli` | `6f5cf0a2b59cabb106aca4c287eed12e357e90eb` (fp16 checkpoint, run in fp32) |
+| NLI | `facebook/bart-large-mnli` | `d7645e127eaf1aefc7862fd59a17a5aa8558b8ce` |
+| embeddings | `sentence-transformers/all-mpnet-base-v2` | `e8c3b32edf5434bc2275fc9bab85f82640a19130` |
+
+Weight files for the four new NLI models are verified against the hub's LFS sha256
+(`experiments/f1/cache/models/<key>/manifest.json`).
+
+| step | commit | command (`./venv/bin/python …`) |
+| --- | --- | --- |
+| 0.1 | `bffcde1` | `experiments/f1/phase0.py --step 0.1` |
+| 0.2 | `baf01c1` | `-m pytest experiments/nli2 -q && experiments/f1/phase0.py --step 0.2` |
+| 0.3 | `31b42d7` | `experiments/f1/phase0.py --step 0.3` |
+| 1.1 | `3fec9d0` | `-m pytest tests -q && experiments/f1/inflection_bench.py` |
+| 1.2 | `16d4f9c` | `experiments/f1/phase1.py --step 1.2` |
+| 1.3 | `b719a75` | `experiments/f1/phase1.py --step 1.3` |
+| 2.1 | `567c7c5` | `experiments/f1/fetch_models.py …; experiments/f1/nli_models.py --score …; --time …` |
+| 2.2 | `1cd5714` | `experiments/f1/ensemble.py --step 2.2` |
+| 2.3 | `83cd988` | `experiments/f1/ensemble.py --step 2.3` |
+| 2.4 | `a5fbf4b` | `experiments/f1/ensemble.py --step 2.4` |
+| 2.5 | `1e6eb90` | `experiments/f1/ensemble.py --step 2.5` |
+| 3.1–3.2 | `a4ab7f3` | `experiments/f1/variants.py; -m pytest experiments/f1 -q` |
+| 3.3 | `b5eff0f` | `experiments/f1/guardrail.py --step 3.3` |
+| 3.4 | `3a59383` | `experiments/f1/guardrail.py --step 3.4` |
+| 3.5 | `95fa46f` | (decision; writes `results/final_config.json`) |
+| 4.1 | `6904277` | `experiments/f1/make_paragraphs.py` |
+| 4.2 | `83cc866` | `experiments/f1/paragraphs.py --step 4.2` |
+| 4.3–4.4 | `a81f6c3` | (definitions) |
+| 4.5 | `8d9acf6` | `experiments/f1/paragraphs.py --step 4.5` |
+| 5.1 | `7e1912c` | `experiments/f1/fetch_definitions.py` |
+| 5.2 | `692bdb4` | `experiments/f1/make_student_answers.py` |
+| 5.3–5.4 | `647644f`, `8eafe2e` | `experiments/f1/domain.py` |
+| 6.1 | `de1375a` | `experiments/f1/dashboard_latency.py`; `./venv/bin/streamlit run dashboard/app.py` |
+| 6.2–6.6 | `f07e786`, `d9a7d4c` | `experiments/f1/final_f1.py` (results tab); screenshots via `?view=` URLs |
+| summary | this commit | `experiments/f1/final_f1.py` |
+
+## 13. Next steps, ranked by what this round found
+
+1. **Train the combiner on rewording.** It is the biggest risk for the AES use case and the cheapest to test.
+   Phases 4 and 5 show the combiner overruling a correct NLI judgement whenever the student rewords.
+   Add natural reworded negations and paraphrases (for example from paragraph-style or MNLI
+   contradiction pairs with low overlap) to the training data, or give NLI the final say when
+   `token_overlap` is low. Measure on a held-out, human-written paragraph set.
+2. **Get human-written evaluation data.** The paragraph human subset is empty and the definition one is a
+   placeholder. Every Phase 4–5 number is machine-on-machine. 30 real teacher / student paragraph pairs
+   would replace a guess with a measurement.
+3. **Add an out-of-distribution validation slice.** VALIDATION is CANNOT-only, and that is why it picked an
+   ensemble that is worse on xNot360. Split a conditional / policy set into validation and test, and select
+   on both. This also lets `Report_NLI2.md`'s inverse rule be confirmed off TEST.
+4. **Conditional training data for the combiner.** Inverses are still 70% of false positives. The features
+   exist; the data does not.
+5. **Revisit the ensemble with an OOD-aware rule.** The pruned 4-model GBM looked better on TEST (+0.7 pts all
+   TEST), but that cannot be acted on until step 3 exists.
+6. **Small fixes found on the way:**
+   - an NPI table for the affirmer (*any → some*, *until*);
+   - extending affirmation to coordinated main clauses (214 of 301 failures);
+   - the *not untrue that* cancellation shape for the override;
+   - a/an agreement and name-protection in E_antonym (*Start-and-wait*, *an closed*).
+7. **Drop the guardrail as a veto.** If kept at all, keep the margin as a feature (+5.3 pts antonym recall,
+   n = 95, VAL −0.5 pts), or score S against N with NLI instead of embeddings.
+
 ## 14. Step log
 
 ### 0.1 Cancellation veto as a hard override in front of the GBM
@@ -589,7 +1024,7 @@ recorded as such in the caveats. Without it, the adopted system would be 1.25 pt
 **Feature importances: the ensemble is really one model swap.** In (b), one feature dominates: the
 DeBERTa-anli model's P(contradiction), at importance **0.618**. The reference model's
 P(contradiction) drops from 0.537 to 0.013. Every roberta-base, distilroberta and bart-large
-probability is at or below 0.006. So **three of the four added models earn near-zero importance and do
+probability is below 0.007 (the largest, roberta-base P(contradiction), is 0.0062). So **three of the four added models earn near-zero importance and do
 not pay for their cost**: an extra ~200 ms per pair, of which bart alone is 146 ms. In (e), averaging
 keeps P(contradiction) on top (0.569). Top 6 features of (b), 5 models:
 
