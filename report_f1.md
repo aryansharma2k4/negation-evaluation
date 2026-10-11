@@ -778,3 +778,21 @@ often than ones it got wrong. Three causes:
 ```sh
 ./venv/bin/python experiments/f1/guardrail.py --step 3.4
 ```
+
+### 3.5 Guardrail: rejected
+
+**Rule, stated in `guardrail.py` before the 3.4 run:** highest VALIDATION accuracy among "no guardrail" and
+every variant, with clean DEV as the tie-break. **No guardrail** wins at 97.8%. The best alternative is the margin as a
+combiner feature (97.3%), and the best veto reaches 89.3%. The guardrail is **not adopted**.
+
+The adopted configuration for Phases 4–6 is the Phase 0 model with no guardrail. It is recorded in
+`experiments/f1/results/final_config.json` and read by `experiments/f1/detector.py` and the dashboard.
+The generated negations stay visible in the dashboard as an explanation aid. There they are not a
+decision stage.
+
+What would make the idea work, from 3.3 / 3.4:
+
+- use the margin as one more feature rather than a veto (already near-neutral, and it lifts antonym recall);
+- or score S against N with the NLI model instead of an embedding, so the comparison can see negation.
+
+The second costs about 18 NLI calls per pair at the median and was not run (see "approaches considered").

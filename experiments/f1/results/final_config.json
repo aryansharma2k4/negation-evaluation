@@ -1,0 +1,7 @@
+{
+ "nli_keys": ["deberta_base"],
+ "method": "phase0",
+ "guardrail": null,
+ "phase2_selection": "Phase 0 baseline (VALIDATION picked the 5-model GBM ensemble; the brief's 2.5 overfitting rule carried the 17-feature model forward)",
+ "guardrail_note": "Phase 3 kept 'no guardrail' by the VALIDATION rule (step 3.5); every veto variant lost recall"
+}
