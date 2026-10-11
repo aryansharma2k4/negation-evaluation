@@ -731,3 +731,66 @@ Tests (`tests/test_affirmation.py`, 7 new, suite 423 pass), one per shape:
 - the headline case (*Delhi is not the capital of India* → *Delhi is the capital of India*);
 - the headline shape in a coordinated clause (*… but it is not the capital of India* → *… but it is the
   capital of India*), which is step 4.3.
+
+### 4.2 Affirmation coverage, before and after
+
+Measured on the 960 negative clean-DEV sentences (odd cue parity) of `report_f1.md` step 1.2 →
+`experiments/f2/results/4_2_affirmation_coverage.json`. "Old" is `affirm_doc(doc, extended=False)`, which
+reproduces `report_f1.md` exactly.
+
+| | old (main clause only) | **new** |
+| --- | ---: | ---: |
+| sentences with at least one affirmation | 659 (68.6%) | **738 (76.9%)** |
+| … with at least one `polarity_flip` affirmation (a negation of the sentence) | 659 | **696 (72.5%)** |
+| sentences with none | 301 | 222 |
+| affirmation outputs by clause | main 755 | main 755, coordinated 44, ccomp 27, advcl 19 |
+
+Failure buckets:
+
+| bucket | old | new |
+| --- | ---: | ---: |
+| every cue outside the main clause (relative / subordinate / coordinated) | **214** | — |
+| every cue in a relative clause or attached to a noun phrase | — | **93** |
+| affixal: attributive / term position or no attested stem | 38 | 45 |
+| syntactic negator in a parse shape the removal rules do not cover | 13 | 33 |
+| *not* with no auxiliary (not + NP / adverb / fronted) | 21 | 30 |
+| *without* (G_prepositional): no rule | 9 | 13 |
+| implicit trigger with no complement | 5 | 7 |
+| negative quantifier form | 1 | 1 |
+
+**79 more sentences get an affirmation** (+8.2 pts), 37 of them a true polarity flip. The other 42 are
+adverbial or complement flips, tagged as such. The "outside the main clause" bucket shrinks from 214 to 93. What
+remains is relative clauses (excluded on purpose) and *not* attached to a noun phrase (*… but not
+kennels*), which has no clause to affirm. The other buckets *grow*, because 121 sentences now reach a
+generator that fails on their shape. Those failures were hidden before by the scope check.
+
+**Spot-check: 29 of 30 correct.** Thirty sentences that gained an affirmation under the new scope were
+sampled at random (seed 0). Verdicts are in the JSON, judged against four criteria:
+
+1. grammatical;
+2. the cue removed is in the stated clause, and nothing else changed;
+3. coordinated → conjunct affirmed; advcl / ccomp → subordinate claim flipped;
+4. the tags are right.
+
+**The verdicts were written by the model that wrote the code.** The one failure: *I'm not sure how long we
+stood there* → *I'm sure how long …*, which is ill-formed, because *not sure* plus an indirect question has no
+direct positive. One output is right but its clause tag is imprecise: "coordinated" for a cue in the main
+predicate's `xcomp`. Examples that work:
+
+- *The ink is white and cannot be photocopied* → *… and can be photocopied* (coordinated);
+- *If the church refused to pay, the photographers threatened …* → *If the church agreed to pay, …* (advcl,
+  correctly tagged not a negation of the sentence).
+
+**Round trip** (`affirm(negate(S))` on `report_f1.md`'s 4,982 pairs): unchanged, at 97.8% exact and 99.3%
+within one word. This is expected, because the generator's negations are main-clause edits.
+
+### 4.3 The headline case
+
+Two tests in `tests/test_affirmation.py` pin it:
+
+- `test_headline_case_still_works`: *Delhi is not the capital of India* → *Delhi is the capital of India*,
+  primary, main clause;
+- `test_headline_case_in_a_coordinated_clause`: *Mumbai is a large city, but it is not the capital of India* →
+  *… but it is the capital of India*.
+
+Both pass.

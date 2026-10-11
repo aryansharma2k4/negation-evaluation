@@ -1,0 +1,489 @@
+{
+  "negative_sentences": 960,
+  "old (main clause only)": {
+    "with_affirmation": 659,
+    "with_polarity_flip_affirmation": 659,
+    "without": 301,
+    "failure_buckets": {
+      "every cue is outside the main clause (relative / subordinate / coordinated clause)": 214,
+      "affixal: attributive / term position (step-0.1 rule) or no WordNet-attested stem": 38,
+      "not without an auxiliary to hang on (not + NP / adverb / infinitive)": 21,
+      "syntactic negator: parse shape the removal rules do not cover": 13,
+      "cue family G_prepositional: no affirmation rule": 9,
+      "implicit trigger: no complement to promote / not in the swap lexicon": 5,
+      "negative quantifier: no flip for this form or position": 1
+    },
+    "outputs_by_clause": {
+      "main": 755
+    }
+  },
+  "new (+ coordinated, advcl, ccomp)": {
+    "with_affirmation": 738,
+    "with_polarity_flip_affirmation": 696,
+    "without": 222,
+    "failure_buckets": {
+      "every cue is in a relative clause or attached to a noun phrase (not an affirmable clause)": 93,
+      "affixal: attributive / term position (step-0.1 rule) or no WordNet-attested stem": 45,
+      "syntactic negator: parse shape the removal rules do not cover": 33,
+      "not without an auxiliary to hang on (not + NP / adverb / infinitive)": 30,
+      "cue family G_prepositional: no affirmation rule": 13,
+      "implicit trigger: no complement to promote / not in the swap lexicon": 7,
+      "negative quantifier: no flip for this form or position": 1
+    },
+    "outputs_by_clause": {
+      "main": 755,
+      "coordinated": 44,
+      "ccomp": 27,
+      "advcl": 19
+    }
+  },
+  "gained_sentences": 79,
+  "spotcheck_sample": [
+    {
+      "input": "Affect should also be properly expressed so to make the recognition of affect impossible.",
+      "output": "Affect should also be properly expressed so to make the recognition of affect possible.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "The ink is white and cannot be photocopied or scanned.",
+      "output": "The ink is white and can be photocopied or scanned.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "Researchers agree that loud snoring is unable to create turbulence in carotid artery blood flow.",
+      "output": "Researchers agree that loud snoring creates turbulence in carotid artery blood flow.",
+      "clause": "ccomp",
+      "polarity_flip": false
+    },
+    {
+      "input": "The state government opposed the ruling and refused to oppose the law.",
+      "output": "The state government opposed the ruling and agreed to oppose the law.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "The process takes floor time even if the attempt is unsuccessful.",
+      "output": "The process takes floor time even if the attempt is successful.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "Land was excluded and could not be acquired.",
+      "output": "Land was excluded and could be acquired.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "The price is reasonable and the service isn't great.",
+      "output": "The price is reasonable and the service is great.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "Zelinsky proved that no three consecutive integers can all be refactorable.",
+      "output": "Zelinsky proved that some three consecutive integers can all be refactorable.",
+      "clause": "ccomp",
+      "polarity_flip": false
+    },
+    {
+      "input": "Gay black males are stuck in two different communities because they don't fit in.",
+      "output": "Gay black males are stuck in two different communities because they fit in.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "1/10 - and only because there is no setting for 0/10.",
+      "output": "1/10 - and only because there is some setting for 0/10.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "The sediment found and studied appears to be very inconsistent with the aforementioned tsunami.",
+      "output": "The sediment found and studied appears to be very consistent with the aforementioned tsunami.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "It was long enough for me to feel out of place, but I'm not sure how long we stood there.",
+      "output": "It was long enough for me to feel out of place, but I'm sure how long we stood there.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "Awkward and cruel, but incorrect.",
+      "output": "Awkward and cruel, but correct.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "Taurel became was never part of the board in January 1999.",
+      "output": "Taurel became was part of the board in January 1999.",
+      "clause": "ccomp",
+      "polarity_flip": false
+    },
+    {
+      "input": "Even if a filibuster attempt is unsuccessful, the process takes floor time.",
+      "output": "Even if a filibuster attempt is successful, the process takes floor time.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "As no archeological remains are discovered, it is widely assumed a hypothetical surviving species.",
+      "output": "As some archeological remains are discovered, it is widely assumed a hypothetical surviving species.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "Zelinsky only theorized that no three consecutive integers can all be refactorable.",
+      "output": "Zelinsky only theorized that some three consecutive integers can all be refactorable.",
+      "clause": "ccomp",
+      "polarity_flip": false
+    },
+    {
+      "input": "\"We had nothing to do with @Stake's internal personnel decision,\" Microsoft spokesman Sean Sundwell said.",
+      "output": "\"We had something to do with @Stake's internal personnel decision,\" Microsoft spokesman Sean Sundwell said.",
+      "clause": "ccomp",
+      "polarity_flip": false
+    },
+    {
+      "input": "I have watched their prices inflate, portions don't get smaller and management attitudes grow rapidly!",
+      "output": "I have watched their prices inflate, portions get smaller and management attitudes grow rapidly!",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "Since migration has not been observed,they are considered sedentary ;.",
+      "output": "Since migration has been observed,they are considered sedentary;.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "But Fibiger always used the formal scientific name, and instead never used Spiroptera carcinoma.",
+      "output": "But Fibiger always used the formal scientific name, and instead used Spiroptera carcinoma.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "There are two people running around a track in lane three and the one wearing a blue shirt with a green thing over the eyes is just barely ahead of the guy wearing an orange shirt and sunglasses.",
+      "output": "There are two people running around a track in lane three and the one wearing a blue shirt with a green thing over the eyes is just ahead of the guy wearing an orange shirt and sunglasses.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "\"Our fundamental values haven't changed,\" Mary Sue Coleman, president of the university, said in a statement in Ann Arbor.",
+      "output": "\"Our fundamental values have changed,\" Mary Sue Coleman, president of the university, said in a statement in Ann Arbor.",
+      "clause": "ccomp",
+      "polarity_flip": false
+    },
+    {
+      "input": "Sign language maybe, since there is no tone to convey meaning, emotion or intent.",
+      "output": "Sign language maybe, since there is some tone to convey meaning, emotion or intent.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "Insults, profound deuchebaggery, and didn't have to go outside for a smoke break while serving just to solidify it.",
+      "output": "Insults, profound deuchebaggery, and had to go outside for a smoke break while serving just to solidify it.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "The station house is warmed, while the platforms do not include passenger-activated heaters;.",
+      "output": "The station house is warmed, while the platforms include passenger-activated heaters;.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "(My mother and brother had to do this)When I saw Robert Ryan portraying this type of man, it was a very good imitation of this type of individual, and I wasn't impressed.",
+      "output": "(My mother and brother had to do this)When I saw Robert Ryan portraying this type of man, it was a very good imitation of this type of individual, and I was impressed.",
+      "clause": "coordinated",
+      "polarity_flip": true
+    },
+    {
+      "input": "The seaweed crab is podean as it is nonexistent in New Zealand and south-east Australia.",
+      "output": "The seaweed crab is podean as it is existent in New Zealand and south-east Australia.",
+      "clause": "advcl",
+      "polarity_flip": false
+    },
+    {
+      "input": "Proponents of E-democracy believe that governments cannot be more actively engaged than they are right now.",
+      "output": "Proponents of E-democracy believe that governments can be more actively engaged than they are right now.",
+      "clause": "ccomp",
+      "polarity_flip": false
+    },
+    {
+      "input": "If the church refused to pay, the photographers threatened to destroy all the photographs they possessed.",
+      "output": "If the church agreed to pay, the photographers threatened to destroy all the photographs they possessed.",
+      "clause": "advcl",
+      "polarity_flip": false
+    }
+  ],
+  "round_trip": {
+    "old": {
+      "pairs": 4982,
+      "affirmed": 4880,
+      "no_affirmation": 102,
+      "exact_rate": 0.9781,
+      "exact_or_one_word_rate": 0.9934
+    },
+    "new": {
+      "pairs": 4982,
+      "affirmed": 4882,
+      "no_affirmation": 100,
+      "exact_rate": 0.9781,
+      "exact_or_one_word_rate": 0.9934
+    }
+  },
+  "spotcheck_criteria": [
+    "1. grammatical, no leftover cue fragment",
+    "2. the removed cue is the one in the stated clause; nothing else changed",
+    "3. coordinated: the conjunct is affirmed; advcl / ccomp: the subordinate claim is flipped",
+    "4. clause and polarity_flip tags are right"
+  ],
+  "spotcheck_note": "verdicts written by the model that wrote the code; machine judgement of machine output",
+  "spotcheck_verdicts": [
+    {
+      "input": "Affect should also be properly expressed so to make the recognition of affect impossible.",
+      "output": "Affect should also be properly expressed so to make the recognition of affect possible.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "The ink is white and cannot be photocopied or scanned.",
+      "output": "The ink is white and can be photocopied or scanned.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Researchers agree that loud snoring is unable to create turbulence in carotid artery blood flow.",
+      "output": "Researchers agree that loud snoring creates turbulence in carotid artery blood flow.",
+      "clause": "ccomp",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "The state government opposed the ruling and refused to oppose the law.",
+      "output": "The state government opposed the ruling and agreed to oppose the law.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "The process takes floor time even if the attempt is unsuccessful.",
+      "output": "The process takes floor time even if the attempt is successful.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Land was excluded and could not be acquired.",
+      "output": "Land was excluded and could be acquired.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "The price is reasonable and the service isn't great.",
+      "output": "The price is reasonable and the service is great.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Zelinsky proved that no three consecutive integers can all be refactorable.",
+      "output": "Zelinsky proved that some three consecutive integers can all be refactorable.",
+      "clause": "ccomp",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Gay black males are stuck in two different communities because they don't fit in.",
+      "output": "Gay black males are stuck in two different communities because they fit in.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "1/10 - and only because there is no setting for 0/10.",
+      "output": "1/10 - and only because there is some setting for 0/10.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "faithful to an odd input"
+    },
+    {
+      "input": "The sediment found and studied appears to be very inconsistent with the aforementioned tsunami.",
+      "output": "The sediment found and studied appears to be very consistent with the aforementioned tsunami.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "output correct; clause tag 'coordinated' is imprecise (the cue sits in the main predicate's xcomp), polarity tag right"
+    },
+    {
+      "input": "It was long enough for me to feel out of place, but I'm not sure how long we stood there.",
+      "output": "It was long enough for me to feel out of place, but I'm sure how long we stood there.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": false,
+      "reason": "'I'm not sure how long we stood there' -> 'I'm sure how long ...': ill-formed; 'not sure' + indirect question has no direct positive"
+    },
+    {
+      "input": "Awkward and cruel, but incorrect.",
+      "output": "Awkward and cruel, but correct.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Taurel became was never part of the board in January 1999.",
+      "output": "Taurel became was part of the board in January 1999.",
+      "clause": "ccomp",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "faithful to an ill-formed input"
+    },
+    {
+      "input": "Even if a filibuster attempt is unsuccessful, the process takes floor time.",
+      "output": "Even if a filibuster attempt is successful, the process takes floor time.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "As no archeological remains are discovered, it is widely assumed a hypothetical surviving species.",
+      "output": "As some archeological remains are discovered, it is widely assumed a hypothetical surviving species.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Zelinsky only theorized that no three consecutive integers can all be refactorable.",
+      "output": "Zelinsky only theorized that some three consecutive integers can all be refactorable.",
+      "clause": "ccomp",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "\"We had nothing to do with @Stake's internal personnel decision,\" Microsoft spokesman Sean Sundwell said.",
+      "output": "\"We had something to do with @Stake's internal personnel decision,\" Microsoft spokesman Sean Sundwell said.",
+      "clause": "ccomp",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "I have watched their prices inflate, portions don't get smaller and management attitudes grow rapidly!",
+      "output": "I have watched their prices inflate, portions get smaller and management attitudes grow rapidly!",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Since migration has not been observed,they are considered sedentary ;.",
+      "output": "Since migration has been observed,they are considered sedentary;.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "But Fibiger always used the formal scientific name, and instead never used Spiroptera carcinoma.",
+      "output": "But Fibiger always used the formal scientific name, and instead used Spiroptera carcinoma.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "There are two people running around a track in lane three and the one wearing a blue shirt with a green thing over the eyes is just barely ahead of the guy wearing an orange shirt and sunglasses.",
+      "output": "There are two people running around a track in lane three and the one wearing a blue shirt with a green thing over the eyes is just ahead of the guy wearing an orange shirt and sunglasses.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "\"Our fundamental values haven't changed,\" Mary Sue Coleman, president of the university, said in a statement in Ann Arbor.",
+      "output": "\"Our fundamental values have changed,\" Mary Sue Coleman, president of the university, said in a statement in Ann Arbor.",
+      "clause": "ccomp",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Sign language maybe, since there is no tone to convey meaning, emotion or intent.",
+      "output": "Sign language maybe, since there is some tone to convey meaning, emotion or intent.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Insults, profound deuchebaggery, and didn't have to go outside for a smoke break while serving just to solidify it.",
+      "output": "Insults, profound deuchebaggery, and had to go outside for a smoke break while serving just to solidify it.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "The station house is warmed, while the platforms do not include passenger-activated heaters;.",
+      "output": "The station house is warmed, while the platforms include passenger-activated heaters;.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "(My mother and brother had to do this)When I saw Robert Ryan portraying this type of man, it was a very good imitation of this type of individual, and I wasn't impressed.",
+      "output": "(My mother and brother had to do this)When I saw Robert Ryan portraying this type of man, it was a very good imitation of this type of individual, and I was impressed.",
+      "clause": "coordinated",
+      "polarity_flip": true,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "The seaweed crab is podean as it is nonexistent in New Zealand and south-east Australia.",
+      "output": "The seaweed crab is podean as it is existent in New Zealand and south-east Australia.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "Proponents of E-democracy believe that governments cannot be more actively engaged than they are right now.",
+      "output": "Proponents of E-democracy believe that governments can be more actively engaged than they are right now.",
+      "clause": "ccomp",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    },
+    {
+      "input": "If the church refused to pay, the photographers threatened to destroy all the photographs they possessed.",
+      "output": "If the church agreed to pay, the photographers threatened to destroy all the photographs they possessed.",
+      "clause": "advcl",
+      "polarity_flip": false,
+      "correct": true,
+      "reason": "meets all four criteria"
+    }
+  ],
+  "spotcheck_correct": 29
+}
