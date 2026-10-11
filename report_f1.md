@@ -110,3 +110,25 @@ they say.
 ./venv/bin/python -m pytest experiments/nli2 -q
 ./venv/bin/python experiments/f1/phase0.py --step 0.2
 ```
+
+### 0.3 The Phase 0 baseline
+
+`experiments/f1/phase0.py --step 0.3` → `experiments/f1/results/0_3_baseline.json`. This is
+nli2's final GBM, retrained with the fixed conditional features (0.2), with the cancellation override
+(0.1) in front. **Every number in later phases is measured against this row.**
+
+| configuration | phase-2 acc (95% CI) | all-TEST acc | AUC | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | VAL acc |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **Phase 0 baseline** | **97.7% (96.9–98.5)** | **93.9%** | 0.978 | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | 97.8% |
+
+xNot360 accuracy: 78.9% (n = 360; 95% CI 74.7–83.3). SemAntoNeg FPR: 0.0% (n = 41). Out-of-fold clean-DEV
+accuracy: 96.6%. GBM: depth 3, lr 0.1, threshold 0.428 (Youden on out-of-fold predictions).
+
+It is identical to the 0.1 row at every digit. The model and threshold are bit-identical, and that is
+expected. The two clean-DEV pairs that 0.2 touched changed marker only (*if* → *even if* on both
+sides), so no training feature moved. The one VALIDATION pair whose features did change (*as if*) was
+classified the same either way.
+
+```sh
+./venv/bin/python experiments/f1/phase0.py --step 0.3
+```
