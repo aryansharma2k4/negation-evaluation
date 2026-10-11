@@ -526,3 +526,22 @@ recorded as a departure. Under it, A (6.8 / 7.7) would be rejected even if it pa
   `val_ood` 59.8% → 94.3%;
 - **costs:** xNot360 −1.9 pts (p = 0.37), all TEST −0.2 pts (p = 0.82), precision 93.0% → 90.7%, low-overlap
   non-negation FPR 0.5% → 5.6%, and four NLI models instead of one (step 2.4).
+
+### 2.4 Cost
+
+NLI inference per pair, isolated CPU timings from `report_f1.md` step 2.1 (8 threads, batch 16), summed per
+configuration:
+
+| configuration | NLI models | ms / pair (NLI only) |
+| --- | --- | ---: |
+| Phase 0 (+ override) | reference | 45.2 |
+| A | DeBERTa-anli | 48.0 |
+| B | reference + DeBERTa-anli | 93.2 |
+| **C (+ override), adopted** | reference, roberta-base, DeBERTa-anli, bart-large | **275.0** |
+
+**Dashboard latency with the adopted configuration** (`results/2_4_latency.json`; method of `report_f1.md`
+step 6.1: 20 unseen pairs, warm, every panel of tab 1, one pair at a time). The median is **1.25 s** (p90 1.40 s,
+max 1.46 s) against 1.12 s with the single model. That is **+0.13 s per pair, still under the 2 s target**.
+The added cost is smaller than the 230 ms of extra NLI time suggests, because a single interactive pair is
+not batched and the explanation panels dominate. Batch scoring of a whole TEST-sized set costs 6× the
+single-model NLI time.

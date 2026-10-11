@@ -1,0 +1,7 @@
+{
+  "pairs": 20,
+  "median_ms": 1251.1,
+  "p90_ms": 1403.0,
+  "max_ms": 1458.1,
+  "setup": "CPU (Ryzen 7 7730U), warm, one pair at a time, all panels of tab 1"
+}
