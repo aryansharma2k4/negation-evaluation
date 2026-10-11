@@ -1170,7 +1170,7 @@ By subject (all six categories): **OS 94.6% (n = 896), DBMS 94.3% (n = 848), CN 
 subjects hardly differ. CN is lowest because more of its template paraphrases (18.6%) and cancellations
 (15.0%) are flagged. Per category × subject is in the JSON; every cell is between n = 90 and n = 167.
 
-What the errors are (all 159 errors in the five categories are in the JSON):
+What the errors are (all 157 errors in the five categories are in the JSON):
 
 - **Paraphrase false positives come from one template.** *"Put simply, X is …"* accounts for 70 of the 83
   paraphrase errors; 41% of its 171 items are flagged. The other three templates are flagged 4–5% of the
@@ -1187,3 +1187,38 @@ What the errors are (all 159 errors in the five categories are in the JSON):
 ```sh
 ./venv/bin/python experiments/f1/domain.py
 ```
+
+### 5.4 The "human" subset: a **placeholder written by the model**, to be replaced
+
+`data/student_answers_human.jsonl`: 50 items, 10 definitions × 5 categories, same schema. The 10
+definitions were drawn at random (seed 0; 4 OS, 3 CN, 3 DBMS; ≤ 30 words), weak ones included. **These
+answers were written by me, the model, as carefully as I could, in a student's register. They are not
+human-written.** Each is labelled `authorship: placeholder`, and `data/README.md` asks Aryan, Clovis and
+Arush to replace them with their own writing. Results are reported separately from the machine set. **n
+= 50 in all and n = 10 per category; every number here is a small-sample case study.**
+
+| subset | n | accuracy | precision | negation recall (n = 10) | paraphrase FPR | partial FPR | wrong-related FPR | cancellation FPR |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| machine-generated (five categories) | 2,337 | 93.3% | 76.2% | 95.6% (n = 458) | 17.1% | 0.7% | 0.0% | 10.2% |
+| model-written placeholder | 50 | 92.0% | 100.0% | **60.0%** | 0.0% | 0.0% | 0.0% | 0.0% |
+
+**The gap in overall accuracy is small (machine − placeholder = +1.3 pts), and that number hides the
+finding.** The two subsets fail in opposite ways:
+
+- On the machine set, errors are false alarms on our own templates.
+- On the hand-written set there are **no false alarms** in 40 non-negations. The cancellation forms
+  (*not unable*, *not indistinct*, *not without*, *not unlike*, *not uncommon*, *not untrue*, *not incorrect*)
+  are all held, 6 of them by the override.
+- But **4 of the 10 real negations are missed** (recall 60% vs 95.6% on generator negations). All four are
+  short rewordings, not edits of the definition:
+  - *Region-based memory management does not assign allocated objects to regions.* (P = 0.17)
+  - *Single-instance storage keeps every copy of the content separately instead of sharing a single
+    copy.* (P = 0.11)
+  - *A memory-mapped file has no direct byte-for-byte correspondence with any part of a file.* (P = 0.39)
+  - *RIP does not use the hop count as its routing metric.* (P = 0.01)
+
+**That gap is the finding.** The generator's negations are minimal edits of the definition, which is
+what the combiner learned negation looks like, so it scores 95.6% on them. A writer who negates in their
+own words gets caught 6 times in 10. This is the same failure Phase 4 found in paragraphs, on independent
+items, and it is the strongest reason not to trust the machine-set recall as an estimate for students.
+With n = 10, the 60% has a wide uncertainty: a 95% Wilson interval of roughly 31–83%.
