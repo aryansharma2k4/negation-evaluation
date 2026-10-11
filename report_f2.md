@@ -313,3 +313,73 @@ All are implemented in `experiments/f2/override.py`, and all keep the cancellati
 | interaction feature | P_c × (1 − overlap) as an extra feature; retrained | clean DEV |
 | **drop the shortcut** | combiner retrained **without `token_overlap` and `len_diff`** (15 features) | clean DEV |
 | two-model routing | overlap < s → NLI alone at its clean-DEV threshold, else the combiner; s ∈ {0.3, …, 0.7} | clean DEV + `val_ood` fit half |
+
+### 1.3 Every variant, measured — the topic-floor override is adopted, with a precision cost
+
+`experiments/f2/override.py --step 1.3` → `results/1_3_override.json`. All TEST columns are human-written
+pairs except K1 (**machine-generated**, n = 91). "low-ov neg recall" is the 129 TEST negations with overlap
+< 0.6; "low-ov non-neg FPR" is the 396 TEST non-negations with overlap < 0.4. `val_ood` is the select half
+(n = 383; MNLI, so NLI-favoured; step 0.4).
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 0 baseline | 97.7% (96.9–98.5) | 93.9% | 78.9% | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | 75.2% | 0.5% | 97.8% | 59.8% |
+| rule (brief): ov < 0.5, P_c > 0.999 | 87.9% (86.1–89.5) | 86.0% | 78.9% | 80.2% | 95.7% | 87.3% | 1.9% | **52.0%** | 0.9% | **64.7%** | 32.2% | 93.7% | 2.2% | 80.6% | **35.9%** | 90.3% | 86.7% |
+| rule + cos ≥ 0.5 | 97.1% (96.2–98.0) | 92.9% | 76.4% | 89.7% | 96.9% | 93.2% | 2.3% | 10.2% | 0.9% | 0.0% | 42.8% | 94.7% | 2.2% | 89.1% | 6.8% | 97.0% | 94.3% |
+| **rule + cos ≥ 0.6 ← adopted** | 97.4% (96.4–98.1) | 93.1% | 76.4% | 90.2% | **96.7%** | 93.3% | 2.3% | 7.9% | 0.0% | 0.0% | 42.2% | 93.7% | 2.2% | **87.6%** | 5.6% | 97.8% | **94.3%** |
+| rule + cos ≥ 0.7 | 97.4% (96.5–98.2) | 93.2% | 76.7% | 90.6% | 96.4% | 93.4% | 2.3% | 6.3% | 0.0% | 0.0% | 40.6% | 92.6% | 2.2% | 85.3% | 4.5% | 97.8% | 78.3% |
+| soft: rule boolean + NLI margin as features | 97.6% (96.9–98.4) | 93.8% | 78.6% | 91.6% | 96.4% | 93.9% | 2.9% | 7.1% | 0.0% | 0.0% | 33.3% | 94.7% | 2.2% | 83.0% | 1.5% | 97.8% | 68.7% |
+| interaction: P_c × (1 − overlap) | 97.5% (96.6–98.3) | 93.6% | 78.6% | 92.0% | 95.6% | 93.8% | 3.3% | 5.5% | 0.0% | 0.8% | 30.6% | 94.7% | 2.2% | 78.3% | 1.0% | **98.0%** | 61.6% |
+| **drop the shortcut: no `token_overlap`, no `len_diff`** | 96.2% (95.2–97.2) | 91.8% | 74.4% | 88.6% | 95.9% | 92.1% | 2.6% | 7.9% | 0.0% | 0.0% | 50.6% | 91.6% | 2.2% | **94.6%** | 7.8% | 95.3% | 90.6% |
+| routing: ov < 0.5 → NLI alone | 85.4% (83.5–87.2) | 83.6% | 76.9% | 76.7% | 96.8% | 85.6% | 2.3% | 64.6% | 2.6% | 78.1% | 41.7% | 93.7% | 2.2% | 88.4% | **47.2%** | 88.8% | 94.3% |
+
+Paired permutation tests on TEST against the Phase 0 baseline (uncorrected):
+
+| configuration | phase 2 | all TEST | xNot360 |
+| --- | --- | --- | --- |
+| rule (brief) | −9.9 pts (p = 0.0001) | −7.8 pts (p = 0.0001) | 0.0 pts |
+| rule + cos ≥ 0.6 (adopted) | −0.4 pts (p = 0.12) | −0.8 pts (p = 0.055) | −2.5 pts (p = 0.19) |
+| soft feature | −0.1 pts (p = 1.0) | −0.1 pts (p = 0.84) | −0.3 pts (p = 1.0) |
+| interaction | −0.2 pts (p = 0.58) | −0.2 pts (p = 0.50) | −0.3 pts (p = 1.0) |
+| drop the shortcut | −1.5 pts (p = 0.0009) | −2.1 pts (p = 0.0006) | −4.4 pts (p = 0.051) |
+| routing | −12.4 pts (p = 0.0001) | −10.2 pts (p = 0.0001) | −1.9 pts (p = 0.33) |
+
+**Selection by the step-0.3 rule.** Passing are cos ≥ 0.6, cos ≥ 0.7, soft and interaction, because VALIDATION and
+`val_ood` are both non-decreasing. The largest summed gain is **cos ≥ 0.6**: VALIDATION 97.8% → 97.8%,
+`val_ood` 59.8% → 94.3%.
+
+**What the adopted override buys and costs, in one sentence:**
+
+- **buys:** recall on low-overlap TEST negations **75.2% → 87.6% (+12.4 pts, n = 129)**, and overall recall
+  94.9% → 96.7%;
+- **costs:** precision 93.0% → 90.2%, low-overlap non-negation FPR 0.5% → 5.6%, sts_low FPR 3.9% → 7.9%, xNot360
+  conditional-inverse FPR 28.9% → 42.2%, and all-TEST accuracy 93.9% → 93.1% (−0.8 pts, p = 0.055).
+
+The rule trades precision for recall, as the brief said it would. On TEST, which is mostly
+high-overlap CANNOT, the trade is net slightly negative. On the rewording slice it is strongly
+positive. **TEST accuracy did not decide this, and must not**; it is reported so the cost is visible.
+
+**The drop-the-shortcut row, prominently, as asked.** Removing `token_overlap` and `len_diff` gives **the
+highest low-overlap negation recall of any variant: 94.6%**, against 75.2% for the baseline and 87.6% for the
+adopted rule. The cost: phase 2 −1.5 pts (p = 0.0009), xNot360 −4.4 pts, VALIDATION 97.8% → 95.3%, and
+low-overlap non-negation FPR 7.8%. It fails the selection rule on VALIDATION. **It does not remove the
+shortcut, it moves it.** `cos_sim` takes over overlap's place in the model: importance 0.320, up from
+0.044, with `p_contradiction` at 0.584. Cosine is a softer proxy for "same topic" than overlap is, which
+is why recall on rewordings rises, and it still carries the unrelated-pair protection (FPR 7.8%, not
+NLI's 47.2%).
+
+**The other variants.**
+
+- **Soft feature (fails to help).** The rule's boolean gets importance 0.002, and the NLI margin gets
+  0.192, mostly substituting for `p_contradiction`. The retrained GBM learns from clean DEV, where
+  low-overlap negations barely exist (23 below 0.4), so it cannot learn to use the boolean. This is the
+  same reason the margin-as-feature in `report_f1.md` could not fix rewording.
+- **Interaction (no effect).** It gets 0.239 importance but leaves low-overlap recall at 78.3%. It is the
+  only variant to *raise* VALIDATION (98.0%), and it passes the rule with a summed gain smaller than the
+  adopted one.
+- **Routing (fails).** It collapses on unrelated pairs (low-overlap FPR 47.2%) because it hands them to NLI
+  alone.
+
+```sh
+./venv/bin/python experiments/f2/override.py --step 1.3
+```
