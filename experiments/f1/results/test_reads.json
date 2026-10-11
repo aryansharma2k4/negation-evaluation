@@ -13,5 +13,10 @@
     "step": "2.2",
     "what": "each NLI model standalone: ['deberta_base', 'roberta_base', 'distilroberta', 'ml_deberta_base_anli', 'bart_large']",
     "time": "2026-10-11 19:47"
+  },
+  {
+    "step": "2.3",
+    "what": "pairwise disagreement of NLI models on TEST",
+    "time": "2026-10-11 19:48"
   }
 ]

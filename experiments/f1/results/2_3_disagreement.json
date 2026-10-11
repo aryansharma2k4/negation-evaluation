@@ -1,0 +1,65 @@
+{
+  "test": {
+    "disagreement": {
+      "deberta_base|roberta_base": 0.0659,
+      "deberta_base|distilroberta": 0.1415,
+      "deberta_base|ml_deberta_base_anli": 0.0841,
+      "deberta_base|bart_large": 0.0705,
+      "roberta_base|distilroberta": 0.1131,
+      "roberta_base|ml_deberta_base_anli": 0.1045,
+      "roberta_base|bart_large": 0.0716,
+      "distilroberta|ml_deberta_base_anli": 0.1722,
+      "distilroberta|bart_large": 0.1392,
+      "ml_deberta_base_anli|bart_large": 0.0886
+    },
+    "pearson_p_contradiction": {
+      "deberta_base|roberta_base": 0.9018,
+      "deberta_base|distilroberta": 0.7407,
+      "deberta_base|ml_deberta_base_anli": 0.8988,
+      "deberta_base|bart_large": 0.8914,
+      "roberta_base|distilroberta": 0.82,
+      "roberta_base|ml_deberta_base_anli": 0.8662,
+      "roberta_base|bart_large": 0.8959,
+      "distilroberta|ml_deberta_base_anli": 0.7059,
+      "distilroberta|bart_large": 0.7781,
+      "ml_deberta_base_anli|bart_large": 0.8999
+    },
+    "mean_pairwise_correlation": 0.8399,
+    "pairs_agreeing_over_95pct": []
+  },
+  "dev_clean": {
+    "disagreement": {
+      "deberta_base|roberta_base": 0.0717,
+      "deberta_base|distilroberta": 0.0941,
+      "deberta_base|ml_deberta_base_anli": 0.0797,
+      "deberta_base|bart_large": 0.0729,
+      "roberta_base|distilroberta": 0.0635,
+      "roberta_base|ml_deberta_base_anli": 0.1208,
+      "roberta_base|bart_large": 0.0752,
+      "distilroberta|ml_deberta_base_anli": 0.1402,
+      "distilroberta|bart_large": 0.1005,
+      "ml_deberta_base_anli|bart_large": 0.0861
+    },
+    "pearson_p_contradiction": {
+      "deberta_base|roberta_base": 0.9022,
+      "deberta_base|distilroberta": 0.8581,
+      "deberta_base|ml_deberta_base_anli": 0.8817,
+      "deberta_base|bart_large": 0.8918,
+      "roberta_base|distilroberta": 0.916,
+      "roberta_base|ml_deberta_base_anli": 0.8369,
+      "roberta_base|bart_large": 0.8971,
+      "distilroberta|ml_deberta_base_anli": 0.7958,
+      "distilroberta|bart_large": 0.8619,
+      "ml_deberta_base_anli|bart_large": 0.893
+    },
+    "mean_pairwise_correlation": 0.8735,
+    "pairs_agreeing_over_95pct": []
+  },
+  "pruned_set": [
+    "deberta_base",
+    "roberta_base",
+    "ml_deberta_base_anli",
+    "bart_large"
+  ],
+  "pruning_rule": "drop standalone VALIDATION accuracy < reference - 3 pts; then, of any pair agreeing on > 95% of clean-DEV decisions, drop the lower-VALIDATION one"
+}

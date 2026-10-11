@@ -462,3 +462,39 @@ failure without the gate: 67–79% of STS-low pairs are called negations.
 ```sh
 ./venv/bin/python experiments/f1/ensemble.py --step 2.2
 ```
+
+### 2.3 Model disagreement
+
+`experiments/f1/ensemble.py --step 2.3` → `results/2_3_disagreement.json`. A cell is the share of pairs
+where two models' binary decisions differ, each model at its own clean-DEV threshold. TEST, n = 1,760:
+
+| | deberta-base | roberta-base | distilroberta | DeBERTa-anli | bart-large |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| deberta-base | — | 6.6% | 14.1% | 8.4% | 7.0% |
+| roberta-base | 6.6% | — | 11.3% | 10.4% | 7.2% |
+| distilroberta | 14.1% | 11.3% | — | 17.2% | 13.9% |
+| DeBERTa-anli | 8.4% | 10.4% | 17.2% | — | 8.9% |
+| bart-large | 7.0% | 7.2% | 13.9% | 8.9% | — |
+
+Pearson correlation of P(contradiction) on TEST: **mean over pairs 0.84**. It ranges from 0.71
+(distilroberta / DeBERTa-anli) to 0.90 (deberta-base / roberta-base 0.902, DeBERTa-anli / bart 0.900,
+deberta-base / DeBERTa-anli 0.899). On clean DEV the mean is 0.87 and disagreement is 6.3–14.0%.
+
+**No pair agrees on more than 95% of pairs**, on TEST or on clean DEV, so none is redundant by the
+brief's test. The closest pair, deberta-base / roberta-base, differs on 6.6% of TEST pairs (116 pairs).
+That is still room for an ensemble to gain, though the models are clearly correlated (r ≈ 0.9 for most pairs).
+
+**Correction to the brief.** The brief asks for this matrix on TEST *and* says to choose the model set
+on this evidence, which would be choosing on TEST. The TEST matrix is reported above as asked. The
+pruning rule was stated in `ensemble.py` before the run and applied to clean DEV and VALIDATION only:
+
+1. drop models whose standalone VALIDATION accuracy is > 3 pts below the reference's;
+2. then drop the weaker of any pair agreeing on > 95% of clean-DEV pairs.
+
+It drops **distilroberta** (VALIDATION 81.0% vs 86.0%); no pair triggers step 2. Pruned set: deberta-base,
+roberta-base, DeBERTa-anli, bart-large (4 models). Step 2.4 evaluates every method on both the full and the
+pruned set.
+
+```sh
+./venv/bin/python experiments/f1/ensemble.py --step 2.3
+```
