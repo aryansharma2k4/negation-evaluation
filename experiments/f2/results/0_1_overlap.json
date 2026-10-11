@@ -1,0 +1,1318 @@
+{
+  "combiner_threshold": 0.42790607868433017,
+  "nli_threshold": 0.9753316640853882,
+  "test": {
+    "negations": {
+      "quintile_bins": [
+        {
+          "bin": "0.188-0.611",
+          "n": 174,
+          "label": 1,
+          "combiner": 0.8103,
+          "nli_alone": 0.908,
+          "combiner_minus_nli": -0.0977,
+          "metric": "recall",
+          "p_permutation": 0.0079,
+          "datasets": {
+            "cannot_phase2": 122,
+            "xnot360": 52
+          }
+        },
+        {
+          "bin": "0.611-0.688",
+          "n": 167,
+          "label": 1,
+          "combiner": 0.976,
+          "nli_alone": 0.9222,
+          "combiner_minus_nli": 0.0539,
+          "metric": "recall",
+          "p_permutation": 0.0124,
+          "datasets": {
+            "cannot_phase2": 154,
+            "xnot360": 13
+          }
+        },
+        {
+          "bin": "0.688-0.750",
+          "n": 179,
+          "label": 1,
+          "combiner": 0.9777,
+          "nli_alone": 0.9274,
+          "combiner_minus_nli": 0.0503,
+          "metric": "recall",
+          "p_permutation": 0.0051,
+          "datasets": {
+            "cannot_phase2": 153,
+            "xnot360": 26
+          }
+        },
+        {
+          "bin": "0.750-0.778",
+          "n": 158,
+          "label": 1,
+          "combiner": 0.9937,
+          "nli_alone": 0.9684,
+          "combiner_minus_nli": 0.0253,
+          "metric": "recall",
+          "p_permutation": 0.22488,
+          "datasets": {
+            "cannot_phase2": 96,
+            "xnot360": 62
+          }
+        },
+        {
+          "bin": "0.778-1.000",
+          "n": 205,
+          "label": 1,
+          "combiner": 0.9854,
+          "nli_alone": 0.9268,
+          "combiner_minus_nli": 0.0585,
+          "metric": "recall",
+          "p_permutation": 0.0018,
+          "datasets": {
+            "cannot_phase2": 178,
+            "xnot360": 27
+          }
+        }
+      ],
+      "fixed_bins": [
+        {
+          "bin": "0.000-0.200",
+          "n": 1,
+          "label": 1,
+          "combiner": 0.0,
+          "nli_alone": 1.0,
+          "combiner_minus_nli": -1.0,
+          "metric": "recall",
+          "p_permutation": 1.0,
+          "datasets": {
+            "xnot360": 1
+          }
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 19,
+          "label": 1,
+          "combiner": 0.4737,
+          "nli_alone": 0.8421,
+          "combiner_minus_nli": -0.3684,
+          "metric": "recall",
+          "p_permutation": 0.0388,
+          "datasets": {
+            "cannot_phase2": 6,
+            "xnot360": 13
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 109,
+          "label": 1,
+          "combiner": 0.8073,
+          "nli_alone": 0.9541,
+          "combiner_minus_nli": -0.1468,
+          "metric": "recall",
+          "p_permutation": 0.0007,
+          "datasets": {
+            "cannot_phase2": 72,
+            "xnot360": 37
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 603,
+          "label": 1,
+          "combiner": 0.9818,
+          "nli_alone": 0.9353,
+          "combiner_minus_nli": 0.0464,
+          "metric": "recall",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 482,
+            "xnot360": 121
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 151,
+          "label": 1,
+          "combiner": 0.9868,
+          "nli_alone": 0.9007,
+          "combiner_minus_nli": 0.0861,
+          "metric": "recall",
+          "p_permutation": 0.0003,
+          "datasets": {
+            "cannot_phase2": 143,
+            "xnot360": 8
+          }
+        }
+      ],
+      "all": {
+        "n": 883,
+        "label": 1,
+        "combiner": 0.949,
+        "nli_alone": 0.9298,
+        "combiner_minus_nli": 0.0193,
+        "metric": "recall",
+        "p_permutation": 0.06619,
+        "datasets": {
+          "cannot_phase2": 703,
+          "xnot360": 180
+        }
+      },
+      "fixed_bins_cannot_phase2": [
+        {
+          "bin": "0.000-0.200",
+          "n": 0
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 6,
+          "label": 1,
+          "combiner": 1.0,
+          "nli_alone": 0.8333,
+          "combiner_minus_nli": 0.1667,
+          "metric": "recall",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 6
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 72,
+          "label": 1,
+          "combiner": 0.8889,
+          "nli_alone": 0.9722,
+          "combiner_minus_nli": -0.0833,
+          "metric": "recall",
+          "p_permutation": 0.0318,
+          "datasets": {
+            "cannot_phase2": 72
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 482,
+          "label": 1,
+          "combiner": 0.9772,
+          "nli_alone": 0.9253,
+          "combiner_minus_nli": 0.0519,
+          "metric": "recall",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 482
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 143,
+          "label": 1,
+          "combiner": 0.986,
+          "nli_alone": 0.8951,
+          "combiner_minus_nli": 0.0909,
+          "metric": "recall",
+          "p_permutation": 0.0003,
+          "datasets": {
+            "cannot_phase2": 143
+          }
+        }
+      ],
+      "fixed_bins_xnot360": [
+        {
+          "bin": "0.000-0.200",
+          "n": 1,
+          "label": 1,
+          "combiner": 0.0,
+          "nli_alone": 1.0,
+          "combiner_minus_nli": -1.0,
+          "metric": "recall",
+          "p_permutation": 1.0,
+          "datasets": {
+            "xnot360": 1
+          }
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 13,
+          "label": 1,
+          "combiner": 0.2308,
+          "nli_alone": 0.8462,
+          "combiner_minus_nli": -0.6154,
+          "metric": "recall",
+          "p_permutation": 0.0084,
+          "datasets": {
+            "xnot360": 13
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 37,
+          "label": 1,
+          "combiner": 0.6486,
+          "nli_alone": 0.9189,
+          "combiner_minus_nli": -0.2703,
+          "metric": "recall",
+          "p_permutation": 0.0137,
+          "datasets": {
+            "xnot360": 37
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 121,
+          "label": 1,
+          "combiner": 1.0,
+          "nli_alone": 0.9752,
+          "combiner_minus_nli": 0.0248,
+          "metric": "recall",
+          "p_permutation": 0.25187,
+          "datasets": {
+            "xnot360": 121
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 8,
+          "label": 1,
+          "combiner": 1.0,
+          "nli_alone": 1.0,
+          "combiner_minus_nli": 0.0,
+          "metric": "recall",
+          "p_permutation": 1.0,
+          "datasets": {
+            "xnot360": 8
+          }
+        }
+      ]
+    },
+    "non_negations": {
+      "quintile_bins": [
+        {
+          "bin": "0.000-0.136",
+          "n": 174,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.546,
+          "combiner_minus_nli": -0.546,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 172,
+            "xnot360": 2
+          }
+        },
+        {
+          "bin": "0.136-0.333",
+          "n": 170,
+          "label": 0,
+          "combiner": 0.0059,
+          "nli_alone": 0.4294,
+          "combiner_minus_nli": -0.4235,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 150,
+            "xnot360": 20
+          }
+        },
+        {
+          "bin": "0.333-0.533",
+          "n": 180,
+          "label": 0,
+          "combiner": 0.0111,
+          "nli_alone": 0.2056,
+          "combiner_minus_nli": -0.1944,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 158,
+            "xnot360": 22
+          }
+        },
+        {
+          "bin": "0.533-0.750",
+          "n": 170,
+          "label": 0,
+          "combiner": 0.0706,
+          "nli_alone": 0.0765,
+          "combiner_minus_nli": -0.0059,
+          "metric": "FPR",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 150,
+            "xnot360": 20
+          }
+        },
+        {
+          "bin": "0.750-1.000",
+          "n": 183,
+          "label": 0,
+          "combiner": 0.2623,
+          "nli_alone": 0.224,
+          "combiner_minus_nli": 0.0383,
+          "metric": "FPR",
+          "p_permutation": 0.0162,
+          "datasets": {
+            "cannot_phase2": 67,
+            "xnot360": 116
+          }
+        }
+      ],
+      "fixed_bins": [
+        {
+          "bin": "0.000-0.200",
+          "n": 224,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.5223,
+          "combiner_minus_nli": -0.5223,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 217,
+            "xnot360": 7
+          }
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 172,
+          "label": 0,
+          "combiner": 0.0116,
+          "nli_alone": 0.407,
+          "combiner_minus_nli": -0.3953,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 151,
+            "xnot360": 21
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 185,
+          "label": 0,
+          "combiner": 0.0054,
+          "nli_alone": 0.1081,
+          "combiner_minus_nli": -0.1027,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 165,
+            "xnot360": 20
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 134,
+          "label": 0,
+          "combiner": 0.1119,
+          "nli_alone": 0.0896,
+          "combiner_minus_nli": 0.0224,
+          "metric": "FPR",
+          "p_permutation": 0.45695,
+          "datasets": {
+            "cannot_phase2": 115,
+            "xnot360": 19
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 162,
+          "label": 0,
+          "combiner": 0.2778,
+          "nli_alone": 0.2469,
+          "combiner_minus_nli": 0.0309,
+          "metric": "FPR",
+          "p_permutation": 0.06579,
+          "datasets": {
+            "cannot_phase2": 49,
+            "xnot360": 113
+          }
+        }
+      ],
+      "all": {
+        "n": 877,
+        "label": 0,
+        "combiner": 0.0718,
+        "nli_alone": 0.2953,
+        "combiner_minus_nli": -0.2235,
+        "metric": "FPR",
+        "p_permutation": 0.0001,
+        "datasets": {
+          "cannot_phase2": 697,
+          "xnot360": 180
+        }
+      },
+      "fixed_bins_cannot_phase2": [
+        {
+          "bin": "0.000-0.200",
+          "n": 217,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.5115,
+          "combiner_minus_nli": -0.5115,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 217
+          }
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 151,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.3775,
+          "combiner_minus_nli": -0.3775,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 151
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 165,
+          "label": 0,
+          "combiner": 0.0061,
+          "nli_alone": 0.0848,
+          "combiner_minus_nli": -0.0788,
+          "metric": "FPR",
+          "p_permutation": 0.0005,
+          "datasets": {
+            "cannot_phase2": 165
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 115,
+          "label": 0,
+          "combiner": 0.0696,
+          "nli_alone": 0.0435,
+          "combiner_minus_nli": 0.0261,
+          "metric": "FPR",
+          "p_permutation": 0.44826,
+          "datasets": {
+            "cannot_phase2": 115
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 49,
+          "label": 0,
+          "combiner": 0.0408,
+          "nli_alone": 0.0,
+          "combiner_minus_nli": 0.0408,
+          "metric": "FPR",
+          "p_permutation": 0.50435,
+          "datasets": {
+            "cannot_phase2": 49
+          }
+        }
+      ],
+      "fixed_bins_xnot360": [
+        {
+          "bin": "0.000-0.200",
+          "n": 7,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.8571,
+          "combiner_minus_nli": -0.8571,
+          "metric": "FPR",
+          "p_permutation": 0.0322,
+          "datasets": {
+            "xnot360": 7
+          }
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 21,
+          "label": 0,
+          "combiner": 0.0952,
+          "nli_alone": 0.619,
+          "combiner_minus_nli": -0.5238,
+          "metric": "FPR",
+          "p_permutation": 0.0011,
+          "datasets": {
+            "xnot360": 21
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 20,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.3,
+          "combiner_minus_nli": -0.3,
+          "metric": "FPR",
+          "p_permutation": 0.0303,
+          "datasets": {
+            "xnot360": 20
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 19,
+          "label": 0,
+          "combiner": 0.3684,
+          "nli_alone": 0.3684,
+          "combiner_minus_nli": 0.0,
+          "metric": "FPR",
+          "p_permutation": 1.0,
+          "datasets": {
+            "xnot360": 19
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 113,
+          "label": 0,
+          "combiner": 0.3805,
+          "nli_alone": 0.354,
+          "combiner_minus_nli": 0.0265,
+          "metric": "FPR",
+          "p_permutation": 0.25257,
+          "datasets": {
+            "xnot360": 113
+          }
+        }
+      ]
+    }
+  },
+  "slices": {
+    "TEST negations, bottom two overlap quintiles (overlap < 0.688)": {
+      "n": 357,
+      "label": 1,
+      "combiner": 0.8908,
+      "nli_alone": 0.9132,
+      "combiner_minus_nli": -0.0224,
+      "metric": "recall",
+      "p_permutation": 0.31347,
+      "datasets": {
+        "cannot_phase2": 291,
+        "xnot360": 66
+      }
+    },
+    "TEST negations, overlap < 0.4": {
+      "n": 20,
+      "label": 1,
+      "combiner": 0.45,
+      "nli_alone": 0.85,
+      "combiner_minus_nli": -0.4,
+      "metric": "recall",
+      "p_permutation": 0.0235,
+      "datasets": {
+        "cannot_phase2": 6,
+        "xnot360": 14
+      }
+    },
+    "TEST CANNOT antonym-substitution negations": {
+      "n": 95,
+      "label": 1,
+      "combiner": 0.9263,
+      "nli_alone": 0.8842,
+      "combiner_minus_nli": 0.0421,
+      "metric": "recall",
+      "p_permutation": 0.38536,
+      "datasets": {
+        "cannot_phase2": 95
+      }
+    },
+    "SemAntoNeg paraphrases, phase 2 (validation + test)": {
+      "n": 41,
+      "label": 0,
+      "combiner": 0.0,
+      "nli_alone": 0.0,
+      "combiner_minus_nli": 0.0,
+      "metric": "FPR",
+      "p_permutation": 1.0,
+      "datasets": {
+        "cannot_phase2": 41
+      }
+    },
+    "clean DEV CANNOT antonym-substitution negations (combiner out-of-fold)": {
+      "n": 208,
+      "label": 1,
+      "combiner": 0.9519,
+      "nli_alone": 0.9471,
+      "combiner_minus_nli": 0.0048,
+      "metric": "recall",
+      "p_permutation": 1.0,
+      "datasets": {
+        "cannot_phase1": 208
+      }
+    },
+    "clean DEV CANNOT phase-1 negations, overlap < 0.4 (out-of-fold)": {
+      "n": 23,
+      "label": 1,
+      "combiner": 0.8261,
+      "nli_alone": 0.913,
+      "combiner_minus_nli": -0.087,
+      "metric": "recall",
+      "p_permutation": 0.50845,
+      "datasets": {
+        "cannot_phase1": 23
+      }
+    },
+    "clean DEV CANNOT phase-1 non-negations, overlap < 0.4 (out-of-fold)": {
+      "n": 109,
+      "label": 0,
+      "combiner": 0.0,
+      "nli_alone": 0.0275,
+      "combiner_minus_nli": -0.0275,
+      "metric": "FPR",
+      "p_permutation": 0.25727,
+      "datasets": {
+        "cannot_phase1": 109
+      }
+    },
+    "clean DEV CANNOT phase-1 negations, overlap >= 0.8 (out-of-fold)": {
+      "n": 316,
+      "label": 1,
+      "combiner": 0.9778,
+      "nli_alone": 0.9525,
+      "combiner_minus_nli": 0.0253,
+      "metric": "recall",
+      "p_permutation": 0.0089,
+      "datasets": {
+        "cannot_phase1": 316
+      }
+    }
+  },
+  "overlap_distributions": {
+    "CANNOT phase 2 negations (TEST)": {
+      "n": 703,
+      "mean": 0.7088,
+      "median": 0.7143,
+      "q10": 0.5833,
+      "q90": 0.8462,
+      "share_below_0.4": 0.0085,
+      "share_below_0.6": 0.111
+    },
+    "CANNOT phase 2 non-negations (TEST)": {
+      "n": 697,
+      "mean": 0.3754,
+      "median": 0.375,
+      "q10": 0.0472,
+      "q90": 0.7297,
+      "share_below_0.4": 0.528,
+      "share_below_0.6": 0.7647
+    },
+    "xNot360 negations (TEST)": {
+      "n": 180,
+      "mean": 0.6651,
+      "median": 0.7333,
+      "q10": 0.4269,
+      "q90": 0.7778,
+      "share_below_0.4": 0.0778,
+      "share_below_0.6": 0.2833
+    },
+    "xNot360 non-negations (TEST)": {
+      "n": 180,
+      "mean": 0.6888,
+      "median": 0.8125,
+      "q10": 0.2838,
+      "q90": 0.8667,
+      "share_below_0.4": 0.1556,
+      "share_below_0.6": 0.2667
+    },
+    "clean DEV CANNOT phase-1 negations": {
+      "n": 1501,
+      "mean": 0.701,
+      "median": 0.7,
+      "q10": 0.5789,
+      "q90": 0.8462,
+      "share_below_0.4": 0.0153,
+      "share_below_0.6": 0.1199
+    },
+    "paragraph set gold covered pairs (machine-authored)": {
+      "n": 72,
+      "mean": 0.3334,
+      "median": 0.3038,
+      "q10": 0.1333,
+      "q90": 0.53,
+      "share_below_0.4": 0.6389,
+      "share_below_0.6": 0.9306
+    },
+    "paragraph set gold contradicted pairs (machine-authored)": {
+      "n": 11,
+      "mean": 0.4828,
+      "median": 0.5385,
+      "q10": 0.1667,
+      "q90": 0.7778,
+      "share_below_0.4": 0.4545,
+      "share_below_0.6": 0.5455
+    },
+    "domain answers: antonym_negation (machine-generated)": {
+      "n": 308,
+      "mean": 0.9053,
+      "median": 0.913,
+      "q10": 0.8667,
+      "q90": 0.9394,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0
+    },
+    "domain answers: cancellation (machine-generated)": {
+      "n": 500,
+      "mean": 0.8325,
+      "median": 0.8387,
+      "q10": 0.75,
+      "q90": 0.9,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0
+    },
+    "domain answers: negation (machine-generated)": {
+      "n": 458,
+      "mean": 0.9103,
+      "median": 0.9259,
+      "q10": 0.8333,
+      "q90": 0.9615,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.0
+    },
+    "domain answers: paraphrase (machine-generated)": {
+      "n": 484,
+      "mean": 0.8191,
+      "median": 0.8333,
+      "q10": 0.6875,
+      "q90": 0.92,
+      "share_below_0.4": 0.0021,
+      "share_below_0.6": 0.0227
+    },
+    "domain answers: partial (machine-generated)": {
+      "n": 411,
+      "mean": 0.4273,
+      "median": 0.4,
+      "q10": 0.2368,
+      "q90": 0.6522,
+      "share_below_0.4": 0.4842,
+      "share_below_0.6": 0.854
+    },
+    "domain answers: wrong_related (machine-generated)": {
+      "n": 484,
+      "mean": 0.2103,
+      "median": 0.1944,
+      "q10": 0.125,
+      "q90": 0.3158,
+      "share_below_0.4": 0.9628,
+      "share_below_0.6": 0.9959
+    },
+    "placeholder subset: cancellation (model-written, n=10)": {
+      "n": 10,
+      "mean": 0.5614,
+      "median": 0.524,
+      "q10": 0.4594,
+      "q90": 0.705,
+      "share_below_0.4": 0.0,
+      "share_below_0.6": 0.7
+    },
+    "placeholder subset: negation (model-written, n=10)": {
+      "n": 10,
+      "mean": 0.4429,
+      "median": 0.4374,
+      "q10": 0.2558,
+      "q90": 0.6923,
+      "share_below_0.4": 0.4,
+      "share_below_0.6": 0.7
+    },
+    "placeholder subset: paraphrase (model-written, n=10)": {
+      "n": 10,
+      "mean": 0.4765,
+      "median": 0.4479,
+      "q10": 0.3968,
+      "q90": 0.5829,
+      "share_below_0.4": 0.1,
+      "share_below_0.6": 0.9
+    },
+    "placeholder subset: partial (model-written, n=10)": {
+      "n": 10,
+      "mean": 0.4329,
+      "median": 0.4087,
+      "q10": 0.3316,
+      "q90": 0.5758,
+      "share_below_0.4": 0.5,
+      "share_below_0.6": 0.9
+    },
+    "placeholder subset: wrong_related (model-written, n=10)": {
+      "n": 10,
+      "mean": 0.227,
+      "median": 0.2234,
+      "q10": 0.1416,
+      "q90": 0.3333,
+      "share_below_0.4": 1.0,
+      "share_below_0.6": 1.0
+    }
+  },
+  "validation": {
+    "negations": {
+      "quintile_bins": [
+        {
+          "bin": "0.250-0.600",
+          "n": 40,
+          "label": 1,
+          "combiner": 0.85,
+          "nli_alone": 0.925,
+          "combiner_minus_nli": -0.075,
+          "metric": "recall",
+          "p_permutation": 0.37726,
+          "datasets": {
+            "cannot_phase2": 40
+          }
+        },
+        {
+          "bin": "0.600-0.667",
+          "n": 53,
+          "label": 1,
+          "combiner": 1.0,
+          "nli_alone": 0.9434,
+          "combiner_minus_nli": 0.0566,
+          "metric": "recall",
+          "p_permutation": 0.24718,
+          "datasets": {
+            "cannot_phase2": 53
+          }
+        },
+        {
+          "bin": "0.667-0.727",
+          "n": 84,
+          "label": 1,
+          "combiner": 0.9881,
+          "nli_alone": 0.8929,
+          "combiner_minus_nli": 0.0952,
+          "metric": "recall",
+          "p_permutation": 0.0077,
+          "datasets": {
+            "cannot_phase2": 84
+          }
+        },
+        {
+          "bin": "0.727-0.786",
+          "n": 57,
+          "label": 1,
+          "combiner": 1.0,
+          "nli_alone": 0.9825,
+          "combiner_minus_nli": 0.0175,
+          "metric": "recall",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 57
+          }
+        },
+        {
+          "bin": "0.786-0.958",
+          "n": 63,
+          "label": 1,
+          "combiner": 0.9524,
+          "nli_alone": 0.8571,
+          "combiner_minus_nli": 0.0952,
+          "metric": "recall",
+          "p_permutation": 0.0299,
+          "datasets": {
+            "cannot_phase2": 63
+          }
+        }
+      ],
+      "fixed_bins": [
+        {
+          "bin": "0.000-0.200",
+          "n": 0
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 6,
+          "label": 1,
+          "combiner": 0.8333,
+          "nli_alone": 1.0,
+          "combiner_minus_nli": -0.1667,
+          "metric": "recall",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 6
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 34,
+          "label": 1,
+          "combiner": 0.8529,
+          "nli_alone": 0.9118,
+          "combiner_minus_nli": -0.0588,
+          "metric": "recall",
+          "p_permutation": 0.62724,
+          "datasets": {
+            "cannot_phase2": 34
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 198,
+          "label": 1,
+          "combiner": 0.9949,
+          "nli_alone": 0.9343,
+          "combiner_minus_nli": 0.0606,
+          "metric": "recall",
+          "p_permutation": 0.0008,
+          "datasets": {
+            "cannot_phase2": 198
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 59,
+          "label": 1,
+          "combiner": 0.9492,
+          "nli_alone": 0.8475,
+          "combiner_minus_nli": 0.1017,
+          "metric": "recall",
+          "p_permutation": 0.0308,
+          "datasets": {
+            "cannot_phase2": 59
+          }
+        }
+      ],
+      "all": {
+        "n": 297,
+        "label": 1,
+        "combiner": 0.9663,
+        "nli_alone": 0.9158,
+        "combiner_minus_nli": 0.0505,
+        "metric": "recall",
+        "p_permutation": 0.0036,
+        "datasets": {
+          "cannot_phase2": 297
+        }
+      },
+      "fixed_bins_cannot_phase2": [
+        {
+          "bin": "0.000-0.200",
+          "n": 0
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 6,
+          "label": 1,
+          "combiner": 0.8333,
+          "nli_alone": 1.0,
+          "combiner_minus_nli": -0.1667,
+          "metric": "recall",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 6
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 34,
+          "label": 1,
+          "combiner": 0.8529,
+          "nli_alone": 0.9118,
+          "combiner_minus_nli": -0.0588,
+          "metric": "recall",
+          "p_permutation": 0.62724,
+          "datasets": {
+            "cannot_phase2": 34
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 198,
+          "label": 1,
+          "combiner": 0.9949,
+          "nli_alone": 0.9343,
+          "combiner_minus_nli": 0.0606,
+          "metric": "recall",
+          "p_permutation": 0.0008,
+          "datasets": {
+            "cannot_phase2": 198
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 59,
+          "label": 1,
+          "combiner": 0.9492,
+          "nli_alone": 0.8475,
+          "combiner_minus_nli": 0.1017,
+          "metric": "recall",
+          "p_permutation": 0.0308,
+          "datasets": {
+            "cannot_phase2": 59
+          }
+        }
+      ]
+    },
+    "non_negations": {
+      "quintile_bins": [
+        {
+          "bin": "0.000-0.111",
+          "n": 60,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.55,
+          "combiner_minus_nli": -0.55,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 60
+          }
+        },
+        {
+          "bin": "0.111-0.287",
+          "n": 62,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.2419,
+          "combiner_minus_nli": -0.2419,
+          "metric": "FPR",
+          "p_permutation": 0.0002,
+          "datasets": {
+            "cannot_phase2": 62
+          }
+        },
+        {
+          "bin": "0.287-0.467",
+          "n": 56,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.1429,
+          "combiner_minus_nli": -0.1429,
+          "metric": "FPR",
+          "p_permutation": 0.008,
+          "datasets": {
+            "cannot_phase2": 56
+          }
+        },
+        {
+          "bin": "0.467-0.636",
+          "n": 64,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.0156,
+          "combiner_minus_nli": -0.0156,
+          "metric": "FPR",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 64
+          }
+        },
+        {
+          "bin": "0.636-1.000",
+          "n": 62,
+          "label": 0,
+          "combiner": 0.0484,
+          "nli_alone": 0.0323,
+          "combiner_minus_nli": 0.0161,
+          "metric": "FPR",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 62
+          }
+        }
+      ],
+      "fixed_bins": [
+        {
+          "bin": "0.000-0.200",
+          "n": 89,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.4831,
+          "combiner_minus_nli": -0.4831,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 89
+          }
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 61,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.1475,
+          "combiner_minus_nli": -0.1475,
+          "metric": "FPR",
+          "p_permutation": 0.0039,
+          "datasets": {
+            "cannot_phase2": 61
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 80,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.0625,
+          "combiner_minus_nli": -0.0625,
+          "metric": "FPR",
+          "p_permutation": 0.06289,
+          "datasets": {
+            "cannot_phase2": 80
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 50,
+          "label": 0,
+          "combiner": 0.04,
+          "nli_alone": 0.04,
+          "combiner_minus_nli": 0.0,
+          "metric": "FPR",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 50
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 24,
+          "label": 0,
+          "combiner": 0.0417,
+          "nli_alone": 0.0,
+          "combiner_minus_nli": 0.0417,
+          "metric": "FPR",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 24
+          }
+        }
+      ],
+      "all": {
+        "n": 304,
+        "label": 0,
+        "combiner": 0.0099,
+        "nli_alone": 0.1941,
+        "combiner_minus_nli": -0.1842,
+        "metric": "FPR",
+        "p_permutation": 0.0001,
+        "datasets": {
+          "cannot_phase2": 304
+        }
+      },
+      "fixed_bins_cannot_phase2": [
+        {
+          "bin": "0.000-0.200",
+          "n": 89,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.4831,
+          "combiner_minus_nli": -0.4831,
+          "metric": "FPR",
+          "p_permutation": 0.0001,
+          "datasets": {
+            "cannot_phase2": 89
+          }
+        },
+        {
+          "bin": "0.200-0.400",
+          "n": 61,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.1475,
+          "combiner_minus_nli": -0.1475,
+          "metric": "FPR",
+          "p_permutation": 0.0039,
+          "datasets": {
+            "cannot_phase2": 61
+          }
+        },
+        {
+          "bin": "0.400-0.600",
+          "n": 80,
+          "label": 0,
+          "combiner": 0.0,
+          "nli_alone": 0.0625,
+          "combiner_minus_nli": -0.0625,
+          "metric": "FPR",
+          "p_permutation": 0.06289,
+          "datasets": {
+            "cannot_phase2": 80
+          }
+        },
+        {
+          "bin": "0.600-0.800",
+          "n": 50,
+          "label": 0,
+          "combiner": 0.04,
+          "nli_alone": 0.04,
+          "combiner_minus_nli": 0.0,
+          "metric": "FPR",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 50
+          }
+        },
+        {
+          "bin": "0.800-1.000",
+          "n": 24,
+          "label": 0,
+          "combiner": 0.0417,
+          "nli_alone": 0.0,
+          "combiner_minus_nli": 0.0417,
+          "metric": "FPR",
+          "p_permutation": 1.0,
+          "datasets": {
+            "cannot_phase2": 24
+          }
+        }
+      ]
+    }
+  },
+  "dev_clean_fixed_bins_negations": [
+    {
+      "bin": "0.000-0.200",
+      "n": 0
+    },
+    {
+      "bin": "0.200-0.400",
+      "n": 23,
+      "label": 1,
+      "combiner": 0.8261,
+      "nli_alone": 0.913,
+      "combiner_minus_nli": -0.087,
+      "metric": "recall",
+      "p_permutation": 0.50845,
+      "datasets": {
+        "cannot_phase1": 23
+      }
+    },
+    {
+      "bin": "0.400-0.600",
+      "n": 157,
+      "label": 1,
+      "combiner": 0.8726,
+      "nli_alone": 0.9108,
+      "combiner_minus_nli": -0.0382,
+      "metric": "recall",
+      "p_permutation": 0.18648,
+      "datasets": {
+        "cannot_phase1": 157
+      }
+    },
+    {
+      "bin": "0.600-0.800",
+      "n": 1005,
+      "label": 1,
+      "combiner": 0.9791,
+      "nli_alone": 0.9124,
+      "combiner_minus_nli": 0.0667,
+      "metric": "recall",
+      "p_permutation": 0.0001,
+      "datasets": {
+        "cannot_phase1": 1005
+      }
+    },
+    {
+      "bin": "0.800-1.000",
+      "n": 316,
+      "label": 1,
+      "combiner": 0.9778,
+      "nli_alone": 0.9525,
+      "combiner_minus_nli": 0.0253,
+      "metric": "recall",
+      "p_permutation": 0.0089,
+      "datasets": {
+        "cannot_phase1": 316
+      }
+    }
+  ]
+}
