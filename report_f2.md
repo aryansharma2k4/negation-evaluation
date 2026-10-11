@@ -383,3 +383,29 @@ NLI's 47.2%).
 ```sh
 ./venv/bin/python experiments/f2/override.py --step 1.3
 ```
+
+### 1.4 Paragraph set re-run — **machine-authored, sentence matching only**
+
+`experiments/f2/para2.py` → `results/1_4_paragraphs.json`. The setup is unchanged from `report_f1.md` step
+4.5: optimal assignment, cosine cells, τ = 0.661 from clean DEV. **These 28 items are machine-authored.
+Following this round's rules, they are not evidence for any detection claim.** The detection claim rests on
+the human-written slices of step 0.1, where low-overlap recall rose from 75.2% to 87.6% (n = 129).
+
+| configuration | teacher-verdict accuracy (n = 93) | contradictions caught (of 11) | false contradictions | covered → contradicted |
+| --- | ---: | ---: | ---: | ---: |
+| Phase 0 baseline (`report_f1.md`) | 88.2% | 6 | 2 | 2 |
+| **adopted: + topic-floor override** | **90.3%** | **9** | 3 | 3 |
+| NLI alone | 92.5% | 9 | 1 | 1 |
+
+The adopted configuration now catches as many contradictions as NLI alone (9 of 11, up from 6), at the
+cost of one more false alarm than the baseline (3 vs 2) and two more than NLI alone. The 2 remaining misses
+are the same matching failures as before: the student sentence falls below τ, so it is called missing
+before detection runs.
+
+The detector now supports the override as a stage, "low-overlap NLI override", reported by
+`experiments/f1/detector.py`. Its configuration is recorded in `experiments/f2/results/final_config.json`.
+`Detector.adopted()` reads this file in preference to f1's.
+
+```sh
+./venv/bin/python experiments/f2/para2.py
+```

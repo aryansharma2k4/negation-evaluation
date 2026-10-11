@@ -35,9 +35,12 @@ class Config:
     nli_keys: tuple = (REF,)            # models whose probabilities the combiner sees
     method: str = "phase0"               # "phase0" | "gbm_all_probs" | "gbm_mean_probs"
     guardrail: dict | None = None        # {"sim": "cos", "agg": "max", "delta": float} or None
+    rule: dict | None = None             # report_f2 1.3: {"theta", "rho", "kappa"}: low-overlap NLI override
 
     def key(self) -> str:
-        return hashlib.sha1(json.dumps(asdict(self), sort_keys=True).encode()).hexdigest()[:12]
+        d = asdict(self)
+        d.pop("rule")          # the rule acts after the combiner, so it does not change the fitted model
+        return hashlib.sha1(json.dumps(d, sort_keys=True).encode()).hexdigest()[:12]
 
 
 def _probs(key: str, rows) -> np.ndarray:
@@ -81,8 +84,10 @@ class Detector:
 
     @classmethod
     def adopted(cls) -> "Detector":
-        d = json.loads((RESULTS / "final_config.json").read_text())
-        return cls(Config(tuple(d["nli_keys"]), d["method"], d.get("guardrail")))
+        """The latest adopted configuration: report_f2's if it exists, else report_f1's."""
+        f2 = RESULTS.parents[1] / "f2" / "results" / "final_config.json"
+        d = json.loads((f2 if f2.exists() else RESULTS / "final_config.json").read_text())
+        return cls(Config(tuple(d["nli_keys"]), d["method"], d.get("guardrail"), d.get("rule")))
 
     def predict(self, pairs: list[tuple[str, str]], explain: bool = False) -> list[dict]:
         rows = [{"a": a, "b": b, "dataset": "new", "kind": "new", "label": 0} for a, b in pairs]
@@ -102,8 +107,12 @@ class Detector:
         for i, r in enumerate(rows):
             stage, verdict = "combiner", bool(prob[i] >= self.thr)
             margin = info = None
+            rule = self.cfg.rule
             if override[i]:
                 stage, verdict = "cancellation override", False
+            elif not verdict and rule and X[i][P4.FEATURES.index("token_overlap")] < rule["theta"] \
+                    and r["nli_c"] > rule["rho"] and r["cos"] >= rule["kappa"]:
+                stage, verdict = "low-overlap NLI override", True
             elif verdict and g:
                 margin, info = self.margin(r["a"], r["b"], g)
                 if margin is not None and margin <= g["delta"]:

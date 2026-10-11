@@ -1,0 +1,7 @@
+{
+ "nli_keys": ["deberta_base"],
+ "method": "phase0",
+ "guardrail": null,
+ "rule": {"theta": 0.5, "rho": 0.9, "kappa": 0.6},
+ "note": "report_f2 step 1.3: Phase 0 baseline + low-overlap NLI override with topic floor; later phases update this file"
+}

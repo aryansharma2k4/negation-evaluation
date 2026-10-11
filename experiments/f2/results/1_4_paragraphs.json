@@ -1,0 +1,81 @@
+{
+  "Phase 0 baseline (report_f1)": {
+    "teacher_verdict_accuracy": 0.8817,
+    "all_unit_accuracy": 0.9076,
+    "contradiction": {
+      "gold": 11,
+      "caught": 6,
+      "false_alarms": 2
+    },
+    "confusion_teacher": {
+      "contradicted->contradicted": 6,
+      "contradicted->covered": 3,
+      "contradicted->missing": 2,
+      "covered->contradicted": 2,
+      "covered->covered": 66,
+      "covered->missing": 4,
+      "missing->missing": 10
+    },
+    "extra": {
+      "tp": 8,
+      "fp": 6,
+      "fn": 0
+    },
+    "stages": {
+      "combiner": 302,
+      "cancellation override": 6
+    }
+  },
+  "adopted (step 1.3)": {
+    "teacher_verdict_accuracy": 0.9032,
+    "all_unit_accuracy": 0.9185,
+    "contradiction": {
+      "gold": 11,
+      "caught": 9,
+      "false_alarms": 3
+    },
+    "confusion_teacher": {
+      "contradicted->contradicted": 9,
+      "contradicted->missing": 2,
+      "covered->contradicted": 3,
+      "covered->covered": 65,
+      "covered->missing": 4,
+      "missing->missing": 10
+    },
+    "extra": {
+      "tp": 8,
+      "fp": 6,
+      "fn": 0
+    },
+    "stages": {
+      "combiner": 294,
+      "low-overlap NLI override": 8,
+      "cancellation override": 6
+    }
+  },
+  "NLI alone": {
+    "teacher_verdict_accuracy": 0.9247,
+    "all_unit_accuracy": 0.9293,
+    "contradiction": {
+      "gold": 11,
+      "caught": 9,
+      "false_alarms": 1
+    },
+    "confusion_teacher": {
+      "contradicted->contradicted": 9,
+      "contradicted->missing": 2,
+      "covered->contradicted": 1,
+      "covered->covered": 67,
+      "covered->missing": 4,
+      "missing->missing": 10
+    },
+    "extra": {
+      "tp": 8,
+      "fp": 6,
+      "fn": 0
+    },
+    "stages": {
+      "NLI alone": 308
+    }
+  }
+}
