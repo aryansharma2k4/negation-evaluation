@@ -1282,3 +1282,22 @@ in the section titles.
 
 **6.5.** Nothing is shown that the report does not justify. There is no confidence bar: the only score
 shown is the raw combiner output, with its threshold, labelled uncalibrated.
+
+### 6.6 Screenshots
+
+Saved in `docs/dashboard/` (Playwright with the system Chromium, through the `?view=` URLs):
+
+1. `1_single_pair_negation.png`: *UDP does not guarantee delivery.* / *UDP guarantees delivery.* →
+   NEGATION, decided by the combiner (raw 0.582 vs 0.428). It shows the cue scope of *not*, and the
+   Phase 1 affirmation of the negative teacher sentence, which is the student's sentence word for word.
+2. `2_single_pair_cancellation.png`: *Page faults are common when a process starts.* / *It is not uncommon
+   for a process to page-fault when it starts.* → NOT A NEGATION, decided by the **cancellation override**.
+   Both cues of the litotes appear with their shared scope.
+3. `3_paragraph.png`: a 4 × 4 round-robin paragraph with every verdict type: 2 covered, 1 contradicted
+   (*preemptive* / *non-preemptive*), 1 missing, 1 extra.
+4. `4_results.png`: the results tab rendered from the committed JSON.
+
+![single pair](docs/dashboard/1_single_pair_negation.png)
+![cancellation](docs/dashboard/2_single_pair_cancellation.png)
+![paragraph](docs/dashboard/3_paragraph.png)
+![results](docs/dashboard/4_results.png)
