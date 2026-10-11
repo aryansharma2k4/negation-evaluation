@@ -615,3 +615,33 @@ strong on.
 ```sh
 ./venv/bin/python experiments/f1/ensemble.py --step 2.5
 ```
+
+### 3.1–3.2 Generate-and-match guardrail: the margin rule, downgrade-only
+
+`experiments/f1/variants.py` and `experiments/f1/guardrail.py`, tests in `experiments/f1/test_f1.py`
+(5 pass).
+
+- **N(T)**, the negations of the teacher sentence: every stage-1 generator variant whose negation
+  parity differs from T's own cue parity (nli2 step 5.1's labelling rule, so K1 cancellations and
+  double negations are excluded). When T is itself negative, the Phase 1 affirmations with
+  `polarity_flip = True` are added. Litotes rewordings are therefore excluded, because they are not
+  negations of T. Precomputed for every A sentence of clean DEV, VALIDATION, TEST and K1: **4,693
+  teacher sentences, 73,208 variants, median 18 per sentence**, cached with their mpnet embeddings
+  (`cache/variants.pkl`, `cache/mpnet.pkl`).
+- **The margin rule, implemented exactly as specified.** s_orig = sim(S, T); s_neg = aggregate over n in N
+  of sim(S, n); margin = s_neg − s_orig. The pair stays a negation only if margin > δ. No raw maximum is
+  used anywhere.
+- **Downgrade-only (3.2).** The guardrail runs after the combiner, only on pairs it called a negation, and
+  can only lower them to "not a negation". `test_guardrail_only_downgrades_and_abstains_without_variants`
+  pins this.
+- **Abstain when the generator produced nothing for T.** Such pairs are not downgraded. The
+  alternative, downgrading them, would turn every generator gap into a lost negation.
+- **Variants that step 3.4 compares** (the margin comparison is fixed; everything else is a choice):
+  - similarity: mpnet cosine, word-set Jaccard, or their mean;
+  - aggregation: max, or mean of the top 3;
+  - δ fit by Youden's J either on all clean DEV (the brief) or only on the clean-DEV pairs the combiner's
+    out-of-fold predictions call negations (the pairs the guardrail actually sees);
+  - plus the margin as an extra combiner feature instead of a veto, an architecture variant that is
+    reported against 3.2's downgrade-only constraint, which it does not satisfy.
+
+  **Rule:** highest VALIDATION accuracy among "no guardrail" and every variant; tie → clean-DEV accuracy.
