@@ -151,7 +151,7 @@ are things the brief's warnings anticipate:
 | relative clauses get affirmed | *A process that is not running is blocked* → "… that is running is blocked" | only cues inside `clause_scope(ROOT)` are removed |
 | no *avoid*, and *deny* / *refuse* only promote the complement | *He denies taking the money* → "He takes the money" | curated swap lexicon is primary (*deny → admit*, *refuse → agree*, *fail → manage*, *neglect / forget → remember*, *cease → continue*); promotion kept as secondary; *avoid* promotes its gerund |
 
-What was built (`negation/generators/n_affirmation.py`, 290 lines, imports
+What was built (`negation/generators/n_affirmation.py`, 263 lines at this commit, imports
 `negation.nlp_core.clause_scope`, no second scope implementation):
 
 - `affirm(sentence)` returns `Affirmation` records: `text`, `kind` (cue type), `cue`, `primary`,
@@ -213,4 +213,134 @@ Full suite: 414 pass (385 before).
 ```sh
 ./venv/bin/python -m pytest tests -q
 ./venv/bin/python experiments/f1/inflection_bench.py
+```
+
+### 1.2 Affirmation generator measured on clean DEV
+
+`experiments/f1/phase1.py --step 1.2` → `experiments/f1/results/1_2_affirmation.json`. Sentences
+are every distinct A and B of clean DEV (6,151). A sentence counts as **negative** when it has an
+odd number of cues by the generator's own classifier (`classify_input`): **960 sentences**. No TEST
+data is read in Phase 1.
+
+**Two more defects surfaced while measuring, both fixed in this commit:**
+
+1. **A pre-existing filter bug blocked whole base sentences, for every family.** The shared
+   blacklist (`filters.apply_blacklist`) rejected a variant whenever its text matched a pattern. That
+   included patterns already in the base. *"I didn't think **that the** instructions …"* matched
+   `doubled_determiner` (*that* is a complementiser here), so neither the affirmer nor any negation
+   family could produce a variant of it. The fix counts only matches the edit added
+   (`blacklist_hit(variant, base)`). **58 of the 6,151 clean-DEV sentences (0.9%) carry such a
+   pattern** and previously got no variant at all. The stage-1 regression pin (448 variants on the
+   20 frozen bases) is unchanged, because none of those bases is affected.
+2. **The litotes rule over-fired.** *Unfortunately it will not recharge …* was turned into
+   *Fortunately it will recharge …*. The affixal word is now required to be what the negator
+   negates (the negator's head, or a dependent of that head), and adverbs are excluded.
+
+Both have regression tests (`tests/test_affirmation.py`, now 31; full suite 416 pass).
+
+**Coverage.**
+
+| | count | share of the 960 |
+| --- | ---: | ---: |
+| negative sentences (odd cue parity) | 960 | 100% |
+| **at least one affirmation** | **659** | **68.6%** |
+| none | 301 | 31.4% |
+
+**Why 301 got none** (named buckets, assigned by `n_affirmation.failure_reason`, a stated rule):
+
+| failure bucket | count | example |
+| --- | ---: | --- |
+| every cue is outside the main clause (relative / subordinate / coordinated clause) | 214 | *Construction featured a mansion, …, but not kennels.* |
+| affixal word in attributive / term position (step-0.1 rule) or no WordNet-attested stem | 38 | *… run the risk of developing an incomplete solution.* |
+| *not* with no auxiliary to hang on (*not* + NP / adverb / fronted) | 21 | *Not often do we see her lose her cool like that.* |
+| syntactic negator in a parse shape the removal rules do not cover | 13 | *This product is clearly not ready for prime time, I don't care how cool it looks, …* |
+| *without* (G_prepositional): no affirmation rule exists | 9 | *Without a license, a practitioner is still permitted to bill …* |
+| implicit trigger with no complement to promote / not in the swap lexicon | 5 | *The bank failed the stress test …* |
+| negative quantifier in a form with no flip | 1 | *The cashier had no care what so ever …* |
+
+The biggest bucket, 71% of failures, is **by design**. The brief restricts affirmation to cues in
+the main clause's scope, and 214 of these sentences carry their only cue in a coordinated,
+relative or subordinate clause. Coordination is most of it (*… but not kennels*). Extending scope to
+coordinated main clauses (`conj` of ROOT) is the obvious next step. It was not done because, for
+those sentences, "the positive form" means removing several cues, which breaks the
+one-cue-per-variant contract of the existing generators.
+
+**Litotes** (even parity, so not in the 960): **38 sentences** carry the *not un-X* shape. Every one
+gets the approximate reading, e.g. *I'm not imperfect.* → *I'm perfect.*, *That's not incorrect.*
+→ *That's correct.*. All are tagged `approximate: true, polarity_flip: false`.
+
+**Exception blocklist** (`negation/affixes.AFFIXAL_BLOCKLIST`). I scanned all 86 affixal (word, stem)
+pairs the stripper produces over clean DEV, listed with counts in the JSON, and checked them by hand
+for lexicalised words that are not the negation of their stem:
+
+| word | why it is not *not* + stem | source |
+| --- | --- | --- |
+| invaluable | means "very valuable" | brief |
+| inflammable | means "flammable" | brief |
+| disgruntled | no attested *gruntled* | brief |
+| disorder | a condition (*a mental disorder*), not *not order* | clean-DEV scan (5 uses) |
+| immeasurably | an intensifier (*immeasurably better*) | clean-DEV scan (2) |
+| disarmament | a process, not the absence of armament | clean-DEV scan (1) |
+| disappearance | an event; *appearance* also means "looks" | clean-DEV scan (1) |
+| impersonal | "lacking warmth", not *not personal* | clean-DEV scan (1) |
+
+Borderline pairs left in: *independent / dependent*, *infinite / finite*, *illicit / licit*. All three are
+logically negations even where the stem is rare. The list is enforced in both directions, so
+D_affixal no longer produces *valuable → invaluable* either.
+
+**Spot-check: 25 of 30 correct (83%).** Thirty primary affirmations were sampled at random (seed 0), one
+per sentence. Verdicts are in `experiments/f1/data/affirmation_spotcheck.json`, each with a reason,
+judged against criteria stated before sampling:
+
+1. grammatical, with no leftover fragment of the cue;
+2. the removed cue is the main clause's negation, and nothing else changed;
+3. the output is the logical negation of the input;
+4. secondary / approximate tags sit on the readings that need them.
+
+**The verdicts were written by the same model that built the generator.** This is a machine judgement
+of machine output, and a spot-check, not a gold label. The 5 failures:
+
+| input → output | why it is wrong |
+| --- | --- |
+| *It is not known anywhere else.* → *It is known anywhere else.* | negative-polarity *anywhere* left in place (needs *somewhere*) |
+| *So anyone near you won't hear part of your conversation.* → *So anyone near you will hear …* | *anyone* under negation means *no one*; the affirmation is *someone will hear*, not *anyone* |
+| *I didn't realize how wonderful the short really is until the last two scenes.* → *I realized … until the last two scenes.* | *not … until* is a construction; *until* has to become *only in* |
+| *Now this dish wasn't quite flavourful.* → *Now this dish was quite flavourful.* | idiom *not quite X* (almost X); dropping *not* shifts *quite* to "fairly" |
+| *Chiya Khere-5 (CK-5) well failed to be completed in Q3 of 2015.* → *… well managed to be completed …* | *manage* presupposes an agent; unnatural with an inanimate passive subject |
+
+**Three of the five are negative-polarity items** (*any-*, *until*). A small NPI table (*any → some*,
+*anyone → someone*, *anywhere → somewhere*, *ever → at some point*, *yet → already*) is the next fix. It
+was not added after the spot-check, so that the 25 / 30 describes the code as committed.
+
+**Round trip** (`affirm(negate(S))` recovers S). I took 600 affirmative clean-DEV sentences (0 cues; seed 0),
+negated each with every stage-1 family the affirmer can undo (A, B, C, D, F; `net_negation = 1`), then
+affirmed the result. Only `polarity_flip` outputs count, and the one closest to S in word edits is
+kept. One base raised the generator's depth assertion and was skipped: *disappeared* is not read as a
+cue but *disappear* is, a classifier quirk.
+
+| family | pairs | exact S | one word off | differs | no affirmation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A_syntactic | 536 | 522 (97.4%) | 8 | 2 | 4 |
+| B_quantifier | 38 (n < 50) | 20 (52.6%) | 10 | 6 | 2 |
+| C_neg_adverb | 3,202 | 3,188 (99.6%) | 0 | 0 | 14 |
+| D_affixal | 28 (n < 50) | 22 (78.6%) | 0 | 0 | 6 |
+| F_implicit | 1,178 | 1,021 (86.7%) | 57 | 24 | 76 |
+| **all** | **4,982** | | | | **102** |
+
+**Of the 4,880 negations that got an affirmation, 97.8% recover S exactly and 99.3% recover it to
+within one word.** What the misses are:
+
+- **B_quantifier is not supposed to round-trip.** *All human beings …* → *None of the human beings
+  …* → ***Some** of the human beings …*. The affirmation of *none* is *some* (warning 2), so *all*
+  cannot come back. The B_quantifier rate measures the quantifier logic, not an error.
+- **Several misses start as junk on the negation side.** On verbless SNLI captions the negator
+  writes *Black and white dog **do not run** through water* and *dog **deny openning***. On doubled
+  phrases it writes *None of the of the graduates*. The affirmer faithfully undoes the junk.
+- **F_implicit's primary reading is the lexicon swap,** so *X denies producing* comes back as *X
+  admits producing* when the promotion reading (*X produces*) is not available. 9 of the 40 listed
+  non-exact examples are this.
+
+```sh
+./venv/bin/python -m pytest tests/test_affirmation.py -q
+./venv/bin/python experiments/f1/phase1.py --step 1.2
 ```

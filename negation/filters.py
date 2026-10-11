@@ -53,10 +53,16 @@ def normalize(text: str) -> str:
     return _WS_RE.sub(" ", _PUNCT_RE.sub(" ", folded)).strip()
 
 
-def blacklist_hit(text: str) -> Optional[str]:
-    """Name of the first blacklist pattern ``text`` matches, if any."""
+def blacklist_hit(text: str, base: str = "") -> Optional[str]:
+    """Name of the first blacklist pattern ``text`` matches more often than ``base`` does.
+
+    The patterns describe junk an *edit* introduces.  Counting against the base sentence keeps
+    a pattern that was already there from vetoing every variant of it: *"I didn't think that the
+    instructions …"* matched ``doubled_determiner`` (*that the*, a complementiser plus a
+    determiner) and so got no variant from any family (report_f1.md step 1.2).
+    """
     for name, pattern in BLACKLIST_PATTERNS:
-        if pattern.search(text):
+        if len(pattern.findall(text)) > len(pattern.findall(base)):
             return name
     return None
 
@@ -112,7 +118,7 @@ def apply_blacklist(
     """Drop records matching a known-bad surface pattern."""
     out: list[NegationVariant] = []
     for record in records:
-        hit = blacklist_hit(record.variant)
+        hit = blacklist_hit(record.variant, record.base_sentence)
         if hit is not None:
             report.drop(f"blacklist:{hit}")
             continue

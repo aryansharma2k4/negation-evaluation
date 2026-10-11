@@ -184,13 +184,16 @@ def litotes(doc: Doc, scope: Optional[frozenset[int]] = None) -> Optional[Affirm
     """*not un-X* -> *X*: one negator and one affixal negative in the main clause."""
     scope = main_scope(doc) if scope is None else scope
     negs = [t for t in doc if t.i in scope and t.lower_ in _LITOTES_NEGATORS]
-    affs = [t for t in doc if t.i in scope and t.pos_ in ("ADJ", "ADV", "NOUN") and negative_base_forms(t)]
-    if len(negs) != 1 or not affs:
+    if len(negs) != 1:
         return None
     neg = negs[0]
-    x = min(affs, key=lambda a: abs(a.i - neg.i))
-    if not _strip_eligible(x) and x.pos_ != "ADV":
+    # the affixal word must be what the negator negates (its head, or a predicate of that head):
+    # *Unfortunately it will not recharge* has both cues but is not a litotes
+    affs = [t for t in doc if t.i in scope and t.pos_ in ("ADJ", "NOUN") and negative_base_forms(t)
+            and (t.i == neg.head.i or t.head.i == neg.head.i) and _strip_eligible(t)]
+    if not affs:
         return None
+    x = min(affs, key=lambda a: abs(a.i - neg.i))
     edits = clausal_negator_removal(neg) or [_delete_negator(neg)]
     stem = negative_base_forms(x)[0][0]
     edits = [e for e in edits if not (e.start <= x.idx < e.end)]

@@ -102,7 +102,8 @@ def eligible(token: Token) -> bool:
 #: (deriving and stripping).  Seeded from the brief; extended by scanning the affirmation
 #: generator's output over clean DEV (report_f1.md step 1.2).
 AFFIXAL_BLOCKLIST: frozenset[str] = frozenset({
-    "invaluable", "inflammable", "disgruntled",
+    "invaluable", "inflammable", "disgruntled",                                # the brief's seed
+    "disorder", "immeasurably", "disarmament", "disappearance", "impersonal",   # clean-DEV scan, step 1.2
 })
 
 

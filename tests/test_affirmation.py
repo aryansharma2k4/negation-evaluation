@@ -87,3 +87,13 @@ def test_only_the_main_clause_is_affirmed():
 
 def test_affirmative_sentence_has_no_affirmation():
     assert texts("The scheduler runs the process.") == set()
+
+
+def test_sentence_adverb_is_not_a_litotes():
+    got = affirm("Unfortunately it will not recharge my phone.")
+    assert all(a.polarity_flip for a in got) and "Fortunately" not in " ".join(a.text for a in got)
+
+
+def test_a_complementiser_in_the_base_does_not_block_the_variant():
+    # "that the" matched the doubled_determiner blacklist and vetoed every variant (step 1.2)
+    assert "I thought that the instructions were helpful." in texts("I didn't think that the instructions were helpful.")

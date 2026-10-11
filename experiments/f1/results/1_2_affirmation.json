@@ -1,0 +1,2512 @@
+{
+  "dev_sentences": 6151,
+  "negative_by_cue_parity": 960,
+  "dev_sentences_matching_a_blacklist_pattern_in_the_base": 58,
+  "with_at_least_one_affirmation": 659,
+  "with_none": 301,
+  "failure_buckets": {
+    "every cue is outside the main clause (relative / subordinate / coordinated clause)": 214,
+    "affixal: attributive / term position (step-0.1 rule) or no WordNet-attested stem": 38,
+    "not without an auxiliary to hang on (not + NP / adverb / infinitive)": 21,
+    "syntactic negator: parse shape the removal rules do not cover": 13,
+    "cue family G_prepositional: no affirmation rule": 9,
+    "implicit trigger: no complement to promote / not in the swap lexicon": 5,
+    "negative quantifier: no flip for this form or position": 1
+  },
+  "cue_types": {
+    "be + not (copula)": 238,
+    "affixal prefix (un- / in- / non- / dis- ...)": 171,
+    "implicit (refuse / deny / fail / lack / unable ...)": 112,
+    "negative quantifier (no / none / nobody / nothing / neither / nor)": 97,
+    "not, other position (e.g. not + NP / adverb)": 58,
+    "be + not (aux / passive / progressive)": 47,
+    "did not V": 39,
+    "do not V": 37,
+    "never": 33,
+    "does not V": 26,
+    "has / have / had not (perfect)": 23,
+    "other modal + not": 22,
+    "can + not / can't / cannot": 18,
+    "without": 12,
+    "will not / won't": 10,
+    "rarely / seldom / hardly / barely": 9,
+    "-less suffix": 4,
+    "other (absence)": 2,
+    "other (n\u2019t)": 1,
+    "other (nt)": 1
+  },
+  "produced_by_cue_type": {
+    "be + not (copula)": 200,
+    "implicit (refuse / deny / fail / lack / unable ...)": 93,
+    "affixal prefix (un- / in- / non- / dis- ...)": 90,
+    "negative quantifier (no / none / nobody / nothing / neither / nor)": 72,
+    "be + not (aux / passive / progressive)": 38,
+    "did not V": 32,
+    "does not V": 24,
+    "do not V": 24,
+    "never": 24,
+    "other modal + not": 16,
+    "has / have / had not (perfect)": 15,
+    "can + not / can't / cannot": 12,
+    "will not / won't": 9,
+    "rarely / seldom / hardly / barely": 6,
+    "-less suffix": 2,
+    "not, other position (e.g. not + NP / adverb)": 1,
+    "other (nt)": 1
+  },
+  "litotes_sentences_even_parity": 38,
+  "litotes": [
+    {
+      "sentence": "I'm not imperfect.",
+      "outputs": [
+        {
+          "text": "I'm perfect.",
+          "kind": "litotes (not un-X)",
+          "cue": "not imperfect",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "I'm imperfect.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "I'm not perfect.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "imperfect",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_im",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "But that's not impossible.",
+      "outputs": [
+        {
+          "text": "But that's possible.",
+          "kind": "litotes (not un-X)",
+          "cue": "not impossible",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But that's impossible.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But that's not possible.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "impossible",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_im",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "That is not unfair.",
+      "outputs": [
+        {
+          "text": "That is fair.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unfair",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is unfair.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is not fair.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unfair",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "It's not unacceptable.",
+      "outputs": [
+        {
+          "text": "It's acceptable.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unacceptable",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "It's unacceptable.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "It's not acceptable.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unacceptable",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "It's not that uneasy.",
+      "outputs": [
+        {
+          "text": "It's that easy.",
+          "kind": "litotes (not un-X)",
+          "cue": "not uneasy",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "It's that uneasy.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "It's not that easy.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "uneasy",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "You know that's not impossible.",
+      "outputs": [
+        {
+          "text": "You know that's possible.",
+          "kind": "litotes (not un-X)",
+          "cue": "not impossible",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "You know that's impossible.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "You know that's not possible.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "impossible",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_im",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "This is not unfair.",
+      "outputs": [
+        {
+          "text": "This is fair.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unfair",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "This is unfair.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "This is not fair.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unfair",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "This is not uneasy.",
+      "outputs": [
+        {
+          "text": "This is easy.",
+          "kind": "litotes (not un-X)",
+          "cue": "not uneasy",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "This is uneasy.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "This is not easy.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "uneasy",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "That's not incorrect.",
+      "outputs": [
+        {
+          "text": "That's correct.",
+          "kind": "litotes (not un-X)",
+          "cue": "not incorrect",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That's incorrect.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That's not correct.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "incorrect",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "She's not unconscious.",
+      "outputs": [
+        {
+          "text": "She's conscious.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unconscious",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "She's unconscious.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "She's not conscious.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unconscious",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "That is not irrelevant.",
+      "outputs": [
+        {
+          "text": "That is relevant.",
+          "kind": "litotes (not un-X)",
+          "cue": "not irrelevant",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is irrelevant.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is not relevant.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "irrelevant",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_ir",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "The battery life isn't highly unacceptable.",
+      "outputs": [
+        {
+          "text": "The battery life is highly acceptable.",
+          "kind": "litotes (not un-X)",
+          "cue": "n't unacceptable",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "The battery life is highly unacceptable.",
+          "kind": "be + not (copula)",
+          "cue": "n't",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "The battery life isn't highly acceptable.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unacceptable",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "You're not insane.",
+      "outputs": [
+        {
+          "text": "You're sane.",
+          "kind": "litotes (not un-X)",
+          "cue": "not insane",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "You're insane.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "You're not sane.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "insane",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "Oh, that's not unnecessary.",
+      "outputs": [
+        {
+          "text": "Oh, that's necessary.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unnecessary",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Oh, that's unnecessary.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Oh, that's not necessary.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unnecessary",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "But that's not irrelevant.",
+      "outputs": [
+        {
+          "text": "But that's relevant.",
+          "kind": "litotes (not un-X)",
+          "cue": "not irrelevant",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But that's irrelevant.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But that's not relevant.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "irrelevant",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_ir",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "But it's not incorrect.",
+      "outputs": [
+        {
+          "text": "But it's correct.",
+          "kind": "litotes (not un-X)",
+          "cue": "not incorrect",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But it's incorrect.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But it's not correct.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "incorrect",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "My client is not incompetent to give consent.",
+      "outputs": [
+        {
+          "text": "My client is competent to give consent.",
+          "kind": "litotes (not un-X)",
+          "cue": "not incompetent",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "My client is incompetent to give consent.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "My client is not competent to give consent.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "incompetent",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "It's not that unimportant.",
+      "outputs": [
+        {
+          "text": "It's that important.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unimportant",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "It's that unimportant.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "It's not that important.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unimportant",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "Uh, I'm not uncertain.",
+      "outputs": [
+        {
+          "text": "Uh, I'm certain.",
+          "kind": "litotes (not un-X)",
+          "cue": "not uncertain",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Uh, I'm uncertain.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Uh, I'm not certain.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "uncertain",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "Uh, I'm not unsure.",
+      "outputs": [
+        {
+          "text": "Uh, I'm sure.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unsure",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Uh, I'm unsure.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Uh, I'm not sure.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unsure",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "But something's not incorrect.",
+      "outputs": [
+        {
+          "text": "But something's correct.",
+          "kind": "litotes (not un-X)",
+          "cue": "not incorrect",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But something's incorrect.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But something's not correct.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "incorrect",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "We're not unready.",
+      "outputs": [
+        {
+          "text": "We're ready.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unready",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "We're unready.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "We're not ready.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unready",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "And you're not unhappy?",
+      "outputs": [
+        {
+          "text": "And you're happy?",
+          "kind": "litotes (not un-X)",
+          "cue": "not unhappy",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "And you're unhappy?",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "And you're not happy?",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unhappy",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "Life's not unfair.",
+      "outputs": [
+        {
+          "text": "Life's fair.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unfair",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Life's not fair.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unfair",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "She's not unready.",
+      "outputs": [
+        {
+          "text": "She's ready.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unready",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "She's unready.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "She's not ready.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unready",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "I'm not uncertain if you remember me.",
+      "outputs": [
+        {
+          "text": "I'm certain if you remember me.",
+          "kind": "litotes (not un-X)",
+          "cue": "not uncertain",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "I'm uncertain if you remember me.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "I'm not certain if you remember me.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "uncertain",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "You're not being unfair.",
+      "outputs": [
+        {
+          "text": "You're being fair.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unfair",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "You're being unfair.",
+          "kind": "be + not (aux / passive / progressive)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_aux_neg_v1/drop_aux_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "You're not being fair.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unfair",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "We're not unreceptive.",
+      "outputs": [
+        {
+          "text": "We're receptive.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unreceptive",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "We're unreceptive.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "We're not receptive.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unreceptive",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "Oh, come on, that's not unfair.",
+      "outputs": [
+        {
+          "text": "Oh, come on, that's fair.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unfair",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Oh, come on, that's unfair.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "Oh, come on, that's not fair.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unfair",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "But it is not impossible.",
+      "outputs": [
+        {
+          "text": "But it is possible.",
+          "kind": "litotes (not un-X)",
+          "cue": "not impossible",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But it is impossible.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "But it is not possible.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "impossible",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_im",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "That's not inaccurate.",
+      "outputs": [
+        {
+          "text": "That's accurate.",
+          "kind": "litotes (not un-X)",
+          "cue": "not inaccurate",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That's inaccurate.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That's not accurate.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "inaccurate",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "And I tell you something, it's not unfair.",
+      "outputs": [
+        {
+          "text": "And I tell you something, it's fair.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unfair",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "And I tell you something, it's unfair.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "And I tell you something, it's not fair.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unfair",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "That is not insignificant.",
+      "outputs": [
+        {
+          "text": "That is significant.",
+          "kind": "litotes (not un-X)",
+          "cue": "not insignificant",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is insignificant.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is not significant.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "insignificant",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "That is not unimportant.",
+      "outputs": [
+        {
+          "text": "That is important.",
+          "kind": "litotes (not un-X)",
+          "cue": "not unimportant",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is unimportant.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is not important.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "unimportant",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "That is not noncrucial.",
+      "outputs": [
+        {
+          "text": "That is crucial.",
+          "kind": "litotes (not un-X)",
+          "cue": "not noncrucial",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is noncrucial.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That is not crucial.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "noncrucial",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_non",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "That's...not impossible.",
+      "outputs": [
+        {
+          "text": "That's... possible.",
+          "kind": "litotes (not un-X)",
+          "cue": "not impossible",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "That's...not possible.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "impossible",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_im",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "He's not incorrect.",
+      "outputs": [
+        {
+          "text": "He's correct.",
+          "kind": "litotes (not un-X)",
+          "cue": "not incorrect",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "He's incorrect.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "He's not correct.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "incorrect",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+          "family": "N_affirmation"
+        }
+      ]
+    },
+    {
+      "sentence": "It is not untruthful.",
+      "outputs": [
+        {
+          "text": "It is truthful.",
+          "kind": "litotes (not un-X)",
+          "cue": "not untruthful",
+          "primary": true,
+          "approximate": true,
+          "polarity_flip": false,
+          "rule": "litotes",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "It is untruthful.",
+          "kind": "be + not (copula)",
+          "cue": "not",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_copula_neg_v1/drop_copula_negator",
+          "family": "N_affirmation"
+        },
+        {
+          "text": "It is not truthful.",
+          "kind": "affixal prefix (un- / in- / non- / dis- ...)",
+          "cue": "untruthful",
+          "primary": false,
+          "approximate": false,
+          "polarity_flip": true,
+          "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+          "family": "N_affirmation"
+        }
+      ]
+    }
+  ],
+  "affixal_pairs_seen": [
+    [
+      "unable",
+      "able",
+      27
+    ],
+    [
+      "impossible",
+      "possible",
+      9
+    ],
+    [
+      "unfair",
+      "fair",
+      8
+    ],
+    [
+      "incorrect",
+      "correct",
+      8
+    ],
+    [
+      "illegal",
+      "legal",
+      8
+    ],
+    [
+      "nonexistent",
+      "existent",
+      7
+    ],
+    [
+      "incapable",
+      "capable",
+      6
+    ],
+    [
+      "insignificant",
+      "significant",
+      6
+    ],
+    [
+      "unemployment",
+      "employment",
+      5
+    ],
+    [
+      "ineffective",
+      "effective",
+      4
+    ],
+    [
+      "independent",
+      "dependent",
+      4
+    ],
+    [
+      "unpopular",
+      "popular",
+      4
+    ],
+    [
+      "inequality",
+      "equality",
+      4
+    ],
+    [
+      "useless",
+      "useful",
+      4
+    ],
+    [
+      "incomplete",
+      "complete",
+      3
+    ],
+    [
+      "unstable",
+      "stable",
+      3
+    ],
+    [
+      "unavailable",
+      "available",
+      3
+    ],
+    [
+      "unknown",
+      "known",
+      3
+    ],
+    [
+      "ineligible",
+      "eligible",
+      3
+    ],
+    [
+      "insufficient",
+      "sufficient",
+      3
+    ],
+    [
+      "uneasy",
+      "easy",
+      3
+    ],
+    [
+      "unrelated",
+      "related",
+      3
+    ],
+    [
+      "unnecessary",
+      "necessary",
+      3
+    ],
+    [
+      "infinite",
+      "finite",
+      3
+    ],
+    [
+      "uncertain",
+      "certain",
+      3
+    ],
+    [
+      "unsure",
+      "sure",
+      2
+    ],
+    [
+      "unadjusted",
+      "adjusted",
+      2
+    ],
+    [
+      "unfortunately",
+      "fortunately",
+      2
+    ],
+    [
+      "irregular",
+      "regular",
+      2
+    ],
+    [
+      "inconsistent",
+      "consistent",
+      2
+    ],
+    [
+      "unacceptable",
+      "acceptable",
+      2
+    ],
+    [
+      "disagree",
+      "agree",
+      2
+    ],
+    [
+      "unimportant",
+      "important",
+      2
+    ],
+    [
+      "unlikely",
+      "likely",
+      2
+    ],
+    [
+      "irrelevant",
+      "relevant",
+      2
+    ],
+    [
+      "unusual",
+      "usual",
+      2
+    ],
+    [
+      "unready",
+      "ready",
+      2
+    ],
+    [
+      "unofficial",
+      "official",
+      2
+    ],
+    [
+      "nonarbitrary",
+      "arbitrary",
+      2
+    ],
+    [
+      "disproportionate",
+      "proportionate",
+      2
+    ],
+    [
+      "unoriginal",
+      "original",
+      2
+    ],
+    [
+      "unsuccessful",
+      "successful",
+      2
+    ],
+    [
+      "illicit",
+      "licit",
+      2
+    ],
+    [
+      "imperfect",
+      "perfect",
+      1
+    ],
+    [
+      "dissimilar",
+      "similar",
+      1
+    ],
+    [
+      "unhelpful",
+      "helpful",
+      1
+    ],
+    [
+      "unguided",
+      "guided",
+      1
+    ],
+    [
+      "inaccurate",
+      "accurate",
+      1
+    ],
+    [
+      "unlawful",
+      "lawful",
+      1
+    ],
+    [
+      "unaware",
+      "aware",
+      1
+    ],
+    [
+      "undeveloped",
+      "developed",
+      1
+    ],
+    [
+      "unsatisfactory",
+      "satisfactory",
+      1
+    ],
+    [
+      "uninhabited",
+      "inhabited",
+      1
+    ],
+    [
+      "unsanitary",
+      "sanitary",
+      1
+    ],
+    [
+      "noncrucial",
+      "crucial",
+      1
+    ],
+    [
+      "uninvolved",
+      "involved",
+      1
+    ],
+    [
+      "undamaged",
+      "damaged",
+      1
+    ],
+    [
+      "uninterested",
+      "interested",
+      1
+    ],
+    [
+      "unconscious",
+      "conscious",
+      1
+    ],
+    [
+      "instability",
+      "stability",
+      1
+    ],
+    [
+      "dislike",
+      "like",
+      1
+    ],
+    [
+      "insane",
+      "sane",
+      1
+    ],
+    [
+      "unhappy",
+      "happy",
+      1
+    ],
+    [
+      "unprofitable",
+      "profitable",
+      1
+    ],
+    [
+      "unaffected",
+      "affected",
+      1
+    ],
+    [
+      "incompetent",
+      "competent",
+      1
+    ],
+    [
+      "untruthful",
+      "truthful",
+      1
+    ],
+    [
+      "unreceptive",
+      "receptive",
+      1
+    ],
+    [
+      "improper",
+      "proper",
+      1
+    ],
+    [
+      "irregularities",
+      "regularity",
+      1
+    ],
+    [
+      "disadvantages",
+      "advantage",
+      1
+    ],
+    [
+      "uncomfortable",
+      "comfortable",
+      1
+    ],
+    [
+      "informal",
+      "formal",
+      1
+    ],
+    [
+      "inappropriately",
+      "appropriately",
+      1
+    ],
+    [
+      "discomfort",
+      "comfort",
+      1
+    ]
+  ],
+  "blocklist": [
+    "disappearance",
+    "disarmament",
+    "disgruntled",
+    "disorder",
+    "immeasurably",
+    "impersonal",
+    "inflammable",
+    "invaluable"
+  ],
+  "spotcheck_criteria": [
+    "1. grammatical English (agreement, tense, articles) with no leftover fragment of the cue",
+    "2. the removed cue is the main clause's negation, and nothing else in the sentence changed",
+    "3. the output is the logical negation of the input (for litotes: the input's meaning without the hedge)",
+    "4. secondary / approximate tags are on the readings that need them"
+  ],
+  "spotcheck_sample": [
+    {
+      "input": "Fulfulde is the lingua franca in none of the parts of Burkina Faso.",
+      "output": "Fulfulde is the lingua franca in some of the parts of Burkina Faso.",
+      "cue_type": "negative quantifier (no / none / nobody / nothing / neither / nor)",
+      "rule": "affirm_quantifier_flip_v1/none_to_some",
+      "approximate": false
+    },
+    {
+      "input": "Poorly known, it has never been recorded in 1998 and 2010.",
+      "output": "Poorly known, it has been recorded in 1998 and 2010.",
+      "cue_type": "never",
+      "rule": "affirm_neg_adverb_v1/strip_never",
+      "approximate": false
+    },
+    {
+      "input": "The study failed to mention analysis of 162 countries.",
+      "output": "The study managed to mention analysis of 162 countries.",
+      "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+      "rule": "implicit_swap/fail_to_manage",
+      "approximate": false
+    },
+    {
+      "input": "It can never be 100% organic, or integrated with increased conventional inputs.",
+      "output": "It can be 100% organic, or integrated with increased conventional inputs.",
+      "cue_type": "never",
+      "rule": "affirm_neg_adverb_v1/strip_never",
+      "approximate": false
+    },
+    {
+      "input": "And I tell you something, it's not foul.",
+      "output": "And I tell you something, it's foul.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "Now this dish wasn't quite flavourful.",
+      "output": "Now this dish was quite flavourful.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "It has failed to house the Chamber of Commerce since 1968.",
+      "output": "It has managed to house the Chamber of Commerce since 1968.",
+      "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+      "rule": "implicit_swap/fail_to_manage",
+      "approximate": false
+    },
+    {
+      "input": "Chiya Khere-5 (CK-5) well failed to be completed in Q3 of 2015.",
+      "output": "Chiya Khere-5 (CK-5) well managed to be completed in Q3 of 2015.",
+      "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+      "rule": "implicit_swap/fail_to_manage",
+      "approximate": false
+    },
+    {
+      "input": "This doesn't allow the possibility of double booking for the same date and time after the first.",
+      "output": "This allows the possibility of double booking for the same date and time after the first.",
+      "cue_type": "does not V",
+      "rule": "affirm_do_support_v1/collapse_do_support",
+      "approximate": false
+    },
+    {
+      "input": "I'm not passive these days.",
+      "output": "I'm passive these days.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "It is not known anywhere else.",
+      "output": "It is known anywhere else.",
+      "cue_type": "be + not (aux / passive / progressive)",
+      "rule": "affirm_aux_neg_v1/drop_aux_negator",
+      "approximate": false
+    },
+    {
+      "input": "That is not important.",
+      "output": "That is important.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "That is not bad news.",
+      "output": "That is bad news.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "I'm not stupid.",
+      "output": "I'm stupid.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "So anyone near you won't hear part of your conversation.",
+      "output": "So anyone near you will hear part of your conversation.",
+      "cue_type": "will not / won't",
+      "rule": "affirm_aux_neg_v1/drop_aux_negator",
+      "approximate": false
+    },
+    {
+      "input": "This isn't a VERY average phone with bad battery life that operates on a weak network.",
+      "output": "This is a VERY average phone with bad battery life that operates on a weak network.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "Beant Singh was not dutied for thousands of extra judicial murders of Sikhs.",
+      "output": "Beant Singh was dutied for thousands of extra judicial murders of Sikhs.",
+      "cue_type": "be + not (aux / passive / progressive)",
+      "rule": "affirm_aux_neg_v1/drop_aux_negator",
+      "approximate": false
+    },
+    {
+      "input": "God probably does not exist.",
+      "output": "God probably exists.",
+      "cue_type": "does not V",
+      "rule": "affirm_do_support_v1/collapse_do_support",
+      "approximate": false
+    },
+    {
+      "input": "This species never serves as forage for livestock such as sheep and goats.",
+      "output": "This species serves as forage for livestock such as sheep and goats.",
+      "cue_type": "never",
+      "rule": "affirm_neg_adverb_v1/strip_never",
+      "approximate": false
+    },
+    {
+      "input": "Uh, I'm unsure.",
+      "output": "Uh, I'm sure.",
+      "cue_type": "affixal prefix (un- / in- / non- / dis- ...)",
+      "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+      "approximate": false
+    },
+    {
+      "input": "There is no freedom of speech.",
+      "output": "There is some freedom of speech.",
+      "cue_type": "negative quantifier (no / none / nobody / nothing / neither / nor)",
+      "rule": "affirm_quantifier_flip_v1/no_to_some",
+      "approximate": false
+    },
+    {
+      "input": "The Royal Geographical Society refused to award him their Founder's Gold Medal in 1906.",
+      "output": "The Royal Geographical Society agreed to award him their Founder's Gold Medal in 1906.",
+      "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+      "rule": "implicit_swap/refuse_to_agree",
+      "approximate": false
+    },
+    {
+      "input": "The mic isn't great.",
+      "output": "The mic is great.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "This observation is inconsistent with separate reports by the Interception of Communications Commissioner.",
+      "output": "This observation is consistent with separate reports by the Interception of Communications Commissioner.",
+      "cue_type": "affixal prefix (un- / in- / non- / dis- ...)",
+      "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+      "approximate": false
+    },
+    {
+      "input": "The garbage along with a general army store in Wallangarra does not exist today.",
+      "output": "The garbage along with a general army store in Wallangarra exists today.",
+      "cue_type": "does not V",
+      "rule": "affirm_do_support_v1/collapse_do_support",
+      "approximate": false
+    },
+    {
+      "input": "The streaks are impossible to be reduced using newer reconstruction techniques.",
+      "output": "The streaks are possible to be reduced using newer reconstruction techniques.",
+      "cue_type": "affixal prefix (un- / in- / non- / dis- ...)",
+      "rule": "affirm_affixal_strip_v1/strip_prefix_im",
+      "approximate": false
+    },
+    {
+      "input": "In An Introduction to Cybernetics, Ashby refused to formulate his Law of Requisite Variety.",
+      "output": "In An Introduction to Cybernetics, Ashby agreed to formulate his Law of Requisite Variety.",
+      "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+      "rule": "implicit_swap/refuse_to_agree",
+      "approximate": false
+    },
+    {
+      "input": "I didn't realize how wonderful the short really is until the last two scenes.",
+      "output": "I realized how wonderful the short really is until the last two scenes.",
+      "cue_type": "did not V",
+      "rule": "affirm_do_support_v1/collapse_do_support",
+      "approximate": false
+    },
+    {
+      "input": "This is not a good idea.",
+      "output": "This is a good idea.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    },
+    {
+      "input": "That's not little.",
+      "output": "That's little.",
+      "cue_type": "be + not (copula)",
+      "rule": "affirm_copula_neg_v1/drop_copula_negator",
+      "approximate": false
+    }
+  ],
+  "round_trip": {
+    "bases_sampled": 600,
+    "bases_with_generator_error": 1,
+    "bases_with_undoable_negation": 538,
+    "pairs": 4982,
+    "pairs_affirmed": 4880,
+    "exact_rate_of_affirmed": 0.9781,
+    "exact_or_one_word_rate_of_affirmed": 0.9934,
+    "by_family": {
+      "A_syntactic": {
+        "n": 536,
+        "exact": 522,
+        "one word off": 8,
+        "differs": 2,
+        "no affirmation": 4
+      },
+      "B_quantifier": {
+        "n": 38,
+        "exact": 20,
+        "one word off": 10,
+        "differs": 6,
+        "no affirmation": 2
+      },
+      "C_neg_adverb": {
+        "n": 3202,
+        "exact": 3188,
+        "one word off": 0,
+        "differs": 0,
+        "no affirmation": 14
+      },
+      "D_affixal": {
+        "n": 28,
+        "exact": 22,
+        "one word off": 0,
+        "differs": 0,
+        "no affirmation": 6
+      },
+      "F_implicit": {
+        "n": 1178,
+        "exact": 1021,
+        "one word off": 57,
+        "differs": 24,
+        "no affirmation": 76
+      }
+    },
+    "non_exact_examples": [
+      {
+        "family": "F_implicit",
+        "base": "Rocky Peak Park and O'Melveny Park have trail sections already.",
+        "negated": "Rocky Peak Park and O'Melveny Park is unable to have trail sections already.",
+        "affirmed": "Rocky Peak Park and O'Melveny Park has trail sections already.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "A_syntactic",
+        "base": "Black and white dog running through water.",
+        "negated": "Black and white dog do not run through water.",
+        "affirmed": "Black and white dog run through water.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Black and white dog running through water.",
+        "negated": "Black and white dog fail to run through water.",
+        "affirmed": "Black and white dog run through water.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Black and white dog running through water.",
+        "negated": "Black and white dog refuse to run through water.",
+        "affirmed": "Black and white dog run through water.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Black and white dog running through water.",
+        "negated": "Black and white dog is unable to run through water.",
+        "affirmed": "Black and white dog runs through water.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Black and white dog running through water.",
+        "negated": "Black and white dog deny running through water.",
+        "affirmed": "Black and white dog admit running through water.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "A_syntactic",
+        "base": "Horses jumping a hurdle in a race.",
+        "negated": "Horses do not jump a hurdle in a race.",
+        "affirmed": "Horses jump a hurdle in a race.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Horses jumping a hurdle in a race.",
+        "negated": "Horses fail to jump a hurdle in a race.",
+        "affirmed": "Horses jump a hurdle in a race.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Horses jumping a hurdle in a race.",
+        "negated": "Horses refuse to jump a hurdle in a race.",
+        "affirmed": "Horses jump a hurdle in a race.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Horses jumping a hurdle in a race.",
+        "negated": "Horses neglect to jump a hurdle in a race.",
+        "affirmed": "Horses jump a hurdle in a race.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Horses jumping a hurdle in a race.",
+        "negated": "Horses cease to jump a hurdle in a race.",
+        "affirmed": "Horses jump a hurdle in a race.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Horses jumping a hurdle in a race.",
+        "negated": "Horses are unable to jump a hurdle in a race.",
+        "affirmed": "Horses jump a hurdle in a race.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Horses jumping a hurdle in a race.",
+        "negated": "Horses deny jumping a hurdle in a race.",
+        "affirmed": "Horses admit jumping a hurdle in a race.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "A crowd gathers along the handrail of a boardwalk to watch young men leap into the air on the beach sand.",
+        "negated": "A crowd denies gatherring along the handrail of a boardwalk to watch young men leap into the air on the beach sand.",
+        "affirmed": "A crowd gatherres along the handrail of a boardwalk to watch young men leap into the air on the beach sand.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "B_quantifier",
+        "base": "All human beings have for this reason an equal spiritual dignity.",
+        "negated": "None of the human beings have for this reason an equal spiritual dignity.",
+        "affirmed": "Some of the human beings have for this reason an equal spiritual dignity.",
+        "word_edits": 3,
+        "result": "differs"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Popular winter activities include cross-country skiing and snowshoeing.",
+        "negated": "Popular winter activities deny including cross-country skiing and snowshoeing.",
+        "affirmed": "Popular winter activities admit including cross-country skiing and snowshoeing.",
+        "word_edits": 2,
+        "result": "differs"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Popular winter activities include cross-country skiing and snowshoeing.",
+        "negated": "Popular winter activities lack cross-country skiing and snowshoeing.",
+        "affirmed": "Popular winter activities have cross-country skiing and snowshoeing.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Various people shop at a street clothing sale.",
+        "negated": "Various people deny shopping at a street clothing sale.",
+        "affirmed": "Various people admit shopping at a street clothing sale.",
+        "word_edits": 2,
+        "result": "differs"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Rulings superseded by the federal government falls to any state.",
+        "negated": "Rulings superseded by the federal government are unable to fall to any state.",
+        "affirmed": "Rulings superseded by the federal government fall to any state.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "B_quantifier",
+        "base": "All of the graduates of my program have moved on to other things because the jobs suck.",
+        "negated": "None of the of the graduates of my program have moved on to other things because the jobs suck.",
+        "affirmed": "Some of the of the graduates of my program have moved on to other things because the jobs suck.",
+        "word_edits": 3,
+        "result": "differs"
+      },
+      {
+        "family": "A_syntactic",
+        "base": "A black dog standing in a field.",
+        "negated": "A black dog do not stand in a field.",
+        "affirmed": "A black dog stand in a field.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "A black dog standing in a field.",
+        "negated": "A black dog fail to stand in a field.",
+        "affirmed": "A black dog stand in a field.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "A black dog standing in a field.",
+        "negated": "A black dog refuse to stand in a field.",
+        "affirmed": "A black dog stand in a field.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "A black dog standing in a field.",
+        "negated": "A black dog is unable to stand in a field.",
+        "affirmed": "A black dog stands in a field.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "A black dog standing in a field.",
+        "negated": "A black dog deny standing in a field.",
+        "affirmed": "A black dog admit standing in a field.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Snowden poised to fly out of Moscow",
+        "negated": "Snowden denied poising to fly out of Moscow",
+        "affirmed": "Snowden admitted poising to fly out of Moscow",
+        "word_edits": 2,
+        "result": "differs"
+      },
+      {
+        "family": "A_syntactic",
+        "base": "Chris Brown concerts cancelled new",
+        "negated": "Chris Brown concerts did not cancel new",
+        "affirmed": "Chris Brown concerts canceled new",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Chris Brown concerts cancelled new",
+        "negated": "Chris Brown concerts failed to cancel new",
+        "affirmed": "Chris Brown concerts canceled new",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Chris Brown concerts cancelled new",
+        "negated": "Chris Brown concerts refused to cancel new",
+        "affirmed": "Chris Brown concerts canceled new",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Chris Brown concerts cancelled new",
+        "negated": "Chris Brown concerts neglected to cancel new",
+        "affirmed": "Chris Brown concerts canceled new",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Chris Brown concerts cancelled new",
+        "negated": "Chris Brown concerts ceased to cancel new",
+        "affirmed": "Chris Brown concerts canceled new",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Chris Brown concerts cancelled new",
+        "negated": "Chris Brown concerts were unable to cancel new",
+        "affirmed": "Chris Brown concerts canceled new",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Chris Brown concerts cancelled new",
+        "negated": "Chris Brown concerts denied cancelling new",
+        "affirmed": "Chris Brown concerts canceled new",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "These pairs of doors amplify outside sound.",
+        "negated": "These pairs of doors deny amplifying outside sound.",
+        "affirmed": "These pairs of doors admit amplifying outside sound.",
+        "word_edits": 2,
+        "result": "differs"
+      },
+      {
+        "family": "B_quantifier",
+        "base": "A man is carrying someone on his shoulder.",
+        "negated": "A man is carrying nobody on his shoulder.",
+        "affirmed": "A man is carrying somebody on his shoulder.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "B_quantifier",
+        "base": "In all places, the term standpipe is utilized interchangeably to refer to a water tower.",
+        "negated": "In none of the places, the term standpipe is utilized interchangeably to refer to a water tower.",
+        "affirmed": "In some of the places, the term standpipe is utilized interchangeably to refer to a water tower.",
+        "word_edits": 3,
+        "result": "differs"
+      },
+      {
+        "family": "B_quantifier",
+        "base": "It is always referred to only as Bemisia argentifolii.",
+        "negated": "It is never referred to only as Bemisia argentifolii.",
+        "affirmed": "It is referred to only as Bemisia argentifolii.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Gujarati Ahir s comprise a relatively tiny group in Kutch.",
+        "negated": "Gujarati Ahir s is unable to comprise a relatively tiny group in Kutch.",
+        "affirmed": "Gujarati Ahir s comprises a relatively tiny group in Kutch.",
+        "word_edits": 1,
+        "result": "one word off"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Researchers also hypothesize that loud snoring could create turbulence in carotid artery blood flow.",
+        "negated": "Researchers also deny hypothesizing that loud snoring could create turbulence in carotid artery blood flow.",
+        "affirmed": "Researchers also admit hypothesizing that loud snoring could create turbulence in carotid artery blood flow.",
+        "word_edits": 2,
+        "result": "differs"
+      },
+      {
+        "family": "F_implicit",
+        "base": "9 killed, 31 wounded in car bombs in Iraq's Kirkuk",
+        "negated": "9 denied killing, 31 wounded in car bombs in Iraq's Kirkuk",
+        "affirmed": "9 admitted killing, 31 wounded in car bombs in Iraq's Kirkuk",
+        "word_edits": 2,
+        "result": "differs"
+      }
+    ],
+    "no_affirmation_examples": [
+      {
+        "family": "C_neg_adverb",
+        "base": "The child in the red coat laid in the red mat.",
+        "negated": "The child in the red coat scarcely laid in the red mat.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "C_neg_adverb",
+        "base": "Driver backs into mom, stroller with child then drives off",
+        "negated": "Driver backs into mom, stroller with child then seldom drives off",
+        "result": "no affirmation"
+      },
+      {
+        "family": "C_neg_adverb",
+        "base": "Driver backs into mom, stroller with child then drives off",
+        "negated": "Driver backs into mom, stroller with child then scarcely drives off",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Rocky Peak Park and O'Melveny Park have trail sections already.",
+        "negated": "Rocky Peak Park and O'Melveny Park neglect to have trail sections already.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Rocky Peak Park and O'Melveny Park have trail sections already.",
+        "negated": "Rocky Peak Park and O'Melveny Park cease to have trail sections already.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Rocky Peak Park and O'Melveny Park have trail sections already.",
+        "negated": "Rocky Peak Park and O'Melveny Park lack trail sections already.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Black and white dog running through water.",
+        "negated": "Black and white dog neglect to run through water.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Black and white dog running through water.",
+        "negated": "Black and white dog cease to run through water.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Four female athletes play beach volleyball at the London 2012 Olympics.",
+        "negated": "Four female athletes neglect to play beach volleyball at the London 2012 Olympics.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "All human beings have for this reason an equal spiritual dignity.",
+        "negated": "All human beings neglect to have for this reason an equal spiritual dignity.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "All human beings have for this reason an equal spiritual dignity.",
+        "negated": "All human beings lack for this reason an equal spiritual dignity.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "The brown and white dogs run through the field.",
+        "negated": "The brown and white dogs neglect to run through the field.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "D_affixal",
+        "base": "This suggests that 6LoWPAN remains aware of application protocols and mouldings.",
+        "negated": "This suggests that 6LoWPAN remains unaware of application protocols and mouldings.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "Various people shop at a street clothing sale.",
+        "negated": "Various people neglect to shop at a street clothing sale.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "D_affixal",
+        "base": "The characters are interesting, even if a bit predictable.",
+        "negated": "The characters are uninteresting, even if a bit predictable.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "D_affixal",
+        "base": "They are typically found in the headwaters of streams that are moderately warm and clean.",
+        "negated": "They are typically found in the headwaters of streams that are moderately warm and unclean.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "A black dog standing in a field.",
+        "negated": "A black dog neglect to stand in a field.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "A black dog standing in a field.",
+        "negated": "A black dog cease to stand in a field.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "F_implicit",
+        "base": "These pairs of doors amplify outside sound.",
+        "negated": "These pairs of doors neglect to amplify outside sound.",
+        "result": "no affirmation"
+      },
+      {
+        "family": "D_affixal",
+        "base": "Being aware of asbestos locations increases the chances of disturbing asbestos.",
+        "negated": "Being unaware of asbestos locations increases the chances of disturbing asbestos.",
+        "result": "no affirmation"
+      }
+    ]
+  },
+  "examples_failures": {
+    "every cue is outside the main clause (relative / subordinate / coordinated clause)": [
+      "Construction featured a mansion, gardens, boathouse, swimming beach, hydroelectric powerhouse, 9-hole golf course, but not kennels.",
+      "The PBS vision is to nurture, inspire but not champion Melbourne's diverse music society.",
+      "You need two hands to operate the screen.This software interface is decade old and cannot compete with new software designs.",
+      "The invariant set is the intersection of the stable and unstable manifold s.",
+      "The invariant set is the full union of the stable and unstable manifolds."
+    ],
+    "affixal: attributive / term position (step-0.1 rule) or no WordNet-attested stem": [
+      "Those who attempt to do so run the risk of developing an incomplete solution.",
+      "Those who attempt to do so reduce the chances of developing an incomplete solution.",
+      "An independent performance test depicted that performance was stable with network congestion.",
+      "She is an unpopular figure in Tudor history and literature.",
+      "This independent prostitution tends to cater less to pedophiles from the United States."
+    ],
+    "cue family G_prepositional: no affirmation rule": [
+      "Without the true magnetic response, it is possible to produce a left-handed material.",
+      "Without a license, for example a practitioner is still permitted to bill insurance companies.",
+      "All of the numbered Mississippi state highways are listed below without their termini.",
+      "The ultimate solution was achieved without an analysis of the lines of non-extension (LONE).",
+      "All were released without charge for lack of evidence."
+    ],
+    "not without an auxiliary to hang on (not + NP / adverb / infinitive)": [
+      "Not often do we see her lose her cool like that.",
+      "Not categorized as a Chicago landmark.",
+      "Not for the first time, she felt utterly betrayed.",
+      "I have not much time.",
+      "I have not little time."
+    ],
+    "syntactic negator: parse shape the removal rules do not cover": [
+      "This product is clearly not ready for prime time, I don't care how cool it looks, if you can't tell a call is coming in it's worthless.",
+      "I didn't come over from Verizon because cingulair has nicer cell phones.... the first thing I noticed was the really bad service.",
+      "It's not...going to be easy.",
+      "I don't love my 350 headset.. My Jabra350 bluetooth headset is great, the reception is very good and the ear piece is a comfortable fit.",
+      "The only thing I wasn't too crazy about wasn't their guacamole as I don't like it pur\u00e9ed."
+    ],
+    "implicit trigger: no complement to promote / not in the swap lexicon": [
+      "The bank failed the stress test using recapitalization in 2014.",
+      "McGuffey School ceased to be a public school in 1973.",
+      "He failed to be a member of Maharashtra Legislative Assembly twice: 1999-2004.",
+      "The new bridge fails in its reproduction of the Art deco features of the original bridge.",
+      "Those refused medical cards urged to contact HSE"
+    ],
+    "negative quantifier: no flip for this form or position": [
+      "The cashier had no care what so ever on what I had to say it still ended up being way overpriced."
+    ]
+  }
+}

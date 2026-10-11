@@ -1,0 +1,281 @@
+{
+ "note": "Verdicts written by the model (Claude) that built the generator, against the stated criteria, before the inventory table was computed. Machine judgement of machine output: treat as a spot-check, not a gold label.",
+ "criteria": [
+  "1. grammatical English (agreement, tense, articles) with no leftover fragment of the cue",
+  "2. the removed cue is the main clause's negation, and nothing else in the sentence changed",
+  "3. the output is the logical negation of the input (for litotes: the input's meaning without the hedge)",
+  "4. secondary / approximate tags are on the readings that need them"
+ ],
+ "items": [
+  {
+   "input": "Fulfulde is the lingua franca in none of the parts of Burkina Faso.",
+   "output": "Fulfulde is the lingua franca in some of the parts of Burkina Faso.",
+   "cue_type": "negative quantifier (no / none / nobody / nothing / neither / nor)",
+   "rule": "affirm_quantifier_flip_v1/none_to_some",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "Poorly known, it has never been recorded in 1998 and 2010.",
+   "output": "Poorly known, it has been recorded in 1998 and 2010.",
+   "cue_type": "never",
+   "rule": "affirm_neg_adverb_v1/strip_never",
+   "approximate": false,
+   "correct": true,
+   "reason": "correct, faithful to an odd input"
+  },
+  {
+   "input": "The study failed to mention analysis of 162 countries.",
+   "output": "The study managed to mention analysis of 162 countries.",
+   "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+   "rule": "implicit_swap/fail_to_manage",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "It can never be 100% organic, or integrated with increased conventional inputs.",
+   "output": "It can be 100% organic, or integrated with increased conventional inputs.",
+   "cue_type": "never",
+   "rule": "affirm_neg_adverb_v1/strip_never",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "And I tell you something, it's not foul.",
+   "output": "And I tell you something, it's foul.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "Now this dish wasn't quite flavourful.",
+   "output": "Now this dish was quite flavourful.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": false,
+   "reason": "idiom 'not quite X' (= almost, but not, X): dropping 'not' turns it into 'fairly X', not the negation"
+  },
+  {
+   "input": "It has failed to house the Chamber of Commerce since 1968.",
+   "output": "It has managed to house the Chamber of Commerce since 1968.",
+   "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+   "rule": "implicit_swap/fail_to_manage",
+   "approximate": false,
+   "correct": true,
+   "reason": "correct; 'managed' adds a presupposition of effort, the known cost of the fail -> manage swap"
+  },
+  {
+   "input": "Chiya Khere-5 (CK-5) well failed to be completed in Q3 of 2015.",
+   "output": "Chiya Khere-5 (CK-5) well managed to be completed in Q3 of 2015.",
+   "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+   "rule": "implicit_swap/fail_to_manage",
+   "approximate": false,
+   "correct": false,
+   "reason": "'manage' presupposes an agent: 'the well managed to be completed' is unnatural (inanimate passive subject)"
+  },
+  {
+   "input": "This doesn't allow the possibility of double booking for the same date and time after the first.",
+   "output": "This allows the possibility of double booking for the same date and time after the first.",
+   "cue_type": "does not V",
+   "rule": "affirm_do_support_v1/collapse_do_support",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "I'm not passive these days.",
+   "output": "I'm passive these days.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "It is not known anywhere else.",
+   "output": "It is known anywhere else.",
+   "cue_type": "be + not (aux / passive / progressive)",
+   "rule": "affirm_aux_neg_v1/drop_aux_negator",
+   "approximate": false,
+   "correct": false,
+   "reason": "negative-polarity 'anywhere' left in place: 'is known anywhere else' needs 'somewhere else'"
+  },
+  {
+   "input": "That is not important.",
+   "output": "That is important.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "That is not bad news.",
+   "output": "That is bad news.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "I'm not stupid.",
+   "output": "I'm stupid.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "So anyone near you won't hear part of your conversation.",
+   "output": "So anyone near you will hear part of your conversation.",
+   "cue_type": "will not / won't",
+   "rule": "affirm_aux_neg_v1/drop_aux_negator",
+   "approximate": false,
+   "correct": false,
+   "reason": "negative-polarity 'anyone' left in place: negation of 'anyone won't hear' (= no one will) is 'someone will hear', not 'anyone will hear'"
+  },
+  {
+   "input": "This isn't a VERY average phone with bad battery life that operates on a weak network.",
+   "output": "This is a VERY average phone with bad battery life that operates on a weak network.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "Beant Singh was not dutied for thousands of extra judicial murders of Sikhs.",
+   "output": "Beant Singh was dutied for thousands of extra judicial murders of Sikhs.",
+   "cue_type": "be + not (aux / passive / progressive)",
+   "rule": "affirm_aux_neg_v1/drop_aux_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "correct, faithful to an odd input ('dutied')"
+  },
+  {
+   "input": "God probably does not exist.",
+   "output": "God probably exists.",
+   "cue_type": "does not V",
+   "rule": "affirm_do_support_v1/collapse_do_support",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "This species never serves as forage for livestock such as sheep and goats.",
+   "output": "This species serves as forage for livestock such as sheep and goats.",
+   "cue_type": "never",
+   "rule": "affirm_neg_adverb_v1/strip_never",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "Uh, I'm unsure.",
+   "output": "Uh, I'm sure.",
+   "cue_type": "affixal prefix (un- / in- / non- / dis- ...)",
+   "rule": "affirm_affixal_strip_v1/strip_prefix_un",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "There is no freedom of speech.",
+   "output": "There is some freedom of speech.",
+   "cue_type": "negative quantifier (no / none / nobody / nothing / neither / nor)",
+   "rule": "affirm_quantifier_flip_v1/no_to_some",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "The Royal Geographical Society refused to award him their Founder's Gold Medal in 1906.",
+   "output": "The Royal Geographical Society agreed to award him their Founder's Gold Medal in 1906.",
+   "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+   "rule": "implicit_swap/refuse_to_agree",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "The mic isn't great.",
+   "output": "The mic is great.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "This observation is inconsistent with separate reports by the Interception of Communications Commissioner.",
+   "output": "This observation is consistent with separate reports by the Interception of Communications Commissioner.",
+   "cue_type": "affixal prefix (un- / in- / non- / dis- ...)",
+   "rule": "affirm_affixal_strip_v1/strip_prefix_in",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "The garbage along with a general army store in Wallangarra does not exist today.",
+   "output": "The garbage along with a general army store in Wallangarra exists today.",
+   "cue_type": "does not V",
+   "rule": "affirm_do_support_v1/collapse_do_support",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "The streaks are impossible to be reduced using newer reconstruction techniques.",
+   "output": "The streaks are possible to be reduced using newer reconstruction techniques.",
+   "cue_type": "affixal prefix (un- / in- / non- / dis- ...)",
+   "rule": "affirm_affixal_strip_v1/strip_prefix_im",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "In An Introduction to Cybernetics, Ashby refused to formulate his Law of Requisite Variety.",
+   "output": "In An Introduction to Cybernetics, Ashby agreed to formulate his Law of Requisite Variety.",
+   "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+   "rule": "implicit_swap/refuse_to_agree",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "I didn't realize how wonderful the short really is until the last two scenes.",
+   "output": "I realized how wonderful the short really is until the last two scenes.",
+   "cue_type": "did not V",
+   "rule": "affirm_do_support_v1/collapse_do_support",
+   "approximate": false,
+   "correct": false,
+   "reason": "'not ... until' construction: 'I realized ... until the last two scenes' is ill-formed; 'until' needs 'only at' or 'before'"
+  },
+  {
+   "input": "This is not a good idea.",
+   "output": "This is a good idea.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  },
+  {
+   "input": "That's not little.",
+   "output": "That's little.",
+   "cue_type": "be + not (copula)",
+   "rule": "affirm_copula_neg_v1/drop_copula_negator",
+   "approximate": false,
+   "correct": true,
+   "reason": "meets all four criteria"
+  }
+ ]
+}
