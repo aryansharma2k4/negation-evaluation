@@ -1,0 +1,291 @@
+{
+  "note": "severity is descriptive: it changes no verdict and no accuracy",
+  "domain_machine": {
+    "n": 766,
+    "accuracy_all": 0.9961,
+    "n_called_negation": 758,
+    "accuracy_on_called": 0.996,
+    "confusion": {
+      "flat->flat": 238,
+      "flat->hedged": 2,
+      "hedged->hedged": 98,
+      "intensified->intensified": 106,
+      "lexical->lexical": 317,
+      "scope->flat": 1,
+      "scope->scope": 4
+    },
+    "per_gold": {
+      "scope": {
+        "n": 5,
+        "correct": 4
+      },
+      "intensified": {
+        "n": 106,
+        "correct": 106
+      },
+      "hedged": {
+        "n": 98,
+        "correct": 98
+      },
+      "flat": {
+        "n": 240,
+        "correct": 238
+      },
+      "lexical": {
+        "n": 317,
+        "correct": 317
+      }
+    },
+    "errors": [
+      {
+        "gold": "flat",
+        "pred": "hedged",
+        "cues": [
+          "never (C_neg_adverb)"
+        ],
+        "teacher": "File attributes are a type of metadata that describe and may modify how files and/or directories in a filesystem behave.",
+        "student": "File attributes are never a type of metadata that describe and may modify how files and/or directories in a filesystem behave."
+      },
+      {
+        "gold": "flat",
+        "pred": "hedged",
+        "cues": [
+          "not (A_syntactic, hedged)"
+        ],
+        "teacher": "A process is a series or set of activities that interact to produce a result; it may occur once-only or be recurrent or ",
+        "student": "A process is a series or set of activities that interact to produce a result; it may not occur once-only or be recurrent or periodic."
+      },
+      {
+        "gold": "scope",
+        "pred": "flat",
+        "cues": [
+          "never (C_neg_adverb)"
+        ],
+        "teacher": "File verification is the process of using an algorithm for verifying the integrity of a computer file, usually by checks",
+        "student": "File verification is the process of using an algorithm for verifying the integrity of a computer file, never by checksum."
+      }
+    ],
+    "combiner_prob_by_predicted_severity": {
+      "scope": {
+        "n": 4,
+        "mean_prob": 0.9917,
+        "recall": 1.0
+      },
+      "intensified": {
+        "n": 106,
+        "mean_prob": 0.9994,
+        "recall": 1.0
+      },
+      "hedged": {
+        "n": 100,
+        "mean_prob": 0.905,
+        "recall": 0.97
+      },
+      "flat": {
+        "n": 239,
+        "mean_prob": 0.9825,
+        "recall": 0.9958
+      },
+      "lexical": {
+        "n": 317,
+        "mean_prob": 0.9796,
+        "recall": 0.9874
+      }
+    }
+  },
+  "test_negations_human": {
+    "scope": {
+      "n": 33,
+      "mean_combiner_output": 0.9172,
+      "recall": 1.0,
+      "share_cannot": 0.667
+    },
+    "intensified": {
+      "n": 3,
+      "mean_combiner_output": 0.9987,
+      "recall": 1.0,
+      "share_cannot": 1.0
+    },
+    "hedged": {
+      "n": 5,
+      "mean_combiner_output": 0.9958,
+      "recall": 1.0,
+      "share_cannot": 0.6
+    },
+    "flat": {
+      "n": 351,
+      "mean_combiner_output": 0.9554,
+      "recall": 0.9772,
+      "share_cannot": 0.553
+    },
+    "lexical": {
+      "n": 491,
+      "mean_combiner_output": 0.9438,
+      "recall": 0.9695,
+      "share_cannot": 0.98
+    }
+  },
+  "test_examples": {
+    "scope": [
+      {
+        "a": "This system is still the fundamental system in use by modern bookkeepers.",
+        "b": "This system is no longer the basic system in use by modern bookkeepers.",
+        "cues": [
+          "no (B_quantifier)"
+        ]
+      },
+      {
+        "a": "There are no preserved carcusses of domestic animals, such as poultry.",
+        "b": "There are also preserved remains of domestic animals, such as poultry.",
+        "cues": [
+          "no (B_quantifier)"
+        ]
+      }
+    ],
+    "intensified": [
+      {
+        "a": "The Heart Attack Grill in downtown Vegas is an absolutely flat-lined excuse for a restaurant.",
+        "b": "The Heart Attack Grill in downtown Vegas isn't an absolutely flat-lined excuse for a restaurant.",
+        "cues": [
+          "n't (A_syntactic, intensified)"
+        ]
+      },
+      {
+        "a": "Highly recommended for all ages, although the younger set will probably not appreciate some of the more subtle references, they won't certainly appreciate one galley scene in particular!",
+        "b": "Highly recommended for all ages, although the younger set will probably not appreciate some of the more subtle references, they will certainly appreciate one galley scene in particular!",
+        "cues": [
+          "n't (A_syntactic, intensified)"
+        ]
+      }
+    ],
+    "hedged": [
+      {
+        "a": "I think that's an evil idea.",
+        "b": "I do not think that's an evil idea.",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "a": "I didn't go on Motorola's website and followed all directions, but could not get it to pair again.",
+        "b": "I went on Motorola's website and followed all directions, but could not get it to pair again.",
+        "cues": [
+          "n't (A_syntactic)"
+        ]
+      }
+    ],
+    "flat": [
+      {
+        "a": "Oh, this is bad.",
+        "b": "Oh, this is not bad.",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "a": "These members were Walter Okeson (end), Harry Ryan (tackle), and Ed Abbaticchio ( fullback ).",
+        "b": "These partners were Walter Okeson (end), Harry Ryan (tackle), but not Ed Abbaticchio ( fullback ).",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      }
+    ],
+    "lexical": [
+      {
+        "a": "Oh, this is bad.",
+        "b": "Oh, this is good.",
+        "cues": []
+      },
+      {
+        "a": "In March 1950 Smith's paper entitled 'Anaesthesia for Cardiac Catheterization in Children' was rejected from publication.",
+        "b": "In March 1950 Smith published a paper entitled 'Anaesthesia for Cardiac Catheterization in Children'.",
+        "cues": []
+      }
+    ]
+  },
+  "paragraph_contradictions_machine": {
+    "n": 11,
+    "distribution": {
+      "lexical": 6,
+      "flat": 5
+    },
+    "items": [
+      {
+        "t": "Round-robin scheduling is preemptive.",
+        "s": "Round robin is a non-preemptive scheduling algorithm.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "The kernel does not know about user-level threads.",
+        "s": "The kernel is aware of every user-level thread.",
+        "severity": "flat",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "t": "The FCFS scheduling algorithm is simple to implement.",
+        "s": "First-come first-served is difficult to implement.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "UDP does not guarantee delivery.",
+        "s": "UDP guarantees that every datagram is delivered.",
+        "severity": "flat",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "t": "DNS uses a hierarchical, distributed database.",
+        "s": "DNS data is stored in one central database.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "TCP reduces its congestion window when it detects packet loss.",
+        "s": "When TCP detects loss it increases its congestion window.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "If the receive window is full, the sender must stop sending.",
+        "s": "Even when the receive window is full, the sender keeps sending.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "Atomicity means a transaction is never partially applied.",
+        "s": "Atomicity means a transaction is sometimes partially applied.",
+        "severity": "flat",
+        "cues": [
+          "never (C_neg_adverb)"
+        ]
+      },
+      {
+        "t": "SQL is a declarative language.",
+        "s": "SQL is a procedural language.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "Views do not store data themselves.",
+        "s": "Views store their own copy of the data.",
+        "severity": "flat",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "t": "All processes in the ready queue are waiting for the CPU.",
+        "s": "Not all processes in the ready queue are waiting for the CPU.",
+        "severity": "flat",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      }
+    ]
+  }
+}

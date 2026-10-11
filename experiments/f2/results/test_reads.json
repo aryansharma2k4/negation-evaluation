@@ -33,5 +33,15 @@
     "step": "3.3",
     "what": "adopted architecture retrained on clean DEV + augmentation",
     "time": "2026-10-11 22:17"
+  },
+  {
+    "step": "6.3",
+    "what": "adopted system's output on TEST negations, grouped by severity",
+    "time": "2026-10-11 23:07"
+  },
+  {
+    "step": "6.3",
+    "what": "adopted system's output on TEST negations, grouped by severity",
+    "time": "2026-10-11 23:16"
   }
 ]

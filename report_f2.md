@@ -901,3 +901,88 @@ It is a reasoning error, but it does not contradict the teacher. CANNOT's antece
 its own terms in the counterfactual case, where the antecedent carries a presupposed fact. The two conventions
 genuinely agree on indicative conditionals and disagree on counterfactuals. **No single rule can satisfy both
 without detecting the counterfactual**, which is why variant B is not adopted until it does.
+
+### 6.1 A severity label on every negation — **this does not change any verdict or any accuracy**
+
+`experiments/f2/severity.py`. Severity is computed only for pairs already called a negation. It describes
+the verdict and never moves it, so no accuracy number in this report depends on it.
+
+- **What is compared:** the cues (polarity analysis, `clause_scope`) present in one sentence and not the
+  other. B's extra cues are used; when B has none, the cues A lost (an affirmation).
+- **What each cue carries:** its generator family, and whether its clause holds a hedge or an intensifier.
+- **No learned model and no LLM.**
+
+| severity | shape | example from TEST (human-written) |
+| --- | --- | --- |
+| **scope** | a differing B_quantifier / L_scope_position cue, *not* part of an intensifier idiom | *This system is still the fundamental system …* / *This system is **no longer** the basic system …* |
+| **intensified** | a differing cue that is intensified (I_intensified, *by no means*, *not at all*, *certainly not*) | *… is an absolutely fl…* / *… **isn't** an absolutely …* |
+| **hedged** | a differing cue that is hedged (H_hedged, M_modal, *I don't think*, *may not*) | *I think that's an evil idea.* / *I **do not think** that's an evil idea.* |
+| **flat** | a plain differing cue (A_syntactic, C_neg_adverb, G_prepositional *without*, J_contrastive *far from*) | *Oh, this is bad.* / *Oh, this is **not** bad.* |
+| **lexical** | only D_affixal / E_antonym / F_implicit cues differ, or **no cue differs** (antonym or rewording) | *Oh, this is bad.* / *Oh, this is **good**.* |
+
+**Precedence:** scope > intensified > hedged > flat > lexical. Scope changes the truth conditions, so it
+outranks strength. Strength (intensified, hedged) is the information a teacher would otherwise lose, so it
+outranks a plain cue. "lexical" is what is left when no cue differs.
+
+**Families the brief's table does not map**, with the label chosen and why:
+
+- D_affixal → lexical (*unreliable*, the brief's own example);
+- G_prepositional → flat;
+- J_contrastive → flat.
+
+### 6.2 Is it right? — **machine-generated answers**
+
+`results/6_severity.json`. Gold = the generating family of each negation in `report_f1.md`'s domain answers
+(**machine-generated**, n = 766: the *negation* category, 458, and *antonym negation*, 308), mapped through
+the table above.
+
+**The rule was fixed once after its first run, on this machine-generated set, and both versions are
+reported.** The first version (`results/6_severity_v1.json`) gave scope precedence over everything, so *X is
+**by no means** a Y* came out "scope": *no* carries the quantifier family. The idiom is an intensified
+negation, not a quantifier, so the fix makes a quantifier cue count as scope only outside an intensifier
+idiom. No TEST label informed the fix.
+
+| version | accuracy, all 766 | accuracy on the 758 the system calls negations |
+| --- | ---: | ---: |
+| v1 (scope first, always) | 97.7% | 97.6% |
+| **v2 (adopted)** | **99.6%** | **99.6%** |
+
+Confusion, v2 (rows gold, columns predicted; machine-generated, n = 766):
+
+| gold \ predicted | scope | intensified | hedged | flat | lexical |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| scope (n = 5) | **4** | 0 | 0 | 1 | 0 |
+| intensified (106) | 0 | **106** | 0 | 0 | 0 |
+| hedged (98) | 0 | 0 | **98** | 0 | 0 |
+| flat (240) | 0 | 0 | 2 | **238** | 0 |
+| lexical (317) | 0 | 0 | 0 | 0 | **317** |
+
+The 3 remaining errors:
+
+- *… is the process … **never** being …* is a quantifier scope by the generator, read as flat;
+- two *it **may not** …* with a hedge, which the generator's A_syntactic labels flat.
+
+**Read 99.6% for what it is.** The labeller and the generator share a cue lexicon, so agreement on generator
+output is expected. The severity labels of the 11 paragraph contradictions (**machine-authored**, no
+generating family, so no gold) are 6 lexical and 5 flat.
+
+### 6.3 Does severity line up with confidence?
+
+Mean raw combiner output and recall of the adopted configuration, grouped by severity:
+
+| severity | domain negations, **machine-generated**: n / mean output / recall | TEST negations, human-written: n / mean output / recall |
+| --- | --- | --- |
+| scope | 4 (n < 50) / 0.992 / 100% | 33 (n < 50) / 0.917 / 100% |
+| intensified | 106 / 0.999 / 100% | 3 (n < 50) / 0.999 / 100% |
+| **hedged** | 100 / **0.905** / **97.0%** | 5 (n < 50) / 0.996 / 100% |
+| flat | 239 / 0.983 / 99.6% | 351 / 0.955 / 97.7% |
+| **lexical** | 317 / 0.980 / 98.7% | **491 / 0.944 / 97.0%** |
+
+**The diagnostic, worth one line in a paper.** On generator data, the system is least confident on
+**hedged** negations (mean output 0.905 vs 0.983 for flat; recall 97.0% vs 99.6%). On human-written TEST
+negations it is least confident on **lexical** ones (0.944 vs 0.955; recall 97.0% vs 97.7%, n = 491 vs 351). Lexical
+negations carry no cue word: CANNOT's antonym and "other" substitutions, and every rewording. These are
+the forms least like the minimal cue edits the combiner learned from, the same weakness as step 0.1 seen
+from another side. The TEST gap is small, and the hedged and intensified TEST slices are tiny (n = 5, n = 3), so no
+claim rests on them. **Human-written TEST negations are 56% lexical**, and none of the hedged-or-intensified
+shapes the generator over-produces is common in them (8 of 883).

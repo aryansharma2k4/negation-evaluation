@@ -1,0 +1,427 @@
+{
+  "note": "severity is descriptive: it changes no verdict and no accuracy",
+  "domain_machine": {
+    "n": 766,
+    "accuracy_all": 0.9765,
+    "n_called_negation": 758,
+    "accuracy_on_called": 0.9763,
+    "confusion": {
+      "flat->flat": 238,
+      "flat->hedged": 2,
+      "hedged->hedged": 98,
+      "intensified->intensified": 91,
+      "intensified->scope": 15,
+      "lexical->lexical": 317,
+      "scope->flat": 1,
+      "scope->scope": 4
+    },
+    "per_gold": {
+      "scope": {
+        "n": 5,
+        "correct": 4
+      },
+      "intensified": {
+        "n": 106,
+        "correct": 91
+      },
+      "hedged": {
+        "n": 98,
+        "correct": 98
+      },
+      "flat": {
+        "n": 240,
+        "correct": 238
+      },
+      "lexical": {
+        "n": 317,
+        "correct": 317
+      }
+    },
+    "errors": [
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "In computer disk storage, a sector is a subdivision of a track on a magnetic disk or optical disc.",
+        "student": "In computer disk storage, a sector is by no means a subdivision of a track on a magnetic disk or optical disc."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "Docker is a set of products that uses operating system-level virtualization to deliver software in packages called conta",
+        "student": "Docker is by no means a set of products that uses operating system-level virtualization to deliver software in packages called containers."
+      },
+      {
+        "gold": "flat",
+        "pred": "hedged",
+        "cues": [
+          "never (C_neg_adverb)"
+        ],
+        "teacher": "File attributes are a type of metadata that describe and may modify how files and/or directories in a filesystem behave.",
+        "student": "File attributes are never a type of metadata that describe and may modify how files and/or directories in a filesystem behave."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "In computing, a hidden file or hidden directory is a file system object that is excluded from a directory content report",
+        "student": "In computing, a hidden file or hidden directory is by no means a file system object that is excluded from a directory content report unless explicitly requested"
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "In computer science, a lock convoy is a performance problem that can occur when using locks for concurrency control in a",
+        "student": "In computer science, a lock convoy is by no means a performance problem that can occur when using locks for concurrency control in a multithreaded application."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "In computer operating systems, memory paging is a memory management scheme that introduces a level of indirection betwee",
+        "student": "In computer operating systems, memory paging is by no means a memory management scheme that introduces a level of indirection between physical and logical addre"
+      },
+      {
+        "gold": "flat",
+        "pred": "hedged",
+        "cues": [
+          "not (A_syntactic, hedged)"
+        ],
+        "teacher": "A process is a series or set of activities that interact to produce a result; it may occur once-only or be recurrent or ",
+        "student": "A process is a series or set of activities that interact to produce a result; it may not occur once-only or be recurrent or periodic."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "In computing, virtual machine introspection is a technique \"for monitoring the runtime state of a system-level virtual m",
+        "student": "In computing, virtual machine introspection is by no means a technique \"for monitoring the runtime state of a system-level virtual machine\", which is helpful fo"
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "The Address Resolution Protocol is a communication protocol for discovering the link layer address, such as a MAC addres",
+        "student": "The Address Resolution Protocol is by no means a communication protocol for discovering the link layer address, such as a MAC address, associated with an intern"
+      },
+      {
+        "gold": "scope",
+        "pred": "flat",
+        "cues": [
+          "never (C_neg_adverb)"
+        ],
+        "teacher": "File verification is the process of using an algorithm for verifying the integrity of a computer file, usually by checks",
+        "student": "File verification is the process of using an algorithm for verifying the integrity of a computer file, never by checksum."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "The Network Control Protocol was a communication protocol for a computer network in the 1970s and early 1980s.",
+        "student": "The Network Control Protocol was by no means a communication protocol for a computer network in the 1970s and early 1980s."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "WebTorrent is a peer-to-peer streaming torrent client written in JavaScript that enables BitTorrent functionality direct",
+        "student": "WebTorrent is by no means a peer-to-peer streaming torrent client written in JavaScript that enables BitTorrent functionality directly within web browsers."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "Zebra Media Access Control is a network protocol for wireless sensor networks.",
+        "student": "Zebra Media Access Control is by no means a network protocol for wireless sensor networks."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "Advanced Synchronization Facility is a proposed extension to the x86-64 instruction set architecture that adds hardware ",
+        "student": "Advanced Synchronization Facility is by no means a proposed extension to the x86-64 instruction set architecture that adds hardware transactional memory support"
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "The Alpha language was the original database language proposed by Edgar F. Codd, the inventor of the relational database",
+        "student": "The Alpha language was by no means the original database language proposed by Edgar F. Codd, the inventor of the relational database approach."
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "A key-value database, or key-value store, is a data storage paradigm designed for storing, retrieving, and managing asso",
+        "student": "A key-value database, or key-value store, is by no means a data storage paradigm designed for storing, retrieving, and managing associative arrays, a data struc"
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "The PH-tree is a tree data structure used for spatial indexing of multi-dimensional data such as geographical coordinate",
+        "student": "The PH-tree is by no means a tree data structure used for spatial indexing of multi-dimensional data such as geographical coordinates, points, feature vectors, "
+      },
+      {
+        "gold": "intensified",
+        "pred": "scope",
+        "cues": [
+          "no (B_quantifier, intensified)"
+        ],
+        "teacher": "SQL/JRT, or SQL Routines and Types for the Java Programming Language, is an extension to the SQL standard first publishe",
+        "student": "SQL/JRT, or SQL Routines and Types for the Java Programming Language, is by no means an extension to the SQL standard first published as ISO/IEC 9075-13:2002."
+      }
+    ],
+    "combiner_prob_by_predicted_severity": {
+      "scope": {
+        "n": 19,
+        "mean_prob": 0.9979,
+        "recall": 1.0
+      },
+      "intensified": {
+        "n": 91,
+        "mean_prob": 0.9994,
+        "recall": 1.0
+      },
+      "hedged": {
+        "n": 100,
+        "mean_prob": 0.905,
+        "recall": 0.97
+      },
+      "flat": {
+        "n": 239,
+        "mean_prob": 0.9825,
+        "recall": 0.9958
+      },
+      "lexical": {
+        "n": 317,
+        "mean_prob": 0.9796,
+        "recall": 0.9874
+      }
+    }
+  },
+  "test_negations_human": {
+    "scope": {
+      "n": 33,
+      "mean_combiner_output": 0.9172,
+      "recall": 1.0,
+      "share_cannot": 0.667
+    },
+    "intensified": {
+      "n": 3,
+      "mean_combiner_output": 0.9987,
+      "recall": 1.0,
+      "share_cannot": 1.0
+    },
+    "hedged": {
+      "n": 5,
+      "mean_combiner_output": 0.9958,
+      "recall": 1.0,
+      "share_cannot": 0.6
+    },
+    "flat": {
+      "n": 351,
+      "mean_combiner_output": 0.9554,
+      "recall": 0.9772,
+      "share_cannot": 0.553
+    },
+    "lexical": {
+      "n": 491,
+      "mean_combiner_output": 0.9438,
+      "recall": 0.9695,
+      "share_cannot": 0.98
+    }
+  },
+  "test_examples": {
+    "scope": [
+      {
+        "a": "This system is still the fundamental system in use by modern bookkeepers.",
+        "b": "This system is no longer the basic system in use by modern bookkeepers.",
+        "cues": [
+          "no (B_quantifier)"
+        ]
+      },
+      {
+        "a": "There are no preserved carcusses of domestic animals, such as poultry.",
+        "b": "There are also preserved remains of domestic animals, such as poultry.",
+        "cues": [
+          "no (B_quantifier)"
+        ]
+      }
+    ],
+    "intensified": [
+      {
+        "a": "The Heart Attack Grill in downtown Vegas is an absolutely flat-lined excuse for a restaurant.",
+        "b": "The Heart Attack Grill in downtown Vegas isn't an absolutely flat-lined excuse for a restaurant.",
+        "cues": [
+          "n't (A_syntactic, intensified)"
+        ]
+      },
+      {
+        "a": "Highly recommended for all ages, although the younger set will probably not appreciate some of the more subtle references, they won't certainly appreciate one galley scene in particular!",
+        "b": "Highly recommended for all ages, although the younger set will probably not appreciate some of the more subtle references, they will certainly appreciate one galley scene in particular!",
+        "cues": [
+          "n't (A_syntactic, intensified)"
+        ]
+      }
+    ],
+    "hedged": [
+      {
+        "a": "I think that's an evil idea.",
+        "b": "I do not think that's an evil idea.",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "a": "I didn't go on Motorola's website and followed all directions, but could not get it to pair again.",
+        "b": "I went on Motorola's website and followed all directions, but could not get it to pair again.",
+        "cues": [
+          "n't (A_syntactic)"
+        ]
+      }
+    ],
+    "flat": [
+      {
+        "a": "Oh, this is bad.",
+        "b": "Oh, this is not bad.",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "a": "These members were Walter Okeson (end), Harry Ryan (tackle), and Ed Abbaticchio ( fullback ).",
+        "b": "These partners were Walter Okeson (end), Harry Ryan (tackle), but not Ed Abbaticchio ( fullback ).",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      }
+    ],
+    "lexical": [
+      {
+        "a": "Oh, this is bad.",
+        "b": "Oh, this is good.",
+        "cues": []
+      },
+      {
+        "a": "In March 1950 Smith's paper entitled 'Anaesthesia for Cardiac Catheterization in Children' was rejected from publication.",
+        "b": "In March 1950 Smith published a paper entitled 'Anaesthesia for Cardiac Catheterization in Children'.",
+        "cues": []
+      }
+    ]
+  },
+  "paragraph_contradictions_machine": {
+    "n": 11,
+    "distribution": {
+      "lexical": 6,
+      "flat": 5
+    },
+    "items": [
+      {
+        "t": "Round-robin scheduling is preemptive.",
+        "s": "Round robin is a non-preemptive scheduling algorithm.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "The kernel does not know about user-level threads.",
+        "s": "The kernel is aware of every user-level thread.",
+        "severity": "flat",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "t": "The FCFS scheduling algorithm is simple to implement.",
+        "s": "First-come first-served is difficult to implement.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "UDP does not guarantee delivery.",
+        "s": "UDP guarantees that every datagram is delivered.",
+        "severity": "flat",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "t": "DNS uses a hierarchical, distributed database.",
+        "s": "DNS data is stored in one central database.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "TCP reduces its congestion window when it detects packet loss.",
+        "s": "When TCP detects loss it increases its congestion window.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "If the receive window is full, the sender must stop sending.",
+        "s": "Even when the receive window is full, the sender keeps sending.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "Atomicity means a transaction is never partially applied.",
+        "s": "Atomicity means a transaction is sometimes partially applied.",
+        "severity": "flat",
+        "cues": [
+          "never (C_neg_adverb)"
+        ]
+      },
+      {
+        "t": "SQL is a declarative language.",
+        "s": "SQL is a procedural language.",
+        "severity": "lexical",
+        "cues": []
+      },
+      {
+        "t": "Views do not store data themselves.",
+        "s": "Views store their own copy of the data.",
+        "severity": "flat",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      },
+      {
+        "t": "All processes in the ready queue are waiting for the CPU.",
+        "s": "Not all processes in the ready queue are waiting for the CPU.",
+        "severity": "flat",
+        "cues": [
+          "not (A_syntactic)"
+        ]
+      }
+    ]
+  }
+}
