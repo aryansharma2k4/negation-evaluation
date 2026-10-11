@@ -431,3 +431,34 @@ What went wrong on the way, all fixed:
 ./venv/bin/python experiments/f1/nli_models.py --score roberta_base distilroberta ml_deberta_base_anli bart_large
 ./venv/bin/python experiments/f1/nli_models.py --time deberta_base roberta_base distilroberta ml_deberta_base_anli bart_large
 ```
+
+### 2.2 Each NLI model standalone
+
+`experiments/f1/ensemble.py --step 2.2` → `results/2_2_standalone.json`. Each model gets its own Youden
+threshold on clean DEV for P(contradiction) and is then scored alone, with no gate, features or
+override. TEST, n = 1,760; antonym n = 95; K1 n = 91 (machine-generated); SemAntoNeg n = 41.
+
+| model | threshold | phase-2 acc (95% CI) | all-TEST acc | xNot360 acc (n=360) | AUC | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall | K1 FPR | VAL acc |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| deberta-v3-base (reference) | 0.975 | 82.8% (80.9–84.6) | 81.8% | 77.8% | 0.840 | 76.0% | 93.0% | 83.7% | 0.3% | 70.9% | 2.6% | 78.1% | 40.0% | 88.4% | 4.4% | 86.0% |
+| roberta-base | 0.472 | 81.1% (79.1–83.1) | 81.3% | 81.9% | 0.843 | 75.3% | 93.3% | 83.4% | 1.3% | 74.0% | 6.0% | 84.9% | 35.0% | 84.2% | 7.7% | 84.7% |
+| distilroberta-base | 0.314 | 78.1% (75.9–80.1) | 74.0% | 58.1% | 0.796 | 68.2% | 90.4% | 77.7% | 2.9% | 78.7% | 6.0% | 86.6% | 82.2% | 80.0% | 19.8% | 81.0% |
+| **DeBERTa-v3-base mnli-fever-anli** | 0.931 | **84.8% (82.9–86.6)** | **85.2%** | **86.7%** | **0.894** | 81.2% | 91.7% | **86.1%** | 0.3% | 66.9% | 5.1% | **45.4%** | **22.2%** | 85.3% | **1.1%** | **88.8%** |
+| bart-large-mnli | 0.689 | 82.9% (81.1–84.8) | 81.8% | 77.2% | 0.863 | 75.5% | 94.2% | 83.8% | 0.3% | 74.8% | 4.3% | 73.1% | 45.0% | 89.5% | 6.6% | 85.7% |
+
+**The model trained on adversarial NLI data (ANLI, FEVER) is the best single model on every
+summary column.** Against the reference:
+
+- VALIDATION +2.8 pts; phase 2 +2.0 pts; all TEST +3.4 pts;
+- xNot360 +8.9 pts, with conditional-inverse FPR 40.0% → 22.2%;
+- K1 FPR 4.4% → 1.1% (machine-generated, n = 91).
+
+The cost, in the same sentence: antonym recall falls 88.4% → 85.3% (n = 95, 3 pairs) and SemAntoNeg FPR
+rises 0.0% → 7.4% (n = 27 on TEST, 2 pairs). bart-large, the biggest and slowest model, is level with the
+reference, so 3.2× the compute buys nothing standalone. distilroberta is the weakest by a wide margin.
+It calls 82.2% of xNot360 conditional inverses negations. Every model shares the same structural
+failure without the gate: 67–79% of STS-low pairs are called negations.
+
+```sh
+./venv/bin/python experiments/f1/ensemble.py --step 2.2
+```

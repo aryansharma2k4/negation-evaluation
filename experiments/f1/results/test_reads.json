@@ -8,5 +8,10 @@
     "step": "0.3",
     "what": "Phase 0 baseline: GBM (fixed conditionals) + cancellation override",
     "time": "2026-10-11 16:40"
+  },
+  {
+    "step": "2.2",
+    "what": "each NLI model standalone: ['deberta_base', 'roberta_base', 'distilroberta', 'ml_deberta_base_anli', 'bart_large']",
+    "time": "2026-10-11 19:47"
   }
 ]
