@@ -43,5 +43,10 @@
     "step": "6.3",
     "what": "adopted system's output on TEST negations, grouped by severity",
     "time": "2026-10-11 23:16"
+  },
+  {
+    "step": "final",
+    "what": "adopted vs Phase 0 on TEST, VALIDATION, val_ood (v2); error analysis",
+    "time": "2026-10-11 23:25"
   }
 ]

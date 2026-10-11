@@ -1,0 +1,800 @@
+{
+  "rows": {
+    "Phase 0 baseline": {
+      "threshold": 0.42790607868433017,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9386,
+        "auc": 0.9775,
+        "precision": 0.9301,
+        "recall": 0.949,
+        "f1": 0.9395,
+        "ci95": [
+          0.9273,
+          0.95
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9771,
+        "auc": 0.9942,
+        "precision": 0.9841,
+        "recall": 0.9701,
+        "f1": 0.9771,
+        "ci95": [
+          0.9693,
+          0.985
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7889,
+        "auc": 0.8878,
+        "precision": 0.75,
+        "recall": 0.8667,
+        "f1": 0.8041,
+        "ci95": [
+          0.7472,
+          0.8333
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0195
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0394
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.2889
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9828
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9263
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9717
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.8667
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9784,
+        "auc": 0.9973,
+        "precision": 0.9897,
+        "recall": 0.9663,
+        "f1": 0.9779,
+        "ci95": [
+          0.9667,
+          0.99
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9968,
+        "auc": 0.9974,
+        "precision": 0.9953,
+        "recall": 0.9973,
+        "f1": 0.9963,
+        "ci95": [
+          0.9947,
+          0.9985
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.7519
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0051
+      },
+      "val_ood_select": {
+        "n": 645,
+        "accuracy": 0.5814,
+        "recall": 0.4008,
+        "fpr": 0.295
+      },
+      "val_ood_fit": {
+        "n": 683,
+        "accuracy": 0.5637,
+        "recall": 0.3593,
+        "fpr": 0.3027
+      },
+      "val_ood_all": {
+        "n": 1328,
+        "accuracy": 0.5723,
+        "recall": 0.3797,
+        "fpr": 0.299
+      },
+      "val_ood_by_dataset": {
+        "val_ood_conditionals": {
+          "n": 262,
+          "accuracy": 0.5573
+        },
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.5979
+        }
+      }
+    },
+    "Phase 0 + override (step 1.3)": {
+      "threshold": 0.42790607868433017,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9307,
+        "auc": 0.9453,
+        "precision": 0.9018,
+        "recall": 0.9672,
+        "f1": 0.9333,
+        "ci95": [
+          0.9182,
+          0.942
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9736,
+        "auc": 0.9858,
+        "precision": 0.9757,
+        "recall": 0.9716,
+        "f1": 0.9736,
+        "ci95": [
+          0.9643,
+          0.9814
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7639,
+        "auc": 0.8035,
+        "precision": 0.6923,
+        "recall": 0.95,
+        "f1": 0.8009,
+        "ci95": [
+          0.7194,
+          0.8083
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0228
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0787
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.4222
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9828
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9368
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9717
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.95
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9784,
+        "auc": 0.9941,
+        "precision": 0.9863,
+        "recall": 0.9697,
+        "f1": 0.9779,
+        "ci95": [
+          0.9667,
+          0.99
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9915,
+        "auc": 0.988,
+        "precision": 0.9836,
+        "recall": 0.9973,
+        "f1": 0.9904,
+        "ci95": [
+          0.9882,
+          0.9944
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.876
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0556
+      },
+      "val_ood_select": {
+        "n": 645,
+        "accuracy": 0.786,
+        "recall": 0.9122,
+        "fpr": 0.3003
+      },
+      "val_ood_fit": {
+        "n": 683,
+        "accuracy": 0.7687,
+        "recall": 0.8889,
+        "fpr": 0.3099
+      },
+      "val_ood_all": {
+        "n": 1328,
+        "accuracy": 0.7771,
+        "recall": 0.9004,
+        "fpr": 0.3053
+      },
+      "val_ood_by_dataset": {
+        "val_ood_conditionals": {
+          "n": 262,
+          "accuracy": 0.5573
+        },
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9426
+        }
+      }
+    },
+    "adopted: C + override (step 2.3)": {
+      "threshold": 0.40604142238562824,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9369,
+        "auc": 0.9512,
+        "precision": 0.9072,
+        "recall": 0.974,
+        "f1": 0.9394,
+        "ci95": [
+          0.925,
+          0.9477
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.98,
+        "auc": 0.9863,
+        "precision": 0.9856,
+        "recall": 0.9744,
+        "f1": 0.98,
+        "ci95": [
+          0.9721,
+          0.9871
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7694,
+        "auc": 0.8223,
+        "precision": 0.6917,
+        "recall": 0.9722,
+        "f1": 0.8083,
+        "ci95": [
+          0.725,
+          0.8112
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.013
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0472
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.4333
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9862
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9368
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9748
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9722
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.98,
+        "auc": 0.9945,
+        "precision": 0.9863,
+        "recall": 0.9731,
+        "f1": 0.9797,
+        "ci95": [
+          0.9684,
+          0.99
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9932,
+        "auc": 0.988,
+        "precision": 0.9875,
+        "recall": 0.9973,
+        "f1": 0.9924,
+        "ci95": [
+          0.9903,
+          0.9959
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.907
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0556
+      },
+      "val_ood_select": {
+        "n": 645,
+        "accuracy": 0.8078,
+        "recall": 0.916,
+        "fpr": 0.2663
+      },
+      "val_ood_fit": {
+        "n": 683,
+        "accuracy": 0.7789,
+        "recall": 0.8926,
+        "fpr": 0.2954
+      },
+      "val_ood_all": {
+        "n": 1328,
+        "accuracy": 0.7929,
+        "recall": 0.9041,
+        "fpr": 0.2814
+      },
+      "val_ood_by_dataset": {
+        "val_ood_conditionals": {
+          "n": 262,
+          "accuracy": 0.6107
+        },
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9426
+        }
+      }
+    },
+    "NLI alone": {
+      "threshold": 0.9753316640853882,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8176,
+        "auc": 0.8399,
+        "precision": 0.7602,
+        "recall": 0.9298,
+        "f1": 0.8365,
+        "ci95": [
+          0.7989,
+          0.8358
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.8279,
+        "auc": 0.8218,
+        "precision": 0.7763,
+        "recall": 0.9232,
+        "f1": 0.8434,
+        "ci95": [
+          0.8086,
+          0.8464
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7778,
+        "auc": 0.9395,
+        "precision": 0.7049,
+        "recall": 0.9556,
+        "f1": 0.8113,
+        "ci95": [
+          0.7333,
+          0.8222
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0033
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.7087
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0256
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.7815
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.4
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9448
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.8842
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9151
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9556
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.8602,
+        "auc": 0.8608,
+        "precision": 0.8218,
+        "recall": 0.9158,
+        "f1": 0.8662,
+        "ci95": [
+          0.8319,
+          0.8885
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.8377,
+        "auc": 0.8652,
+        "precision": 0.7614,
+        "recall": 0.9207,
+        "f1": 0.8335,
+        "ci95": [
+          0.8251,
+          0.8501
+        ]
+      },
+      "k1_fpr": 0.044,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.938
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.4722
+      },
+      "val_ood_select": {
+        "n": 645,
+        "accuracy": 0.8713,
+        "recall": 0.9198,
+        "fpr": 0.1619
+      },
+      "val_ood_fit": {
+        "n": 683,
+        "accuracy": 0.8477,
+        "recall": 0.8926,
+        "fpr": 0.1816
+      },
+      "val_ood_all": {
+        "n": 1328,
+        "accuracy": 0.8592,
+        "recall": 0.906,
+        "fpr": 0.1721
+      },
+      "val_ood_by_dataset": {
+        "val_ood_conditionals": {
+          "n": 262,
+          "accuracy": 0.7557
+        },
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9504
+        }
+      }
+    }
+  },
+  "adopted_threshold": 0.40604142238562824,
+  "gain_adopted_vs_phase0": {
+    "all": {
+      "part": "all",
+      "n": 1760,
+      "gain": -0.0017,
+      "p_permutation": 0.81922
+    },
+    "cannot_phase2": {
+      "part": "cannot_phase2",
+      "n": 1400,
+      "gain": 0.0029,
+      "p_permutation": 0.54205
+    },
+    "xnot360": {
+      "part": "xnot360",
+      "n": 360,
+      "gain": -0.0194,
+      "p_permutation": 0.37186
+    },
+    "lowov_negations_lt_0.6": {
+      "n": 129,
+      "gain": 0.155,
+      "p_permutation": 0.0001
+    },
+    "lowov_non_negations_lt_0.4": {
+      "n": 396,
+      "gain": -0.0505,
+      "p_permutation": 0.0001
+    }
+  },
+  "errors": {
+    "false_positives": {
+      "total": 88,
+      "sample_buckets": {
+        "xNot360: conditional restated as a fact (P and not Q) \u2014 misjudged": 10,
+        "xNot360: both sides conditional (inverse / antecedent flip read as negation)": 8,
+        "paraphrase with a content change (lexical rewording read as contradiction)": 1,
+        "xNot360: non-conditional legal / policy pair": 1
+      },
+      "all_buckets": {
+        "xNot360: both sides conditional (inverse / antecedent flip read as negation)": 48,
+        "xNot360: conditional restated as a fact (P and not Q) \u2014 misjudged": 18,
+        "xNot360: non-conditional legal / policy pair": 12,
+        "topically related, different claim (STS-low / SNLI neutral)": 6,
+        "paraphrase with a content change (lexical rewording read as contradiction)": 4
+      },
+      "examples": {
+        "paraphrase with a content change (lexical rewording read as contradiction)": {
+          "a": "Daniel was a farmer and music teacher; Arminda worked as a midwife.",
+          "b": "Daniel and Arminda were both farmers and music teachers.",
+          "overlap": 0.267
+        },
+        "xNot360: non-conditional legal / policy pair": {
+          "a": "Force majeure events excuse both parties from their contractual obligations",
+          "b": "No force majeure event happens but one party gets excused from their obligations anyway",
+          "overlap": 0.263
+        },
+        "xNot360: conditional restated as a fact (P and not Q) \u2014 misjudged": {
+          "a": "If the work isn't completed in time, penalties apply.",
+          "b": "The work is completed on time yet penalties still apply.",
+          "overlap": 0.462
+        },
+        "xNot360: both sides conditional (inverse / antecedent flip read as negation)": {
+          "a": "If you update your will, your estate will be distributed according to your wishes.",
+          "b": "If you do not update your will, your estate will be distributed according to your wishes.",
+          "overlap": 0.846
+        }
+      },
+      "overlap_of_errors": {
+        "median": 0.8,
+        "share_below_0.6": 0.375
+      }
+    },
+    "false_negatives": {
+      "total": 23,
+      "sample_buckets": {
+        "lexical substitution, no cue on either side (CANNOT 'other')": 7,
+        "antonym negation missed": 4,
+        "xNot360: conditional restated as a fact (P and not Q) \u2014 misjudged": 3,
+        "verbal negation missed (single cue)": 2,
+        "xNot360: non-conditional legal / policy pair": 2,
+        "cue on both sides / double negation": 2
+      },
+      "all_buckets": {
+        "lexical substitution, no cue on either side (CANNOT 'other')": 8,
+        "antonym negation missed": 6,
+        "xNot360: conditional restated as a fact (P and not Q) \u2014 misjudged": 3,
+        "cue on both sides / double negation": 2,
+        "verbal negation missed (single cue)": 2,
+        "xNot360: non-conditional legal / policy pair": 2
+      },
+      "examples": {
+        "xNot360: non-conditional legal / policy pair": {
+          "a": "Drinking water frequently helps maintain proper hydration",
+          "b": "Drinking water frequently but not maintaining proper hydration",
+          "overlap": 0.5
+        },
+        "cue on both sides / double negation": {
+          "a": "The ripped banana wasn't not only ripped, but petrified and tasteless.",
+          "b": "The ripped banana was not only ripped, but petrified and tasteless.",
+          "overlap": 0.818
+        },
+        "lexical substitution, no cue on either side (CANNOT 'other')": {
+          "a": "These are all of the oldest examples of the Tibetan script.",
+          "b": "These are some of the earliest examples of the Tibetan script.",
+          "overlap": 0.636
+        },
+        "antonym negation missed": {
+          "a": "It's natural.",
+          "b": "It's sharp.",
+          "overlap": 0.333
+        },
+        "verbal negation missed (single cue)": {
+          "a": "Never forget, you will definitely be personally responsible for re-publishing libellous content.",
+          "b": "Remember, you could be personally responsible for re-publishing libellous content.",
+          "overlap": 0.6
+        },
+        "xNot360: conditional restated as a fact (P and not Q) \u2014 misjudged": {
+          "a": "If an author doesn't deliver their manuscript by the deadline, they may lose their advance payment.",
+          "b": "An author misses their manuscript deadline but doesn't lose their advance payment.",
+          "overlap": 0.529
+        }
+      },
+      "overlap_of_errors": {
+        "median": 0.571,
+        "share_below_0.6": 0.522
+      }
+    }
+  },
+  "per_family": [
+    {
+      "family": "negation / verbal",
+      "n": 290,
+      "label": 1,
+      "metric": "recall",
+      "value": 0.9862,
+      "accuracy": 0.9862
+    },
+    {
+      "family": "negation / antonym",
+      "n": 95,
+      "label": 1,
+      "metric": "recall",
+      "value": 0.9368,
+      "accuracy": 0.9368
+    },
+    {
+      "family": "negation / other",
+      "n": 318,
+      "label": 1,
+      "metric": "recall",
+      "value": 0.9748,
+      "accuracy": 0.9748
+    },
+    {
+      "family": "xNot360 negation",
+      "n": 180,
+      "label": 1,
+      "metric": "recall",
+      "value": 0.9722,
+      "accuracy": 0.9722
+    },
+    {
+      "family": "paraphrase",
+      "n": 307,
+      "label": 0,
+      "metric": "FPR",
+      "value": 0.013,
+      "accuracy": 0.987
+    },
+    {
+      "family": "SemAntoNeg paraphrase",
+      "n": 27,
+      "label": 0,
+      "metric": "FPR",
+      "value": 0.0,
+      "accuracy": 1.0
+    },
+    {
+      "family": "sts_low",
+      "n": 127,
+      "label": 0,
+      "metric": "FPR",
+      "value": 0.0472,
+      "accuracy": 0.9528
+    },
+    {
+      "family": "snli_neutral",
+      "n": 117,
+      "label": 0,
+      "metric": "FPR",
+      "value": 0.0,
+      "accuracy": 1.0
+    },
+    {
+      "family": "random_pair",
+      "n": 119,
+      "label": 0,
+      "metric": "FPR",
+      "value": 0.0,
+      "accuracy": 1.0
+    },
+    {
+      "family": "xNot360 not_negation",
+      "n": 180,
+      "label": 0,
+      "metric": "FPR",
+      "value": 0.4333,
+      "accuracy": 0.5667
+    }
+  ]
+}
