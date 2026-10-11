@@ -1,0 +1,1876 @@
+{
+  "machine": {
+    "all": {
+      "n": 2645,
+      "accuracy": 0.9399,
+      "precision": 0.8445,
+      "recall": 0.9713,
+      "called_negation": 0.3331
+    },
+    "by_category": {
+      "antonym_negation": {
+        "n": 308,
+        "accuracy": 0.9935,
+        "precision": 1.0,
+        "recall": 0.9935,
+        "called_negation": 0.9935
+      },
+      "cancellation": {
+        "n": 500,
+        "accuracy": 0.898,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.102
+      },
+      "negation": {
+        "n": 458,
+        "accuracy": 0.9563,
+        "precision": 1.0,
+        "recall": 0.9563,
+        "called_negation": 0.9563
+      },
+      "paraphrase": {
+        "n": 484,
+        "accuracy": 0.8285,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.1715
+      },
+      "partial": {
+        "n": 411,
+        "accuracy": 0.9927,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.0073
+      },
+      "wrong_related": {
+        "n": 484,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      }
+    },
+    "by_subject": {
+      "CN": {
+        "n": 901,
+        "accuracy": 0.9301,
+        "precision": 0.8281,
+        "recall": 0.9707,
+        "called_negation": 0.3552
+      },
+      "DBMS": {
+        "n": 848,
+        "accuracy": 0.9434,
+        "precision": 0.8509,
+        "recall": 0.971,
+        "called_negation": 0.3243
+      },
+      "OS": {
+        "n": 896,
+        "accuracy": 0.9464,
+        "precision": 0.8566,
+        "recall": 0.9722,
+        "called_negation": 0.3192
+      }
+    },
+    "by_category_subject": {
+      "antonym_negation|CN": {
+        "n": 113,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "called_negation": 1.0
+      },
+      "antonym_negation|DBMS": {
+        "n": 90,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "called_negation": 1.0
+      },
+      "antonym_negation|OS": {
+        "n": 105,
+        "accuracy": 0.981,
+        "precision": 1.0,
+        "recall": 0.981,
+        "called_negation": 0.981
+      },
+      "cancellation|CN": {
+        "n": 167,
+        "accuracy": 0.8503,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.1497
+      },
+      "cancellation|DBMS": {
+        "n": 166,
+        "accuracy": 0.9036,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.0964
+      },
+      "cancellation|OS": {
+        "n": 167,
+        "accuracy": 0.9401,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.0599
+      },
+      "negation|CN": {
+        "n": 160,
+        "accuracy": 0.95,
+        "precision": 1.0,
+        "recall": 0.95,
+        "called_negation": 0.95
+      },
+      "negation|DBMS": {
+        "n": 151,
+        "accuracy": 0.9536,
+        "precision": 1.0,
+        "recall": 0.9536,
+        "called_negation": 0.9536
+      },
+      "negation|OS": {
+        "n": 147,
+        "accuracy": 0.966,
+        "precision": 1.0,
+        "recall": 0.966,
+        "called_negation": 0.966
+      },
+      "paraphrase|CN": {
+        "n": 161,
+        "accuracy": 0.8137,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.1863
+      },
+      "paraphrase|DBMS": {
+        "n": 157,
+        "accuracy": 0.8535,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.1465
+      },
+      "paraphrase|OS": {
+        "n": 166,
+        "accuracy": 0.8193,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.1807
+      },
+      "partial|CN": {
+        "n": 139,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "partial|DBMS": {
+        "n": 127,
+        "accuracy": 0.9843,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.0157
+      },
+      "partial|OS": {
+        "n": 145,
+        "accuracy": 0.9931,
+        "precision": 0.0,
+        "recall": null,
+        "called_negation": 0.0069
+      },
+      "wrong_related|CN": {
+        "n": 161,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "wrong_related|DBMS": {
+        "n": 157,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "wrong_related|OS": {
+        "n": 166,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      }
+    },
+    "stage_counts": {
+      "cancellation override": 17,
+      "combiner": 2628
+    },
+    "five_brief_categories": {
+      "n": 2337,
+      "accuracy": 0.9328,
+      "precision": 0.7617,
+      "recall": 0.9563,
+      "called_negation": 0.246
+    },
+    "errors": [
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "In computer programming, the block starting symbol is the portion of an object file, executable, or assembly language code that contains statically allocated variables that are declared but have not been assigned a value yet.",
+        "student": "It is not untrue that in computer programming, the block starting symbol is the portion of an object file, executable, or assembly language code that contains statically allocated variables that are declared but have not been assigned a value yet.",
+        "label": 0,
+        "prob": 0.829,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "Apple Partition Map is a partition scheme used to define the low-level organization of data on disks formatted for use with 68k and PowerPC Macintosh computers.",
+        "student": "Put simply, apple Partition Map is a partition scheme used to define the low-level organization of data on disks formatted for use with 68k and PowerPC Macintosh computers.",
+        "label": 0,
+        "prob": 0.697,
+        "stage": "combiner"
+      },
+      {
+        "category": "partial",
+        "subject": "OS",
+        "teacher": "Asynchrony, in computer programming, refers to the occurrence of events independent of the main program flow and ways to deal with such events.",
+        "student": "Asynchrony, in computer programming, refers to the occurrence of events independent of the main program flow and ways.",
+        "label": 0,
+        "prob": 0.667,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computer networking, telecommunication and information theory, broadcasting is a method of transferring a message to all recipients simultaneously.",
+        "student": "Put simply, telecommunication and information theory, broadcasting is a method of transferring a message to all recipients simultaneously.",
+        "label": 0,
+        "prob": 0.429,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computing, a bus error is a fault raised by hardware, notifying an operating system that a process is trying to access memory that the CPU cannot physically address: an invalid address for the address bus, hence the name.",
+        "student": "Put simply, a bus error is a fault raised by hardware, notifying an operating system that a process is trying to access memory that the CPU cannot physically address: an invalid address for the address bus, hence the name.",
+        "label": 0,
+        "prob": 0.818,
+        "stage": "combiner"
+      },
+      {
+        "category": "antonym_negation",
+        "subject": "OS",
+        "teacher": "In computing, a bus error is a fault raised by hardware, notifying an operating system that a process is trying to access memory that the CPU cannot physically address: an invalid address for the address bus, hence the name.",
+        "student": "In computing, a bus error is a fault levelled by hardware, notifying an operating system that a process is trying to access memory that the CPU cannot physically address: an invalid address for the address bus, hence the name.",
+        "label": 1,
+        "prob": 0.213,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computer storage, B\u00e9l\u00e1dy's anomaly is the phenomenon in which increasing the number of page frames results in an increase in the number of page faults for certain memory access patterns.",
+        "student": "Put simply, B\u00e9l\u00e1dy's anomaly is the phenomenon in which increasing the number of page frames results in an increase in the number of page faults for certain memory access patterns.",
+        "label": 0,
+        "prob": 0.639,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "In computer storage, B\u00e9l\u00e1dy's anomaly is the phenomenon in which increasing the number of page frames results in an increase in the number of page faults for certain memory access patterns.",
+        "student": "It is not untrue that in computer storage, B\u00e9l\u00e1dy's anomaly is the phenomenon in which increasing the number of page frames results in an increase in the number of page faults for certain memory access patterns.",
+        "label": 0,
+        "prob": 0.592,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "C dynamic memory allocation refers to performing manual memory management for dynamic memory allocation in the C programming language via a group of functions in the C standard library, mainly malloc, realloc, calloc, aligned_alloc and free.",
+        "student": "Put simply, C dynamic memory allocation refers to performing manual memory management for dynamic memory allocation in the C programming language via a group of functions in the C standard library, mainly malloc, realloc, calloc, aligned_alloc and free.",
+        "label": 0,
+        "prob": 0.671,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "CPU shielding is a practice where on a multiprocessor system or on a CPU with multiple cores, real-time tasks can run on one CPU or core while non-real-time tasks run on another.",
+        "student": "Put simply, CPU shielding is a practice where on a multiprocessor system or on a CPU with multiple cores, real-time tasks can run on one CPU or core while non-real-time tasks run on another.",
+        "label": 0,
+        "prob": 0.661,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "OS",
+        "teacher": "Cap\u2019n Proto is a data serialization format and Remote Procedure Call framework for exchanging data between computer programs.",
+        "student": "Cap\u2019n Proto might not be a data serialization format and Remote Procedure Call framework for exchanging data between computer programs.",
+        "label": 1,
+        "prob": 0.35,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "A clustered file system is a file system which is shared by being simultaneously mounted on multiple servers.",
+        "student": "Put simply, a clustered file system is a file system which is shared by being simultaneously mounted on multiple servers.",
+        "label": 0,
+        "prob": 0.554,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computing, a code segment, also known as a text segment or simply as text, is a portion of an object file or the corresponding section of the program's virtual address space that contains executable instructions.",
+        "student": "Put simply, a code segment, also known as a text segment or simply as text, is a portion of an object file or the corresponding section of the program's virtual address space that contains executable instructions.",
+        "label": 0,
+        "prob": 0.75,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In the context of IBM mainframe computers in the IBM System/360 line and its successors, a data set or dataset is a computer file having a record organization.",
+        "student": "In the context of IBM mainframe computers in the IBM System/360 line and its successors, a data set or dataset can be described as a computer file having a record organization.",
+        "label": 0,
+        "prob": 0.477,
+        "stage": "combiner"
+      },
+      {
+        "category": "antonym_negation",
+        "subject": "OS",
+        "teacher": "In message queueing a dead letter queue, or dead letter topic in some messaging systems, is a service implementation to store messages that the messaging system cannot or should not deliver.",
+        "student": "In message queueing a live letter queue, or dead letter topic in some messaging systems, is a service implementation to store messages that the messaging system cannot or should not deliver.",
+        "label": 1,
+        "prob": 0.993,
+        "stage": "cancellation override"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computing, delegated administration or delegation of control describes the decentralization of role-based-access-control systems.",
+        "student": "Put simply, delegated administration or delegation of control describes the decentralization of role-based-access-control systems.",
+        "label": 0,
+        "prob": 0.81,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computer disk storage, a sector is a subdivision of a track on a magnetic disk or optical disc.",
+        "student": "Put simply, a sector is a subdivision of a track on a magnetic disk or optical disc.",
+        "label": 0,
+        "prob": 0.51,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "A dynamic library is a library that contains functions and data that can be used by a computer program at run-time as loaded from a file separate from the program executable.",
+        "student": "It is not untrue that a dynamic library is a library that contains functions and data that can be used by a computer program at run-time as loaded from a file separate from the program executable.",
+        "label": 0,
+        "prob": 0.633,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "Dynamic loading is a mechanism by which a computer program can, at run time, load a library into memory, retrieve the addresses of functions and variables contained in the library, execute those functions or access those variables, and unload the library from memory.",
+        "student": "It is not untrue that dynamic loading is a mechanism by which a computer program can, at run time, load a library into memory, retrieve the addresses of functions and variables contained in the library, execute those functions or access those variables, and unload the library from memory.",
+        "label": 0,
+        "prob": 0.533,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "OS",
+        "teacher": "Earliest deadline first or least time to go is a dynamic priority scheduling algorithm used in real-time operating systems to place processes in a priority queue.",
+        "student": "Earliest deadline first or least time to go is scarcely a dynamic priority scheduling algorithm used in real-time operating systems to place processes in a priority queue.",
+        "label": 1,
+        "prob": 0.315,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "EntireX DCOM is a commercial implementation of Microsoft's Distributed Component Object Model technology by Software AG for the Windows, AIX, HP/UX, Solaris, Linux, AS/400, z/OS, z/VM, and BS2000/OSD platforms.",
+        "student": "It is not untrue that EntireX DCOM is a commercial implementation of Microsoft's Distributed Component Object Model technology by Software AG for the Windows, AIX, HP/UX, Solaris, Linux, AS/400, z/OS, z/VM, and BS2000/OSD platforms.",
+        "label": 0,
+        "prob": 0.645,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "Extended file attributes are file system features that enable users to associate computer files with metadata not interpreted by the filesystem, whereas regular attributes have a purpose strictly defined by the filesystem.",
+        "student": "Put simply, extended file attributes are file system features that enable users to associate computer files with metadata not interpreted by the filesystem, whereas regular attributes have a purpose strictly defined by the filesystem.",
+        "label": 0,
+        "prob": 0.687,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "Extended file attributes are file system features that enable users to associate computer files with metadata not interpreted by the filesystem, whereas regular attributes have a purpose strictly defined by the filesystem.",
+        "student": "It is not untrue that extended file attributes are file system features that enable users to associate computer files with metadata not interpreted by the filesystem, whereas regular attributes have a purpose strictly defined by the filesystem.",
+        "label": 0,
+        "prob": 0.598,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computing, an extent is a contiguous area of storage reserved for a file in a file system, represented as a range of block numbers, or tracks on count key data devices.",
+        "student": "The term an extent refers to a contiguous area of storage reserved for a file in a file system, represented as a range of block numbers, or tracks on count key data devices.",
+        "label": 0,
+        "prob": 0.62,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "In computing, an extent is a contiguous area of storage reserved for a file in a file system, represented as a range of block numbers, or tracks on count key data devices.",
+        "student": "It is not untrue that in computing, an extent is a contiguous area of storage reserved for a file in a file system, represented as a range of block numbers, or tracks on count key data devices.",
+        "label": 0,
+        "prob": 0.592,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "A fork bomb is a denial-of-service attack against a computer where a process continually replicates itself to deplete available system resources, slowing down or crashing the system due to resource starvation.",
+        "student": "Put simply, a fork bomb is a denial-of-service attack against a computer where a process continually replicates itself to deplete available system resources, slowing down or crashing the system due to resource starvation.",
+        "label": 0,
+        "prob": 0.605,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "A fork bomb is a denial-of-service attack against a computer where a process continually replicates itself to deplete available system resources, slowing down or crashing the system due to resource starvation.",
+        "student": "It is not untrue that a fork bomb is a denial-of-service attack against a computer where a process continually replicates itself to deplete available system resources, slowing down or crashing the system due to resource starvation.",
+        "label": 0,
+        "prob": 0.829,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "OS",
+        "teacher": "A functoid is a tool for applying methods to data via a GUI drag 'n drop interface from within the BizTalk Mapping tool.",
+        "student": "A functoid is rarely a tool for applying methods to data via a GUI drag 'n drop interface from within the BizTalk Mapping tool.",
+        "label": 1,
+        "prob": 0.241,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computer science, gang scheduling is a scheduling algorithm for parallel systems that schedules related threads or processes to run simultaneously on different processors.",
+        "student": "Put simply, gang scheduling is a scheduling algorithm for parallel systems that schedules related threads or processes to run simultaneously on different processors.",
+        "label": 0,
+        "prob": 0.431,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computing, a hierarchical file system is a file system that uses directories to organize files into a tree structure.",
+        "student": "Put simply, a hierarchical file system is a file system that uses directories to organize files into a tree structure.",
+        "label": 0,
+        "prob": 0.741,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "IBM Remote Access Computing is a discontinued early time-sharing system for IBM System/360 introduced in 1966.",
+        "student": "Put simply, IBM Remote Access Computing is a discontinued early time-sharing system for IBM System/360 introduced in 1966.",
+        "label": 0,
+        "prob": 0.49,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computing, a logical address is the address at which an item appears to reside from the perspective of an executing program.",
+        "student": "A logical address can be described as the address at which an item appears to reside from the perspective of an executing program.",
+        "label": 0,
+        "prob": 0.454,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "Multi-memory controllers or memory management controllers are different kinds of special chips designed by various video game developers for use in Nintendo Entertainment System cartridges.",
+        "student": "Put simply, Multi-memory controllers or memory management controllers are different kinds of special chips designed by various video game developers for use in Nintendo Entertainment System cartridges.",
+        "label": 0,
+        "prob": 0.717,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In software architecture, a messaging pattern is an architectural pattern which describes how two different parts of an application, or different systems connect and communicate with each other.",
+        "student": "Put simply, a messaging pattern is an architectural pattern which describes how two different parts of an application, or different systems connect and communicate with each other.",
+        "label": 0,
+        "prob": 0.506,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "Mounting is a process by which a computer's operating system makes files and directories on a storage device available for users to access via the computer's file system.",
+        "student": "Put simply, mounting is a process by which a computer's operating system makes files and directories on a storage device available for users to access via the computer's file system.",
+        "label": 0,
+        "prob": 0.657,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computer science, multiple granularity locking is a locking method used in database management systems and relational databases.",
+        "student": "Put simply, multiple granularity locking is a locking method used in database management systems and relational databases.",
+        "label": 0,
+        "prob": 0.871,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computing, Page Size Extension refers to a feature of x86 processors that allows for pages larger than the traditional 4 KiB size.",
+        "student": "Put simply, page Size Extension refers to a feature of x86 processors that allows for pages larger than the traditional 4 KiB size.",
+        "label": 0,
+        "prob": 0.669,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computing, a page fault is an exception that the memory management unit raises when a process accesses a memory page without proper preparations.",
+        "student": "Put simply, a page fault is an exception that the memory management unit raises when a process accesses a memory page without proper preparations.",
+        "label": 0,
+        "prob": 0.433,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computer science, persistent memory is any method or apparatus for efficiently storing data structures such that they can continue to be accessed using memory instructions or memory APIs even after the end of the process that created or last modified them.",
+        "student": "Put simply, persistent memory is any method or apparatus for efficiently storing data structures such that they can continue to be accessed using memory instructions or memory APIs even after the end of the process that created or last modified them.",
+        "label": 0,
+        "prob": 0.61,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "In computer science, pointer swizzling is the conversion of references based on name or position into direct pointer references.",
+        "student": "Pointer swizzling can be described as the conversion of references based on name or position into direct pointer references.",
+        "label": 0,
+        "prob": 0.46,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "OS",
+        "teacher": "In computing, position-independent code or position-independent executable is a body of machine code that executes properly regardless of its memory address.",
+        "student": "In computing, position-independent code or position-independent executable is not a body of machine code that executes properly regardless of its memory address.",
+        "label": 1,
+        "prob": 0.998,
+        "stage": "cancellation override"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "In computer networking, STREAMS is the native framework in Unix System V for implementing character device drivers, network protocols, and inter-process communication.",
+        "student": "It is not untrue that in computer networking, STREAMS is the native framework in Unix System V for implementing character device drivers, network protocols, and inter-process communication.",
+        "label": 0,
+        "prob": 0.525,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "OS",
+        "teacher": "Shadow RAM, on the Acorn BBC Micro, Master-series and Acorn Electron microcomputers is the name given to a special framebuffer implementation to free up main memory for use by program code and data.",
+        "student": "It is not untrue that shadow RAM, on the Acorn BBC Micro, Master-series and Acorn Electron microcomputers is the name given to a special framebuffer implementation to free up main memory for use by program code and data.",
+        "label": 0,
+        "prob": 0.664,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "Shortest job next \u2013 also known as shortest job first or shortest process next \u2013 is a method used by a computer operating system to decide which task to run first.",
+        "student": "Put simply, shortest job next \u2013 also known as shortest job first or shortest process next \u2013 is a method used by a computer operating system to decide which task to run first.",
+        "label": 0,
+        "prob": 0.717,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "A system virtual machine is a virtual machine that provides a complete system platform and supports the execution of a complete operating system.",
+        "student": "Put simply, a system virtual machine is a virtual machine that provides a complete system platform and supports the execution of a complete operating system.",
+        "label": 0,
+        "prob": 0.432,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "The Task Control Block is a data structure which contains the state of a task in, e.g., OS/360 and successors on IBM System/360 architecture and successors.",
+        "student": "Put simply, the Task Control Block is a data structure which contains the state of a task in, e.g., OS/360 and successors on IBM System/360 architecture and successors.",
+        "label": 0,
+        "prob": 0.794,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "OS",
+        "teacher": "ULE is the default scheduler for the FreeBSD operating system for the i386 and AMD64 architectures.",
+        "student": "The default scheduler for the FreeBSD operating system for the i386 and AMD64 architectures: that is what ULE means.",
+        "label": 0,
+        "prob": 0.528,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "OS",
+        "teacher": "A wait-for graph in computer science is a directed graph used for deadlock detection in operating systems and relational database systems.",
+        "student": "A wait-for graph in computer science might not be a directed graph used for deadlock detection in operating systems and relational database systems.",
+        "label": 1,
+        "prob": 0.372,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "5G networking slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure.",
+        "student": "Put simply, 5G networking slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure.",
+        "label": 0,
+        "prob": 0.604,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "The AMPRNet or Network 44 is used in amateur radio for packet radio and digital communications between computer networks managed by amateur radio operators.",
+        "student": "Put simply, the AMPRNet or Network 44 is used in amateur radio for packet radio and digital communications between computer networks managed by amateur radio operators.",
+        "label": 0,
+        "prob": 0.654,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In data networking, telecommunications, and computer buses, an acknowledgement or acknowledgment is a signal that is passed between communicating processes, computers, or devices to signify acknowledgement, or receipt of a message, as part of a communications protocol.",
+        "student": "The term telecommunications, and computer buses, an acknowledgement or acknowledgment refers to a signal that is passed between communicating processes, computers, or devices to signify acknowledgement, or receipt of a message, as part of a communications protocol.",
+        "label": 0,
+        "prob": 0.821,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "In data networking, telecommunications, and computer buses, an acknowledgement or acknowledgment is a signal that is passed between communicating processes, computers, or devices to signify acknowledgement, or receipt of a message, as part of a communications protocol.",
+        "student": "It is not untrue that in data networking, telecommunications, and computer buses, an acknowledgement or acknowledgment is a signal that is passed between communicating processes, computers, or devices to signify acknowledgement, or receipt of a message, as part of a communications protocol.",
+        "label": 0,
+        "prob": 0.445,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "Active networking is a communication pattern that allows packets flowing through a telecommunications network to dynamically modify the operation of the network.",
+        "student": "Active networking is barely a communication pattern that allows packets flowing through a telecommunications network to dynamically modify the operation of the network.",
+        "label": 1,
+        "prob": 0.23,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Autonegotiation is a signaling mechanism and procedure used by Ethernet over twisted pair by which two connected devices choose common transmission parameters, such as speed, duplex mode, and flow control.",
+        "student": "It is not untrue that Autonegotiation is a signaling mechanism and procedure used by Ethernet over twisted pair by which two connected devices choose common transmission parameters, such as speed, duplex mode, and flow control.",
+        "label": 0,
+        "prob": 0.629,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "BIP-8 is an abbreviation for bit-interleaved parity 8.",
+        "student": "BIP-8 is scarcely an abbreviation for bit-interleaved parity 8.",
+        "label": 1,
+        "prob": 0.017,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "The Berkeley r-commands are a suite of computer programs designed to enable users of one Unix system to log in or issue commands to another Unix computer via TCP/IP computer network.",
+        "student": "Put simply, the Berkeley r-commands are a suite of computer programs designed to enable users of one Unix system to log in or issue commands to another Unix computer via TCP/IP computer network.",
+        "label": 0,
+        "prob": 0.71,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "The Berkeley r-commands are a suite of computer programs designed to enable users of one Unix system to log in or issue commands to another Unix computer via TCP/IP computer network.",
+        "student": "It is not untrue that the Berkeley r-commands are a suite of computer programs designed to enable users of one Unix system to log in or issue commands to another Unix computer via TCP/IP computer network.",
+        "label": 0,
+        "prob": 0.711,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Broadcast, unknown-unicast and multicast traffic is network traffic transmitted using one of three methods of sending data link layer network traffic to a destination of which the sender does not know the network address.",
+        "student": "Put simply, Broadcast, unknown-unicast and multicast traffic is network traffic transmitted using one of three methods of sending data link layer network traffic to a destination of which the sender does not know the network address.",
+        "label": 0,
+        "prob": 0.862,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Chipkill is IBM's trademark for a form of advanced error checking and correcting computer memory technology that protects memory systems from single memory chip failures and multi-bit errors from any portion of a single memory chip.",
+        "student": "It is not untrue that Chipkill is IBM's trademark for a form of advanced error checking and correcting computer memory technology that protects memory systems from single memory chip failures and multi-bit errors from any portion of a single memory chip.",
+        "label": 0,
+        "prob": 0.493,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Composable disaggregated infrastructure, sometimes stylized as composable/disaggregated infrastructure, is a technology that allows enterprise data center operators to achieve the cost and availability benefits of cloud computing using on-premises networking equipment.",
+        "student": "It is not untrue that Composable disaggregated infrastructure, sometimes stylized as composable/disaggregated infrastructure, is a technology that allows enterprise data center operators to achieve the cost and availability benefits of cloud computing using on-premises networking equipment.",
+        "label": 0,
+        "prob": 0.92,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In telecommunication, a convolutional code is a type of error-correcting code that generates parity symbols via the sliding application of a boolean polynomial function to a data stream.",
+        "student": "Put simply, a convolutional code is a type of error-correcting code that generates parity symbols via the sliding application of a boolean polynomial function to a data stream.",
+        "label": 0,
+        "prob": 0.547,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "Distributed Network Protocol 3 is a set of communications protocols used between components in process automation systems.",
+        "student": "Distributed Network Protocol 3 is rarely a set of communications protocols used between components in process automation systems.",
+        "label": 1,
+        "prob": 0.39,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Digital One Line Link is a technology architecture that consists of data communication protocol, synchronous serial data bus and a communication system for embedded systems and electronics.",
+        "student": "It is not untrue that digital One Line Link is a technology architecture that consists of data communication protocol, synchronous serial data bus and a communication system for embedded systems and electronics.",
+        "label": 0,
+        "prob": 0.781,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "A digital cross-connect system is a piece of circuit-switched network equipment, used in telecommunications networks, that allows lower-level TDM bit streams, such as DS0 bit streams, to be rearranged and interconnected among higher-level TDM signals, such as DS1 bit streams.",
+        "student": "It is not untrue that a digital cross-connect system is a piece of circuit-switched network equipment, used in telecommunications networks, that allows lower-level TDM bit streams, such as DS0 bit streams, to be rearranged and interconnected among higher-level TDM signals, such as DS1 bit streams.",
+        "label": 0,
+        "prob": 0.765,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Direct Client-to-Client is an IRC-related sub-protocol enabling peers to interconnect using an IRC server for handshaking in order to exchange files or perform non-relayed chats.",
+        "student": "Put simply, direct Client-to-Client is an IRC-related sub-protocol enabling peers to interconnect using an IRC server for handshaking in order to exchange files or perform non-relayed chats.",
+        "label": 0,
+        "prob": 0.728,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "DirectAccess, also known as Unified Remote Access, is a VPN technology that provides intranet connectivity to client computers when they are connected to the Internet.",
+        "student": "It is not untrue that DirectAccess, also known as Unified Remote Access, is a VPN technology that provides intranet connectivity to client computers when they are connected to the Internet.",
+        "label": 0,
+        "prob": 0.88,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "A domain controller is a server that responds to security authentication requests within a computer network domain.",
+        "student": "Put simply, a domain controller is a server that responds to security authentication requests within a computer network domain.",
+        "label": 0,
+        "prob": 0.49,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "A dynamic circuit network is an advanced computer networking technology that combines traditional packet-switched communication based on the Internet Protocol, as used in the Internet, with circuit-switched technologies that are characteristic of traditional telephone network systems.",
+        "student": "Put simply, a dynamic circuit network is an advanced computer networking technology that combines traditional packet-switched communication based on the Internet Protocol, as used in the Internet, with circuit-switched technologies that are characteristic of traditional telephone network systems.",
+        "label": 0,
+        "prob": 0.765,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "An ephemeral port is a communications endpoint of a transport layer protocol of the Internet protocol suite that is used for only a short period of time for the duration of a communication session.",
+        "student": "Put simply, an ephemeral port is a communications endpoint of a transport layer protocol of the Internet protocol suite that is used for only a short period of time for the duration of a communication session.",
+        "label": 0,
+        "prob": 0.597,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In coding theory, Hamming is a linear error-correcting code that encodes four bits of data into seven bits by adding three parity bits.",
+        "student": "Put simply, hamming is a linear error-correcting code that encodes four bits of data into seven bits by adding three parity bits.",
+        "label": 0,
+        "prob": 0.631,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "iWARP is a computer networking protocol that implements remote direct memory access for efficient data transfer over Internet Protocol networks.",
+        "student": "It is not untrue that iWARP is a computer networking protocol that implements remote direct memory access for efficient data transfer over Internet Protocol networks.",
+        "label": 0,
+        "prob": 0.445,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "The Internet protocol suite, commonly known as TCP/IP, is a framework for organizing the communication protocols used in the Internet and similar computer networks according to functional criteria.",
+        "student": "It is not untrue that the Internet protocol suite, commonly known as TCP/IP, is a framework for organizing the communication protocols used in the Internet and similar computer networks according to functional criteria.",
+        "label": 0,
+        "prob": 0.764,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Within computer networking, JenNet-IP software is an enhanced 6LoWPAN network layer for ultra-low-power 802.15.4 based wireless networking.",
+        "student": "Within computer networking, JenNet-IP software can be described as an enhanced 6LoWPAN network layer for ultra-low-power 802.15.4 based wireless networking.",
+        "label": 0,
+        "prob": 0.465,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Within computer networking, JenNet-IP software is an enhanced 6LoWPAN network layer for ultra-low-power 802.15.4 based wireless networking.",
+        "student": "It is not untrue that within computer networking, JenNet-IP software is an enhanced 6LoWPAN network layer for ultra-low-power 802.15.4 based wireless networking.",
+        "label": 0,
+        "prob": 0.481,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Layer 8 is a term used to refer to user or political layer on top of the 7-layer OSI model of computer networking.",
+        "student": "Put simply, layer 8 is a term used to refer to user or political layer on top of the 7-layer OSI model of computer networking.",
+        "label": 0,
+        "prob": 0.749,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "A LocalTalk-to-Ethernet bridge is a network bridge that joins AppleTalk networks running on two different kinds of link \u2013 LocalTalk, the lower layers AppleTalk originally used, and Ethernet.",
+        "student": "Put simply, a LocalTalk-to-Ethernet bridge is a network bridge that joins AppleTalk networks running on two different kinds of link \u2013 LocalTalk, the lower layers AppleTalk originally used, and Ethernet.",
+        "label": 0,
+        "prob": 0.63,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In computing, a management interface is a network interface dedicated to configuration and management operations.",
+        "student": "Put simply, a management interface is a network interface dedicated to configuration and management operations.",
+        "label": 0,
+        "prob": 0.783,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Micro Transport Protocol is an open User Datagram Protocol-based variant of the BitTorrent peer-to-peer file-sharing protocol intended to mitigate poor latency and other congestion control problems found in conventional BitTorrent over Transmission Control Protocol, while providing reliable, ordered delivery.",
+        "student": "It is not untrue that micro Transport Protocol is an open User Datagram Protocol-based variant of the BitTorrent peer-to-peer file-sharing protocol intended to mitigate poor latency and other congestion control problems found in conventional BitTorrent over Transmission Control Protocol, while providing reliable, ordered delivery.",
+        "label": 0,
+        "prob": 0.467,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In computer networking, packet delay variation is the difference in end-to-end one-way delay between selected packets in a flow with any lost packets being ignored.",
+        "student": "The term packet delay variation refers to the difference in end-to-end one-way delay between selected packets in a flow with any lost packets being ignored.",
+        "label": 0,
+        "prob": 0.76,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In computer networking, Photuris is a session key management protocol defined in RFC 2522.",
+        "student": "Put simply, Photuris is a session key management protocol defined in RFC 2522.",
+        "label": 0,
+        "prob": 0.688,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Protocol ossification is the loss of flexibility, extensibility and evolvability of network protocols.",
+        "student": "It is not untrue that protocol ossification is the loss of flexibility, extensibility and evolvability of network protocols.",
+        "label": 0,
+        "prob": 0.476,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Protocol-dependent modules are used by the routing protocol EIGRP to make decisions about adding routes learned from other sources; for example other routers or routing protocols to the routing table.",
+        "student": "Put simply, Protocol-dependent modules are used by the routing protocol EIGRP to make decisions about adding routes learned from other sources; for example other routers or routing protocols to the routing table.",
+        "label": 0,
+        "prob": 0.654,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In coding theory, the repetition code is one of the most basic linear error-correcting codes.",
+        "student": "One of the most basic linear error-correcting codes: that is what the repetition code means.",
+        "label": 0,
+        "prob": 0.601,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Resilient Packet Ring, as defined by IEEE standard 802.17, is a protocol designed for the transport of data traffic over optical fiber ring networks.",
+        "student": "Put simply, resilient Packet Ring, as defined by IEEE standard 802.17, is a protocol designed for the transport of data traffic over optical fiber ring networks.",
+        "label": 0,
+        "prob": 0.738,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Resilient Packet Ring, as defined by IEEE standard 802.17, is a protocol designed for the transport of data traffic over optical fiber ring networks.",
+        "student": "It is not untrue that resilient Packet Ring, as defined by IEEE standard 802.17, is a protocol designed for the transport of data traffic over optical fiber ring networks.",
+        "label": 0,
+        "prob": 0.557,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In a ring network, such as Token Ring, ring latency is the time required for a signal to propagate once around the ring.",
+        "student": "Put simply, such as Token Ring, ring latency is the time required for a signal to propagate once around the ring.",
+        "label": 0,
+        "prob": 0.547,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "A Secure Shell fingerprint record is a type of resource record in the Domain Name System which identifies SSH keys that are associated with a host name.",
+        "student": "Put simply, a Secure Shell fingerprint record is a type of resource record in the Domain Name System which identifies SSH keys that are associated with a host name.",
+        "label": 0,
+        "prob": 0.75,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "A Secure Shell fingerprint record is a type of resource record in the Domain Name System which identifies SSH keys that are associated with a host name.",
+        "student": "It is not untrue that a Secure Shell fingerprint record is a type of resource record in the Domain Name System which identifies SSH keys that are associated with a host name.",
+        "label": 0,
+        "prob": 0.715,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "Sender Policy Framework is an email authentication method that allows checking whether the sending mail server is authorized to originate mail from the email sender's domain.",
+        "student": "Sender Policy Framework might not be an email authentication method that allows checking whether the sending mail server is authorized to originate mail from the email sender's domain.",
+        "label": 1,
+        "prob": 0.111,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "The Session Announcement Protocol is an experimental protocol for advertising multicast session information.",
+        "student": "The Session Announcement Protocol is barely an experimental protocol for advertising multicast session information.",
+        "label": 1,
+        "prob": 0.104,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "The Signalling Connection Control Part is a network layer protocol that provides extended routing, flow control, segmentation, connection-orientation, and error correction facilities in Signaling System 7 telecommunications networks.",
+        "student": "Put simply, the Signalling Connection Control Part is a network layer protocol that provides extended routing, flow control, segmentation, connection-orientation, and error correction facilities in Signaling System 7 telecommunications networks.",
+        "label": 0,
+        "prob": 0.721,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "The Signalling Connection Control Part is a network layer protocol that provides extended routing, flow control, segmentation, connection-orientation, and error correction facilities in Signaling System 7 telecommunications networks.",
+        "student": "It is not untrue that the Signalling Connection Control Part is a network layer protocol that provides extended routing, flow control, segmentation, connection-orientation, and error correction facilities in Signaling System 7 telecommunications networks.",
+        "label": 0,
+        "prob": 0.873,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Sinec H1 is an Industrial Ethernet communications protocol that provides the transport layer function widely used in automation and process control applications.",
+        "student": "It is not untrue that Sinec H1 is an Industrial Ethernet communications protocol that provides the transport layer function widely used in automation and process control applications.",
+        "label": 0,
+        "prob": 0.865,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Singulation is a method by which an RFID reader identifies a tag with a specific serial number from a number of tags in its field.",
+        "student": "Put simply, Singulation is a method by which an RFID reader identifies a tag with a specific serial number from a number of tags in its field.",
+        "label": 0,
+        "prob": 0.597,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "The Site Multihoming by IPv6 Intermediation protocol is an Internet Layer defined in RFC 5533.",
+        "student": "Put simply, the Site Multihoming by IPv6 Intermediation protocol is an Internet Layer defined in RFC 5533.",
+        "label": 0,
+        "prob": 0.497,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "In information theory and communication, the Slepian\u2013Wolf coding, also known as the Slepian\u2013Wolf bound, is a result in distributed source coding discovered by David Slepian and Jack Wolf in 1973.",
+        "student": "It is not untrue that in information theory and communication, the Slepian\u2013Wolf coding, also known as the Slepian\u2013Wolf bound, is a result in distributed source coding discovered by David Slepian and Jack Wolf in 1973.",
+        "label": 0,
+        "prob": 0.767,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "In information theory, a soft-decision decoder is a kind of decoding method \u2013 a class of algorithm used to decode data that has been encoded with an error correcting code.",
+        "student": "Put simply, a soft-decision decoder is a kind of decoding method \u2013 a class of algorithm used to decode data that has been encoded with an error correcting code.",
+        "label": 0,
+        "prob": 0.532,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Stop-and-wait ARQ, also referred to as alternating bit protocol, is a method in telecommunications to send information between two connected devices.",
+        "student": "Put simply, Stop-and-wait ARQ, also referred to as alternating bit protocol, is a method in telecommunications to send information between two connected devices.",
+        "label": 0,
+        "prob": 0.711,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "Stop-and-wait ARQ, also referred to as alternating bit protocol, is a method in telecommunications to send information between two connected devices.",
+        "student": "Stop-and-wait ARQ, also referred to as alternating bit protocol, is seldom a method in telecommunications to send information between two connected devices.",
+        "label": 1,
+        "prob": 0.361,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Stop-and-wait ARQ, also referred to as alternating bit protocol, is a method in telecommunications to send information between two connected devices.",
+        "student": "It is not untrue that Stop-and-wait ARQ, also referred to as alternating bit protocol, is a method in telecommunications to send information between two connected devices.",
+        "label": 0,
+        "prob": 0.537,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "Simple Text Oriented Message Protocol, formerly known as TTMP, is a simple text-based protocol, designed for working with message-oriented middleware.",
+        "student": "Put simply, simple Text Oriented Message Protocol, formerly known as TTMP, is a simple text-based protocol, designed for working with message-oriented middleware.",
+        "label": 0,
+        "prob": 0.649,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "A switched mesh is a type of wireless mesh network that uses multiple dedicated radios to communicate between each neighboring node in the mesh via dedicated mesh backhaul links.",
+        "student": "Put simply, a switched mesh is a type of wireless mesh network that uses multiple dedicated radios to communicate between each neighboring node in the mesh via dedicated mesh backhaul links.",
+        "label": 0,
+        "prob": 0.723,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "A switched mesh is a type of wireless mesh network that uses multiple dedicated radios to communicate between each neighboring node in the mesh via dedicated mesh backhaul links.",
+        "student": "It is not untrue that a switched mesh is a type of wireless mesh network that uses multiple dedicated radios to communicate between each neighboring node in the mesh via dedicated mesh backhaul links.",
+        "label": 0,
+        "prob": 0.878,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "Systat or Active Users is a simple Internet protocol ostensibly useful for \"debugging and measurement\".",
+        "student": "Systat or Active Users is rarely a simple Internet protocol ostensibly useful for \"debugging and measurement\".",
+        "label": 1,
+        "prob": 0.288,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Terminal Identifier \u2013 Address Resolution Protocol is a protocol defined in Telcordia Technologies Generic Requirements document GR-253-CORE for SONET and used in OSS to resolve a TL1 TID to a CLNP address of a Network Element.",
+        "student": "It is not untrue that terminal Identifier \u2013 Address Resolution Protocol is a protocol defined in Telcordia Technologies Generic Requirements document GR-253-CORE for SONET and used in OSS to resolve a TL1 TID to a CLNP address of a Network Element.",
+        "label": 0,
+        "prob": 0.796,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Tinc is an open-source, self-routing, mesh networking protocol and software implementation used for compressed and encrypted virtual private networks.",
+        "student": "It is not untrue that Tinc is an open-source, self-routing, mesh networking protocol and software implementation used for compressed and encrypted virtual private networks.",
+        "label": 0,
+        "prob": 0.507,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "Tor is a free overlay network for enabling anonymous communication.",
+        "student": "Tor is rarely a free overlay network for enabling anonymous communication.",
+        "label": 1,
+        "prob": 0.073,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "In computing, triple modular redundancy, sometimes called triple-mode redundancy, is a fault-tolerant form of N-modular redundancy, in which three systems perform a process and that result is processed by a majority-voting system to produce a single output.",
+        "student": "It is not untrue that in computing, triple modular redundancy, sometimes called triple-mode redundancy, is a fault-tolerant form of N-modular redundancy, in which three systems perform a process and that result is processed by a majority-voting system to produce a single output.",
+        "label": 0,
+        "prob": 0.521,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "The Unidirectional Lightweight Encapsulation is a data link layer protocol for the transportation of network layer packets over MPEG transport streams.",
+        "student": "It is not untrue that the Unidirectional Lightweight Encapsulation is a data link layer protocol for the transportation of network layer packets over MPEG transport streams.",
+        "label": 0,
+        "prob": 0.453,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "CN",
+        "teacher": "Virtual Private LAN Service is a virtual private network technology that provides Ethernet-based multipoint-to-multipoint communication over IP or MPLS networks.",
+        "student": "It is not untrue that virtual Private LAN Service is a virtual private network technology that provides Ethernet-based multipoint-to-multipoint communication over IP or MPLS networks.",
+        "label": 0,
+        "prob": 0.66,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "CN",
+        "teacher": "The ZMW attack is a hypothetical denial-of-service attack on the Internet's routing infrastructure, named after Ying Zhang, Z. Morley Mao, and Jia Wang, the researchers who published the original paper that considered its possibility.",
+        "student": "Put simply, the ZMW attack is a hypothetical denial-of-service attack on the Internet's routing infrastructure, named after Ying Zhang, Z. Morley Mao, and Jia Wang, the researchers who published the original paper that considered its possibility.",
+        "label": 0,
+        "prob": 0.585,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "BitFunnel is the search engine indexing algorithm and a set of components used in the Bing search engine, which were made open source in 2016.",
+        "student": "Put simply, BitFunnel is the search engine indexing algorithm and a set of components used in the Bing search engine, which were made open source in 2016.",
+        "label": 0,
+        "prob": 0.589,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "A candidate key, or simply a key, of a relational database is any set of columns that have a unique combination of values in each row, with the additional constraint that removing any column could produce duplicate combinations of values.",
+        "student": "A candidate key, or simply a key, of a relational database can be described as any set of columns that have a unique combination of values in each row, with the additional constraint that removing any column could produce duplicate combinations of values.",
+        "label": 0,
+        "prob": 0.593,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In SQL, the term cardinality refers to the uniqueness of data values contained in a particular column of a database table.",
+        "student": "Put simply, the term cardinality refers to the uniqueness of data values contained in a particular column of a database table.",
+        "label": 0,
+        "prob": 0.857,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "DBMS",
+        "teacher": "In SQL, the term cardinality refers to the uniqueness of data values contained in a particular column of a database table.",
+        "student": "In SQL, the term cardinality maybe does not refer to the uniqueness of data values contained in a particular column of a database table.",
+        "label": 1,
+        "prob": 0.388,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "DBMS",
+        "teacher": "In an Oracle database, a change vector consists of a single change to a single data block.",
+        "student": "In an Oracle database, a change vector possibly does not consist of a single change to a single data block.",
+        "label": 1,
+        "prob": 0.202,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "A data item describes an atomic state of a particular object concerning a specific property at a certain time point.",
+        "student": "Put simply, a data item describes an atomic state of a particular object concerning a specific property at a certain time point.",
+        "label": 0,
+        "prob": 0.498,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "A database catalog of a database instance consists of metadata in which definitions of database objects such as base tables, views, synonyms, value ranges, indexes, users, and user groups are stored.",
+        "student": "Put simply, a database catalog of a database instance consists of metadata in which definitions of database objects such as base tables, views, synonyms, value ranges, indexes, users, and user groups are stored.",
+        "label": 0,
+        "prob": 0.777,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "A database index is a data structure that improves the speed of data retrieval operations on a database table at the cost of additional writes and storage space to maintain the index data structure.",
+        "student": "Put simply, a database index is a data structure that improves the speed of data retrieval operations on a database table at the cost of additional writes and storage space to maintain the index data structure.",
+        "label": 0,
+        "prob": 0.752,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "The database schema is the structure of a database described in a formal language supported typically by a relational database management system.",
+        "student": "Put simply, the database schema is the structure of a database described in a formal language supported typically by a relational database management system.",
+        "label": 0,
+        "prob": 0.621,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "DBMS",
+        "teacher": "The database schema is the structure of a database described in a formal language supported typically by a relational database management system.",
+        "student": "The database schema might not be the structure of a database described in a formal language supported typically by a relational database management system.",
+        "label": 1,
+        "prob": 0.086,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "An entity\u2013attribute\u2013value model is a data model optimized for the space-efficient storage of sparse\u2014or ad-hoc\u2014property or data values, intended for situations where runtime usage patterns are arbitrary, subject to user variation, or otherwise unforeseeable using a fixed design.",
+        "student": "A data model optimized for the space-efficient storage of sparse\u2014or ad-hoc\u2014property or data values, intended for situations where runtime usage patterns are arbitrary, subject to user variation, or otherwise unforeseeable using a fixed design: that is what an entity\u2013attribute\u2013value model means.",
+        "label": 0,
+        "prob": 0.516,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "An entity\u2013attribute\u2013value model is a data model optimized for the space-efficient storage of sparse\u2014or ad-hoc\u2014property or data values, intended for situations where runtime usage patterns are arbitrary, subject to user variation, or otherwise unforeseeable using a fixed design.",
+        "student": "It is not untrue that an entity\u2013attribute\u2013value model is a data model optimized for the space-efficient storage of sparse\u2014or ad-hoc\u2014property or data values, intended for situations where runtime usage patterns are arbitrary, subject to user variation, or otherwise unforeseeable using a fixed design.",
+        "label": 0,
+        "prob": 0.8,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "In computing, Hazelcast is a unified real-time data platform implemented in Java that combines a fast data store with stream processing.",
+        "student": "It is not untrue that in computing, Hazelcast is a unified real-time data platform implemented in Java that combines a fast data store with stream processing.",
+        "label": 0,
+        "prob": 0.492,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "DBMS",
+        "teacher": "A hyperview in computing is a hypertextual view of the content of a database or set of data on a group of activities.",
+        "student": "A hyperview in computing is possibly not a hypertextual view of the content of a database or set of data on a group of activities.",
+        "label": 1,
+        "prob": 0.189,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "DBMS",
+        "teacher": "MTCS was a transaction processor that ran on IBM mainframe systems under OS/VS1 and DOS/VS.",
+        "student": "MTCS was barely a transaction processor that ran on IBM mainframe systems under OS/VS1 and DOS/VS.",
+        "label": 1,
+        "prob": 0.141,
+        "stage": "combiner"
+      },
+      {
+        "category": "partial",
+        "subject": "DBMS",
+        "teacher": "Incremental encoding, also known as front compression, back compression, or front coding, is a type of delta encoding compression algorithm whereby common prefixes or suffixes and their lengths are recorded so that they do not need to be duplicated.",
+        "student": "Incremental encoding, also known as front compression, back compression, or front coding, is a type of delta encoding compression algorithm whereby common prefixes or suffixes and their lengths are recorded so.",
+        "label": 0,
+        "prob": 0.773,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "Incremental encoding, also known as front compression, back compression, or front coding, is a type of delta encoding compression algorithm whereby common prefixes or suffixes and their lengths are recorded so that they do not need to be duplicated.",
+        "student": "It is not untrue that incremental encoding, also known as front compression, back compression, or front coding, is a type of delta encoding compression algorithm whereby common prefixes or suffixes and their lengths are recorded so that they do not need to be duplicated.",
+        "label": 0,
+        "prob": 0.713,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "Kernel Transaction Manager is a component of the Windows operating system kernel in Windows Vista and Windows Server 2008 that enables applications to use atomic transactions on resources by making them available as kernel objects.",
+        "student": "Put simply, kernel Transaction Manager is a component of the Windows operating system kernel in Windows Vista and Windows Server 2008 that enables applications to use atomic transactions on resources by making them available as kernel objects.",
+        "label": 0,
+        "prob": 0.585,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "A key-value database, or key-value store, is a data storage paradigm designed for storing, retrieving, and managing associative arrays, a data structure more commonly known today as a dictionary.",
+        "student": "It is not untrue that a key-value database, or key-value store, is a data storage paradigm designed for storing, retrieving, and managing associative arrays, a data structure more commonly known today as a dictionary.",
+        "label": 0,
+        "prob": 0.579,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "Long-running transactions are computer database transactions that avoid locks on non-local resources, use compensation to handle failures, potentially aggregate smaller ACID transactions, and typically use a coordinator to complete or abort the transaction.",
+        "student": "Put simply, Long-running transactions are computer database transactions that avoid locks on non-local resources, use compensation to handle failures, potentially aggregate smaller ACID transactions, and typically use a coordinator to complete or abort the transaction.",
+        "label": 0,
+        "prob": 0.721,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "Long-running transactions are computer database transactions that avoid locks on non-local resources, use compensation to handle failures, potentially aggregate smaller ACID transactions, and typically use a coordinator to complete or abort the transaction.",
+        "student": "It is not untrue that Long-running transactions are computer database transactions that avoid locks on non-local resources, use compensation to handle failures, potentially aggregate smaller ACID transactions, and typically use a coordinator to complete or abort the transaction.",
+        "label": 0,
+        "prob": 0.491,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "The Microsoft Distributed Transaction Coordinator service is a component of Microsoft Windows that is responsible for coordinating transactions that span multiple resource managers, such as databases, message queues, and file systems.",
+        "student": "It is not untrue that the Microsoft Distributed Transaction Coordinator service is a component of Microsoft Windows that is responsible for coordinating transactions that span multiple resource managers, such as databases, message queues, and file systems.",
+        "label": 0,
+        "prob": 0.92,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "Multiversion concurrency control is a non-locking concurrency control method commonly used by database management systems to provide concurrent access to the database and in programming languages to implement transactional memory.",
+        "student": "Put simply, Multiversion concurrency control is a non-locking concurrency control method commonly used by database management systems to provide concurrent access to the database and in programming languages to implement transactional memory.",
+        "label": 0,
+        "prob": 0.465,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "Object\u2013relational impedance mismatch is a set of difficulties going between data in relational data stores and data in domain-driven object models.",
+        "student": "It is not untrue that Object\u2013relational impedance mismatch is a set of difficulties going between data in relational data stores and data in domain-driven object models.",
+        "label": 0,
+        "prob": 0.472,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "Optimistic concurrency control, also known as optimistic locking, is a non-locking concurrency control method applied to transactional systems such as relational database management systems and software transactional memory.",
+        "student": "It is not untrue that optimistic concurrency control, also known as optimistic locking, is a non-locking concurrency control method applied to transactional systems such as relational database management systems and software transactional memory.",
+        "label": 0,
+        "prob": 0.608,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In database design, a persistent object identifier is a unique identifier of a record on a table, used as the primary key.",
+        "student": "Put simply, a persistent object identifier is a unique identifier of a record on a table, used as the primary key.",
+        "label": 0,
+        "prob": 0.759,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "In database design, a persistent object identifier is a unique identifier of a record on a table, used as the primary key.",
+        "student": "It is not untrue that in database design, a persistent object identifier is a unique identifier of a record on a table, used as the primary key.",
+        "label": 0,
+        "prob": 0.54,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "Polymorphic association is a term used in discussions of object\u2013relational mapping with respect to the problem of representing in the relational database domain, a relationship from one class to multiple classes.",
+        "student": "It is not untrue that polymorphic association is a term used in discussions of object\u2013relational mapping with respect to the problem of representing in the relational database domain, a relationship from one class to multiple classes.",
+        "label": 0,
+        "prob": 0.748,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In transaction processing, a pseudoconversational transaction is a type of transaction that emulates a true conversation in an interactive session.",
+        "student": "Put simply, a pseudoconversational transaction is a type of transaction that emulates a true conversation in an interactive session.",
+        "label": 0,
+        "prob": 0.554,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "A query plan is a sequence of steps used to access data in a SQL relational database management system.",
+        "student": "Put simply, a query plan is a sequence of steps used to access data in a SQL relational database management system.",
+        "label": 0,
+        "prob": 0.713,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "A relational data stream management system is a distributed, in-memory data stream management system that is designed to use standards-compliant SQL queries to process unstructured and structured data streams in real-time.",
+        "student": "It is not untrue that a relational data stream management system is a distributed, in-memory data stream management system that is designed to use standards-compliant SQL queries to process unstructured and structured data streams in real-time.",
+        "label": 0,
+        "prob": 0.546,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "DBMS",
+        "teacher": "In database technologies, a rollback is an operation which returns the database to some previous state.",
+        "student": "In database technologies, a rollback is barely an operation which returns the database to some previous state.",
+        "label": 1,
+        "prob": 0.24,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "The SQL Access Group was a group of software companies that was formed in 1989 to define and promote standards for database portability and interoperability.",
+        "student": "It is not untrue that the SQL Access Group was a group of software companies that was formed in 1989 to define and promote standards for database portability and interoperability.",
+        "label": 0,
+        "prob": 0.754,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In computing, SQL injection is a code injection technique used to attack data-driven applications, in which malicious SQL statements are inserted into an entry field for execution (e.g.",
+        "student": "Put simply, SQL injection is a code injection technique used to attack data-driven applications, in which malicious SQL statements are inserted into an entry field for execution (e.g.",
+        "label": 0,
+        "prob": 0.813,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "DBMS",
+        "teacher": "SQL-92 was the third revision of the SQL database query language.",
+        "student": "SQL-92 was barely the third revision of the SQL database query language.",
+        "label": 1,
+        "prob": 0.207,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In securities trading, same-day affirmation also known as T0 refers to completing the entire trade verification process on the same day that the actual trade took place, and was invented in the early '90s by James Karat, the inventor of straight-through processing, in London.",
+        "student": "Put simply, same-day affirmation also known as T0 refers to completing the entire trade verification process on the same day that the actual trade took place, and was invented in the early '90s by James Karat, the inventor of straight-through processing, in London.",
+        "label": 0,
+        "prob": 0.518,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "In securities trading, same-day affirmation also known as T0 refers to completing the entire trade verification process on the same day that the actual trade took place, and was invented in the early '90s by James Karat, the inventor of straight-through processing, in London.",
+        "student": "It is not untrue that in securities trading, same-day affirmation also known as T0 refers to completing the entire trade verification process on the same day that the actual trade took place, and was invented in the early '90s by James Karat, the inventor of straight-through processing, in London.",
+        "label": 0,
+        "prob": 0.482,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "A savepoint is a way of implementing subtransactions within a relational database management system by indicating a point within a transaction that can be \"rolled back to\" without affecting any work done in the transaction before the savepoint was created.",
+        "student": "Put simply, a savepoint is a way of implementing subtransactions within a relational database management system by indicating a point within a transaction that can be \"rolled back to\" without affecting any work done in the transaction before the savepoint was created.",
+        "label": 0,
+        "prob": 0.812,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "A savepoint is a way of implementing subtransactions within a relational database management system by indicating a point within a transaction that can be \"rolled back to\" without affecting any work done in the transaction before the savepoint was created.",
+        "student": "It is not untrue that a savepoint is a way of implementing subtransactions within a relational database management system by indicating a point within a transaction that can be \"rolled back to\" without affecting any work done in the transaction before the savepoint was created.",
+        "label": 0,
+        "prob": 0.538,
+        "stage": "combiner"
+      },
+      {
+        "category": "partial",
+        "subject": "DBMS",
+        "teacher": "The skyline operator is the subject of an optimization problem and computes the Pareto optimum on tuples with multiple dimensions.",
+        "student": "The skyline operator is the subject of an optimization problem and computes the Pareto optimum on tuples.",
+        "label": 0,
+        "prob": 0.551,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In computer science, software transactional memory is a concurrency control mechanism analogous to database transactions for controlling access to shared memory in concurrent computing.",
+        "student": "Put simply, software transactional memory is a concurrency control mechanism analogous to database transactions for controlling access to shared memory in concurrent computing.",
+        "label": 0,
+        "prob": 0.532,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "The Suppliers and Parts database is an example relational database that is referred to extensively in the literature and described in detail in C. J. Date's An Introduction to Database Systems, 8th ed.",
+        "student": "Put simply, the Suppliers and Parts database is an example relational database that is referred to extensively in the literature and described in detail in C. J. Date's An Introduction to Database Systems, 8th ed.",
+        "label": 0,
+        "prob": 0.654,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "In computer science, a ticket lock is a synchronization mechanism, or locking algorithm, that is a type of spinlock that uses \"tickets\" to control which thread of execution is allowed to enter a critical section.",
+        "student": "It is not untrue that in computer science, a ticket lock is a synchronization mechanism, or locking algorithm, that is a type of spinlock that uses \"tickets\" to control which thread of execution is allowed to enter a critical section.",
+        "label": 0,
+        "prob": 0.441,
+        "stage": "combiner"
+      },
+      {
+        "category": "cancellation",
+        "subject": "DBMS",
+        "teacher": "Transactional Synchronization Extensions, also called Transactional Synchronization Extensions New Instructions, is an extension to the x86 instruction set architecture that adds hardware transactional memory support, speeding up execution of multi-threaded software through lock elision.",
+        "student": "It is not untrue that Transactional Synchronization Extensions, also called Transactional Synchronization Extensions New Instructions, is an extension to the x86 instruction set architecture that adds hardware transactional memory support, speeding up execution of multi-threaded software through lock elision.",
+        "label": 0,
+        "prob": 0.894,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In transaction processing, databases, and computer networking, the two-phase commit protocol is a type of atomic commitment protocol.",
+        "student": "The term databases, and computer networking, the two-phase commit protocol refers to a type of atomic commitment protocol.",
+        "label": 0,
+        "prob": 0.932,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "A user-defined function is a function provided by the user of a program or environment, in a context where the usual assumption is that functions are built into the program or environment.",
+        "student": "Put simply, a user-defined function is a function provided by the user of a program or environment, in a context where the usual assumption is that functions are built into the program or environment.",
+        "label": 0,
+        "prob": 0.75,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In a database, a view is the result set of a stored query that presents a limited perspective of the database to a user.",
+        "student": "The result set of a stored query that presents a limited perspective of the database to a user: that is what a view means.",
+        "label": 0,
+        "prob": 0.45,
+        "stage": "combiner"
+      },
+      {
+        "category": "paraphrase",
+        "subject": "DBMS",
+        "teacher": "In computer science, in the field of databases, write\u2013write conflict, also known as overwriting uncommitted data is a computational anomaly associated with interleaved execution of transactions.",
+        "student": "Put simply, in the field of databases, write\u2013write conflict, also known as overwriting uncommitted data is a computational anomaly associated with interleaved execution of transactions.",
+        "label": 0,
+        "prob": 0.895,
+        "stage": "combiner"
+      }
+    ]
+  },
+  "human_placeholder": {
+    "all": {
+      "n": 50,
+      "accuracy": 0.92,
+      "precision": 1.0,
+      "recall": 0.6,
+      "called_negation": 0.12
+    },
+    "by_category": {
+      "cancellation": {
+        "n": 10,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "negation": {
+        "n": 10,
+        "accuracy": 0.6,
+        "precision": 1.0,
+        "recall": 0.6,
+        "called_negation": 0.6
+      },
+      "paraphrase": {
+        "n": 10,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "partial": {
+        "n": 10,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "wrong_related": {
+        "n": 10,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      }
+    },
+    "by_subject": {
+      "CN": {
+        "n": 15,
+        "accuracy": 0.9333,
+        "precision": 1.0,
+        "recall": 0.6667,
+        "called_negation": 0.1333
+      },
+      "DBMS": {
+        "n": 15,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "called_negation": 0.2
+      },
+      "OS": {
+        "n": 20,
+        "accuracy": 0.85,
+        "precision": 1.0,
+        "recall": 0.25,
+        "called_negation": 0.05
+      }
+    },
+    "by_category_subject": {
+      "cancellation|CN": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "cancellation|DBMS": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "cancellation|OS": {
+        "n": 4,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "negation|CN": {
+        "n": 3,
+        "accuracy": 0.6667,
+        "precision": 1.0,
+        "recall": 0.6667,
+        "called_negation": 0.6667
+      },
+      "negation|DBMS": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "called_negation": 1.0
+      },
+      "negation|OS": {
+        "n": 4,
+        "accuracy": 0.25,
+        "precision": 1.0,
+        "recall": 0.25,
+        "called_negation": 0.25
+      },
+      "paraphrase|CN": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "paraphrase|DBMS": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "paraphrase|OS": {
+        "n": 4,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "partial|CN": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "partial|DBMS": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "partial|OS": {
+        "n": 4,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "wrong_related|CN": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "wrong_related|DBMS": {
+        "n": 3,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      },
+      "wrong_related|OS": {
+        "n": 4,
+        "accuracy": 1.0,
+        "precision": null,
+        "recall": null,
+        "called_negation": 0.0
+      }
+    },
+    "stage_counts": {
+      "cancellation override": 6,
+      "combiner": 44
+    },
+    "five_brief_categories": {
+      "n": 50,
+      "accuracy": 0.92,
+      "precision": 1.0,
+      "recall": 0.6,
+      "called_negation": 0.12
+    },
+    "errors": [
+      {
+        "category": "negation",
+        "subject": "OS",
+        "teacher": "In computer science, region-based memory management is a type of memory management in which each allocated object is assigned to a region.",
+        "student": "Region-based memory management does not assign allocated objects to regions.",
+        "label": 1,
+        "prob": 0.166,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "OS",
+        "teacher": "Single-instance storage is a system's ability to take multiple copies of content and replace them by a single shared copy.",
+        "student": "Single-instance storage keeps every copy of the content separately instead of sharing a single copy.",
+        "label": 1,
+        "prob": 0.108,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "OS",
+        "teacher": "A memory-mapped file is a segment of virtual memory that has been assigned a direct byte-for-byte correspondence with some portion of a file or file-like resource.",
+        "student": "A memory-mapped file has no direct byte-for-byte correspondence with any part of a file.",
+        "label": 1,
+        "prob": 0.388,
+        "stage": "combiner"
+      },
+      {
+        "category": "negation",
+        "subject": "CN",
+        "teacher": "The Routing Information Protocol is one of the oldest distance-vector routing protocols which employs the hop count as a routing metric.",
+        "student": "RIP does not use the hop count as its routing metric.",
+        "label": 1,
+        "prob": 0.011,
+        "stage": "combiner"
+      }
+    ]
+  },
+  "gap_machine_minus_human_pts": 1.3
+}

@@ -1140,3 +1140,50 @@ standard*). Such items are labelled negations by construction, but many are real
 ```sh
 ./venv/bin/python experiments/f1/make_student_answers.py
 ```
+
+### 5.3 Domain case study results: **machine-generated answers; not a benchmark, never merged into a headline**
+
+`experiments/f1/domain.py` → `results/5_3_domain.json`. Adopted detector (Phase 0 GBM + override). Pair =
+(teacher definition, student answer).
+
+**The confound, stated in the same section as the numbers:**
+
+- Every student answer here was produced by our own generator or by templates I wrote. These numbers
+  therefore measure the detector against the generator's and the templates' distribution, not against
+  how students actually write.
+- This is the confound that `Report_NLI2.md` step 1.1 removed from the headline evaluation, and it is
+  why these numbers stay in this section only.
+- The labels follow from the category by construction and were never checked by a person.
+
+| category (machine-generated) | label | n | accuracy | share called negation |
+| --- | ---: | ---: | ---: | ---: |
+| correct paraphrase (template) | 0 | 484 | 82.9% | 17.1% |
+| negation (generator) | 1 | 458 | 95.6% (= recall) | 95.6% |
+| partially correct (template) | 0 | 411 | 99.3% | 0.7% |
+| wrong but topically related (template) | 0 | 484 | 100.0% | 0.0% |
+| cancellation (template 489 / generator 11) | 0 | 500 | 89.8% | 10.2% |
+| **the brief's five categories together** | | **2,337** | **93.3%** (precision 76.2%, recall 95.6%) | |
+| *extra:* antonym negation (generator; noisy labels) | 1 | 308 | 99.4% (= recall) | 99.4% |
+| all six | | 2,645 | 94.0% (precision 84.5%, recall 97.1%) | |
+
+By subject (all six categories): **OS 94.6% (n = 896), DBMS 94.3% (n = 848), CN 93.0% (n = 901)**. The
+subjects hardly differ. CN is lowest because more of its template paraphrases (18.6%) and cancellations
+(15.0%) are flagged. Per category × subject is in the JSON; every cell is between n = 90 and n = 167.
+
+What the errors are (all 159 errors in the five categories are in the JSON):
+
+- **Paraphrase false positives come from one template.** *"Put simply, X is …"* accounts for 70 of the 83
+  paraphrase errors; 41% of its 171 items are flagged. The other three templates are flagged 4–5% of the
+  time. This measures our template, not student paraphrase.
+- **Cancellation false positives come from one template too.** 51 of the 489 *It is not untrue that …*
+  items are called negations. The override does not recognise *not untrue* across an extraposed clause,
+  and the combiner sees a cue on one side only.
+- **Negation misses (20 of 458)** are mostly hedged or approximate negations: C_neg_adverb 12 (*is
+  scarcely*, *is rarely*), H_hedged 7 (*might not be*), A_syntactic 1. Whether *X is rarely a tool for Y*
+  negates *X is a tool for Y* is itself arguable.
+- One override error: *position-independent code … is not a body of machine code that executes properly
+  regardless of …*. The override read *independent … regardless* as a cancellation.
+
+```sh
+./venv/bin/python experiments/f1/domain.py
+```
