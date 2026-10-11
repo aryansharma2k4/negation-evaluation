@@ -99,7 +99,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--source", default="static", choices=["static", "contextual"])
     parser.add_argument("--vectors", default="glove.6B.300d.txt",
-                        help="static vector filename under data/embeddings")
+                        help="static vector filename under datasets/raw/embeddings")
     parser.add_argument("--model", default="bert-base-uncased",
                         help="transformer for --source contextual")
     parser.add_argument("--pool-size", type=int, default=50_000,

@@ -1,4 +1,4 @@
-"""N_affirmation (report_f1.md Phase 1): one test per row of the brief's table, plus the three
+"""N_affirmation (reports/08-guardrail-ensemble.md Phase 1): one test per row of the brief's table, plus the three
 warnings pinned as regressions (never != always, no != all, affixal exceptions) and litotes.
 
     ./venv/bin/python -m pytest tests/test_affirmation.py -q

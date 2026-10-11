@@ -242,7 +242,7 @@ def inflect_lexical(lemma: str, tag: str) -> str:
 
     Used where an affirmation restores a verb's morphology (do-support collapse, implicit
     triggers).  Over the distinct inflected verbs of clean DEV, lemminflect reproduces the written
-    form 97.8% of the time, pyinflect 96.5% and the rules 90.7% (report_f1.md step 1.1); the rules
+    form 97.8% of the time, pyinflect 96.5% and the rules 90.7% (reports/08-guardrail-ensemble.md step 1.1); the rules
     double consonants they should not (*considerred*), and pyinflect has *work* -> *wrought*.  The
     negation generators keep :func:`inflect_verb`, because stage 1's output is pinned by a
     regression test.

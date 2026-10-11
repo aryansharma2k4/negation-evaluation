@@ -8,7 +8,7 @@ Where something could not be located, it says so rather than guessing.
 Reproduce with:
 
 ```bash
-./venv/bin/python -m negation.data.fetch          # pulls into data/external/
+./venv/bin/python -m negation.data.fetch          # pulls into datasets/raw/external/
 ./venv/bin/python scripts/dataset_stats.py        # the numbers in this report
 ```
 

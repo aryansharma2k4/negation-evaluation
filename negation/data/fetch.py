@@ -1,4 +1,4 @@
-"""Download the third-party corpora into ``data/external``.
+"""Download the third-party corpora into ``datasets/raw/external``.
 
 Nothing is vendored into this repository.  Two of the corpora state no licence
 at all, one is GPL-3.0 copyleft, and one is only "free for research", so

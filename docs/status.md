@@ -1,6 +1,6 @@
 # Project status
 
-Mermaid sources tracking what is built. Same style as `docs/diagrams.md`.
+Mermaid sources tracking what is built. Same style as `docs/pipeline_diagrams.md`.
 Last updated after stage 1.5 (arbitrary input) completion.
 
 ## 1. Where the project stands
@@ -63,7 +63,7 @@ flowchart TD
     PIPE --> P3["cli.py + run.sh<br/>JSONL output and summary"]
 
     QA --> Q1["206 tests across 7 files<br/>clause_type x polarity fixtures,<br/>affirm/negate round trip,<br/>depth-1 over whole corpora,<br/>448 stage-1 regression"]
-    QA --> Q2["README.md<br/>docs/diagrams.md<br/>data/sample_sentences.txt"]
+    QA --> Q2["README.md<br/>docs/pipeline_diagrams.md<br/>datasets/sample_sentences.txt"]
 
     classDef done fill:#ecfdf5,stroke:#059669,color:#064e3b
     classDef grp fill:#eef2ff,stroke:#4f46e5,color:#1e1b4b
@@ -151,8 +151,8 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    CMD1["./run.sh"] --> OUT1["variants.jsonl plus summary by family,<br/>subtype, operation and input type.<br/>Stage 1 alone still yields 448<br/>on the frozen 20-sentence corpus."]
-    CMD2["./run.sh my_sentences.txt -o out.jsonl"] --> OUT2["same, on your own sentences"]
+    CMD1["scripts/run.sh"] --> OUT1["variants.jsonl plus summary by family,<br/>subtype, operation and input type.<br/>Stage 1 alone still yields 448<br/>on the frozen 20-sentence corpus."]
+    CMD2["scripts/run.sh my_sentences.txt -o out.jsonl"] --> OUT2["same, on your own sentences"]
     CMD3["./venv/bin/python -m pytest tests -q"] --> OUT3["206 passed"]
 
     classDef cmd fill:#eef2ff,stroke:#4f46e5,color:#1e1b4b

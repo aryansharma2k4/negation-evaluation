@@ -258,7 +258,7 @@ except ValueError as e: print('refused:', e)"
 ./venv/bin/python -m negation.data.fetch --check
 ./venv/bin/python scripts/dataset_stats.py --corpora cdsco
 
-# the antonym-vector experiment (needs data/embeddings/glove.6B.300d.txt)
+# the antonym-vector experiment (needs datasets/raw/embeddings/glove.6B.300d.txt)
 ./venv/bin/python scripts/antonym_experiment.py --examples
 ```
 

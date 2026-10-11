@@ -59,7 +59,7 @@ def blacklist_hit(text: str, base: str = "") -> Optional[str]:
     The patterns describe junk an *edit* introduces.  Counting against the base sentence keeps
     a pattern that was already there from vetoing every variant of it: *"I didn't think that the
     instructions …"* matched ``doubled_determiner`` (*that the*, a complementiser plus a
-    determiner) and so got no variant from any family (report_f1.md step 1.2).
+    determiner) and so got no variant from any family (reports/08-guardrail-ensemble.md step 1.2).
     """
     for name, pattern in BLACKLIST_PATTERNS:
         if len(pattern.findall(text)) > len(pattern.findall(base)):

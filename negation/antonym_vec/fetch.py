@@ -1,4 +1,4 @@
-"""Download word vectors into ``data/embeddings``.
+"""Download word vectors into ``datasets/raw/embeddings``.
 
     python -m negation.antonym_vec.fetch              # GloVe 6B (822 MB)
     python -m negation.antonym_vec.fetch fasttext     # fastText wiki-news

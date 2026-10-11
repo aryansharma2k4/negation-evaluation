@@ -179,7 +179,7 @@ def test_l_scope_position_emits_both_readings(parse, run_family):
 import pytest  # noqa: E402
 
 #: (base sentence, junk the old generator produced from it). The first three
-#: are from the brief; the rest were found scanning experiments/pattern's variants.
+#: are from the brief; the rest were found scanning scripts/pattern's variants.
 AFFIX_JUNK = [
     ("The critical section must satisfy mutual exclusion, progress and bounded waiting.", "uncritical section"),
     ("The cyclic redundancy check is effective against burst errors.", "noncyclic redundancy check"),

@@ -7,7 +7,7 @@ Three things are pinned here.
 *invariants* the depth-1 rule, asserted over a whole generated corpus rather
              than on hand-picked cases.
 *regression* stage 1's 448 variants, frozen against a copy of the base corpus
-             that lives with the tests -- ``data/sample_sentences.txt`` is a
+             that lives with the tests -- ``datasets/sample_sentences.txt`` is a
              scratch file users edit, and a regression baseline must not move
              when they do.
 """

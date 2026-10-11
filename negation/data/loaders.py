@@ -1,6 +1,6 @@
 """One loader per usable corpus, all producing :class:`AnnotatedSentence`.
 
-Each loader reads whatever ``fetch.py`` put under ``data/external`` and answers
+Each loader reads whatever ``fetch.py`` put under ``datasets/raw/external`` and answers
 the same four questions: sentence, tokens, cue spans, scope spans.  Where a
 corpus cannot answer -- the NLI pair sets have no spans at all -- the loader
 says so with ``provenance="pair-level-only"`` and empty spans rather than

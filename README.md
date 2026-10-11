@@ -9,6 +9,27 @@ negation, where it sits, what it scopes over, and how many negations survive.
 No LLM is involved at this stage. Verification is stage 2; every record carries
 a `verified: Optional[bool]` field that is `None` until then.
 
+The generator is the first half of the project. The second half is a detector:
+given a teacher sentence and a student sentence, is the student's a negation of
+the teacher's? It was built over nine rounds of experiments, each written up in
+`reports/`; the adopted system is described in `docs/architecture.md`.
+
+## Where things are
+
+| path | what |
+| --- | --- |
+| `negation/` | the importable library: the stage-1 generator, lexicons, scope, filters, stage-2 verifier |
+| `scripts/` | every runnable script, one folder per experiment round; `scripts/README.md` lists them in run order |
+| `dashboard/` | the Streamlit app over the adopted detector |
+| `datasets/` | splits, generated and evaluation sets, raw sources (gitignored); `datasets/README.md` has one line per file |
+| `reports/` | the nine reports in order (`reports/README.md` is the index), `results/` (every results JSON), `figures/` |
+| `docs/` | `architecture.md`, `pipeline_diagrams.md`, `PATHS.md` (old → new paths), runbook, dashboard screenshots |
+| `tests/` | the library's test suite (each experiment round's tests live in its `scripts/` folder) |
+| `.cache/` | model weights, embeddings and scored pairs (gitignored, several GB) |
+
+`make setup`, `make data`, `make train`, `make eval`, `make test` and `make dashboard` cover the
+common paths; see the `Makefile`.
+
 ## Install
 
 ```bash
@@ -20,14 +41,14 @@ python -m venv venv
 ## Run
 
 ```bash
-./run.sh
+scripts/run.sh
 ```
 
-With no arguments this runs on `data/sample_sentences.txt` and writes
+With no arguments this runs on `datasets/sample_sentences.txt` and writes
 `variants.jsonl`. To use your own sentences (one per line):
 
 ```bash
-./run.sh my_sentences.txt -o my_variants.jsonl
+scripts/run.sh my_sentences.txt -o my_variants.jsonl
 ```
 
 Either way it writes one JSON record per line and prints counts per family, per
@@ -385,7 +406,7 @@ battery, `2` the arbitrary-input layer. `generate_all(sentences, stages=(1,))`
 runs stage 1 alone, which is what the regression test pins — the 20 base
 sentences in `tests/data/base_sentences_v1.txt` still produce exactly **448**
 variants, and every one of them is still present in the full corpus. The
-baseline lives with the tests rather than reading `data/sample_sentences.txt`,
+baseline lives with the tests rather than reading `datasets/sample_sentences.txt`,
 which is a scratch file meant to be edited.
 
 ## Stage 2: verification

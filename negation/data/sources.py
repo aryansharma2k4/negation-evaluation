@@ -9,7 +9,7 @@ that was checked rather than assumed.
 Nothing is vendored into the repository.  Licences differ (the SFU corpus is
 GPL-3.0, which is copyleft), several corpora are only "free for research", and
 two of them have no licence statement at all, so redistribution is not ours to
-make.  ``fetch.py`` pulls them into ``data/external`` on request; the loaders
+make.  ``fetch.py`` pulls them into ``datasets/raw/external`` on request; the loaders
 read from there.
 """
 
@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Optional
 
 #: Root the loaders read from.  Not tracked by git.
-DATA_ROOT = Path(__file__).resolve().parents[2] / "data" / "external"
+DATA_ROOT = Path(__file__).resolve().parents[2] / "datasets" / "raw" / "external"
 
 #: The date every ``status`` below was observed.
 VERIFIED_ON = "2026-09-13"

@@ -46,9 +46,9 @@ from negation.verification.validate import (  # noqa: E402
 )
 from negation.verification.validate_report import write_validation_report  # noqa: E402
 
-DEFAULT_REPORT = Path("reports/verifier_validation.md")
-LABELS_PATH = Path("reports/verifier_labels.jsonl")
-SAMPLE_PATH = Path("reports/verifier_label_sample.jsonl")
+DEFAULT_REPORT = Path(__file__).resolve().parents[1] / "reports" / "verifier_validation.md"
+LABELS_PATH = Path(__file__).resolve().parents[1] / "reports" / "verifier_labels.jsonl"
+SAMPLE_PATH = Path(__file__).resolve().parents[1] / "reports" / "verifier_label_sample.jsonl"
 
 
 def judge_all(records, judge, cache, batch_size, log) -> list[dict]:

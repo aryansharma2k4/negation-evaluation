@@ -1,0 +1,1289 @@
+# Report F2: the overlap shortcut, an out-of-distribution validation slice, DeBERTa, family-rebalanced data, affirmation coverage, conditionals, severity
+
+*Paths in the reproduction section refer to the repository layout at the commit hashes listed. See `docs/PATHS.md` for the current locations.*
+
+*Written for a reader who has read `08-guardrail-ensemble.md` and nothing else. Built one step per commit; the step
+log (section 14) is the running record, and sections 1–13 summarise it at the end.*
+
+*Conventions, as in `08-guardrail-ensemble.md`:*
+
+- *TEST = CANNOT phase 2 test (1,400) + xNot360 (360) = 1,760 pairs (883 negations, 877 non-negations).*
+- *VALIDATION = 601 CANNOT phase-2 pairs. `val_ood` = the out-of-distribution validation slice built in
+  step 0.3. Clean DEV = `data/dev_clean.csv`, 3,402 pairs.*
+- *K1 = 91 generator cancellation pairs (**machine-generated**), a held-out slice.*
+- *Every threshold is fit on clean DEV.*
+- *`token_overlap` (or "overlap") is the word-set Jaccard overlap of A and B, the combiner's own feature.*
+- *Accuracy, precision, recall, F1, FPR and AUC are defined as in `08-guardrail-ensemble.md`.*
+- *95% CIs are percentile bootstraps over pairs (2,000 resamples, seed 0). p-values are two-sided paired
+  permutation tests (10,000 permutations, seed 0), **not corrected for multiple comparisons**.*
+- *Every TEST read is logged in `experiments/f2/results/test_reads.json`.*
+- *"Phase 0 baseline" means `08-guardrail-ensemble.md`'s adopted configuration: the 17-feature GBM with the
+  cancellation override, threshold 0.428. "NLI alone" means `cross-encoder/nli-deberta-v3-base`
+  P(contradiction) ≥ 0.975, its clean-DEV Youden threshold.*
+
+## 1. Summary
+
+**The rewording weakness is reduced, not fixed, and it is now confirmed on human-written data.** On the 883
+human-written TEST negations, the combiner's advantage over NLI reverses below word overlap 0.6. There it
+caught 80.7% of negations against NLI alone's 95.4% (n = 109, p = 0.0007), because it had learned a hard cut
+near overlap 0.55 (step 0.2).
+
+**The final configuration** adds three NLI cross-encoders' probabilities to the combiner (roberta-base,
+DeBERTa-anli, bart-large; 26 features) and puts a **low-overlap NLI override with a topic floor** after it
+(overlap < 0.5, P(contradiction) > 0.9, cosine ≥ 0.6). Against `08-guardrail-ensemble.md`'s Phase 0 baseline:
+
+- **gain:** recall on low-overlap TEST negations rises **75.2% → 90.7% (+15.5 pts, n = 129, p = 0.0001)**, and on the
+  out-of-distribution validation slice (MNLI rewordings) from **59.8% to 94.3%**;
+- **headline accuracy holds:** CANNOT phase 2 98.0% (95% CI 97.2–98.7; +0.3 pts, p = 0.54); all TEST 93.7% (−0.2 pts,
+  p = 0.82);
+- **cost:** FPR on low-overlap TEST non-negations 0.5% → 5.6% (n = 396, p = 0.0001), precision 93.0% → 90.7%,
+  xNot360 −1.9 pts (p = 0.37), and four NLI models instead of one (1.4 s per pair in the dashboard).
+
+**The biggest caveat:** the cleanest fix, retraining the combiner on natural low-overlap MNLI / SNLI pairs, *did*
+remove the shortcut (`token_overlap` importance 0.231 → 0.042). It was rejected because it cost 9–10 pts on
+xNot360's conditionals and 1 pt on VALIDATION. The adopted override patches around the shortcut rather than
+removing it. Conditional inverses remain the largest error source: 48 of the 88 false positives (55%).
+
+## 2. The overlap analysis (step 0.1) — the round's most important result
+
+Recall on the 883 TEST negations (human-written: CANNOT phase 2 + xNot360) and FPR on the 877 non-negations, by
+`token_overlap`. Phase 0 baseline combiner vs NLI alone; full tables in step 0.1.
+
+| overlap | negations: n | combiner recall | NLI-alone recall | p | non-negations: n | combiner FPR | NLI-alone FPR |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0.0–0.2 | 1 | — | — | — | 224 | 0.0% | 52.2% |
+| 0.2–0.4 | 19 (n < 50) | **47.4%** | 84.2% | 0.039 | 172 | 1.2% | 40.7% |
+| 0.4–0.6 | 109 | **80.7%** | 95.4% | 0.0007 | 185 | 0.5% | 10.8% |
+| 0.6–0.8 | 603 | 98.2% | 93.5% | 0.0001 | 134 | 11.2% | 9.0% |
+| 0.8–1.0 | 151 | 98.7% | 90.1% | 0.0003 | 162 | 27.8% | 24.7% |
+
+**Verdict, in plain language: the combiner's advantage over NLI reverses as overlap falls.** Above 0.6 it beats NLI
+by 5–9 pts; below 0.6 it loses by 15–37 pts. This holds on CANNOT alone too (0.4–0.6: 88.9% vs 97.2%, n = 72, p = 0.032).
+The same cut that loses reworded negations is what keeps unrelated pairs out: below 0.4 NLI calls 41–52% of non-negations
+negations, and the combiner calls 0–1%. Benchmarks place negations at high overlap (1–8% below 0.4); written
+answers do not (40–45% below 0.4, model-written sets). The generator's negations sit higher than either (median 0.93),
+which is why `08-guardrail-ensemble.md`'s machine-generated domain study saw 95.6% recall.
+
+## 3. Full ablation
+
+Every configuration, on TEST unless noted. "low-ov neg recall": the 129 TEST negations with overlap < 0.6. "low-ov non-neg
+FPR": the 396 TEST non-negations with overlap < 0.4. `val_ood` is the select half: MNLI only (v1, n = 383) for Phases 1–3,
+MNLI + synthetic conditionals (v2, n = 645) from step 5.1 on, as marked. **`val_ood` is MNLI, the NLI models' training
+distribution, so it favours NLI** (step 0.4). K1 is machine-generated.
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91, machine-gen.) | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood | source |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| **Phase 0 baseline** (val_ood v1) | 97.7% (96.9–98.5%) | 93.9% | 78.9% | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | 75.2% | 0.5% | 97.8% | 59.8% | `0_4` |
+| NLI alone (val_ood v1) | 82.8% (80.9–84.6%) | 81.8% | 77.8% | 76.0% | 93.0% | 83.7% | 0.3% | 70.9% | 2.6% | 78.1% | 40.0% | 88.4% | 4.4% | 93.8% | 47.2% | 86.0% | 95.0% | `0_4` |
+| Phase 1 — rule: overlap < 0.5, P_c > 0.999 | 87.9% (86.1–89.5%) | 86.0% | 78.9% | 80.2% | 95.7% | 87.3% | 1.9% | 52.0% | 0.9% | 64.7% | 32.2% | 93.7% | 2.2% | 80.6% | 35.9% | 90.3% | 86.7% | `1_3` |
+| Phase 1 — rule: overlap < 0.5, P_c > 0.9, cos >= 0.5 | 97.1% (96.2–98.0%) | 92.9% | 76.4% | 89.7% | 96.9% | 93.2% | 2.3% | 10.2% | 0.9% | 0.0% | 42.8% | 94.7% | 2.2% | 89.1% | 6.8% | 97.0% | 94.3% | `1_3` |
+| Phase 1 — rule: overlap < 0.5, P_c > 0.9, cos >= 0.6 ← adopted in 1.3 | 97.4% (96.4–98.1%) | 93.1% | 76.4% | 90.2% | 96.7% | 93.3% | 2.3% | 7.9% | 0.0% | 0.0% | 42.2% | 93.7% | 2.2% | 87.6% | 5.6% | 97.8% | 94.3% | `1_3` |
+| Phase 1 — rule: overlap < 0.5, P_c > 0.9, cos >= 0.7 | 97.4% (96.5–98.2%) | 93.2% | 76.7% | 90.6% | 96.4% | 93.4% | 2.3% | 6.3% | 0.0% | 0.0% | 40.6% | 92.6% | 2.2% | 85.3% | 4.5% | 97.8% | 78.3% | `1_3` |
+| Phase 1 — soft: + nli_overrides_combiner, + NLI margin (features, retrained) | 97.6% (96.9–98.4%) | 93.8% | 78.6% | 91.6% | 96.4% | 93.9% | 2.9% | 7.1% | 0.0% | 0.0% | 33.3% | 94.7% | 2.2% | 83.0% | 1.5% | 97.8% | 68.7% | `1_3` |
+| Phase 1 — interaction: + P_c x (1 - overlap) (retrained) | 97.5% (96.6–98.3%) | 93.6% | 78.6% | 92.0% | 95.6% | 93.8% | 3.3% | 5.5% | 0.0% | 0.8% | 30.6% | 94.7% | 2.2% | 78.3% | 1.0% | 98.0% | 61.6% | `1_3` |
+| Phase 1 — drop shortcut: no token_overlap, no len_diff (15 features, retrained) | 96.2% (95.2–97.2%) | 91.8% | 74.4% | 88.6% | 95.9% | 92.1% | 2.6% | 7.9% | 0.0% | 0.0% | 50.6% | 91.6% | 2.2% | 94.6% | 7.8% | 95.3% | 90.6% | `1_3` |
+| Phase 1 — routing: overlap < 0.5 -> NLI alone, else combiner | 85.4% (83.5–87.2%) | 83.6% | 76.9% | 76.7% | 96.8% | 85.6% | 2.3% | 64.6% | 2.6% | 78.1% | 41.7% | 93.7% | 2.2% | 88.4% | 47.2% | 88.8% | 94.3% | `1_3` |
+| Phase 2 — A — replace | 98.0% (97.2–98.7%) | 89.7% | 57.2% | 84.7% | 96.8% | 90.4% | 1.9% | 7.1% | 0.0% | 0.0% | 77.2% | 94.7% | 2.2% | 85.3% | 1.5% | 97.8% | 58.2% | `2_2` |
+| Phase 2 — A — replace + override | 97.4% (96.4–98.1%) | 88.7% | 55.0% | 82.8% | 97.9% | 89.7% | 2.3% | 11.8% | 1.7% | 0.0% | 86.7% | 94.7% | 2.2% | 92.2% | 6.1% | 97.3% | 94.3% | `2_2` |
+| Phase 2 — B — alongside | 98.0% (97.2–98.7%) | 94.0% | 78.3% | 92.5% | 95.7% | 94.1% | 1.6% | 3.9% | 0.0% | 0.0% | 32.2% | 92.6% | 2.2% | 79.1% | 0.2% | 97.5% | 60.1% | `2_2` |
+| Phase 2 — B — alongside + override | 97.6% (96.9–98.4%) | 93.0% | 75.0% | 89.7% | 97.3% | 93.3% | 1.9% | 7.9% | 0.0% | 0.0% | 46.1% | 93.7% | 2.2% | 89.9% | 5.6% | 97.5% | 94.5% | `2_2` |
+| Phase 2 — C — pruned ensemble | 98.4% (97.6–99.0%) | 94.5% | 79.7% | 93.6% | 95.7% | 94.6% | 1.0% | 0.8% | 0.0% | 0.0% | 30.0% | 92.6% | 2.2% | 79.1% | 0.5% | 98.2% | 62.1% | `2_2` |
+| Phase 2 — C — pruned ensemble + override ← adopted in 2.3 | 98.0% (97.2–98.7%) | 93.7% | 76.9% | 90.7% | 97.4% | 93.9% | 1.3% | 4.7% | 0.0% | 0.0% | 43.3% | 93.7% | 2.2% | 90.7% | 5.6% | 98.0% | 94.3% | `2_2` |
+| Phase 3 — C retrained + natural (1100 pairs) | 97.9% (97.1–98.6%) | 92.0% | 69.4% | 87.9% | 97.5% | 92.5% | 1.6% | 3.9% | 0.9% | 0.0% | 59.4% | 95.8% | 2.2% | 94.6% | 6.6% | 97.0% | 94.5% | `3_3` |
+| Phase 3 — C retrained + natural (1100 pairs) + override | 97.7% (96.9–98.4%) | 91.8% | 68.6% | 87.5% | 97.5% | 92.2% | 1.6% | 5.5% | 0.9% | 0.0% | 61.1% | 95.8% | 2.2% | 94.6% | 6.8% | 97.0% | 95.3% | `3_3` |
+| Phase 3 — C retrained + generated (1200 pairs) | 98.1% (97.4–98.8%) | 89.7% | 56.7% | 84.5% | 97.3% | 90.4% | 1.0% | 3.1% | 0.0% | 0.0% | 83.9% | 94.7% | 4.4% | 91.5% | 1.5% | 97.8% | 60.8% | `3_3` |
+| Phase 3 — C retrained + generated (1200 pairs) + override | 97.7% (96.9–98.4%) | 88.5% | 52.5% | 82.6% | 97.6% | 89.5% | 1.3% | 7.1% | 0.0% | 0.0% | 93.9% | 94.7% | 4.4% | 93.8% | 5.8% | 97.7% | 94.3% | `3_3` |
+| Phase 3 — C retrained + mixed (2300 pairs) | 97.3% (96.4–98.1%) | 87.7% | 50.6% | 81.5% | 97.7% | 88.9% | 2.6% | 7.9% | 0.9% | 0.0% | 98.3% | 96.8% | 4.4% | 96.9% | 8.1% | 96.5% | 95.0% | `3_3` |
+| Phase 3 — C retrained + mixed (2300 pairs) + override | 97.3% (96.4–98.1%) | 87.7% | 50.6% | 81.5% | 97.7% | 88.9% | 2.6% | 7.9% | 0.9% | 0.0% | 98.3% | 96.8% | 4.4% | 96.9% | 8.1% | 96.5% | 95.0% | `3_3` |
+| Phase 5 — adopted + variant B (not adopted; TEST not read) | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | 98.0% | 91.5% (v2) | `5_2` |
+| **Final: Phase 0 baseline** (val_ood v2) | 97.7% (96.9–98.5%) | 93.9% | 78.9% | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | 75.2% | 0.5% | 97.8% | 58.1% | `final_f2` |
+| **Final: adopted = C + override** (val_ood v2) | 98.0% (97.2–98.7%) | 93.7% | 76.9% | 90.7% | 97.4% | 93.9% | 1.3% | 4.7% | 0.0% | 0.0% | 43.3% | 93.7% | 2.2% | 90.7% | 5.6% | 98.0% | 80.8% | `final_f2` |
+
+Paired permutation, final adopted vs Phase 0 (uncorrected): phase 2 +0.3 pts (p = 0.54); all TEST −0.2 pts (p = 0.82); xNot360 −1.9
+pts (p = 0.37); **low-overlap negations +15.5 pts (n = 129, p = 0.0001)**; low-overlap non-negations −5.1 pts accuracy (n = 396,
+p = 0.0001). Per-step p-values are in steps 1.3, 2.2 and 3.3.
+
+## 4. Generator families: overlap, and what they bought
+
+Step 3.1 (machine-generated variants of 2,693 clean-DEV bases): **every family produces negations at median overlap
+0.75–0.93**; 107 of 44,046 (0.24%) fall below 0.4. E_antonym (0.846) and J_contrastive (0.833) are not lower, against
+the brief's expectation. **What the families bought: nothing for rewording.** Training on their low-overlap tail
+plus random re-pairings (step 3.3) raised low-overlap recall (75.2% → 91.5% without override) and collapsed xNot360
+(−22.2 pts, p = 0.0001). A rule-based generator that edits sentences cannot teach a model to recognise rewording,
+because it never rewords; its overlap distribution is higher than the human benchmarks'. Natural MNLI / SNLI pairs
+can and did remove the shortcut (importance 0.231 → 0.042), at a cost on conditionals the selection rule did not
+accept.
+
+## 5. Paragraph re-measurement (step 1.4) — **machine-authored, matching only**
+
+Contradictions caught among the 11 gold contradictions of the 28 machine-authored paragraphs: **6 (`08-guardrail-ensemble.md`) →
+9 (adopted)**, against NLI alone's 9, with false contradictions 2 → 3 (NLI alone: 1). Teacher-verdict accuracy 88.2% →
+90.3% (n = 93). Not evidence for any detection claim; that rests on section 2.
+
+## 6. Affirmation coverage, before and after (Phase 4)
+
+On the 960 negative clean-DEV sentences: sentences with an affirmation **659 → 738** (+79; 37 of them true polarity
+flips, 42 adverbial / complement flips tagged `polarity_flip = false`). The "cue outside the main clause" bucket 214 →
+93 (now only relative clauses and noun-attached *not*); the parse-shape buckets grow by 42 (87 → 129) because those
+sentences now reach a generator. Spot-check of 30 newly affirmed sentences: 29 correct (machine-judged). Round trip
+unchanged (97.8% exact, n = 4,880). Headline cases pinned by tests.
+
+## 7. Conditional validation (Phase 5)
+
+528 synthetic pairs (**machine-generated**; 44 content tuples × 12 template rows). Variant B of `07-honest-baseline.md` 3.3
+lifts them **58.1% → 88.8%**:
+
+| row | current | + variant B |
+| --- | ---: | ---: |
+| antecedent flip (pre / post) | 4.5% / 2.3% | 95.5% / 97.7% |
+| inverse (pre / post) | 68.2% / 63.6% | 95.5% / 97.7% |
+| contrapositive (pre / post) | 47.7% / 61.4% | 81.8% / 86.4% |
+| unless | 34.1% | 95.5% |
+| consequent flip, logical negation, only if | 95.5–100% | unchanged |
+| even if | 20.5% | 20.5% |
+
+It **failed** the pre-stated off-TEST check on clean DEV's 36 human-written conditional pairs (94.4% → 91.7%) by one
+pair, a **counterfactual** (*if they weren't cold they would have been edible*) where an antecedent flip does flip the
+presupposed fact. **Not adopted; TEST not read for it.** CANNOT's and xNot360's conventions agree on indicative
+conditionals and disagree on counterfactuals (step 5.3); this report follows logical incompatibility.
+
+## 8. Severity (Phase 6) — **this does not change any verdict or accuracy**
+
+Five mechanical labels (scope > intensified > hedged > flat > lexical) from the differing cue. Agreement with the
+generating family on 766 **machine-generated** domain negations: 97.7% (first rule) → **99.6%** after one fix (*by no
+means* is intensified, not a quantifier). Diagnostic: the system is least confident on **hedged** negations in generator
+data (mean output 0.905 vs 0.983 flat) and on **lexical** ones in human-written TEST (0.944 vs 0.955; 56% of TEST
+negations are lexical).
+
+## 9. Approaches considered
+
+| choice | tried (key numbers) | selected | rule |
+| --- | --- | --- | --- |
+| val_ood design | raw low-overlap contradictions (rejected before building: unrelated-scene contradictions are DEV non-negations) vs same-topic, overlap-matched MNLI | same-topic, overlap-matched | argued in 0.3 |
+| fitting θ, ρ on val_ood | whole val_ood (brief) vs fit / select halves | halves | avoid selecting on fitted data |
+| low-overlap override | brief's rule (pooled 85.9–88.5% < no rule 92.35%); + topic floor κ 0.5 / 0.6 / 0.7 (95.3 / 95.65 / 93.9%); soft feature; interaction; drop shortcut; routing | κ = 0.6 rule | 0.3 rule (VAL, val_ood both ≥), largest summed gain |
+| DeBERTa | A replace (xNot360 57.2%), B alongside, C pruned ensemble, each ± override | C + override | 0.3 rule; overfitting check read comparatively |
+| rebalancing | natural, generated, mixed, each ± override | none | 0.3 rule (VAL falls for all) |
+| affirmation scope | main only vs + coordinated / advcl / ccomp | extended | brief's objective; tests |
+| conditional rule | variant B | not adopted | pre-stated off-TEST check |
+| severity precedence | scope-first (97.7%) vs intensifier-idiom exception (99.6%) | v2 | fix of a mis-specified rule on machine data |
+
+**Departures from the brief, with evidence:**
+
+1. **The antonym-substitution subset is not lexically divergent** (median overlap 0.667, 6% below 0.4); it was
+   reported but not used as rewording evidence (0.1).
+2. **`val_ood` uses same-topic, overlap-matched MNLI pairs**, not raw low-overlap contradictions; SNLI was not used
+   (0.3).
+3. **θ and ρ are fit on DEV + the `val_ood` fit half only**; selection uses the select half (0.3).
+4. **The brief's override rule cannot help at any grid point** (85.9–88.5% vs 92.35%); a topic floor was added and is
+   what was adopted (1.1).
+5. **The 2-pt overfitting check vetoes the incumbent too**, so it was applied comparatively (2.3).
+6. **No family produces low-overlap negations**, so generated-only rebalancing had no material; it was run on the small
+   tail anyway to measure the negative result (3.1–3.3).
+7. **Adverbial / complement affirmations are tagged `polarity_flip = false`**, because flipping a subordinate clause
+   is not a negation of the sentence (4.1).
+8. **Screenshots for this round are saved as `f2_*`**; `08-guardrail-ensemble.md`'s are kept, since that report describes them.
+
+**Considered and not tried:**
+
+- clipping or calibrating NLI probabilities before the combiner (2.1 shows trees split at P = 0.014);
+- a counterfactual exemption for variant B (would be fitted to the pair it failed on);
+- natural augmentation with conditional pairs added to stop the xNot360 cost;
+- a learned severity classifier (the brief forbids it);
+- larger NLI models (bandwidth, as in `08-guardrail-ensemble.md`).
+
+## 10. What did not work
+
+- **The brief's override rule, as specified**: every grid point below no rule (best 88.5% vs 92.35% pooled); on TEST
+  sts_low FPR 3.9% → 52.0%, low-overlap non-negation FPR 0.5% → 35.9%, phase 2 −9.9 pts (p = 0.0001).
+- **Two-model routing** (overlap < 0.5 → NLI alone): low-overlap non-negation FPR 47.2%, phase 2 −12.4 pts (p = 0.0001).
+- **Soft and interaction features**: the boolean gets importance 0.002; neither moves low-overlap recall much (83.0%,
+  78.3%), because clean DEV has 23 negations below 0.4 to learn from.
+- **Dropping `token_overlap` and `len_diff`**: low-overlap recall 94.6%, but `cos_sim` takes over as the proxy
+  (importance 0.044 → 0.320), phase 2 −1.5 pts (p = 0.0009), VALIDATION −2.5 pts.
+- **Replacing the reference NLI model with DeBERTa-anli (A)**: xNot360 57.2% (−21.7 pts, p = 0.0001), retrained from
+  scratch; the trees split on its near-zero probability tail.
+- **Every training augmentation**: natural −9.4 pts on xNot360, generated −22.2, mixed −28.3 (all p = 0.0001).
+- **Variant B**: failed off TEST on one counterfactual (n = 36 slice).
+- **The generator as a source of rewording**: 0.24% of 44,046 negations below overlap 0.4.
+
+## 11. Caveats
+
+1. **TEST reads.** This round logged 10 (`experiments/f2/results/test_reads.json`: 0.1, 0.2, 0.4, 1.3, 2.1, 2.2, 3.3, 6.3
+   twice, final). **Cumulative across the four rounds: 32** (nli2 14, f1 8, f2 10), plus earlier unlogged reads by
+   experiments/polarity and experiments/composite. No parameter or threshold was fit on TEST; no adoption decision
+   used TEST.
+2. **p-values are not corrected for multiple comparisons** (about 25 configurations this round).
+3. **`val_ood` favours NLI.** It is MNLI validation, the training distribution of every NLI model here; after natural
+   augmentation from MNLI-train it is in-distribution for the combiner too. The TEST low-overlap columns are the
+   independent check, and the adopted configuration was confirmed on them (+15.5 pts, n = 129).
+4. **The rewording claim rests on 129 human-written TEST negations below overlap 0.6, and 20 below 0.4** (n < 50). The
+   paragraph set (28 items, **machine-authored**) and the 50-item **model-written placeholder** are not evidence for any
+   detection claim.
+5. **Machine-generated data used this round:** K1 (91), the synthetic conditional set (528), the generated augmentation
+   (1,200), the domain answers (2,645, severity only), the generator variants (44,046, step 3.1).
+6. **Slices under 50:** TEST negations below 0.4 (20); clean DEV conditional slice (36); clean DEV negations below 0.4
+   (23); severity TEST slices hedged (5), intensified (3), scope (33); SemAntoNeg (41).
+7. **`val_ood` changed at step 5.1** (MNLI → MNLI + conditionals). Phases 1–3 were selected on v1; the final rows
+   report v2.
+8. **κ = 0.6 and `val_ood`'s cosine ≥ 0.6 filter coincide**, so part of κ's fit reflects how `val_ood` was built (1.1).
+9. **The overfitting check was applied comparatively**, not as written (2.3).
+10. **The severity rule was revised once**, on machine-generated data (6.2); both versions are reported.
+11. **Cached polarity analyses** for clean DEV / VALIDATION / TEST predate `08-guardrail-ensemble.md`'s blocklist fixes (its caveat 8).
+12. **Latency** crossed 2 s at p90 under load (2.03 s); 1.61 s idle.
+13. **One seed (0).**
+
+## 12. Reproduction
+
+Seed 0. Environment as in `08-guardrail-ensemble.md` §12. Datasets fetched by `experiments/f2/fetch_data.py` at pinned revisions,
+sha256-verified (`results/raw_manifest.json`): GLUE MNLI `bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c`, SNLI
+`cdb5c3d5eed6ead6e5a341c8e56e669bb666725b`. Model revisions as in `08-guardrail-ensemble.md` §12.
+
+| step | commit | command (`./venv/bin/python experiments/f2/…`) |
+| --- | --- | --- |
+| 0.1 | `8875719` | `overlap.py --step 0.1` |
+| 0.2 | `29e058a` | `overlap.py --step 0.2` |
+| 0.3 | `cccffc2` | `fetch_data.py; val_ood.py` |
+| 0.4 | `3b0b09b` | `eval2.py` |
+| 1.1 | `9f8d097` | `override.py --step 1.1` |
+| 1.2–1.3 | `b8eb6ec`, `7bcd678` | `override.py --step 1.3` |
+| 1.4 | `66c104a` | `para2.py` |
+| 2.1 | `1a4c504` | `deberta.py --step 2.1` |
+| 2.2–2.3 | `d51f90f`, `27a413f` | `deberta.py --step 2.2` |
+| 2.4 | `f9fe0dc` | `../f1/dashboard_latency.py` (with f2 config) |
+| 3.1 | `4f17fdf` | `rebalance.py --step 3.1` |
+| 3.2 | `378973c` | `rebalance.py --step 3.2` |
+| 3.3–3.4 | `6941263`, `adae7cb`, `733ab2b` | `rebalance.py --step 3.3` |
+| 4.1 | `45eb424` | `../../venv/bin/python -m pytest tests -q` |
+| 4.2–4.3 | `26a25fa`, `19f3dc6` | (inline measurement; results in `4_2_affirmation_coverage.json`) |
+| 5.1 | `7c25cd8` | `conditional_val.py --step 5.1` |
+| 5.2–5.3 | `ba6291c` | `conditional_val.py --step 5.2` |
+| 6.1–6.3 | `bdbf85c` | `severity.py` |
+| 6.4, 7 | `7846f3c` | `latency7.py`; `streamlit run dashboard/app.py` |
+| summary | this commit | `final_f2.py` |
+
+## 13. Next steps, ranked by what this round found
+
+1. **Natural augmentation plus conditional pairs.** Natural MNLI / SNLI pairs removed the overlap shortcut
+   (importance 0.231 → 0.042, low-overlap recall 94.6% without any override) and failed only on xNot360's
+   conditionals. Add conditional training pairs (indicative inverses labelled 0, consequent flips labelled 1) to the
+   same augmentation; if xNot360 holds, that replaces the override with a model that has no shortcut to patch.
+2. **Clip or calibrate NLI probabilities before the combiner.** Trees split on DeBERTa-anli's P ≈ 0.014 (step 2.1); a
+   floor at 0.05, or a monotone calibration, would stop that and may make the stronger model usable as a replacement.
+3. **A counterfactual-aware variant B.** Variant B fixes 58% → 89% of synthetic conditionals and fails on one
+   counterfactual; exempt *would / could have* consequents and validate on a fresh conditional set before TEST.
+4. **A fresh TEST.** This one has been read 32 times across four rounds.
+5. **Small fixes**: an NPI table for the affirmer (*any → some*, *not sure how* has no positive); *by no means*-style
+   idioms checked across the cue lexicon; the *I'm not sure* / indirect-question shape.
+
+## 14. Step log
+
+### 0.1 The overlap analysis — the rewording weakness is real on human-written data, and so is the reason for it
+
+`experiments/f2/overlap.py --step 0.1` → `experiments/f2/results/0_1_overlap.json`. Every TEST pair is
+binned by `token_overlap`, both by quintiles of its own distribution and by fixed width. In each bin the
+Phase 0 baseline combiner is compared with NLI alone. On clean DEV the combiner's predictions are
+**out-of-fold**, because the final model has seen every DEV pair. All TEST pairs are human-written.
+
+**TEST negations (n = 883): recall.**
+
+| overlap bin (quintiles) | n | CANNOT / xNot360 | combiner recall | NLI-alone recall | combiner − NLI | p |
+| --- | ---: | --- | ---: | ---: | ---: | ---: |
+| 0.188–0.611 | 174 | 122 / 52 | **81.0%** | **90.8%** | **−9.8 pts** | 0.008 |
+| 0.611–0.688 | 167 | 154 / 13 | 97.6% | 92.2% | +5.4 pts | 0.012 |
+| 0.688–0.750 | 179 | 153 / 26 | 97.8% | 92.7% | +5.0 pts | 0.005 |
+| 0.750–0.778 | 158 | 96 / 62 | 99.4% | 96.8% | +2.5 pts | 0.22 |
+| 0.778–1.000 | 205 | 178 / 27 | 98.5% | 92.7% | +5.9 pts | 0.002 |
+
+| overlap bin (fixed width) | n | combiner recall | NLI-alone recall | combiner − NLI | p | CANNOT phase 2 only: n, comb / NLI | xNot360 only: n, comb / NLI |
+| --- | ---: | ---: | ---: | ---: | ---: | --- | --- |
+| 0.0–0.2 | 1 (n < 50) | 0.0% | 100.0% | — | 1.0 | — | 1: 0% / 100% |
+| 0.2–0.4 | 19 (n < 50) | **47.4%** | **84.2%** | **−36.8 pts** | 0.039 | 6: 100% / 83.3% | 13: **23.1% / 84.6%** |
+| 0.4–0.6 | 109 | **80.7%** | **95.4%** | **−14.7 pts** | 0.0007 | 72: 88.9% / 97.2% (p = 0.032) | 37: 64.9% / 91.9% |
+| 0.6–0.8 | 603 | 98.2% | 93.5% | +4.6 pts | 0.0001 | 482: 97.7% / 92.5% | 121: 100% / 97.5% |
+| 0.8–1.0 | 151 | 98.7% | 90.1% | +8.6 pts | 0.0003 | 143: 98.6% / 89.5% | 8: 100% / 100% |
+
+**TEST non-negations (n = 877): FPR**, i.e. how often each method wrongly calls a non-negation a negation.
+
+| overlap bin (fixed width) | n | combiner FPR | NLI-alone FPR | combiner − NLI | p |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 0.0–0.2 | 224 | **0.0%** | **52.2%** | −52.2 pts | 0.0001 |
+| 0.2–0.4 | 172 | 1.2% | 40.7% | −39.5 pts | 0.0001 |
+| 0.4–0.6 | 185 | 0.5% | 10.8% | −10.3 pts | 0.0001 |
+| 0.6–0.8 | 134 | 11.2% | 9.0% | +2.2 pts | 0.46 |
+| 0.8–1.0 | 162 | 27.8% | 24.7% | +3.1 pts | 0.066 |
+
+(Quintile bins for non-negations say the same thing and are in the JSON.)
+
+**Verdict, in plain language: yes, the combiner's advantage over NLI reverses as overlap falls. The
+rewording finding is confirmed on human-written pairs, and is now this report's headline.**
+
+- **Above overlap 0.6**, the combiner catches 5–9 pts more negations than NLI alone (754 negations).
+- **Below 0.6**, it catches **15 pts fewer** (80.7% vs 95.4% on 109 negations, p = 0.0007), and **37 pts fewer
+  below 0.4** (47.4% vs 84.2%, n = 19, a small slice).
+- In the bottom TEST quintile (n = 174) it is 81.0% against 90.8% (p = 0.008).
+- The effect is largest on xNot360, but it is also present on CANNOT alone: 88.9% vs 97.2% at 0.4–0.6,
+  n = 72, p = 0.032.
+
+**The other half of the result matters just as much: the overlap feature is not only a shortcut, it is
+the reason the combiner beats NLI at all.** Among non-negations with overlap below 0.4 (n = 396, mostly
+random pairs, STS-low and SNLI neutral), NLI alone calls **41–52%** negations and the combiner calls
+**0–1%**. The combiner learned "low overlap ⇒ not a negation" because in its training data low overlap
+almost always meant an unrelated sentence. That is right for unrelated pairs and wrong for reworded
+negations, and the training data never forced it to tell the two apart. **Any fix must keep the
+protection against unrelated pairs while removing the penalty on related rewordings.** Simply trusting
+NLI at low overlap would reintroduce a 40–50% false-positive rate there.
+
+**The named human-written slices** (n printed; the brief's list, measured):
+
+| slice | n | metric | combiner | NLI alone | p |
+| --- | ---: | --- | ---: | ---: | ---: |
+| TEST negations, overlap < 0.4 | 20 (n < 50) | recall | **45.0%** | **85.0%** | 0.024 |
+| TEST negations, overlap 0.4–0.6 | 109 | recall | 80.7% | 95.4% | 0.0007 |
+| TEST negations, bottom two quintiles (overlap < 0.688) | 357 | recall | 89.1% | 91.3% | 0.31 |
+| TEST CANNOT antonym-substitution negations | 95 | recall | 92.6% | 88.4% | 0.39 |
+| clean DEV antonym-substitution negations (combiner out-of-fold) | 208 | recall | 95.2% | 94.7% | 1.0 |
+| SemAntoNeg paraphrases, phase 2 | 41 (n < 50) | FPR | 0.0% | 0.0% | 1.0 |
+| clean DEV CANNOT phase-1 negations, overlap < 0.4 (out-of-fold) | 23 (n < 50) | recall | 82.6% | 91.3% | 0.51 |
+| clean DEV CANNOT phase-1 negations, overlap 0.4–0.6 (out-of-fold) | 157 | recall | 87.3% | 91.1% | 0.19 |
+| clean DEV CANNOT phase-1 negations, overlap ≥ 0.8 (out-of-fold) | 316 | recall | 97.8% | 95.2% | 0.009 |
+| clean DEV CANNOT phase-1 non-negations, overlap < 0.4 (out-of-fold) | 109 | FPR | 0.0% | 2.8% | 0.26 |
+
+**Correction to the brief.** The brief lists the CANNOT antonym-substitution subset as "lexically
+divergent by construction". It is not. An antonym substitution swaps one word, so its overlap is high:
+median 0.667 on TEST (n = 95) and on clean DEV (n = 208), with only 6.3% / 9.6% below 0.4. On that subset
+the combiner is level with or ahead of NLI. **It is not evidence about rewording either way**, and the
+report does not use it as such. SemAntoNeg is low-overlap (median 0.40, n = 41), but it consists of
+non-negations, and both methods reject all of them. The clean-DEV low-overlap tail points the same way as
+TEST (82.6% vs 91.3% below 0.4, 87.3% vs 91.1% at 0.4–0.6), but the differences are not significant. **The
+rewording claim rests on the TEST low-overlap negations: n = 129 below 0.6, n = 20 below 0.4.**
+
+**Where the benchmarks and the application sit:**
+
+| pairs | n | median overlap | share < 0.4 | share < 0.6 |
+| --- | ---: | ---: | ---: | ---: |
+| CANNOT phase 2 negations (TEST) | 703 | 0.714 | 0.9% | 11.1% |
+| xNot360 negations (TEST) | 180 | 0.733 | 7.8% | 28.3% |
+| clean DEV CANNOT phase-1 negations (training data) | 1,501 | 0.700 | 1.5% | 12.0% |
+| CANNOT phase 2 non-negations (TEST) | 697 | 0.375 | 52.8% | 76.5% |
+| paragraph set, gold contradicted pairs (**machine-authored**) | 11 (n < 50) | 0.539 | 45.5% | 54.5% |
+| paragraph set, gold covered pairs (**machine-authored**) | 72 | 0.304 | 63.9% | 93.1% |
+| model-written placeholder, negations | 10 (n < 50) | 0.437 | 40.0% | 70.0% |
+| domain answers, negation category (**machine-generated**) | 458 | 0.926 | 0.0% | 0.0% |
+| domain answers, paraphrase category (**machine-generated**) | 484 | 0.833 | 0.2% | 2.3% |
+
+**The claim holds for written answers and fails for generated ones.**
+
+- The training data and both benchmarks place negations at high overlap: only 1–8% fall below 0.4.
+- Non-negations sit low: 53% of CANNOT's non-negations fall below 0.4.
+- Both written-answer sets place negations much lower: about 40–45% below 0.4. These are model-written,
+  so they show the *shape* of rewording, not its frequency in real classrooms.
+- The **generator's** negations sit even higher than CANNOT's (median 0.926). That is why
+  `08-guardrail-ensemble.md`'s machine-generated domain study saw 95.6% recall and missed the problem: it tested the
+  shortcut on data that satisfies it.
+
+```sh
+./venv/bin/python experiments/f2/overlap.py --step 0.1
+```
+
+### 0.2 The mechanism, visible in the model
+
+`experiments/f2/overlap.py --step 0.2` → `results/0_2_mechanism.json`, `docs/figures/overlap_mechanism.png`.
+
+Phase 0 baseline GBM importances (unchanged from `08-guardrail-ensemble.md`):
+
+| feature | importance |
+| --- | ---: |
+| `p_contradiction` | 0.537 |
+| **`token_overlap`** | **0.327** |
+| `cos_sim` | 0.044 |
+| `len_a` | 0.022 |
+| `antonym_aligned` | 0.020 |
+
+Every other feature is at or below 0.015.
+
+**Partial dependence of the GBM on `token_overlap`** (log-odds, averaged over clean DEV): a step
+function. It is flat at about **−4.4 for overlap ≤ 0.47**, rises to −3.5 at 0.51, and then **jumps to −0.28 at
+0.556 and +0.80 at 0.60**, a swing of about 4.3 log-odds across one tenth of the overlap range. Above
+that it stays at +0.8 to +1.3. The model has, in effect, learned a hard cut near overlap 0.55.
+
+![overlap mechanism](docs/figures/overlap_mechanism.png)
+
+**Mean output by overlap bin, label held fixed** (combiner raw output vs NLI P(contradiction); n per bin):
+
+| | 0.2–0.4 | 0.4–0.6 | 0.6–0.8 | 0.8–1.0 |
+| --- | --- | --- | --- | --- |
+| TEST negations: combiner / NLI | **0.42** / 0.89 (n = 19) | **0.77** / 0.98 (n = 109) | 0.97 / 0.95 (n = 603) | 0.98 / 0.93 (n = 151) |
+| clean DEV negations, out-of-fold: combiner / NLI | 0.77 / 0.94 (n = 23) | 0.83 / 0.94 (n = 157) | 0.96 / 0.93 (n = 1,005) | 0.97 / 0.96 (n = 316) |
+| TEST non-negations: combiner / NLI | 0.02 / 0.43 (n = 172) | 0.02 / 0.13 (n = 185) | 0.12 / 0.09 (n = 134) | 0.28 / 0.26 (n = 162) |
+
+**Among true negations, the combiner's output rises with overlap while NLI's does not.** That is
+the shortcut made visible. On TEST negations, the combiner's mean falls from 0.98 to 0.42 as overlap drops,
+while NLI stays between 0.89 and 0.98. Among non-negations the picture reverses: NLI's output climbs as
+overlap falls (0.43 at 0.2–0.4, 0.57 below 0.2), and the combiner holds it near 0. The same cut that costs
+recall on reworded negations buys the precision on unrelated pairs (step 0.1).
+
+```sh
+./venv/bin/python experiments/f2/overlap.py --step 0.2
+```
+
+### 0.3 `val_ood`: an out-of-distribution validation slice, and the selection rule for this round
+
+`experiments/f2/val_ood.py` → `data/val_ood.csv`, `results/0_3_val_ood.json`. Built from **MNLI
+validation** (matched + mismatched; GLUE revision `bcdcba79`, sha256-verified via
+`experiments/f2/fetch_data.py`). MNLI is in no earlier split. The builder **asserts that no sentence
+(normalised) appears in TEST, VALIDATION or clean DEV**. Everything in it is human-written.
+
+| section | label | n | median overlap | how chosen |
+| --- | ---: | ---: | ---: | --- |
+| MNLI contradiction | 1 (negation) | 400 | 0.263 | premise and hypothesis each one sentence, 5–40 words; overlap < 0.6; mpnet cosine ≥ 0.6 (same topic); random 400 (seed 0) |
+| MNLI entailment | 0 | 200 | 0.268 | same filters, sampled to match the positives' overlap in 0.1-wide bins |
+| MNLI neutral | 0 | 200 | 0.263 | same |
+| synthetic conditionals (**machine-generated**) | rule-derived | — | — | appended in step 5.1 |
+
+**Departures from the brief, with reasons:**
+
+1. **Same-topic and overlap-matched, not raw low-overlap contradictions.** An MNLI or SNLI contradiction
+   is not the same thing as a negation. At low overlap many contradictions are simply different events,
+   and clean DEV labels those *not a negation* (its SNLI-neutral and STS-low pairs). The cosine floor keeps
+   same-topic pairs. Matching negatives on overlap means a model cannot score well on `val_ood` by
+   reading overlap. **The labels are still MNLI's, and "contradiction" remains broader than CANNOT's
+   "negation". `val_ood` accuracies are read with that in mind.** Examples: *Sorry but that's how it is.* /
+   *This is how things are and there are no apologies about it.* (contradiction, reworded); *When a
+   baseball player is removed by the manager, the organist plays Auld Lang Syne.* / *There is no organ
+   music when the manager has to remove a baseball player.* (contradiction).
+2. **SNLI not used.** Its contradictions are mostly image-caption event mismatches (*A man is sleeping* /
+   *A man is running*), the kind of pair clean DEV labels as not a negation.
+3. **No CANNOT phase-1 pairs moved out of clean DEV.** Moving them would mean retraining everything. MNLI
+   supplied enough low-overlap pairs without it.
+4. **A fixed fit / select split.** The brief asks Phase 1 to fit θ and ρ on clean DEV plus `val_ood`, and then
+   to select on `val_ood`, which would select on the data the parameters were fit to. So every row gets a
+   fixed half by sha1 hash of the pair. The **fit** half (417 rows: 209 / 106 / 102) may be used for
+   fitting. The **select** half (383 rows: 191 / 94 / 98) is used only for the selection rule. **"val_ood"
+   in every table means the select half** unless marked otherwise.
+
+**Selection rule for the rest of this round, stated before any Phase 1 run.** A change is adopted only if
+**VALIDATION accuracy and `val_ood` (select-half) accuracy are both non-decreasing** against the current
+adopted configuration. If one rises and the other falls, both are reported and the change is not
+adopted. When several candidates pass, the one with the highest sum of the two gains is taken, with
+clean-DEV accuracy as tie-break.
+
+```sh
+./venv/bin/python experiments/f2/fetch_data.py
+./venv/bin/python experiments/f2/val_ood.py
+```
+
+### 0.4 The Phase 0 baseline, on TEST, VALIDATION and `val_ood`
+
+`experiments/f2/eval2.py` → `results/0_4_baseline.json`. Every later row is measured against the first
+row. Two columns are new:
+
+- **low-ov neg recall:** recall on the 129 TEST negations with overlap < 0.6 (step 0.1's reversal region,
+  human-written);
+- **low-ov non-neg FPR:** FPR on the 396 TEST non-negations with overlap < 0.4, the protection against
+  unrelated pairs that any fix must keep.
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91, machine-gen.) | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood (select, n=383) |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **Phase 0 baseline** | 97.7% (96.9–98.5) | 93.9% | 78.9% | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | **75.2%** | 0.5% | 97.8% | **59.8%** |
+| NLI alone (reference) | 82.8% (80.9–84.6) | 81.8% | 77.8% | 76.0% | 93.0% | 83.7% | 0.3% | 70.9% | 2.6% | 78.1% | 40.0% | 88.4% | 4.4% | 93.8% | **47.2%** | 86.0% | 95.0% |
+
+On `val_ood` (select half, n = 383: 191 contradictions, 192 entailment / neutral):
+
+- **Phase 0 baseline:** recall **19.4%**, FPR 0.0%.
+- **NLI alone:** recall 90.6%, FPR 0.5%.
+
+On the fit half (n = 417) the figures are 18.2% / 0.0% and 86.6% / 1.4%.
+
+**Out of distribution, the combiner misses four of every five reworded contradictions.** On
+`val_ood` the overlap cut (step 0.2) rejects almost every same-topic pair below overlap 0.5, whatever NLI
+says.
+
+**A confound to keep in view for every later `val_ood` number.** `val_ood` is MNLI validation, and every
+NLI cross-encoder in this project was trained on MNLI's *training* split (plus SNLI, and for DeBERTa-anli
+also FEVER and ANLI). The validation pairs are unseen, but they come from the training distribution, so
+NLI alone is close to its best here (95.0%). `val_ood` will reward any fix that trusts NLI more.
+That is why the selection rule also requires VALIDATION not to fall. It is also why the TEST low-overlap
+columns, CANNOT and xNot360 pairs that no model was trained on, are reported next to it as the
+independent check.
+
+```sh
+./venv/bin/python experiments/f2/eval2.py
+```
+
+### 1.1 The low-overlap NLI override: the brief's rule fails; with a topic floor it works
+
+`experiments/f2/override.py --step 1.1` → `results/1_1_rule_grid.json`.
+
+- **The rule:** turn the combiner's "not a negation" into "negation" when `token_overlap < θ` and
+  `P_contradiction > ρ`. It runs after the cancellation override, which it never undoes.
+- **Fit:** θ and ρ maximise accuracy on clean DEV (combiner **out-of-fold**), pooled with the `val_ood`
+  **fit** half (3,402 + 417 pairs).
+- **Grid:** θ ∈ {0.3, 0.4, 0.5, 0.6, 0.7}, ρ ∈ {0.9, 0.95, 0.975, 0.99, 0.995, 0.999}.
+- With no rule, pooled accuracy is **92.35%**.
+
+**The brief's rule, as specified (no topic condition):** pooled accuracy, the whole surface.
+
+| θ \ ρ | 0.9 | 0.95 | 0.975 | 0.99 | 0.995 | 0.999 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0.3 | 86.5% | 86.6% | 86.8% | 87.3% | 87.5% | 88.2% |
+| 0.4 | 86.6% | 86.8% | 87.0% | 87.5% | 87.8% | 88.4% |
+| 0.5 | 86.8% | 87.0% | 87.1% | 87.7% | 88.0% | **88.5%** |
+| 0.6 | 86.1% | 86.3% | 86.5% | 87.2% | 87.6% | 88.2% |
+| 0.7 | 85.9% | 86.2% | 86.4% | 87.1% | 87.6% | 88.2% |
+
+**Every cell is below the no-rule 92.35%.** The rule as specified cannot help at any setting, which is
+what step 0.1 predicted. Below overlap 0.4, NLI gives P(contradiction) above threshold to 41–52% of
+unrelated pairs, so the override turns hundreds of clean-DEV random, STS-low and SNLI-neutral pairs into
+false positives.
+
+**The rule with a topic floor**, which this report adds: also require mpnet cosine(A, B) ≥ κ, so it fires
+only on same-topic rewordings. Best cell per κ:
+
+| κ | best θ, ρ | pooled accuracy | surface range |
+| --- | --- | ---: | --- |
+| none (the brief's rule) | 0.5, 0.999 | 88.5% | 85.9–88.5% |
+| 0.5 | 0.5, 0.9 | 95.3% | 93.9–95.3% |
+| **0.6** | **0.5, 0.9** | **95.65%** | 94.0–95.65% |
+| 0.7 | 0.5, 0.9 | 93.9% | 92.9–93.9% |
+
+Full surfaces for every κ are in the JSON. With the floor, the surface is flat in ρ (within 0.8 pts from
+0.9 to 0.995), peaked at θ = 0.5, and κ matters most. **Caveat on κ:** `val_ood` was built with a cosine ≥
+0.6 filter (step 0.3), so the κ = 0.6 floor never excludes a `val_ood` row. Part of κ = 0.6's advantage
+over 0.7 reflects that construction and not the data. On clean DEV alone the κ choice is driven by
+STS-low and SNLI-neutral pairs. Step 1.3 tests all four κ rows on TEST, VALIDATION and the `val_ood`
+select half.
+
+```sh
+./venv/bin/python experiments/f2/override.py --step 1.1
+```
+
+### 1.2 The variants
+
+All are implemented in `experiments/f2/override.py`, and all keep the cancellation override first.
+
+| variant | what changes | fitted on |
+| --- | --- | --- |
+| rule (the brief's) | overlap < θ and P_c > ρ → negation | clean DEV (out-of-fold) + `val_ood` fit half |
+| rule + topic floor (added, κ = 0.5 / 0.6 / 0.7) | … and cosine ≥ κ | same |
+| soft feature | the topic-floor rule's boolean, and the NLI margin P_c − P_e, as two extra combiner features; retrained (nli2 step 4.2 protocol) | clean DEV |
+| interaction feature | P_c × (1 − overlap) as an extra feature; retrained | clean DEV |
+| **drop the shortcut** | combiner retrained **without `token_overlap` and `len_diff`** (15 features) | clean DEV |
+| two-model routing | overlap < s → NLI alone at its clean-DEV threshold, else the combiner; s ∈ {0.3, …, 0.7} | clean DEV + `val_ood` fit half |
+
+### 1.3 Every variant, measured — the topic-floor override is adopted, with a precision cost
+
+`experiments/f2/override.py --step 1.3` → `results/1_3_override.json`. All TEST columns are human-written
+pairs except K1 (**machine-generated**, n = 91). "low-ov neg recall" is the 129 TEST negations with overlap
+< 0.6; "low-ov non-neg FPR" is the 396 TEST non-negations with overlap < 0.4. `val_ood` is the select half
+(n = 383; MNLI, so NLI-favoured; step 0.4).
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 0 baseline | 97.7% (96.9–98.5) | 93.9% | 78.9% | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | 75.2% | 0.5% | 97.8% | 59.8% |
+| rule (brief): ov < 0.5, P_c > 0.999 | 87.9% (86.1–89.5) | 86.0% | 78.9% | 80.2% | 95.7% | 87.3% | 1.9% | **52.0%** | 0.9% | **64.7%** | 32.2% | 93.7% | 2.2% | 80.6% | **35.9%** | 90.3% | 86.7% |
+| rule + cos ≥ 0.5 | 97.1% (96.2–98.0) | 92.9% | 76.4% | 89.7% | 96.9% | 93.2% | 2.3% | 10.2% | 0.9% | 0.0% | 42.8% | 94.7% | 2.2% | 89.1% | 6.8% | 97.0% | 94.3% |
+| **rule + cos ≥ 0.6 ← adopted** | 97.4% (96.4–98.1) | 93.1% | 76.4% | 90.2% | **96.7%** | 93.3% | 2.3% | 7.9% | 0.0% | 0.0% | 42.2% | 93.7% | 2.2% | **87.6%** | 5.6% | 97.8% | **94.3%** |
+| rule + cos ≥ 0.7 | 97.4% (96.5–98.2) | 93.2% | 76.7% | 90.6% | 96.4% | 93.4% | 2.3% | 6.3% | 0.0% | 0.0% | 40.6% | 92.6% | 2.2% | 85.3% | 4.5% | 97.8% | 78.3% |
+| soft: rule boolean + NLI margin as features | 97.6% (96.9–98.4) | 93.8% | 78.6% | 91.6% | 96.4% | 93.9% | 2.9% | 7.1% | 0.0% | 0.0% | 33.3% | 94.7% | 2.2% | 83.0% | 1.5% | 97.8% | 68.7% |
+| interaction: P_c × (1 − overlap) | 97.5% (96.6–98.3) | 93.6% | 78.6% | 92.0% | 95.6% | 93.8% | 3.3% | 5.5% | 0.0% | 0.8% | 30.6% | 94.7% | 2.2% | 78.3% | 1.0% | **98.0%** | 61.6% |
+| **drop the shortcut: no `token_overlap`, no `len_diff`** | 96.2% (95.2–97.2) | 91.8% | 74.4% | 88.6% | 95.9% | 92.1% | 2.6% | 7.9% | 0.0% | 0.0% | 50.6% | 91.6% | 2.2% | **94.6%** | 7.8% | 95.3% | 90.6% |
+| routing: ov < 0.5 → NLI alone | 85.4% (83.5–87.2) | 83.6% | 76.9% | 76.7% | 96.8% | 85.6% | 2.3% | 64.6% | 2.6% | 78.1% | 41.7% | 93.7% | 2.2% | 88.4% | **47.2%** | 88.8% | 94.3% |
+
+Paired permutation tests on TEST against the Phase 0 baseline (uncorrected):
+
+| configuration | phase 2 | all TEST | xNot360 |
+| --- | --- | --- | --- |
+| rule (brief) | −9.9 pts (p = 0.0001) | −7.8 pts (p = 0.0001) | 0.0 pts |
+| rule + cos ≥ 0.6 (adopted) | −0.4 pts (p = 0.12) | −0.8 pts (p = 0.055) | −2.5 pts (p = 0.19) |
+| soft feature | −0.1 pts (p = 1.0) | −0.1 pts (p = 0.84) | −0.3 pts (p = 1.0) |
+| interaction | −0.2 pts (p = 0.58) | −0.2 pts (p = 0.50) | −0.3 pts (p = 1.0) |
+| drop the shortcut | −1.5 pts (p = 0.0009) | −2.1 pts (p = 0.0006) | −4.4 pts (p = 0.051) |
+| routing | −12.4 pts (p = 0.0001) | −10.2 pts (p = 0.0001) | −1.9 pts (p = 0.33) |
+
+**Selection by the step-0.3 rule.** Passing are cos ≥ 0.6, cos ≥ 0.7, soft and interaction, because VALIDATION and
+`val_ood` are both non-decreasing. The largest summed gain is **cos ≥ 0.6**: VALIDATION 97.8% → 97.8%,
+`val_ood` 59.8% → 94.3%.
+
+**What the adopted override buys and costs, in one sentence:**
+
+- **buys:** recall on low-overlap TEST negations **75.2% → 87.6% (+12.4 pts, n = 129)**, and overall recall
+  94.9% → 96.7%;
+- **costs:** precision 93.0% → 90.2%, low-overlap non-negation FPR 0.5% → 5.6%, sts_low FPR 3.9% → 7.9%, xNot360
+  conditional-inverse FPR 28.9% → 42.2%, and all-TEST accuracy 93.9% → 93.1% (−0.8 pts, p = 0.055).
+
+The rule trades precision for recall, as the brief said it would. On TEST, which is mostly
+high-overlap CANNOT, the trade is net slightly negative. On the rewording slice it is strongly
+positive. **TEST accuracy did not decide this, and must not**; it is reported so the cost is visible.
+
+**The drop-the-shortcut row, prominently, as asked.** Removing `token_overlap` and `len_diff` gives **the
+highest low-overlap negation recall of any variant: 94.6%**, against 75.2% for the baseline and 87.6% for the
+adopted rule. The cost: phase 2 −1.5 pts (p = 0.0009), xNot360 −4.4 pts, VALIDATION 97.8% → 95.3%, and
+low-overlap non-negation FPR 7.8%. It fails the selection rule on VALIDATION. **It does not remove the
+shortcut, it moves it.** `cos_sim` takes over overlap's place in the model: importance 0.320, up from
+0.044, with `p_contradiction` at 0.584. Cosine is a softer proxy for "same topic" than overlap is, which
+is why recall on rewordings rises, and it still carries the unrelated-pair protection (FPR 7.8%, not
+NLI's 47.2%).
+
+**The other variants.**
+
+- **Soft feature (fails to help).** The rule's boolean gets importance 0.002, and the NLI margin gets
+  0.192, mostly substituting for `p_contradiction`. The retrained GBM learns from clean DEV, where
+  low-overlap negations barely exist (23 below 0.4), so it cannot learn to use the boolean. This is the
+  same reason the margin-as-feature in `08-guardrail-ensemble.md` could not fix rewording.
+- **Interaction (no effect).** It gets 0.239 importance but leaves low-overlap recall at 78.3%. It is the
+  only variant to *raise* VALIDATION (98.0%), and it passes the rule with a summed gain smaller than the
+  adopted one.
+- **Routing (fails).** It collapses on unrelated pairs (low-overlap FPR 47.2%) because it hands them to NLI
+  alone.
+
+```sh
+./venv/bin/python experiments/f2/override.py --step 1.3
+```
+
+### 1.4 Paragraph set re-run — **machine-authored, sentence matching only**
+
+`experiments/f2/para2.py` → `results/1_4_paragraphs.json`. The setup is unchanged from `08-guardrail-ensemble.md` step
+4.5: optimal assignment, cosine cells, τ = 0.661 from clean DEV. **These 28 items are machine-authored.
+Following this round's rules, they are not evidence for any detection claim.** The detection claim rests on
+the human-written slices of step 0.1, where low-overlap recall rose from 75.2% to 87.6% (n = 129).
+
+| configuration | teacher-verdict accuracy (n = 93) | contradictions caught (of 11) | false contradictions | covered → contradicted |
+| --- | ---: | ---: | ---: | ---: |
+| Phase 0 baseline (`08-guardrail-ensemble.md`) | 88.2% | 6 | 2 | 2 |
+| **adopted: + topic-floor override** | **90.3%** | **9** | 3 | 3 |
+| NLI alone | 92.5% | 9 | 1 | 1 |
+
+The adopted configuration now catches as many contradictions as NLI alone (9 of 11, up from 6), at the
+cost of one more false alarm than the baseline (3 vs 2) and two more than NLI alone. The 2 remaining misses
+are the same matching failures as before: the student sentence falls below τ, so it is called missing
+before detection runs.
+
+The detector now supports the override as a stage, "low-overlap NLI override", reported by
+`experiments/f1/detector.py`. Its configuration is recorded in `experiments/f2/results/final_config.json`.
+`Detector.adopted()` reads this file in preference to f1's.
+
+```sh
+./venv/bin/python experiments/f2/para2.py
+```
+
+### 2.1 `08-guardrail-ensemble.md`'s DeBERTa swap: retrained, so the collapse was real, and here is why
+
+`experiments/f2/deberta.py --step 2.1` → `results/2_1_swap_diagnosis.json`.
+
+**It was retrained.** In `experiments/f1/ensemble.py` (lines 274–278), the swap writes DeBERTa-anli's three
+probabilities into the clean-DEV feature matrix, and `fit_gbm(sets, Xf["dev_clean"])` refits the full grid on
+it. The trees were fit to the new model's outputs. **The 78.9% → 57.2% xNot360 collapse is a real result, not
+a bug.**
+
+**Why a better NLI model makes the combiner worse.** The damage is on xNot360's conditional inverses (*If P, Q*
+/ *If not P, not Q*, label 0, n = 133). Share of them called a negation:
+
+| system | inverses called negation (n = 133) |
+| --- | ---: |
+| DeBERTa-anli **standalone** (threshold 0.931) | **9.8%** |
+| reference standalone (threshold 0.975) | 32.3% |
+| Phase 0 GBM on the reference model | 33.1% |
+| **GBM retrained on DeBERTa-anli** | **91.7%** |
+
+DeBERTa-anli is the best *standalone* judge of inverses: its P(contradiction) on them has median 0.019 and
+lower quartile 0.016. It is the combiner that turns them into negations. **The trees learned to read the
+fourth decimal place of P(contradiction):**
+
+- **Where the GBM splits.** 58% of the retrained GBM's 133 splits on DeBERTa-anli's P(contradiction) fall
+  below 0.05, with median split value 0.014. The final threshold on its output is 0.239.
+- **Why those splits are right on clean DEV.** Among clean-DEV pairs with overlap ≥ 0.6, those with
+  DeBERTa-anli P in [0, 0.005) are 2.3% negations (n = 439). In [0.005, 0.05) the share is **47.7%** (n = 44),
+  and in [0.05, 0.5) it is **83.0%** (n = 47). On CANNOT, "barely above zero" really does mean "probably a
+  negation".
+- **Why they fail out of distribution.** xNot360's inverses sit at 0.014–0.02, inside the band the trees
+  learned to call negations.
+- **The reference model behaves differently.** Its outputs are more often exactly zero for high-overlap
+  non-negations (P < 0.005 for 477 of 518 such pairs), so it has no such band.
+
+A model's near-zero tail is not stable across datasets, and the GBM's splits treat it as if it were. A
+remedy would be to clip or calibrate probabilities before the combiner sees them, so that trees cannot
+split at 0.014. It was not tried; see next steps.
+
+```sh
+./venv/bin/python experiments/f2/deberta.py --step 2.1
+```
+
+### 2.2 Three DeBERTa configurations, each retrained from scratch
+
+`experiments/f2/deberta.py --step 2.2` → `results/2_2_deberta.json`.
+
+- **Protocol:** every combiner is retrained exactly as in nli2 step 4.2, with the cancellation override in
+  front.
+- **"+ override":** applies step 1.3's rule (θ 0.5, ρ 0.9, κ 0.6). The rule reads P(contradiction) from the
+  configuration's primary model: DeBERTa-anli in A, the reference in B and C.
+- **Comparison:** each row is compared with the **currently adopted** configuration (Phase 0 + override),
+  in the first row.
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| current: Phase 0 + override | 97.4% (96.4–98.1) | 93.1% | 76.4% | 90.2% | 96.7% | 93.3% | 2.3% | 7.9% | 0.0% | 0.0% | 42.2% | 93.7% | 2.2% | 87.6% | 5.6% | 97.8% | 94.3% |
+| A — replace (17 features) | 98.0% (97.2–98.7) | 89.7% | **57.2%** | 84.7% | 96.8% | 90.4% | 1.9% | 7.1% | 0.0% | 0.0% | **77.2%** | 94.7% | 2.2% | 85.3% | 1.5% | 97.8% | 58.2% |
+| A + override | 97.4% (96.4–98.1) | 88.7% | 55.0% | 82.8% | 97.9% | 89.7% | 2.3% | 11.8% | 1.7% | 0.0% | 86.7% | 94.7% | 2.2% | **92.2%** | 6.1% | 97.3% | 94.3% |
+| B — alongside (20 features) | 98.0% (97.2–98.7) | 94.0% | 78.3% | 92.5% | 95.7% | 94.1% | 1.6% | 3.9% | 0.0% | 0.0% | 32.2% | 92.6% | 2.2% | 79.1% | 0.2% | 97.5% | 60.1% |
+| B + override | 97.6% (96.9–98.4) | 93.0% | 75.0% | 89.7% | 97.3% | 93.3% | 1.9% | 7.9% | 0.0% | 0.0% | 46.1% | 93.7% | 2.2% | 89.9% | 5.6% | 97.5% | 94.5% |
+| C — pruned ensemble, 4 models (26 features) | **98.4% (97.6–99.0)** | **94.5%** | **79.7%** | 93.6% | 95.7% | 94.6% | 1.0% | 0.8% | 0.0% | 0.0% | 30.0% | 92.6% | 2.2% | 79.1% | 0.5% | 98.2% | 62.1% |
+| **C + override ← adopted** | 98.0% (97.2–98.7) | 93.7% | 76.9% | 90.7% | 97.4% | 93.9% | 1.3% | 4.7% | 0.0% | 0.0% | 43.3% | 93.7% | 2.2% | **90.7%** | 5.6% | **98.0%** | **94.3%** |
+
+Paired permutation against the **Phase 0 baseline** (uncorrected):
+
+| configuration | phase 2 | all TEST | xNot360 |
+| --- | --- | --- | --- |
+| A | +0.3 pts (p = 0.54) | **−4.2 pts (p = 0.0001)** | **−21.7 pts (p = 0.0001)** |
+| B | +0.3 pts (p = 0.45) | +0.1 pts (p = 0.85) | −0.6 pts (p = 0.79) |
+| C | +0.6 pts (p = 0.052) | +0.7 pts (p = 0.042) | +0.8 pts (p = 0.58) |
+| C + override | +0.3 pts (p = 0.54) | −0.2 pts (p = 0.82) | −1.9 pts (p = 0.37) |
+
+The brief expected a well-executed swap to make nothing worse. **It does: config A collapses xNot360 to
+57.2% again, retrained from scratch**, for the reason step 2.1 found (trees splitting on DeBERTa-anli's
+near-zero tail). Adding the reference model's probabilities alongside (B) neutralises it: xNot360 78.3%, but
+there is no gain either. The pruned ensemble (C) is the best combiner on TEST, as `08-guardrail-ensemble.md` saw. **Its
+low-overlap recall is no better than the baseline's (79.1% vs 75.2%)**, so on its own it does not address
+this round's problem. With the override it does.
+
+### 2.3 Overfitting check and selection: the pruned ensemble + override is adopted
+
+**The step-0.3 rule.** Against the current configuration (VALIDATION 97.8%, `val_ood` 94.3%), only **C +
+override** keeps both non-decreasing: VALIDATION 98.0%, `val_ood` 94.3%. It is adopted.
+
+Rejected, with the measurement that rejected it:
+
+| configuration | rejected because |
+| --- | --- |
+| A | `val_ood` 58.2% |
+| A + override | VALIDATION 97.3% |
+| B | VALIDATION 97.5%, `val_ood` 60.1% |
+| B + override | VALIDATION 97.5% |
+| C | `val_ood` 62.1%, the overlap shortcut intact |
+
+**The overfitting check** (`08-guardrail-ensemble.md` 2.5: out-of-fold DEV − TEST accuracy):
+
+| configuration | out-of-fold DEV | TEST (all) | gap |
+| --- | ---: | ---: | ---: |
+| current (Phase 0 + override) | 96.6% | 93.1% | **+3.5 pts** |
+| A / A + override | 96.4% | 89.7% / 88.7% | +6.8 / +7.7 pts |
+| B / B + override | 96.8% | 94.0% / 93.0% | +2.8 / +3.8 pts |
+| C / **C + override** | 97.0% | 94.5% / 93.7% | +2.4 / **+3.3 pts** |
+
+**The check, read literally, vetoes everything, including the incumbent.** Every configuration's gap
+exceeds 2 pts, because TEST contains xNot360 and out-of-fold DEV does not. A rule that rejects the
+configuration already in use cannot choose between candidates. So it is applied comparatively: a
+candidate whose gap exceeds the incumbent's shows evidence of *additional* overfitting and is not adopted.
+C + override's gap (3.3) is smaller than the incumbent's (3.5). This reading of the brief's rule is
+recorded as a departure. Under it, A (6.8 / 7.7) would be rejected even if it passed the selection rule.
+
+**The adopted configuration's cost against Phase 0, in one sentence:**
+
+- **buys:** low-overlap negation recall 75.2% → **90.7%** (+15.5 pts, n = 129), phase 2 +0.3 pts (p = 0.54), and
+  `val_ood` 59.8% → 94.3%;
+- **costs:** xNot360 −1.9 pts (p = 0.37), all TEST −0.2 pts (p = 0.82), precision 93.0% → 90.7%, low-overlap
+  non-negation FPR 0.5% → 5.6%, and four NLI models instead of one (step 2.4).
+
+### 2.4 Cost
+
+NLI inference per pair, isolated CPU timings from `08-guardrail-ensemble.md` step 2.1 (8 threads, batch 16), summed per
+configuration:
+
+| configuration | NLI models | ms / pair (NLI only) |
+| --- | --- | ---: |
+| Phase 0 (+ override) | reference | 45.2 |
+| A | DeBERTa-anli | 48.0 |
+| B | reference + DeBERTa-anli | 93.2 |
+| **C (+ override), adopted** | reference, roberta-base, DeBERTa-anli, bart-large | **275.0** |
+
+**Dashboard latency with the adopted configuration** (`results/2_4_latency.json`; method of `08-guardrail-ensemble.md`
+step 6.1: 20 unseen pairs, warm, every panel of tab 1, one pair at a time). The median is **1.25 s** (p90 1.40 s,
+max 1.46 s) against 1.12 s with the single model. That is **+0.13 s per pair, still under the 2 s target**.
+The added cost is smaller than the 230 ms of extra NLI time suggests, because a single interactive pair is
+not batched and the explanation panels dominate. Batch scoring of a whole TEST-sized set costs 6× the
+single-model NLI time.
+
+### 3.1 Token overlap by generator family: no family rewords
+
+`experiments/f2/rebalance.py --step 3.1` → `results/3_1_family_overlap.json`. Overlap between each clean-DEV
+base sentence A and its generated negations (stage-1 variants with flipped negation parity, plus Phase 1
+affirmations): 2,693 bases, 44,046 variants (**machine-generated**).
+
+| family | variants | mean overlap | median | share < 0.4 | share < 0.6 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| H_hedged | 10,201 | 0.740 | 0.750 | 0.55% | 10.0% |
+| F_implicit | 5,038 | 0.734 | 0.750 | 0.14% | 9.1% |
+| K1_cancellation (flipped-parity variants) | 123 | 0.798 | 0.769 | 0.0% | 6.5% |
+| I_intensified | 9,789 | 0.763 | 0.786 | 0.25% | 8.5% |
+| G_prepositional | 701 | 0.777 | 0.786 | 0.14% | 6.1% |
+| K2_compound | 55 | 0.788 | 0.792 | 0.0% | 7.3% |
+| N_affirmation | 336 | 0.781 | 0.818 | 1.79% | 6.9% |
+| J_contrastive | 880 | 0.816 | 0.833 | 0.0% | 3.0% |
+| D_affixal | 85 | 0.808 | 0.833 | 2.35% | 4.7% |
+| E_antonym | 2,464 | 0.831 | 0.846 | 0.45% | 0.8% |
+| B_quantifier | 131 | 0.820 | 0.846 | 0.0% | 0.8% |
+| A_syntactic | 2,043 | 0.830 | 0.875 | 0.0% | 3.3% |
+| C_neg_adverb | 12,179 | 0.904 | 0.917 | 0.0% | 0.05% |
+| L_scope_position | 20 | 0.926 | 0.933 | 0.0% | 0.0% |
+| **all** | **44,046** | | | **0.24% (107)** | **5.7% (2,514)** |
+
+**The brief's expectation is refuted.**
+
+- C_neg_adverb (median 0.917) and A_syntactic (0.875) do sit high, as expected.
+- But **E_antonym (0.846) and J_contrastive (0.833) sit just as high**. An antonym swap and a contrastive
+  frame are still edits of A.
+- The lowest families are H_hedged and F_implicit (0.75). They insert several words (*it is probably not
+  the case that*), but they do not reword.
+- The 2,514 variants below 0.6 are almost all multi-word insertions into short base sentences, so their
+  overlap is low only because the sentence is short. Only 107 variants in 44,046 fall below 0.4.
+
+**No family produces low-overlap negations in the sense this round needs.** The generator negates by
+editing, and a student rewords. By the brief's stopping rule, the *generated-only* rebalancing has no
+material to work with, and the report says so. Step 3.2 still runs it on the small generated tail below 0.6,
+so that the negative result is measured rather than assumed. It also runs the brief's **natural**
+alternative, low-overlap MNLI / SNLI training pairs, which does not depend on the families.
+
+```sh
+./venv/bin/python experiments/f2/rebalance.py --step 3.1
+```
+
+### 3.2 Three training augmentations: natural, generated, mixed
+
+`experiments/f2/rebalance.py --step 3.2` → `results/3_2_augmentation.json`. Every augmentation is added to
+clean DEV for training only. The builder **asserts no sentence of any augmentation appears in VALIDATION,
+TEST or `val_ood`**: 0 clashes were found.
+
+| augmentation | negations (label 1) | non-negations (label 0) | how chosen |
+| --- | --- | --- | --- |
+| **natural** (human-written) | 548: MNLI-train contradictions 300, SNLI-train contradictions 248 | 552: MNLI entailment 151 + neutral 151, SNLI entailment 125 + neutral 125 | one sentence each, 5–40 words, overlap < 0.6, mpnet cosine ≥ 0.6, negatives overlap-matched in 0.1 bins (the `val_ood` recipe applied to the *training* splits); seed 0 |
+| **generated** (**machine-generated**) | 600: clean-DEV base negations with overlap < 0.6 (H 251, I 178, F 114, A 20, G 13, J 10, N 8, E 6) | 600 random re-pairings of clean-DEV bases with other bases' variants | the only low-overlap generated material that exists (step 3.1) |
+| **mixed** | 1,148 | 1,152 | natural + generated |
+
+Overlap distribution, original vs augmented:
+
+| training set | negations: median overlap | negations: share < 0.4 | non-negations: median | non-negations: share < 0.4 |
+| --- | ---: | ---: | ---: | ---: |
+| clean DEV (original) | 0.700 | 1.5% | 0.471 | 42.4% |
+| clean DEV + natural | 0.667 | **20.6%** | 0.400 | 49.3% |
+| clean DEV + generated | 0.647 | 2.5% | 0.273 | 56.2% |
+| clean DEV + mixed | 0.588 | 17.1% | 0.286 | 59.3% |
+
+**The natural augmentation does what the brief asked.** It puts low-overlap negations *and* low-overlap,
+same-topic non-negations into training, in equal measure, so "low overlap" stops predicting the label.
+**The generated one cannot.** Its negations are only moderately low (median 0.545, 5% below 0.4), and its
+only low-overlap non-negations are random pairs (median 0.037). That teaches the old rule, "very low
+overlap ⇒ unrelated", more firmly. The generator has no paraphrase family, so it has no same-topic
+low-overlap non-negations to offer.
+
+**Caveat:** natural augmentation from MNLI-train makes `val_ood` (MNLI validation) in-distribution for
+the combiner too. For any configuration trained on it, the TEST low-overlap columns are the only
+independent check of rewording.
+
+```sh
+./venv/bin/python experiments/f2/rebalance.py --step 3.2
+```
+
+### 3.3 Retraining on each augmentation: the shortcut can be removed, and xNot360 pays for it
+
+`experiments/f2/rebalance.py --step 3.3` → `results/3_3_rebalance.json`.
+
+- **Architecture:** the adopted one (C: 4-model pruned ensemble, 26 features), retrained with nli2's
+  protocol on clean DEV + each augmentation. The CV folds stay grouped by shared sentences across original
+  and added pairs. Each is reported with and without the override.
+- **Comparison:** every row is compared with the **current** configuration (C + override), in the first row.
+- **Not re-run on the paragraph set:** no configuration was adopted, and this round's rules allow the
+  paragraph set to support matching claims only.
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood | `token_overlap` importance |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| current: C + override | 98.0% (97.2–98.7) | 93.7% | 76.9% | 90.7% | 97.4% | 93.9% | 1.3% | 4.7% | 0.0% | 0.0% | 43.3% | 93.7% | 2.2% | 90.7% | 5.6% | 98.0% | 94.3% | 0.231* |
+| + natural (1,100) | 97.9% (97.1–98.6) | 92.0% | 69.4% | 87.9% | 97.5% | 92.5% | 1.6% | 3.9% | 0.9% | 0.0% | 59.4% | 95.8% | 2.2% | **94.6%** | 6.6% | 97.0% | 94.5% | **0.042** |
+| + natural + override | 97.7% (96.9–98.4) | 91.8% | 68.6% | 87.5% | 97.5% | 92.2% | 1.6% | 5.5% | 0.9% | 0.0% | 61.1% | 95.8% | 2.2% | 94.6% | 6.8% | 97.0% | 95.3% | 0.042 |
+| + generated (1,200, **machine-gen.**) | 98.1% (97.4–98.8) | 89.7% | **56.7%** | 84.5% | 97.3% | 90.4% | 1.0% | 3.1% | 0.0% | 0.0% | 83.9% | 94.7% | 4.4% | 91.5% | 1.5% | 97.8% | 60.8% | 0.221 |
+| + generated + override | 97.7% (96.9–98.4) | 88.5% | 52.5% | 82.6% | 97.6% | 89.5% | 1.3% | 7.1% | 0.0% | 0.0% | 93.9% | 94.7% | 4.4% | 93.8% | 5.8% | 97.7% | 94.3% | 0.221 |
+| + mixed (2,300) | 97.3% (96.4–98.1) | 87.7% | **50.6%** | 81.5% | 97.7% | 88.9% | 2.6% | 7.9% | 0.9% | 0.0% | 98.3% | 96.8% | 4.4% | 96.9% | 8.1% | 96.5% | 95.0% | 0.108 |
+| + mixed + override | identical to the row above | | | | | | | | | | | | | | | | | |
+
+\* `token_overlap` importance in the current C model (refit of the 2.2 model; `08-guardrail-ensemble.md` 2.5 reported 0.2305 for the same model); the Phase 0 GBM's is 0.327.
+
+Paired permutation against the Phase 0 baseline (uncorrected), without / with override:
+
+- **natural:** phase 2 +0.1 / 0.0 pts (p = 0.86 / 1.0), all TEST −1.8 / −2.1 pts (p = 0.003 / 0.0009), xNot360 **−9.4 / −10.3
+  pts** (p = 0.0001);
+- **generated:** all TEST −4.2 / −5.4 pts, xNot360 −22.2 / −26.4 pts (p = 0.0001);
+- **mixed:** all TEST −6.1 pts, xNot360 −28.3 pts (p = 0.0001).
+
+**Selection: none is adopted.**
+
+- **natural:** VALIDATION 98.0% → 97.0%.
+- **generated:** VALIDATION falls (97.8% / 97.7%).
+- **mixed:** both columns that the rule needs non-decreasing go the wrong way or tie: VALIDATION 96.5%, and
+  `val_ood` up only because MNLI-train is in it.
+
+The current configuration stays.
+
+**What the numbers say, in plain language.** **Natural augmentation does exactly what this round set out to do
+to the shortcut.** `token_overlap`'s importance drops from 0.231 to **0.042**, and low-overlap negation recall
+reaches **94.6% without any override** (n = 129). The combiner now leaves rewordings to NLI, as intended.
+The bill comes from xNot360's conditional inverses: FPR 43.3% → 59.4%. MNLI and SNLI contradictions teach
+"high P(contradiction) at moderate overlap means negation", and xNot360's inverses look exactly like that. CANNOT
+phase 2 does not move (97.9% vs 98.0%), and VALIDATION, which is CANNOT, falls 1 pt.
+
+The generated augmentation fails differently. Its 600 random re-pairings reinforce "very low overlap ⇒
+unrelated" (importance stays 0.221), and its 600 hedged and intensified negations at moderate overlap teach
+the trees to call moderate-overlap, single-cue edits negations. That is precisely xNot360's inverse shape
+(*If P, Q* / *If not P, not Q*), so xNot360 collapses to 56.7%.
+
+### 3.4 What the families bought
+
+**Nothing, as training data for this problem, and the reason is now measured:**
+
+- **No family rewords.** All 15 generator families produce negations at median overlap 0.75–0.93, and
+  only 0.24% of 44,046 fall below 0.4 (step 3.1). A family-rebalanced training set has no low-overlap
+  negations to rebalance with.
+- **What the generator can supply is harmful.** Its low-overlap tail is short base sentences with long
+  insertions, and its only low-overlap non-negations are random pairs.
+- **The cost of using it anyway.** Training on that material raises low-overlap recall (75.2% → 91.5%
+  without the override, n = 129), and in the same sentence collapses xNot360 (−22.2 pts, p = 0.0001) and
+  doubles K1 FPR (2.2% → 4.4%, machine-generated).
+
+**This is a finding about synthetic negation data, and it holds beyond this project.** A rule-based
+negation generator that edits sentences produces training data whose overlap distribution is *higher*
+than the human benchmarks' (median 0.75–0.93, against CANNOT's 0.71). Training on it can only deepen an
+overlap shortcut, never remove it.
+
+Removing the shortcut needs pairs where the same meaning-flip is written in different words. Here those
+came from natural NLI data, which did remove it (importance 0.327 → 0.042), but at a cost on conditionals
+that the selection rule did not accept. The families remain useful for what `08-guardrail-ensemble.md` found:
+cancellation, morphology and affirmation. Phase 6 below also uses them for severity.
+
+### 4.1 Affirmation beyond the single main clause
+
+`negation/generators/n_affirmation.py` (`clause_kinds`, `affirm_doc(doc, extended=True)`), plus one change to
+`negation/generators/affirm.py`. Every scope comes from `negation.nlp_core.clause_scope`; there is no second
+scope implementation.
+
+| clause | how it is found | affirmed? | `polarity_flip` |
+| --- | --- | --- | --- |
+| main | `clause_scope(ROOT)` | yes (as before) | true |
+| **coordinated** | `clause_scope` of a verbal `conj` of ROOT, recursively | **yes (new)** | true: flipping a coordinated main clause flips the sentence's claim |
+| **adverbial / complement** | `clause_scope` of an `advcl` / `ccomp` of a main or coordinated head | **yes (new)** | **false**: it flips a subordinate claim. For *If not P, Q* that is an antecedent flip, which is not a negation of the sentence (Phase 5) |
+| relative clause / noun modifier | `relcl`, `acl` | **no** (the step-1.1 restriction, kept) | — |
+
+Each `Affirmation` now carries its `clause`. The `polarity_flip = false` tag keeps adverbial and complement
+affirmations out of anything that treats them as negations of T, such as the guardrail's variant set.
+
+**A defect fixed on the way.** `RemoveCopulaNegation` accepted only a negator attached to the ROOT, so *Mumbai
+is a large city, but it is not the capital of India* could not be affirmed. That is a coordinated copular
+clause. It now also accepts a copula that is a `conj` of the ROOT. The stage-1 regression pin (448 variants) is
+unchanged.
+
+Tests (`tests/test_affirmation.py`, 7 new, suite 423 pass), one per shape:
+
+- coordinated (*… and does not print …*);
+- coordinated after *but* (*… but it cannot preempt …*);
+- `advcl` (*If the process does not hold the lock, it waits* → affirmed, `polarity_flip` false);
+- `ccomp` (*He said that the server is not running*);
+- the relative clause still refused (*A process that is not running is blocked*);
+- the headline case (*Delhi is not the capital of India* → *Delhi is the capital of India*);
+- the headline shape in a coordinated clause (*… but it is not the capital of India* → *… but it is the
+  capital of India*), which is step 4.3.
+
+### 4.2 Affirmation coverage, before and after
+
+Measured on the 960 negative clean-DEV sentences (odd cue parity) of `08-guardrail-ensemble.md` step 1.2 →
+`experiments/f2/results/4_2_affirmation_coverage.json`. "Old" is `affirm_doc(doc, extended=False)`, which
+reproduces `08-guardrail-ensemble.md` exactly.
+
+| | old (main clause only) | **new** |
+| --- | ---: | ---: |
+| sentences with at least one affirmation | 659 (68.6%) | **738 (76.9%)** |
+| … with at least one `polarity_flip` affirmation (a negation of the sentence) | 659 | **696 (72.5%)** |
+| sentences with none | 301 | 222 |
+| affirmation outputs by clause | main 755 | main 755, coordinated 44, ccomp 27, advcl 19 |
+
+Failure buckets:
+
+| bucket | old | new |
+| --- | ---: | ---: |
+| every cue outside the main clause (relative / subordinate / coordinated) | **214** | — |
+| every cue in a relative clause or attached to a noun phrase | — | **93** |
+| affixal: attributive / term position or no attested stem | 38 | 45 |
+| syntactic negator in a parse shape the removal rules do not cover | 13 | 33 |
+| *not* with no auxiliary (not + NP / adverb / fronted) | 21 | 30 |
+| *without* (G_prepositional): no rule | 9 | 13 |
+| implicit trigger with no complement | 5 | 7 |
+| negative quantifier form | 1 | 1 |
+
+**79 more sentences get an affirmation** (+8.2 pts), 37 of them a true polarity flip. The other 42 are
+adverbial or complement flips, tagged as such. The "outside the main clause" bucket shrinks from 214 to 93. What
+remains is relative clauses (excluded on purpose) and *not* attached to a noun phrase (*… but not
+kennels*), which has no clause to affirm. The other buckets *grow*, because some sentences now reach a
+generator that fails on their shape. That is 42 sentences (87 → 129 across those buckets), hidden before by the scope check.
+
+**Spot-check: 29 of 30 correct.** Thirty sentences that gained an affirmation under the new scope were
+sampled at random (seed 0). Verdicts are in the JSON, judged against four criteria:
+
+1. grammatical;
+2. the cue removed is in the stated clause, and nothing else changed;
+3. coordinated → conjunct affirmed; advcl / ccomp → subordinate claim flipped;
+4. the tags are right.
+
+**The verdicts were written by the model that wrote the code.** The one failure: *I'm not sure how long we
+stood there* → *I'm sure how long …*, which is ill-formed, because *not sure* plus an indirect question has no
+direct positive. One output is right but its clause tag is imprecise: "coordinated" for a cue in the main
+predicate's `xcomp`. Examples that work:
+
+- *The ink is white and cannot be photocopied* → *… and can be photocopied* (coordinated);
+- *If the church refused to pay, the photographers threatened …* → *If the church agreed to pay, …* (advcl,
+  correctly tagged not a negation of the sentence).
+
+**Round trip** (`affirm(negate(S))` on `08-guardrail-ensemble.md`'s 4,982 pairs): unchanged, at 97.8% exact and 99.3%
+within one word. This is expected, because the generator's negations are main-clause edits.
+
+### 4.3 The headline case
+
+Two tests in `tests/test_affirmation.py` pin it:
+
+- `test_headline_case_still_works`: *Delhi is not the capital of India* → *Delhi is the capital of India*,
+  primary, main clause;
+- `test_headline_case_in_a_coordinated_clause`: *Mumbai is a large city, but it is not the capital of India* →
+  *… but it is the capital of India*.
+
+Both pass.
+
+### 5.1 A synthetic conditional validation set — **machine-generated**
+
+`experiments/f2/conditional_val.py --step 5.1` → appended to `data/val_ood.csv` (section
+`val_ood_conditionals`), `results/5_1_conditionals.json`.
+
+- **Content:** 44 hand-written content tuples (P, not-P, Q, not-Q), 11 each for OS, CN, DBMS and everyday
+  topics, with the negated clauses written by hand rather than generated, so that every label follows
+  from the logic.
+- **Templates:** 12 rows per tuple → **528 pairs** (132 negations, 396 non-negations), preposed and postposed,
+  with *unless*, *even if* and *only if*.
+- **Splits:** asserted disjoint from TEST, VALIDATION and clean DEV, and split into `val_ood` fit / select
+  halves (266 / 262) by the same hash.
+
+| row | A | B | label | derivation |
+| --- | --- | --- | ---: | --- |
+| antecedent flip | If P, Q. | If not P, Q. | 0 | both can be true (Q whatever P is) |
+| inverse | If P, Q. | If not P, not Q. | 0 | both can be true (Q iff P); B is not A's negation |
+| consequent flip | If P, Q. | If P, not Q. | 1 | cannot both be true whenever P can hold |
+| logical negation | If P, Q. | P, but not Q. | 1 | B is exactly ¬(P → Q) = P ∧ ¬Q |
+| contrapositive | If P, Q. | If not Q, not P. | 0 | logically equivalent to A |
+| **unless** | If P, Q. | Unless P, Q. | **0** | *unless P* means *if not P*, so B is an antecedent flip of A: both can be true (Q holds either way) |
+| even if | If P, Q. | Even if not P, Q. | 0 | asserts Q regardless of P, so it entails A |
+| only if | If P, Q. | Q only if P. | 0 | *Q only if P* = *if Q then P*, the converse; compatible with A |
+
+Rows 1, 2, 3 and 5 also appear postposed (*Q if P.* / *Q if not P.* …), 44 each. Example (OS): *If a process
+holds a lock, other processes wait.* / *A process holds a lock, but other processes do not wait.* → 1.
+
+**From this step on, `val_ood` = MNLI section + conditional section.** The select half is 383 + 262 = 645 pairs.
+Earlier selection decisions (Phases 1–3) were made on the MNLI section alone, which is labelled "val_ood
+(v1)" where it matters.
+
+### 5.2 `07-honest-baseline.md`'s variant B, validated off TEST — not adopted, by one pair
+
+`experiments/f2/conditional_val.py --step 5.2` → `results/5_2_variant_b.json`.
+
+- **Variant B** (`07-honest-baseline.md` 3.3): when both sides are conditionals and only the antecedent flips, or both
+  halves flip (inverse, contrapositive), the pair is *not a negation*. It is a veto that never forces a
+  negation.
+- **Applied on top of** the adopted configuration (C + override).
+- **Off-TEST criterion, written into the script before the run:** variant B must improve the synthetic
+  conditional set **and** must not lower accuracy on clean DEV's human-written conditional slice (36 pairs
+  with both sides conditional, combiner out-of-fold).
+
+**Per template row** (synthetic, **machine-generated**; n = 44 each, all 528 pairs, both `val_ood` halves):
+
+| row | current (C + override) | + variant B |
+| --- | ---: | ---: |
+| antecedent flip, preposed / postposed | 4.5% / 2.3% | **95.5% / 97.7%** |
+| inverse, preposed / postposed | 68.2% / 63.6% | **95.5% / 97.7%** |
+| contrapositive, preposed / postposed | 47.7% / 61.4% | 81.8% / 86.4% |
+| unless | 34.1% | **95.5%** |
+| consequent flip, preposed / postposed (label 1) | 100% / 100% | 100% / 100% |
+| logical negation, *P, but not Q* (label 1) | 95.5% | 95.5% |
+| even if | 20.5% | 20.5% |
+| only if | 100% | 100% |
+| **all 528** | **58.1%** | **88.8%** |
+
+On the synthetic set, variant B does what `07-honest-baseline.md` saw post hoc on TEST. It fixes antecedent flips,
+inverses and *unless*, and never touches the label-1 rows. *Even if* stays at 20.5%, because the connective
+changes from *if* to *even if*, so variant B (correctly, by step 0.2 of `08-guardrail-ensemble.md`) makes no decision,
+and the combiner calls most of them negations.
+
+On `val_ood` (select half, now 645 pairs, conditionals included), accuracy goes 80.8% → **91.5%**, with
+VALIDATION unchanged at 98.0%. **The step-0.3 rule alone would adopt it.**
+
+**But it fails the off-TEST check on human-written data.** On clean DEV's conditional slice (n = 36, a small
+slice), accuracy goes 94.4% → 91.7%. The veto fires on 2 of the 36 pairs, and one is a real negation by CANNOT's
+label:
+
+> *Maybe if they **weren't** cold they would have been somewhat edible.* / *Maybe if they **were** cold they would
+> have been somewhat edible.* (CANNOT: negation)
+
+That is one pair, and by the stated criterion it is enough. **Variant B is not adopted, and TEST was not read
+for it.** The rule was stated before the run and is followed. Its TEST effect remains unmeasured honestly;
+`07-honest-baseline.md`'s post-hoc number still cannot be reported as a result.
+
+**Why that one pair matters more than its n.** It is a **counterfactual** (*would have been*). *If they
+weren't cold, they would have been edible* presupposes that they *were* cold. Flipping the antecedent
+therefore flips the implied fact, and the pair *is* a negation of what was presupposed. Variant B was designed
+on indicative conditionals (*If P, Q*), where an antecedent flip leaves the claim intact. **An honest version
+of variant B needs to exempt counterfactual conditionals** (a *would / could have* consequent, or a past-perfect
+antecedent). That is a small, testable change, listed in next steps. It was not added here, because adding it
+after seeing this pair would be fitting the rule to the validation data it failed on.
+
+### 5.3 The dataset conflict, row by row
+
+`07-honest-baseline.md` caveat 9: CANNOT labels some antecedent and connective flips as negations, while xNot360 labels
+the inverse as not a negation. Which template row each convention disagrees with:
+
+| row | this report (logic) | xNot360's convention | CANNOT's convention |
+| --- | --- | --- | --- |
+| antecedent flip | 0 | 0 (agrees) | **sometimes 1**: counterfactual antecedent flips (the pair above) and *If you haven't choked … / If you have choked …* (`07-honest-baseline.md` 3.3) |
+| inverse | 0 | 0 (agrees) | not observed in CANNOT |
+| consequent flip | 1 | 1 (agrees) | 1 (agrees) |
+| logical negation (*P, but not Q*) | 1 | 1 (agrees) | 1 (agrees) |
+| contrapositive | 0 | not observed | not observed |
+| unless (= antecedent flip) | 0 | 0 by its inverse convention | 1 if treated like an antecedent flip |
+| even if / only if (connective change) | 0 | not observed | **1**: *… even if all formats do not meet the chart rules* / *… only if all formats meet …* (VALIDATION) |
+
+**The convention followed here is logical incompatibility:** B negates A if they cannot both be true. That
+is xNot360's convention and the one a teacher needs. A student who writes *If you don't follow the signals,
+you won't avoid accidents* for *If you follow the signals, you will avoid accidents* has stated the inverse.
+It is a reasoning error, but it does not contradict the teacher. CANNOT's antecedent-flip labels are right on
+its own terms in the counterfactual case, where the antecedent carries a presupposed fact. The two conventions
+genuinely agree on indicative conditionals and disagree on counterfactuals. **No single rule can satisfy both
+without detecting the counterfactual**, which is why variant B is not adopted until it does.
+
+### 6.1 A severity label on every negation — **this does not change any verdict or any accuracy**
+
+`experiments/f2/severity.py`. Severity is computed only for pairs already called a negation. It describes
+the verdict and never moves it, so no accuracy number in this report depends on it.
+
+- **What is compared:** the cues (polarity analysis, `clause_scope`) present in one sentence and not the
+  other. B's extra cues are used; when B has none, the cues A lost (an affirmation).
+- **What each cue carries:** its generator family, and whether its clause holds a hedge or an intensifier.
+- **No learned model and no LLM.**
+
+| severity | shape | example from TEST (human-written) |
+| --- | --- | --- |
+| **scope** | a differing B_quantifier / L_scope_position cue, *not* part of an intensifier idiom | *This system is still the fundamental system …* / *This system is **no longer** the basic system …* |
+| **intensified** | a differing cue that is intensified (I_intensified, *by no means*, *not at all*, *certainly not*) | *… is an absolutely fl…* / *… **isn't** an absolutely …* |
+| **hedged** | a differing cue that is hedged (H_hedged, M_modal, *I don't think*, *may not*) | *I think that's an evil idea.* / *I **do not think** that's an evil idea.* |
+| **flat** | a plain differing cue (A_syntactic, C_neg_adverb, G_prepositional *without*, J_contrastive *far from*) | *Oh, this is bad.* / *Oh, this is **not** bad.* |
+| **lexical** | only D_affixal / E_antonym / F_implicit cues differ, or **no cue differs** (antonym or rewording) | *Oh, this is bad.* / *Oh, this is **good**.* |
+
+**Precedence:** scope > intensified > hedged > flat > lexical. Scope changes the truth conditions, so it
+outranks strength. Strength (intensified, hedged) is the information a teacher would otherwise lose, so it
+outranks a plain cue. "lexical" is what is left when no cue differs.
+
+**Families the brief's table does not map**, with the label chosen and why:
+
+- D_affixal → lexical (*unreliable*, the brief's own example);
+- G_prepositional → flat;
+- J_contrastive → flat.
+
+### 6.2 Is it right? — **machine-generated answers**
+
+`results/6_severity.json`. Gold = the generating family of each negation in `08-guardrail-ensemble.md`'s domain answers
+(**machine-generated**, n = 766: the *negation* category, 458, and *antonym negation*, 308), mapped through
+the table above.
+
+**The rule was fixed once after its first run, on this machine-generated set, and both versions are
+reported.** The first version (`results/6_severity_v1.json`) gave scope precedence over everything, so *X is
+**by no means** a Y* came out "scope": *no* carries the quantifier family. The idiom is an intensified
+negation, not a quantifier, so the fix makes a quantifier cue count as scope only outside an intensifier
+idiom. No TEST label informed the fix.
+
+| version | accuracy, all 766 | accuracy on the 758 the system calls negations |
+| --- | ---: | ---: |
+| v1 (scope first, always) | 97.7% | 97.6% |
+| **v2 (adopted)** | **99.6%** | **99.6%** |
+
+Confusion, v2 (rows gold, columns predicted; machine-generated, n = 766):
+
+| gold \ predicted | scope | intensified | hedged | flat | lexical |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| scope (n = 5) | **4** | 0 | 0 | 1 | 0 |
+| intensified (106) | 0 | **106** | 0 | 0 | 0 |
+| hedged (98) | 0 | 0 | **98** | 0 | 0 |
+| flat (240) | 0 | 0 | 2 | **238** | 0 |
+| lexical (317) | 0 | 0 | 0 | 0 | **317** |
+
+The 3 remaining errors:
+
+- *… is the process … **never** being …* is a quantifier scope by the generator, read as flat;
+- two *it **may not** …* with a hedge, which the generator's A_syntactic labels flat.
+
+**Read 99.6% for what it is.** The labeller and the generator share a cue lexicon, so agreement on generator
+output is expected. The severity labels of the 11 paragraph contradictions (**machine-authored**, no
+generating family, so no gold) are 6 lexical and 5 flat.
+
+### 6.3 Does severity line up with confidence?
+
+Mean raw combiner output and recall of the adopted configuration, grouped by severity:
+
+| severity | domain negations, **machine-generated**: n / mean output / recall | TEST negations, human-written: n / mean output / recall |
+| --- | --- | --- |
+| scope | 4 (n < 50) / 0.992 / 100% | 33 (n < 50) / 0.917 / 100% |
+| intensified | 106 / 0.999 / 100% | 3 (n < 50) / 0.999 / 100% |
+| **hedged** | 100 / **0.905** / **97.0%** | 5 (n < 50) / 0.996 / 100% |
+| flat | 239 / 0.983 / 99.6% | 351 / 0.955 / 97.7% |
+| **lexical** | 317 / 0.980 / 98.7% | **491 / 0.944 / 97.0%** |
+
+**The diagnostic, worth one line in a paper.** On generator data, the system is least confident on
+**hedged** negations (mean output 0.905 vs 0.983 for flat; recall 97.0% vs 99.6%). On human-written TEST
+negations it is least confident on **lexical** ones (0.944 vs 0.955; recall 97.0% vs 97.7%, n = 491 vs 351). Lexical
+negations carry no cue word: CANNOT's antonym and "other" substitutions, and every rewording. These are
+the forms least like the minimal cue edits the combiner learned from, the same weakness as step 0.1 seen
+from another side. The TEST gap is small, and the hedged and intensified TEST slices are tiny (n = 5, n = 3), so no
+claim rests on them. **Human-written TEST negations are 56% lexical**, and none of the hedged-or-intensified
+shapes the generator over-produces is common in them (8 of 883).
+
+### 6.4 and 7 Dashboard update
+
+`dashboard/app.py`; start it as before with `./venv/bin/streamlit run dashboard/app.py`. Tab 1 now shows,
+in order:
+
+- the verdict and **which stage decided it**. The stage order is now cancellation override → 4-model combiner →
+  **low-overlap NLI override**; the guardrail is gone.
+- the **word overlap with a marker** saying whether it falls in the shortcut-prone range (< 0.6, step 0.1), and
+  whether the override's three conditions held;
+- the **severity label** and the differing cue(s), labelled as descriptive only. The cue and its clause scope
+  are highlighted in the sentence panel;
+- the 26 combiner features with top contributors, and **all four NLI models' probabilities** side by side;
+- the affirmation of a negative teacher sentence, now with its **clause** (main / coordinated / advcl /
+  ccomp) and `polarity_flip` tag.
+
+The results tab adds `09-overlap-shortcut.md`'s overlap-bin table and its ablation, read from
+`experiments/f2/results/*.json`.
+
+**Latency** (`experiments/f2/latency7.py` → `results/7_latency.json`; the method of `08-guardrail-ensemble.md` step 6.1, plus the
+severity panel):
+
+| run | median | p90 | max |
+| --- | ---: | ---: | ---: |
+| first run, under residual load from earlier jobs (load average ≈ 12) | 1.68 s | **2.03 s** | 2.16 s |
+| **second run** (the committed file) | **1.44 s** | 1.61 s | 1.65 s |
+
+Both are reported. On an otherwise idle machine the adopted configuration stays under 2 s. Under load the
+p90 can cross it, because four NLI models run per pair.
+
+**Screenshots** (`docs/dashboard/f2_*.png`). `08-guardrail-ensemble.md`'s four screenshots are kept unchanged under their
+original names, because that report describes them.
+
+1. `f2_1_reworded_negation.png`: *The kernel does not know about user-level threads.* / *The kernel is aware of
+   every user-level thread.*, overlap 0.286, in the shortcut-prone range. **The `08-guardrail-ensemble.md` system called this
+   *not a negation* (combiner output 0.16, `08-guardrail-ensemble.md` step 4.5); the adopted system calls it a negation**
+   (combiner output 0.786), with severity flat (A lost its *not*).
+2. `f2_2_hedged_severity.png`: *TCP guarantees delivery of every segment.* / *I don't think TCP guarantees
+   delivery of every segment.* → negation, **severity hedged**.
+3. `f2_3_paragraph.png`: the round-robin paragraph; unchanged in content.
+4. `f2_4_results.png`: the results tab with `09-overlap-shortcut.md`'s tables.
+
+![reworded](docs/dashboard/f2_1_reworded_negation.png)
+![hedged](docs/dashboard/f2_2_hedged_severity.png)

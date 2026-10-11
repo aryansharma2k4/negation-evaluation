@@ -111,7 +111,7 @@ def clause_kinds(doc: Doc) -> dict[int, str]:
 
 
 def cue_type(doc: Doc, idx: int) -> str:
-    """A readable cue type for the inventory (report_f1.md step 1.3)."""
+    """A readable cue type for the inventory (reports/08-guardrail-ensemble.md step 1.3)."""
     t = doc[idx]
     low = t.lower_
     if low in ("not", "n't", "cannot"):
@@ -252,7 +252,7 @@ def litotes(doc: Doc, scope: Optional[frozenset[int]] = None) -> Optional[Affirm
 
 
 def affirm_doc(doc: Doc, extended: bool = True) -> list[Affirmation]:
-    """``extended=False`` reproduces report_f1.md's main-clause-only behaviour (for the old-vs-new table)."""
+    """``extended=False`` reproduces reports/08-guardrail-ensemble.md's main-clause-only behaviour (for the old-vs-new table)."""
     scope = main_scope(doc)
     kinds = clause_kinds(doc) if extended else {i: "main" for i in scope}
     out = []

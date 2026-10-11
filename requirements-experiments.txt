@@ -1,0 +1,18 @@
+# Everything scripts/ and dashboard/ import on top of requirements.txt, pinned to the versions every
+# committed result was produced with. torch is the CPU build:
+#   ./venv/bin/pip install -r requirements.txt -r requirements-experiments.txt \
+#       --extra-index-url https://download.pytorch.org/whl/cpu
+numpy==2.5.2
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.9.1
+torch==2.14.0
+transformers==5.17.0
+tokenizers==0.23.2
+safetensors==0.8.0
+huggingface_hub==1.31.0
+pyarrow==25.0.1
+matplotlib==3.11.2
+pyinflect==0.5.1
+lemminflect==0.2.3
+streamlit==1.65.0

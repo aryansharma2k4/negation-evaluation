@@ -1,9 +1,9 @@
-"""Negation detector dashboard (report_f1.md Phase 6). Research artefact, not a product.
+"""Negation detector dashboard (reports/08-guardrail-ensemble.md Phase 6). Research artefact, not a product.
 
     ./venv/bin/streamlit run dashboard/app.py          # http://localhost:8501, CPU only
 
-Every number on screen comes from a stage of the adopted system (experiments/f1/detector.py) or a
-committed results file (experiments/f1/results/*.json). The "probability" shown is the GBM's raw
+Every number on screen comes from a stage of the adopted system (scripts/f1/detector.py) or a
+committed results file (reports/results/f1/*.json). The "probability" shown is the GBM's raw
 output: it has never been calibrated, and is labelled as such.
 """
 
@@ -20,9 +20,9 @@ import pandas as pd
 import streamlit as st
 
 REPO = Path(__file__).resolve().parents[1]
-F1 = REPO / "experiments" / "f1"
+F1 = REPO / "scripts" / "f1"
 sys.path.insert(0, str(F1))
-RESULTS = F1 / "results"
+RESULTS = REPO / "reports" / "results" / "f1"
 
 st.set_page_config(page_title="Negation detector", layout="wide")
 
@@ -52,7 +52,7 @@ def conditional(sentence: str):
 
 @st.cache_data(show_spinner=False)
 def severity_of(t: str, s: str):
-    sys.path.insert(0, str(REPO / "experiments" / "f2"))
+    sys.path.insert(0, str(REPO / "scripts" / "f2"))
     from severity import label_pairs
     return label_pairs([(t, s)])[0]
 
@@ -144,7 +144,7 @@ def tab_pair() -> None:
     g = o.get("guardrail")
     st.subheader("Guardrail: generated negations of the teacher sentence")
     if g is None:
-        why = "report_f1.md rejected the generate-and-match guardrail (step 3.5) and report_f2.md did not reinstate it"
+        why = "reports/08-guardrail-ensemble.md rejected the generate-and-match guardrail (step 3.5) and reports/09-overlap-shortcut.md did not reinstate it"
         st.info(f"Not part of the decision: {why}. The generated negations are shown for inspection only.")
         from variants import negations, embed
         neg = negations([t])[t]
@@ -223,7 +223,7 @@ def load(name):
 
 
 def load2(name):
-    p = REPO / "experiments" / "f2" / "results" / name
+    p = REPO / "reports" / "results" / "f2" / name
     return json.loads(p.read_text()) if p.exists() else None
 
 
@@ -236,7 +236,7 @@ def f2_line(name: str, ev: dict) -> dict:
 
 
 def tab_results() -> None:
-    st.markdown("Tables rendered from the committed results files in `experiments/f1/results/` and `experiments/f2/results/`; "
+    st.markdown("Tables rendered from the committed results files in `reports/results/f1/` and `reports/results/f2/`; "
                 "nothing here is hard-coded. All values in %.")
     ov = load2("0_1_overlap.json")
     if ov:
@@ -296,7 +296,7 @@ def tab_results() -> None:
 
 
 st.title("Negation detector — explainable view")
-st.caption("report_f1.md, report_f2.md · research artefact: every number is traceable to a feature, a stage, or a committed results file.")
+st.caption("reports/08-guardrail-ensemble.md, reports/09-overlap-shortcut.md · research artefact: every number is traceable to a feature, a stage, or a committed results file.")
 VIEWS = {"pair": ("Single pair", tab_pair), "paragraph": ("Paragraph", tab_paragraph), "results": ("Results", tab_results)}
 view = st.query_params.get("view")          # ?view=pair|paragraph|results renders one view directly (used for screenshots)
 if view in VIEWS:

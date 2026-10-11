@@ -1,6 +1,6 @@
 """Command-line entry point.
 
-    python -m negation.cli                       # runs on data/sample_sentences.txt
+    python -m negation.cli                       # runs on datasets/sample_sentences.txt
     python -m negation.cli sentences.txt -o out.jsonl
 
 Reads newline-delimited base sentences, writes one JSON record per line, and
@@ -20,7 +20,7 @@ from .filters import FilterReport
 from .schema import NegationVariant
 
 #: Used when no input file is given, so the CLI runs out of the box.
-DEFAULT_INPUT = Path(__file__).resolve().parent.parent / "data" / "sample_sentences.txt"
+DEFAULT_INPUT = Path(__file__).resolve().parent.parent / "datasets" / "sample_sentences.txt"
 
 
 def read_sentences(path: Path) -> list[str]:

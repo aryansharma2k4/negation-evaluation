@@ -121,7 +121,7 @@ reports/
   verifier_validation_p1_baseline.txt   the first prompt's numbers, kept as evidence
   verification_disagreements.md  EMPTY -- artefact of a 21-record smoke test, not a result
 run.sh, run_test.sh             entry points
-data/sample_sentences.txt       5 sentences supplied by the researcher
+datasets/sample_sentences.txt       5 sentences supplied by the researcher
 ```
 
 14,581 lines of Python across tracked files.
@@ -439,7 +439,7 @@ sentences, so their true rejection behaviour is largely untested in practice.
 
 ## 7. Tests
 
-**376 tests, all passing, 52.5 s.** Last run this session, `./run_test.sh`.
+**376 tests, all passing, 52.5 s.** Last run this session, `scripts/run_test.sh`.
 Zero failures, zero skips on this machine (skips do occur on a clean checkout
 where the GloVe vectors or the third-party corpora are absent — those tests skip
 with a fetch hint rather than fail).
@@ -457,8 +457,8 @@ with a fetch hint rather than fail).
 | `test_scope_classification.py` | 8 | K1 vs K2 containment |
 | `test_do_support.py` | 6 | tense/person/number table |
 
-Run with `./run_test.sh` (all), `./run_test.sh fast` (282 tests, no downloads,
-6 s), `./run_test.sh verify` (56 stage-2 tests, no model, 0.2 s).
+Run with `scripts/run_test.sh` (all), `scripts/run_test.sh fast` (282 tests, no downloads,
+6 s), `scripts/run_test.sh verify` (56 stage-2 tests, no model, 0.2 s).
 
 ### Paths with NO test coverage
 
@@ -492,10 +492,10 @@ Ranked by how much they would hurt a downstream consumer.
    distribution will learn "negation = adverb insertion".
 3. **`Both tests passed` → `Neither tests passed`** — ungrammatical output that
    reaches the corpus. One known bad string per occurrence of `both`.
-4. **`data/sample_sentences.txt` is not the regression corpus.** It holds 5
+4. **`datasets/sample_sentences.txt` is not the regression corpus.** It holds 5
    researcher-supplied sentences and produces 61 variants. The 448/455 numbers
    come from `tests/data/base_sentences_v1.txt`. Confusing these is easy and I
-   did it once mid-session — a `./run.sh` overwrote `variants.jsonl` while a
+   did it once mid-session — a `scripts/run.sh` overwrote `variants.jsonl` while a
    validation run was reading it.
 5. **`TOKENS_PER_RECORD = 60` in `llm.py` is a hardcoded guess.** If a model
    becomes chattier, batches truncate and fall back to one-request-per-record,
@@ -725,10 +725,10 @@ embedding source).
 ### Generate
 
 ```bash
-./run.sh                                  # data/sample_sentences.txt -> variants.jsonl
-./run.sh tests/data/base_sentences_v1.txt # the 455-variant regression corpus
-./run.sh my.txt out.jsonl --quiet
-./run.sh --verify                         # also runs stage 2 (slow, opt-in)
+scripts/run.sh                                  # datasets/sample_sentences.txt -> variants.jsonl
+scripts/run.sh tests/data/base_sentences_v1.txt # the 455-variant regression corpus
+scripts/run.sh my.txt out.jsonl --quiet
+scripts/run.sh --verify                         # also runs stage 2 (slow, opt-in)
 ```
 
 Generation never touches the LLM. Every record comes out `verified = null`.
@@ -736,9 +736,9 @@ Generation never touches the LLM. Every record comes out `verified = null`.
 ### Test
 
 ```bash
-./run_test.sh          # 376 tests, ~52 s
-./run_test.sh fast     # 282, no downloads, 6 s
-./run_test.sh verify   # 56, no model, 0.2 s
+scripts/run_test.sh          # 376 tests, ~52 s
+scripts/run_test.sh fast     # 282, no downloads, 6 s
+scripts/run_test.sh verify   # 56, no model, 0.2 s
 ```
 
 ### Stage 2
@@ -760,7 +760,7 @@ Tier 1 downloads `textattack/roberta-base-CoLA` (~500 MB) on first use.
 ### Optional downloads
 
 ```bash
-./venv/bin/python -m negation.data.fetch          # 6 corpora into data/external/
+./venv/bin/python -m negation.data.fetch          # 6 corpora into datasets/raw/external/
 ./venv/bin/python -m negation.antonym_vec.fetch   # GloVe 6B, 822 MB
 ```
 
@@ -806,7 +806,7 @@ Tier 1 downloads `textattack/roberta-base-CoLA` (~500 MB) on first use.
    is to be released, that needs a licensing decision, and SFU's terms may not be
    compatible with CANNOT's CC-BY-SA if they are ever combined.
 
-7. **Should `data/sample_sentences.txt` stay as the 5 researcher-supplied
+7. **Should `datasets/sample_sentences.txt` stay as the 5 researcher-supplied
    sentences?** It is now the default input to `run.sh`, but the regression
    numbers everywhere in the docs come from `tests/data/base_sentences_v1.txt`.
    Two "default" corpora is a trap.

@@ -14,7 +14,7 @@ worth stating: the template contributes to the vector, and two words in the same
 template are already more similar than two words in different sentences.
 
 Nothing is vendored. ``fetch.py`` pulls the vector files into
-``data/embeddings``; a missing file raises with instructions rather than
+``datasets/raw/embeddings``; a missing file raises with instructions rather than
 silently returning zeros.
 """
 
@@ -29,7 +29,7 @@ from typing import Iterable, Optional, Protocol, Sequence
 import numpy as np
 
 #: Where vector files are expected.  Not tracked by git.
-EMBEDDING_ROOT = Path(__file__).resolve().parents[2] / "data" / "embeddings"
+EMBEDDING_ROOT = Path(__file__).resolve().parents[2] / "datasets" / "raw" / "embeddings"
 
 #: Sentence frames the contextual source uses.  Deliberately bland: the point is
 #: to give the model a grammatical context, not to prime it toward a meaning.
