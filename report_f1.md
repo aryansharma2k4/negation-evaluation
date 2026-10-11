@@ -561,3 +561,57 @@ not see that, because VALIDATION contains no xNot360-like data.
 ```sh
 ./venv/bin/python experiments/f1/ensemble.py --step 2.4
 ```
+
+### 2.5 Overfitting check — the ensemble is flagged; the 17-feature model is carried forward
+
+`experiments/f1/ensemble.py --step 2.5` → `results/2_5_overfit.json`.
+
+| configuration | features | out-of-fold DEV | VALIDATION | TEST (all) | phase 2 | out-of-fold DEV − TEST |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 0 baseline | 17 | 96.6% | 97.8% | 93.9% | 97.7% | +2.7 pts |
+| **(b) GBM, 5 models (VALIDATION pick)** | 29 | 96.9% | 98.5% | 92.6% | 98.6% | **+4.3 pts** |
+| (e) GBM 17, averaged, 5 models | 17 | 96.2% | 97.7% | 90.6% | 98.1% | +5.6 pts |
+| (b) GBM, 4 models | 26 | 97.0% | 98.2% | 94.5% | 98.4% | +2.4 pts |
+| (e) GBM 17, averaged, 4 models | 17 | 96.6% | 98.0% | 94.3% | 98.1% | +2.3 pts |
+
+**Said plainly: the VALIDATION-selected ensemble's out-of-fold DEV accuracy exceeds its TEST accuracy by
+4.3 points, more than the brief's 2-point bar, and by more than the 17-feature baseline's own 2.7.**
+The excess is entirely xNot360 (the out-of-distribution set). On CANNOT phase 2 the ensemble is
+*better* than its out-of-fold DEV figure. VALIDATION cannot see the problem, because it is CANNOT-only.
+
+**Decision.** The brief stated in advance that in this case the 17-feature model should be reported as
+the safer choice. **The Phase 0 17-feature model is therefore carried forward to Phases 3–6.**
+This is a TEST-based rule that overrides the VALIDATION pick. The brief pre-specified it, so it is
+followed as stated rather than invented after the fact, but it is a use of TEST in a decision, and it is
+recorded as such in the caveats. Without it, the adopted system would be 1.25 pts worse on all of TEST
+(p = 0.012) for a 0.9-pt in-distribution gain.
+
+**Feature importances: the ensemble is really one model swap.** In (b), one feature dominates: the
+DeBERTa-anli model's P(contradiction), at importance **0.618**. The reference model's
+P(contradiction) drops from 0.537 to 0.013. Every roberta-base, distilroberta and bart-large
+probability is at or below 0.006. So **three of the four added models earn near-zero importance and do
+not pay for their cost**: an extra ~200 ms per pair, of which bart alone is 146 ms. In (e), averaging
+keeps P(contradiction) on top (0.569). Top 6 features of (b), 5 models:
+
+| feature | importance |
+| --- | ---: |
+| DeBERTa-anli P(contradiction) | 0.618 |
+| `token_overlap` | 0.229 |
+| `len_b` | 0.019 |
+| `cos_sim` | 0.015 |
+| `antonym_aligned` | 0.015 |
+| reference P(contradiction) | 0.013 |
+
+**Post-hoc check, designed after the 2.4 TEST read and not eligible for adoption.** If the ensemble is
+just a model swap, the simplest version is the 17 features with DeBERTa-anli's three probabilities in
+place of the reference model's. It gets phase 2 98.0% (+0.3 pts, p = 0.54), but **xNot360 collapses to
+57.2%** (−21.7 pts, p = 0.0001), with conditional-inverse FPR at 77.2%; all TEST 89.7% (−4.2 pts, p = 0.0001).
+**The best standalone model on xNot360 (86.7%, step 2.2) becomes the worst inside the combiner.** The GBM
+learns from CANNOT-like DEV how this model's probabilities interact with `token_overlap`, and on
+xNot360's conditional pairs, which have high overlap and high contradiction, that interaction points
+the wrong way. A stronger NLI model does not help if the combiner has never seen the data it is
+strong on.
+
+```sh
+./venv/bin/python experiments/f1/ensemble.py --step 2.5
+```

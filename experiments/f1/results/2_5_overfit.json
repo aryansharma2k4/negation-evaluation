@@ -1,0 +1,278 @@
+{
+  "Phase 0 baseline": {
+    "oof_dev_accuracy": 0.9656,
+    "validation_accuracy": 0.9784,
+    "test_accuracy": 0.9386,
+    "phase2_accuracy": 0.9771,
+    "oof_minus_test_pts": 2.7,
+    "n_features": 17,
+    "importances": null
+  },
+  "(b) GBM, 17 features + every model's probabilities [all: 5 models]": {
+    "oof_dev_accuracy": 0.9694,
+    "validation_accuracy": 0.985,
+    "test_accuracy": 0.9261,
+    "phase2_accuracy": 0.9857,
+    "oof_minus_test_pts": 4.33,
+    "n_features": 29,
+    "importances": {
+      "ml_deberta_base_anli:p_c": 0.6184,
+      "token_overlap": 0.229,
+      "len_b": 0.0185,
+      "cos_sim": 0.015,
+      "antonym_aligned": 0.015,
+      "p_contradiction": 0.013,
+      "len_a": 0.0108,
+      "p_neutral": 0.0105,
+      "ml_deberta_base_anli:p_e": 0.0068,
+      "roberta_base:p_c": 0.0062,
+      "distilroberta:p_n": 0.0058,
+      "bart_large:p_n": 0.0058,
+      "cue_count_b": 0.0053,
+      "p_entailment": 0.0051,
+      "bart_large:p_e": 0.0048,
+      "ml_deberta_base_anli:p_n": 0.0044,
+      "cue_count_a": 0.0043,
+      "roberta_base:p_n": 0.0043,
+      "bart_large:p_c": 0.0043,
+      "len_diff": 0.004,
+      "distilroberta:p_e": 0.0036,
+      "roberta_base:p_e": 0.0018,
+      "distilroberta:p_c": 0.0018,
+      "cancellation_a": 0.0006,
+      "has_conditional_a": 0.0004,
+      "net_negation": 0.0003,
+      "has_conditional_b": 0.0002,
+      "cancellation_b": 0.0,
+      "antecedent_only_flip": 0.0
+    }
+  },
+  "(e) GBM, 17 features with NLI probabilities averaged across models [all: 5 models]": {
+    "oof_dev_accuracy": 0.9624,
+    "validation_accuracy": 0.9767,
+    "test_accuracy": 0.9062,
+    "phase2_accuracy": 0.9807,
+    "oof_minus_test_pts": 5.62,
+    "n_features": 17,
+    "importances": {
+      "p_contradiction": 0.5693,
+      "token_overlap": 0.3248,
+      "cos_sim": 0.0199,
+      "antonym_aligned": 0.019,
+      "p_neutral": 0.0155,
+      "len_a": 0.0152,
+      "len_b": 0.015,
+      "cue_count_b": 0.005,
+      "p_entailment": 0.0049,
+      "cue_count_a": 0.0039,
+      "len_diff": 0.0037,
+      "net_negation": 0.0013,
+      "cancellation_a": 0.0013,
+      "has_conditional_a": 0.001,
+      "has_conditional_b": 0.0001,
+      "cancellation_b": 0.0,
+      "antecedent_only_flip": 0.0
+    }
+  },
+  "(b) GBM, 17 features + every model's probabilities [pruned: 4 models]": {
+    "oof_dev_accuracy": 0.9697,
+    "validation_accuracy": 0.9817,
+    "test_accuracy": 0.9455,
+    "phase2_accuracy": 0.9836,
+    "oof_minus_test_pts": 2.42,
+    "n_features": 26,
+    "importances": {
+      "ml_deberta_base_anli:p_c": 0.6214,
+      "token_overlap": 0.2305,
+      "len_b": 0.0184,
+      "cos_sim": 0.0149,
+      "antonym_aligned": 0.0146,
+      "p_contradiction": 0.0131,
+      "len_a": 0.0118,
+      "p_neutral": 0.0106,
+      "ml_deberta_base_anli:p_e": 0.0082,
+      "bart_large:p_n": 0.007,
+      "bart_large:p_e": 0.0063,
+      "cue_count_b": 0.0058,
+      "cue_count_a": 0.0057,
+      "roberta_base:p_n": 0.0054,
+      "roberta_base:p_c": 0.0049,
+      "len_diff": 0.0046,
+      "ml_deberta_base_anli:p_n": 0.0046,
+      "p_entailment": 0.0045,
+      "bart_large:p_c": 0.0038,
+      "roberta_base:p_e": 0.0025,
+      "net_negation": 0.0008,
+      "cancellation_a": 0.0004,
+      "has_conditional_a": 0.0002,
+      "has_conditional_b": 0.0001,
+      "cancellation_b": 0.0,
+      "antecedent_only_flip": 0.0
+    }
+  },
+  "(e) GBM, 17 features with NLI probabilities averaged across models [pruned: 4 models]": {
+    "oof_dev_accuracy": 0.9662,
+    "validation_accuracy": 0.98,
+    "test_accuracy": 0.9432,
+    "phase2_accuracy": 0.9807,
+    "oof_minus_test_pts": 2.3,
+    "n_features": 17,
+    "importances": {
+      "p_contradiction": 0.5966,
+      "token_overlap": 0.2668,
+      "cos_sim": 0.0273,
+      "p_neutral": 0.0269,
+      "len_b": 0.0195,
+      "antonym_aligned": 0.017,
+      "p_entailment": 0.0141,
+      "len_a": 0.0117,
+      "len_diff": 0.007,
+      "cue_count_a": 0.0061,
+      "cue_count_b": 0.0033,
+      "cancellation_a": 0.0013,
+      "net_negation": 0.0012,
+      "has_conditional_a": 0.0009,
+      "has_conditional_b": 0.0002,
+      "cancellation_b": 0.0,
+      "antecedent_only_flip": 0.0
+    }
+  },
+  "_rule": "brief 2.5: if out-of-fold DEV exceeds TEST by > 2 pts, say so and report the 17-feature model as the safer choice; applied as stated before the run, so the 17-feature Phase 0 model is carried forward when the VALIDATION-selected configuration is flagged (a TEST-based rule the brief pre-specified)",
+  "_validation_selected": "(b) GBM, 17 features + every model's probabilities [all: 5 models]",
+  "_flagged": true,
+  "_carried_forward": "Phase 0 baseline",
+  "_posthoc_anli_swap": {
+    "row": {
+      "threshold": 0.23871019816747024,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8966,
+        "auc": 0.9776,
+        "precision": 0.8474,
+        "recall": 0.9683,
+        "f1": 0.9038,
+        "ci95": [
+          0.8818,
+          0.9114
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.98,
+        "auc": 0.9944,
+        "precision": 0.9787,
+        "recall": 0.9815,
+        "f1": 0.9801,
+        "ci95": [
+          0.9721,
+          0.9871
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.5722,
+        "auc": 0.8637,
+        "precision": 0.5428,
+        "recall": 0.9167,
+        "f1": 0.6818,
+        "ci95": [
+          0.5167,
+          0.6222
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0195
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0709
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.7722
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9897
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9474
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9843
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9167
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9784,
+        "auc": 0.9973,
+        "precision": 0.9765,
+        "recall": 0.9798,
+        "f1": 0.9782,
+        "ci95": [
+          0.9667,
+          0.99
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9765,
+        "auc": 0.9965,
+        "precision": 0.9528,
+        "recall": 0.996,
+        "f1": 0.9739,
+        "ci95": [
+          0.9715,
+          0.9815
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0
+    },
+    "oof_dev_accuracy": 0.9641,
+    "gain_vs_phase0": {
+      "all": {
+        "part": "all",
+        "n": 1760,
+        "gain": -0.042,
+        "p_permutation": 0.0001
+      },
+      "cannot_phase2": {
+        "part": "cannot_phase2",
+        "n": 1400,
+        "gain": 0.0029,
+        "p_permutation": 0.54435
+      },
+      "xnot360": {
+        "part": "xnot360",
+        "n": 360,
+        "gain": -0.2167,
+        "p_permutation": 0.0001
+      }
+    },
+    "note": "designed after seeing the 2.4 TEST results; not eligible for adoption"
+  }
+}

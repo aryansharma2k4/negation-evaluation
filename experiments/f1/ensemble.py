@@ -259,8 +259,32 @@ def step_2_5() -> None:
                          "test_accuracy": v["row"]["all"]["accuracy"], "phase2_accuracy": v["row"]["cannot_phase2"]["accuracy"],
                          "oof_minus_test_pts": round(100 * (v["oof_dev_accuracy"] - v["row"]["all"]["accuracy"]), 2),
                          "n_features": v.get("n_features", 17), "importances": v.get("importances")}
+    sel = r["selected"]
+    flagged = out[sel]["oof_minus_test_pts"] > 2 if sel in out else False
+    out["_rule"] = ("brief 2.5: if out-of-fold DEV exceeds TEST by > 2 pts, say so and report the 17-feature model as the "
+                    "safer choice; applied as stated before the run, so the 17-feature Phase 0 model is carried forward "
+                    "when the VALIDATION-selected configuration is flagged (a TEST-based rule the brief pre-specified)")
+    out["_validation_selected"] = sel
+    out["_flagged"] = flagged
+    out["_carried_forward"] = "Phase 0 baseline" if flagged else sel
+    # post-hoc (designed after the 2.4 TEST read, from the DEV importances): the 17 features with the
+    # ANLI model's three probabilities in place of the reference model's. Reported, never adoptable.
+    b, keys, P = context()
+    sets, X = b["sets"], b["X"]
+    Xf = {k: X[k].copy() for k in SETS}
+    for k in SETS:
+        Xf[k][:, 1:4] = P["ml_deberta_base_anli"][k]
+    g = fit_gbm(sets, Xf["dev_clean"])
+    sc = P0.with_override({k: g["model"].predict_proba(Xf[k])[:, 1] for k in SETS}, b["masks"])
+    log_test_read("2.5", "post-hoc: 17 features with the ANLI model swapped in")
+    ev = system_row(sets, sc, g["threshold"])
+    out["_posthoc_anli_swap"] = {"row": ev, "oof_dev_accuracy": g["oof_dev_accuracy"],
+                                 "gain_vs_phase0": gain(sets, (b["scores"]["test"], b["thr"]), (sc["test"], g["threshold"])),
+                                 "note": "designed after seeing the 2.4 TEST results; not eligible for adoption"}
+    print(ablation_line("post-hoc: ANLI swapped into the 17 features", ev), out["_posthoc_anli_swap"]["gain_vs_phase0"])
     save("2_5_overfit.json", out)
-    print(json.dumps({k: {kk: vv for kk, vv in v.items() if kk != "importances"} for k, v in out.items()}, indent=1))
+    print(json.dumps({k: v for k, v in out.items() if not k.startswith("_")}, indent=1, default=str)[:3000])
+    print("flagged:", out["_flagged"], "carried forward:", out["_carried_forward"])
 
 
 def main() -> None:
@@ -280,7 +304,7 @@ def selected_config():
     """The Phase 2 selection as a detector.Config (combiner methods only)."""
     from detector import Config
     r = load("2_4_ensembles.json")
-    name = r["selected"]
+    name = load("2_5_overfit.json")["_carried_forward"]      # the 2.5 rule may replace the VALIDATION pick
     if name == "Phase 0 baseline":
         return name, Config()
     key = name.split()[0]
