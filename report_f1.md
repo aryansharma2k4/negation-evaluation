@@ -888,3 +888,23 @@ it, not chosen from. **Machine-authored data; n printed throughout.**
 ```sh
 ./venv/bin/python experiments/f1/paragraphs.py --step 4.2
 ```
+
+### 4.3–4.4 Per-sentence verdicts and the paragraph score
+
+Implemented in `experiments/f1/paragraphs.py` (`verdicts`, `score`), tested in `test_f1.py`. After optimal
+assignment with cells below τ = 0.661 (cosine, fit on clean DEV) excluded:
+
+| condition (teacher sentence i) | verdict |
+| --- | --- |
+| matched to student j, cos ≥ τ, detector says not a negation | **covered** |
+| matched to student j, cos ≥ τ, detector says negation (any stage) | **contradicted** |
+| no student sentence at cos ≥ τ | **missing** |
+| student sentence matched to no teacher sentence | **extra** |
+
+A contradiction must clear the similarity bar too. A student sentence too far from the teacher's is
+treated as not addressing it, rather than as a contradiction of it.
+
+**Paragraph score: coverage = covered ÷ teacher sentences, and contradiction count, reported
+separately and never combined into one grade.** A student who contradicts a point has made a different
+mistake from one who leaves it out, and one number would hide which. The dashboard and
+`results/4_5_paragraphs.json` (`paragraph_scores`) show both, beside the gold values.
