@@ -986,3 +986,47 @@ the forms least like the minimal cue edits the combiner learned from, the same w
 from another side. The TEST gap is small, and the hedged and intensified TEST slices are tiny (n = 5, n = 3), so no
 claim rests on them. **Human-written TEST negations are 56% lexical**, and none of the hedged-or-intensified
 shapes the generator over-produces is common in them (8 of 883).
+
+### 6.4 and 7 Dashboard update
+
+`dashboard/app.py`; start it as before with `./venv/bin/streamlit run dashboard/app.py`. Tab 1 now shows,
+in order:
+
+- the verdict and **which stage decided it**. The stage order is now cancellation override → 4-model combiner →
+  **low-overlap NLI override**; the guardrail is gone.
+- the **word overlap with a marker** saying whether it falls in the shortcut-prone range (< 0.6, step 0.1), and
+  whether the override's three conditions held;
+- the **severity label** and the differing cue(s), labelled as descriptive only. The cue and its clause scope
+  are highlighted in the sentence panel;
+- the 26 combiner features with top contributors, and **all four NLI models' probabilities** side by side;
+- the affirmation of a negative teacher sentence, now with its **clause** (main / coordinated / advcl /
+  ccomp) and `polarity_flip` tag.
+
+The results tab adds `report_f2.md`'s overlap-bin table and its ablation, read from
+`experiments/f2/results/*.json`.
+
+**Latency** (`experiments/f2/latency7.py` → `results/7_latency.json`; the method of `report_f1.md` step 6.1, plus the
+severity panel):
+
+| run | median | p90 | max |
+| --- | ---: | ---: | ---: |
+| first run, under residual load from earlier jobs (load average ≈ 12) | 1.68 s | **2.03 s** | 2.16 s |
+| **second run** (the committed file) | **1.44 s** | 1.61 s | 1.65 s |
+
+Both are reported. On an otherwise idle machine the adopted configuration stays under 2 s. Under load the
+p90 can cross it, because four NLI models run per pair.
+
+**Screenshots** (`docs/dashboard/f2_*.png`). `report_f1.md`'s four screenshots are kept unchanged under their
+original names, because that report describes them.
+
+1. `f2_1_reworded_negation.png`: *The kernel does not know about user-level threads.* / *The kernel is aware of
+   every user-level thread.*, overlap 0.286, in the shortcut-prone range. **The `report_f1.md` system called this
+   *not a negation* (combiner output 0.16, `report_f1.md` step 4.5); the adopted system calls it a negation**
+   (combiner output 0.786), with severity flat (A lost its *not*).
+2. `f2_2_hedged_severity.png`: *TCP guarantees delivery of every segment.* / *I don't think TCP guarantees
+   delivery of every segment.* → negation, **severity hedged**.
+3. `f2_3_paragraph.png`: the round-robin paragraph; unchanged in content.
+4. `f2_4_results.png`: the results tab with `report_f2.md`'s tables.
+
+![reworded](docs/dashboard/f2_1_reworded_negation.png)
+![hedged](docs/dashboard/f2_2_hedged_severity.png)

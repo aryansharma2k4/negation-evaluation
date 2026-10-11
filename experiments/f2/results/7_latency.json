@@ -1,0 +1,22 @@
+{
+  "pairs": 20,
+  "median_ms": 1435.3,
+  "p90_ms": 1605.7,
+  "max_ms": 1647.3,
+  "config": {
+    "nli_keys": [
+      "deberta_base",
+      "roberta_base",
+      "ml_deberta_base_anli",
+      "bart_large"
+    ],
+    "method": "gbm_all_probs",
+    "guardrail": null,
+    "rule": {
+      "theta": 0.5,
+      "rho": 0.9,
+      "kappa": 0.6
+    }
+  },
+  "setup": "CPU (Ryzen 7 7730U), warm, one pair at a time, every tab-1 panel incl. severity"
+}

@@ -51,6 +51,13 @@ def conditional(sentence: str):
 
 
 @st.cache_data(show_spinner=False)
+def severity_of(t: str, s: str):
+    sys.path.insert(0, str(REPO / "experiments" / "f2"))
+    from severity import label_pairs
+    return label_pairs([(t, s)])[0]
+
+
+@st.cache_data(show_spinner=False)
 def affirmations(sentence: str):
     from negation.generators.n_affirmation import affirm
     return [a.__dict__ for a in affirm(sentence)]
@@ -89,8 +96,24 @@ def tab_pair() -> None:
     o = predict(((t.strip(), s.strip()),), True)[0]
     st.caption(f"computed in {1000 * (time.perf_counter() - t0):.0f} ms")
     verdict_box(o)
-    st.markdown("**Which stage decided it.** Stage order: 1 cancellation override → 2 combiner (GBM) → "
-                "3 guardrail (only downgrades a combiner *negation*). Conditionals are combiner features, not an override.")
+    st.markdown("**Which stage decided it.** Stage order: 1 cancellation override (can only say *not a negation*) → "
+                "2 combiner (GBM over the 17 features + the ensemble's NLI probabilities) → 3 low-overlap NLI override "
+                "(can only say *negation*: overlap < θ, P(contradiction) > ρ and cosine ≥ κ; report_f2 step 1.3). "
+                "Conditionals are combiner features, not an override.")
+    cfg = detector().cfg
+    ov = o["features"].get("token_overlap", float("nan"))
+    rule = cfg.rule or {}
+    zone = ("**in the shortcut-prone range** (< 0.6): on TEST the report_f1 combiner caught 80.7% of negations here vs 95.4% "
+            "for NLI alone (report_f2 step 0.1)") if ov < 0.6 else "outside the shortcut-prone range (≥ 0.6)"
+    st.markdown(f"**Word overlap (Jaccard)** = **{ov:.3f}** — {zone}. "
+                + (f"Override condition: overlap < {rule.get('theta')}, P(contradiction) > {rule.get('rho')}, cosine ≥ {rule.get('kappa')} "
+                   f"→ {'**fired**' if o['stage'] == 'low-overlap NLI override' else 'not fired'} "
+                   f"(cosine {o['cos']:.3f})." if rule else ""))
+    if o["negation"]:
+        sev, cues = severity_of(t, s)
+        st.markdown(f"<div style='font-size:1.3em'>Severity: <b>{sev}</b></div>"
+                    f"<div>differing cue(s): {html.escape(', '.join(cues) or 'none (lexical: antonym or rewording)')}. "
+                    f"Descriptive only — severity changes no verdict (report_f2 Phase 6).</div>", unsafe_allow_html=True)
 
     st.subheader("Features (combiner input)")
     top = {name for name, _ in o["contributions"]}
@@ -121,7 +144,7 @@ def tab_pair() -> None:
     g = o.get("guardrail")
     st.subheader("Guardrail: generated negations of the teacher sentence")
     if g is None:
-        why = (load("final_config.json") or {}).get("guardrail_note", "the guardrail is not in the adopted configuration")
+        why = "report_f1.md rejected the generate-and-match guardrail (step 3.5) and report_f2.md did not reinstate it"
         st.info(f"Not part of the decision: {why}. The generated negations are shown for inspection only.")
         from variants import negations, embed
         neg = negations([t])[t]
@@ -140,7 +163,7 @@ def tab_pair() -> None:
     aff = affirmations(t)
     if aff:
         st.subheader("Affirmation of the teacher sentence (Phase 1)")
-        st.dataframe(pd.DataFrame(aff)[["text", "kind", "primary", "approximate", "polarity_flip", "rule"]],
+        st.dataframe(pd.DataFrame(aff)[["text", "kind", "clause", "primary", "approximate", "polarity_flip", "rule"]],
                      width="stretch", hide_index=True)
 
 
@@ -199,8 +222,36 @@ def load(name):
     return json.loads(p.read_text()) if p.exists() else None
 
 
+def load2(name):
+    p = REPO / "experiments" / "f2" / "results" / name
+    return json.loads(p.read_text()) if p.exists() else None
+
+
+def f2_line(name: str, ev: dict) -> dict:
+    pc = lambda x: None if x is None else round(100 * x, 1)
+    return {"configuration": name, "phase-2 acc": pc(ev["cannot_phase2"]["accuracy"]), "all-TEST": pc(ev["all"]["accuracy"]),
+            "xNot360": pc(ev["xnot360"]["accuracy"]), "precision": pc(ev["all"]["precision"]), "recall": pc(ev["all"]["recall"]),
+            "low-ov neg recall (n=129)": pc(ev["lowov_neg_recall"]["recall"]), "low-ov non-neg FPR (n=396)": pc(ev["lowov_non_fpr"]["fpr"]),
+            "VAL": pc(ev["validation"]["accuracy"]), "val_ood (select)": pc(ev["val_ood_select"]["accuracy"])}
+
+
 def tab_results() -> None:
-    st.markdown("Tables rendered from the committed results files in `experiments/f1/results/`; nothing here is hard-coded.")
+    st.markdown("Tables rendered from the committed results files in `experiments/f1/results/` and `experiments/f2/results/`; "
+                "nothing here is hard-coded. All values in %.")
+    ov = load2("0_1_overlap.json")
+    if ov:
+        st.subheader("report_f2 0.1 — combiner vs NLI alone by word overlap, TEST negations (human-written)")
+        st.dataframe(pd.DataFrame([{k: r[k] for k in ("bin", "n", "combiner", "nli_alone", "combiner_minus_nli", "p_permutation")}
+                                   for r in ov["test"]["negations"]["fixed_bins"] if r["n"]]), width="stretch", hide_index=True)
+    rows = []
+    for fname in ("1_3_override.json", "2_2_deberta.json", "3_3_rebalance.json"):
+        d = load2(fname)
+        if d:
+            rows += [f2_line(n, ev) for n, ev in d["rows"].items()]
+    if rows:
+        st.subheader("report_f2 ablation (TEST unless noted)")
+        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+    st.markdown("---")
     fin = load("final_f1.json")
     if fin:
         st.subheader("Ablation (TEST unless noted)")
@@ -245,7 +296,7 @@ def tab_results() -> None:
 
 
 st.title("Negation detector — explainable view")
-st.caption("report_f1.md · research artefact: every number is traceable to a feature, a stage, or a committed results file.")
+st.caption("report_f1.md, report_f2.md · research artefact: every number is traceable to a feature, a stage, or a committed results file.")
 VIEWS = {"pair": ("Single pair", tab_pair), "paragraph": ("Paragraph", tab_paragraph), "results": ("Results", tab_results)}
 view = st.query_params.get("view")          # ?view=pair|paragraph|results renders one view directly (used for screenshots)
 if view in VIEWS:
