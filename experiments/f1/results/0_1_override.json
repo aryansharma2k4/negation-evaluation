@@ -1,0 +1,364 @@
+{
+  "threshold": 0.42790607868433017,
+  "gbm_chosen": "depth=3,lr=0.1",
+  "rule": "the brief mandates the override; kept unless VALIDATION accuracy drops (then both rows are carried)",
+  "rows": {
+    "GBM (Report_NLI2 final)": {
+      "threshold": 0.42790607868433017,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9398,
+        "auc": 0.9806,
+        "precision": 0.9302,
+        "recall": 0.9513,
+        "f1": 0.9406,
+        "ci95": [
+          0.9284,
+          0.9506
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9786,
+        "auc": 0.9983,
+        "precision": 0.9842,
+        "recall": 0.973,
+        "f1": 0.9785,
+        "ci95": [
+          0.9707,
+          0.9857
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7889,
+        "auc": 0.8878,
+        "precision": 0.75,
+        "recall": 0.8667,
+        "f1": 0.8041,
+        "ci95": [
+          0.7472,
+          0.8333
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0195
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0394
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.2889
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9897
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9263
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9717
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.8667
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9784,
+        "auc": 0.9972,
+        "precision": 0.9897,
+        "recall": 0.9663,
+        "f1": 0.9779,
+        "ci95": [
+          0.9667,
+          0.99
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9979,
+        "auc": 1.0,
+        "precision": 0.9954,
+        "recall": 1.0,
+        "f1": 0.9977,
+        "ci95": [
+          0.9962,
+          0.9994
+        ]
+      },
+      "k1_fpr": 0.0989,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0
+    },
+    "GBM + cancellation override": {
+      "threshold": 0.42790607868433017,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9386,
+        "auc": 0.9775,
+        "precision": 0.9301,
+        "recall": 0.949,
+        "f1": 0.9395,
+        "ci95": [
+          0.9273,
+          0.95
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9771,
+        "auc": 0.9942,
+        "precision": 0.9841,
+        "recall": 0.9701,
+        "f1": 0.9771,
+        "ci95": [
+          0.9693,
+          0.985
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7889,
+        "auc": 0.8878,
+        "precision": 0.75,
+        "recall": 0.8667,
+        "f1": 0.8041,
+        "ci95": [
+          0.7472,
+          0.8333
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0195
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0394
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.2889
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9828
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9263
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9717
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.8667
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9784,
+        "auc": 0.9973,
+        "precision": 0.9897,
+        "recall": 0.9663,
+        "f1": 0.9779,
+        "ci95": [
+          0.9667,
+          0.99
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9968,
+        "auc": 0.9974,
+        "precision": 0.9953,
+        "recall": 0.9973,
+        "f1": 0.9963,
+        "ci95": [
+          0.9947,
+          0.9985
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0
+    }
+  },
+  "override_fires": {
+    "dev_clean": {
+      "n": 3402,
+      "fires": 122,
+      "on_true_negations": 4
+    },
+    "validation": {
+      "n": 601,
+      "fires": 15,
+      "on_true_negations": 0
+    },
+    "test": {
+      "n": 1760,
+      "fires": 30,
+      "on_true_negations": 3
+    },
+    "k1": {
+      "n": 91,
+      "fires": 87,
+      "on_true_negations": 0
+    },
+    "test_fires_on_negations": [
+      {
+        "a": "The ripped banana wasn't not only ripped, but petrified and tasteless.",
+        "b": "The ripped banana was not only ripped, but petrified and tasteless.",
+        "kind": "negation",
+        "neg_type": "verbal"
+      },
+      {
+        "a": "Acetaldehyde is less toxic than alcohol and is not responsible for many hangover symptoms.",
+        "b": "Acetaldehyde is more toxic than alcohol and is responsible for many hangover symptoms.",
+        "kind": "negation",
+        "neg_type": "verbal"
+      },
+      {
+        "a": "In addition to being played recreationally, the game has been the subject of theoretical studies.",
+        "b": "In addition to not being played professionaly, the game has also not been the subject of theoretical studies.",
+        "kind": "negation",
+        "neg_type": "verbal"
+      }
+    ],
+    "test_fires_examples": [
+      {
+        "a": "Oh, this is bad.",
+        "b": "Oh, this is not good.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "It's uneasy to explain.",
+        "b": "It's not easy to explain.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "Ah, he's breathing.",
+        "b": "Ah, he's not breathless.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "Sweetheart, that's a good idea.",
+        "b": "Sweetheart, that's not an evil idea.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "Sweetheart, that's a good idea.",
+        "b": "Sweetheart, that's not a bad idea.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "No, it's not a good idea, no.",
+        "b": "No, it's a bad idea, no.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "No, it's not a good idea, no.",
+        "b": "No, it's an evil idea, no.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "It's natural.",
+        "b": "It's not sharp.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "It's natural.",
+        "b": "It's not artificial.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "It's natural.",
+        "b": "It's not supernatural.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "It's natural.",
+        "b": "It's not unnatural.",
+        "kind": "SemAntoNeg",
+        "label": 0
+      },
+      {
+        "a": "The ripped banana wasn't not only ripped, but petrified and tasteless.",
+        "b": "The ripped banana was not only ripped, but petrified and tasteless.",
+        "kind": "negation",
+        "label": 1
+      }
+    ]
+  },
+  "gain_vs_gbm": {
+    "all": {
+      "part": "all",
+      "n": 1760,
+      "gain": -0.0011,
+      "p_permutation": 0.50225
+    },
+    "cannot_phase2": {
+      "part": "cannot_phase2",
+      "n": 1400,
+      "gain": -0.0014,
+      "p_permutation": 0.50185
+    },
+    "xnot360": {
+      "part": "xnot360",
+      "n": 360,
+      "gain": 0.0,
+      "p_permutation": 1.0
+    }
+  },
+  "adopted": true
+}
