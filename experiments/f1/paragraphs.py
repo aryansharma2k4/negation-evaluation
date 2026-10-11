@@ -174,6 +174,23 @@ def step_4_2() -> None:
     print(res["greedy_vs_optimal"])
 
 
+class NLIOnly:
+    """Side-by-side alternative for 4.5 (reported, not selected: there is no paragraph DEV set): the
+    reference NLI model alone, P(contradiction) >= its clean-DEV Youden threshold (Report_NLI2 1.3)."""
+
+    def __init__(self):
+        from nli_models import Scorer
+        self.s = Scorer("deberta_base")
+        dev = N.read_dev_clean()
+        got = self.s.score([(r["a"], r["b"]) for r in dev])
+        self.thr = N.youden_threshold(dev, [got[(r["a"], r["b"])]["contradiction"] for r in dev])
+
+    def predict(self, pairs, explain=False):
+        got = self.s.score(pairs)
+        return [{"teacher": a, "student": b, "negation": got[(a, b)]["contradiction"] >= self.thr,
+                 "prob": got[(a, b)]["contradiction"], "stage": "NLI alone"} for a, b in pairs]
+
+
 def step_4_5() -> None:
     from detector import Detector
     det = Detector.adopted()
@@ -206,11 +223,17 @@ def step_4_5() -> None:
                    "gold_contradictions": sum(g["verdict"] == "contradicted" for g in it["gold_teacher"])} for it, r in zip(its, res)]
         out[subset] = {"n_items": len(its), "tags": dict(tags), **sc, "per_tag": per_tag,
                        "paragraph_scores": scores, "contradiction_errors": wrong, "items": res}
+    alt = NLIOnly()
+    its = items()
+    res_alt = run(its, alt, "cos", "optimal", tau, True)
+    out["alternative_nli_alone"] = {"threshold": alt.thr, **score(its, res_alt),
+                                    "note": "side by side, not selected: no paragraph DEV set exists"}
     out["summary"] = {k: {kk: out[k].get(kk) for kk in ("n_items", "teacher_sentences", "teacher_verdict_accuracy", "all_unit_accuracy",
                                                         "assignment_accuracy", "contradiction", "extra")} for k in ("machine", "human")}
     save("4_5_paragraphs.json", out)
     print(json.dumps(out["summary"], indent=1))
     print(json.dumps(out["machine"]["confusion_teacher"], indent=1))
+    print("NLI alone:", {k: out["alternative_nli_alone"][k] for k in ("teacher_verdict_accuracy", "contradiction", "confusion_teacher")})
     for w in out["machine"]["contradiction_errors"]:
         print(w["id"], w["gold"], w["pred"], w["stages"])
 

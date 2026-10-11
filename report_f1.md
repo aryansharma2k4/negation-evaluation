@@ -908,3 +908,155 @@ treated as not addressing it, rather than as a contradiction of it.
 separately and never combined into one grade.** A student who contradicts a point has made a different
 mistake from one who leaves it out, and one number would hide which. The dashboard and
 `results/4_5_paragraphs.json` (`paragraph_scores`) show both, beside the gold values.
+
+### 4.5 Paragraph case study — results (**machine-authored items; a case study, not a benchmark**)
+
+`experiments/f1/paragraphs.py --step 4.5` → `results/4_5_paragraphs.json`. Adopted detector (Phase 0 GBM
++ override), optimal assignment, cosine cells, τ = 0.661 fit on clean DEV. **Every number below is on
+the 28 machine-authored items** (93 teacher sentences, 91 student sentences) **written by the same
+model that built the system**. The human subset is empty: 0 items so far, so no human result exists.
+
+**Per-sentence verdict accuracy: 88.2% of 93 teacher sentences; 90.8% of 184 units** (teacher sentences
+plus student extra / not-extra). Assignment matches the gold student sentence for 90.4% of the 83
+teacher sentences that have one.
+
+Confusion over teacher sentences (rows gold, columns predicted; n = 93):
+
+| gold \ predicted | covered | contradicted | missing |
+| --- | ---: | ---: | ---: |
+| covered (72) | **66** | 2 | 4 |
+| contradicted (11) | 3 | **6** | 2 |
+| missing (10) | 0 | 0 | **10** |
+
+Extra student sentences (n = 91 student sentences, 8 gold extras): 8 found, 0 missed, **6 false extras**.
+These come from the 4 covered → missing and 2 contradicted → missing cases, whose student sentence was
+then left unmatched. In the four-verdict view, then: covered 66 / 72, contradicted 6 / 11, missing 10 / 10,
+extra 8 / 8 with 6 false alarms.
+
+**Paragraph scores (coverage and contradiction count, reported separately):**
+
+- mean absolute coverage error 0.098 (n = 28 paragraphs);
+- contradiction count exactly right for 21 of 28 paragraphs.
+
+By tag (teacher sentences; every slice n < 50):
+
+| tag | items | teacher sentences | verdict accuracy | contradictions caught / gold | false alarms |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| reworded | 9 | 32 | 90.6% | — | 1 |
+| one_contradiction | 11 | 33 | 81.8% | 6 / 11 | 0 |
+| missing | 5 | 19 | 94.7% | — | 1 |
+| extra | 6 | 19 | 89.5% | 0 / 1 | 0 |
+| negative_teacher | 8 | 24 | 83.3% | **2 / 5** | 0 |
+| cancellation | 4 | 12 | 83.3% | — | **0** |
+| conditional / scope | 1 / 1 | 3 / 3 | 100% / 100% | 1 / 1, 1 / 1 | 0 |
+
+- **No cancellation form was flagged** (*not uncommon*, *not impossible*, *not untrue*, *not rare*; 0
+  false alarms in 4 items). The override and the combiner both hold.
+- **Contradictions are where it fails: 6 of 11 caught.** Only 2 of 5 contradictions of a
+  *negative* teacher sentence are caught.
+
+**The finding: the combiner, not NLI, loses the reworded contradictions.** In every one of the 7 pairs
+behind the errors below, the reference NLI model alone gives the right answer: P(contradiction) ≥ 0.999
+for the 5 missed or mis-matched contradictions, and ≤ 0.001 for the 2 false alarms. The GBM gets all 7
+wrong. On CANNOT, a negation is nearly always a minimal edit of A, so `token_overlap` became the
+second-largest feature, and a contradiction that rewords the teacher's sentence is overruled. Student
+answers reword. As a side-by-side check, not a selection (there is no paragraph DEV set), the same
+pipeline with **NLI alone** as the verdict (P ≥ 0.975, its clean-DEV threshold) scores **92.5%
+teacher-verdict accuracy, catches 9 of 11 contradictions, and raises 1 false alarm**. The false alarm is
+*… makes round-robin behave like first-come first-served* / *… round robin degenerates into FCFS*,
+P = 0.997. Its two misses are matching failures: the student sentence is below τ (*FCFS* vs *first-come
+first-served*, cosine 0.245; *UDP does not guarantee delivery* / *UDP guarantees that every datagram is
+delivered*, cosine 0.591).
+
+**Every paragraph where the system got a contradiction wrong, quoted in full** (✗ marks the wrong
+verdict; n = 7 of 28):
+
+**p04** (OS; tags: one_contradiction, negative_teacher)
+
+| | teacher | gold | predicted |
+| --- | --- | --- | --- |
+| T1 | A user-level thread is managed without kernel support. | covered | covered |
+| T2 | The kernel does not know about user-level threads. | contradicted | covered ✗ |
+| T3 | If one user-level thread blocks, the whole process can block. | covered | covered |
+
+Student: (S1) The kernel is aware of every user-level thread. (S2) User threads are handled by a library rather than by the kernel. (S3) A blocking call in one user thread may block the entire process.
+
+**p08** (OS; tags: one_contradiction, extra)
+
+| | teacher | gold | predicted |
+| --- | --- | --- | --- |
+| T1 | The FCFS scheduling algorithm is simple to implement. | contradicted | missing ✗ |
+| T2 | FCFS can cause the convoy effect. | covered | covered |
+| T3 | Short processes may wait a long time behind a long process under FCFS. | covered | covered |
+
+Student: (S1) First-come first-served is difficult to implement. (S2) FCFS suffers from the convoy effect. (S3) Under FCFS a short job can wait behind a long one for a long time. (S4) SJF gives the minimum average waiting time.
+
+**p11** (CN; tags: one_contradiction, negative_teacher)
+
+| | teacher | gold | predicted |
+| --- | --- | --- | --- |
+| T1 | UDP is a connectionless protocol. | covered | covered |
+| T2 | UDP does not guarantee delivery. | contradicted | missing ✗ |
+| T3 | UDP has lower overhead than TCP. | covered | covered |
+
+Student: (S1) UDP guarantees that every datagram is delivered. (S2) No connection is set up before UDP sends a datagram. (S3) UDP headers are smaller, so UDP has less overhead than TCP.
+
+**p13** (CN; tags: one_contradiction)
+
+| | teacher | gold | predicted |
+| --- | --- | --- | --- |
+| T1 | Every host on the internet needs an IP address. | covered | covered |
+| T2 | DNS translates domain names into IP addresses. | covered | covered |
+| T3 | DNS uses a hierarchical, distributed database. | contradicted | covered ✗ |
+
+Student: (S1) Domain names are converted to IP addresses by DNS. (S2) DNS data is stored in one central database. (S3) An internet host must have an IP address.
+
+**p21** (DBMS; tags: missing)
+
+| | teacher | gold | predicted |
+| --- | --- | --- | --- |
+| T1 | Normalization reduces redundancy in a database. | covered | covered |
+| T2 | A table is in first normal form if every attribute is atomic. | missing | missing |
+| T3 | Second normal form removes partial dependencies. | missing | missing |
+| T4 | Third normal form removes transitive dependencies. | covered | contradicted ✗ |
+
+Student: (S1) Normalizing a database cuts down on redundant data. (S2) In 3NF there are no transitive dependencies.
+
+**p25** (DBMS; tags: one_contradiction, negative_teacher)
+
+| | teacher | gold | predicted |
+| --- | --- | --- | --- |
+| T1 | Every relation in a relational database has a schema. | covered | covered |
+| T2 | A view is a virtual table defined by a query. | covered | covered |
+| T3 | Views do not store data themselves. | contradicted | covered ✗ |
+
+Student: (S1) A view is a virtual table built from a query. (S2) Views store their own copy of the data. (S3) Each relation has a schema.
+
+**p28** (CN; tags: reworded)
+
+| | teacher | gold | predicted |
+| --- | --- | --- | --- |
+| T1 | The OSI model has seven layers. | covered | contradicted ✗ |
+| T2 | The physical layer transmits raw bits. | covered | covered |
+| T3 | The network layer handles routing. | covered | covered |
+| T4 | The transport layer provides end-to-end communication. | covered | covered |
+| T5 | The application layer is closest to the user. | covered | covered |
+| T6 | Each layer provides services to the layer above it. | covered | covered |
+
+Student: (S1) Services flow upward: each layer serves the one above. (S2) Routing is the job of the network layer. (S3) Seven layers make up the OSI reference model. (S4) Raw bits are sent over the medium by the physical layer. (S5) End-to-end delivery between processes is provided by the transport layer. (S6) The layer nearest to the user is the application layer.
+
+Why each one went wrong (P = combiner raw output, threshold 0.428):
+
+- **p04:** contradiction of a negative teacher sentence (*does not know* / *is aware of*), P = 0.16.
+- **p08:** antonym (*simple* / *difficult*) but cosine 0.245 because of *FCFS* vs *first-come first-served*.
+  Below τ, so the sentence is called missing.
+- **p11:** *does not guarantee* / *guarantees that every datagram is delivered*, cosine 0.591 < τ: missing.
+- **p13:** antonym *distributed* / *one central*, P = 0.075.
+- **p21:** false alarm, *removes transitive dependencies* / *there are no transitive dependencies*, P = 0.873.
+- **p25:** *do not store data* / *store their own copy*, P = 0.093.
+- **p28:** false alarm on a pure reordering, *The OSI model has seven layers* / *Seven layers make up the OSI
+  reference model*, P = 0.85.
+
+```sh
+./venv/bin/python experiments/f1/paragraphs.py --step 4.5
+```

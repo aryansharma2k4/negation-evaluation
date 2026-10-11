@@ -1,0 +1,3708 @@
+{
+  "config": "optimal assignment, cosine cells, threshold before assignment",
+  "tau": 0.661388099193573,
+  "machine": {
+    "n_items": 28,
+    "tags": {
+      "reworded": 9,
+      "one_contradiction": 11,
+      "missing": 5,
+      "negative_teacher": 8,
+      "cancellation": 4,
+      "extra": 6,
+      "conditional": 1,
+      "scope": 1
+    },
+    "teacher_sentences": 93,
+    "teacher_verdict_accuracy": 0.8817,
+    "confusion_teacher": {
+      "contradicted->contradicted": 6,
+      "contradicted->covered": 3,
+      "contradicted->missing": 2,
+      "covered->contradicted": 2,
+      "covered->covered": 66,
+      "covered->missing": 4,
+      "missing->missing": 10
+    },
+    "extra": {
+      "tp": 8,
+      "fp": 6,
+      "fn": 0
+    },
+    "all_units": 184,
+    "all_unit_accuracy": 0.9076,
+    "assignment_accuracy": 0.9036,
+    "assignment_n": 83,
+    "contradiction": {
+      "gold": 11,
+      "caught": 6,
+      "false_alarms": 2
+    },
+    "per_tag": {
+      "reworded": {
+        "items": 9,
+        "teacher_sentences": 32,
+        "teacher_verdict_accuracy": 0.9062,
+        "contradiction": {
+          "gold": 0,
+          "caught": 0,
+          "false_alarms": 1
+        }
+      },
+      "one_contradiction": {
+        "items": 11,
+        "teacher_sentences": 33,
+        "teacher_verdict_accuracy": 0.8182,
+        "contradiction": {
+          "gold": 11,
+          "caught": 6,
+          "false_alarms": 0
+        }
+      },
+      "missing": {
+        "items": 5,
+        "teacher_sentences": 19,
+        "teacher_verdict_accuracy": 0.9474,
+        "contradiction": {
+          "gold": 0,
+          "caught": 0,
+          "false_alarms": 1
+        }
+      },
+      "negative_teacher": {
+        "items": 8,
+        "teacher_sentences": 24,
+        "teacher_verdict_accuracy": 0.8333,
+        "contradiction": {
+          "gold": 5,
+          "caught": 2,
+          "false_alarms": 0
+        }
+      },
+      "cancellation": {
+        "items": 4,
+        "teacher_sentences": 12,
+        "teacher_verdict_accuracy": 0.8333,
+        "contradiction": {
+          "gold": 0,
+          "caught": 0,
+          "false_alarms": 0
+        }
+      },
+      "extra": {
+        "items": 6,
+        "teacher_sentences": 19,
+        "teacher_verdict_accuracy": 0.8947,
+        "contradiction": {
+          "gold": 1,
+          "caught": 0,
+          "false_alarms": 0
+        }
+      },
+      "conditional": {
+        "items": 1,
+        "teacher_sentences": 3,
+        "teacher_verdict_accuracy": 1.0,
+        "contradiction": {
+          "gold": 1,
+          "caught": 1,
+          "false_alarms": 0
+        }
+      },
+      "scope": {
+        "items": 1,
+        "teacher_sentences": 3,
+        "teacher_verdict_accuracy": 1.0,
+        "contradiction": {
+          "gold": 1,
+          "caught": 1,
+          "false_alarms": 0
+        }
+      }
+    },
+    "paragraph_scores": [
+      {
+        "id": "p01",
+        "coverage": 1.0,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p02",
+        "coverage": 0.667,
+        "gold_coverage": 0.667,
+        "contradictions": 1,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p03",
+        "coverage": 0.5,
+        "gold_coverage": 0.5,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p04",
+        "coverage": 1.0,
+        "gold_coverage": 0.667,
+        "contradictions": 0,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p05",
+        "coverage": 0.667,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p06",
+        "coverage": 0.667,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p07",
+        "coverage": 1.0,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p08",
+        "coverage": 0.667,
+        "gold_coverage": 0.667,
+        "contradictions": 0,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p09",
+        "coverage": 0.333,
+        "gold_coverage": 0.333,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p10",
+        "coverage": 1.0,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p11",
+        "coverage": 0.667,
+        "gold_coverage": 0.667,
+        "contradictions": 0,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p12",
+        "coverage": 0.667,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p13",
+        "coverage": 1.0,
+        "gold_coverage": 0.667,
+        "contradictions": 0,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p14",
+        "coverage": 0.5,
+        "gold_coverage": 0.5,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p15",
+        "coverage": 1.0,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p16",
+        "coverage": 0.667,
+        "gold_coverage": 0.667,
+        "contradictions": 1,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p17",
+        "coverage": 1.0,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p18",
+        "coverage": 0.667,
+        "gold_coverage": 0.667,
+        "contradictions": 1,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p19",
+        "coverage": 1.0,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p20",
+        "coverage": 0.333,
+        "gold_coverage": 0.667,
+        "contradictions": 1,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p21",
+        "coverage": 0.25,
+        "gold_coverage": 0.5,
+        "contradictions": 1,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p22",
+        "coverage": 1.0,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p23",
+        "coverage": 0.667,
+        "gold_coverage": 0.667,
+        "contradictions": 1,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p24",
+        "coverage": 1.0,
+        "gold_coverage": 1.0,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p25",
+        "coverage": 1.0,
+        "gold_coverage": 0.667,
+        "contradictions": 0,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p26",
+        "coverage": 0.5,
+        "gold_coverage": 0.5,
+        "contradictions": 0,
+        "gold_contradictions": 0
+      },
+      {
+        "id": "p27",
+        "coverage": 0.667,
+        "gold_coverage": 0.667,
+        "contradictions": 1,
+        "gold_contradictions": 1
+      },
+      {
+        "id": "p28",
+        "coverage": 0.833,
+        "gold_coverage": 1.0,
+        "contradictions": 1,
+        "gold_contradictions": 0
+      }
+    ],
+    "contradiction_errors": [
+      {
+        "id": "p04",
+        "tags": [
+          "one_contradiction",
+          "negative_teacher"
+        ],
+        "teacher": [
+          "A user-level thread is managed without kernel support.",
+          "The kernel does not know about user-level threads.",
+          "If one user-level thread blocks, the whole process can block."
+        ],
+        "student": [
+          "The kernel is aware of every user-level thread.",
+          "User threads are handled by a library rather than by the kernel.",
+          "A blocking call in one user thread may block the entire process."
+        ],
+        "gold": [
+          "covered",
+          "contradicted",
+          "covered"
+        ],
+        "pred": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "match": {
+          "0": 1,
+          "1": 0,
+          "2": 2
+        },
+        "S": [
+          [
+            0.725,
+            0.836,
+            0.53
+          ],
+          [
+            0.804,
+            0.879,
+            0.572
+          ],
+          [
+            0.624,
+            0.545,
+            0.868
+          ]
+        ],
+        "probs": [
+          [
+            0.098,
+            0.0,
+            0.001
+          ],
+          [
+            0.16,
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.001,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p08",
+        "tags": [
+          "one_contradiction",
+          "extra"
+        ],
+        "teacher": [
+          "The FCFS scheduling algorithm is simple to implement.",
+          "FCFS can cause the convoy effect.",
+          "Short processes may wait a long time behind a long process under FCFS."
+        ],
+        "student": [
+          "First-come first-served is difficult to implement.",
+          "FCFS suffers from the convoy effect.",
+          "Under FCFS a short job can wait behind a long one for a long time.",
+          "SJF gives the minimum average waiting time."
+        ],
+        "gold": [
+          "contradicted",
+          "covered",
+          "covered"
+        ],
+        "pred": [
+          "missing",
+          "covered",
+          "covered"
+        ],
+        "match": {
+          "1": 1,
+          "2": 2
+        },
+        "S": [
+          [
+            0.245,
+            0.443,
+            0.415,
+            0.396
+          ],
+          [
+            0.223,
+            0.943,
+            0.491,
+            0.258
+          ],
+          [
+            0.257,
+            0.549,
+            0.679,
+            0.456
+          ]
+        ],
+        "probs": [
+          [
+            0.084,
+            0.011,
+            0.003,
+            0.008
+          ],
+          [
+            0.002,
+            0.003,
+            0.0,
+            0.001
+          ],
+          [
+            0.001,
+            0.0,
+            0.005,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p11",
+        "tags": [
+          "one_contradiction",
+          "negative_teacher"
+        ],
+        "teacher": [
+          "UDP is a connectionless protocol.",
+          "UDP does not guarantee delivery.",
+          "UDP has lower overhead than TCP."
+        ],
+        "student": [
+          "UDP guarantees that every datagram is delivered.",
+          "No connection is set up before UDP sends a datagram.",
+          "UDP headers are smaller, so UDP has less overhead than TCP."
+        ],
+        "gold": [
+          "covered",
+          "contradicted",
+          "covered"
+        ],
+        "pred": [
+          "covered",
+          "missing",
+          "covered"
+        ],
+        "match": {
+          "0": 1,
+          "2": 2
+        },
+        "S": [
+          [
+            0.639,
+            0.72,
+            0.638
+          ],
+          [
+            0.591,
+            0.645,
+            0.53
+          ],
+          [
+            0.538,
+            0.573,
+            0.937
+          ]
+        ],
+        "probs": [
+          [
+            0.005,
+            0.001,
+            0.0
+          ],
+          [
+            0.045,
+            0.041,
+            0.001
+          ],
+          [
+            0.0,
+            0.001,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p13",
+        "tags": [
+          "one_contradiction"
+        ],
+        "teacher": [
+          "Every host on the internet needs an IP address.",
+          "DNS translates domain names into IP addresses.",
+          "DNS uses a hierarchical, distributed database."
+        ],
+        "student": [
+          "Domain names are converted to IP addresses by DNS.",
+          "DNS data is stored in one central database.",
+          "An internet host must have an IP address."
+        ],
+        "gold": [
+          "covered",
+          "covered",
+          "contradicted"
+        ],
+        "pred": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "match": {
+          "0": 2,
+          "1": 0,
+          "2": 1
+        },
+        "S": [
+          [
+            0.556,
+            0.488,
+            0.887
+          ],
+          [
+            0.876,
+            0.637,
+            0.529
+          ],
+          [
+            0.562,
+            0.841,
+            0.352
+          ]
+        ],
+        "probs": [
+          [
+            0.002,
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.075,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p21",
+        "tags": [
+          "missing"
+        ],
+        "teacher": [
+          "Normalization reduces redundancy in a database.",
+          "A table is in first normal form if every attribute is atomic.",
+          "Second normal form removes partial dependencies.",
+          "Third normal form removes transitive dependencies."
+        ],
+        "student": [
+          "Normalizing a database cuts down on redundant data.",
+          "In 3NF there are no transitive dependencies."
+        ],
+        "gold": [
+          "covered",
+          "missing",
+          "missing",
+          "covered"
+        ],
+        "pred": [
+          "covered",
+          "missing",
+          "missing",
+          "contradicted"
+        ],
+        "match": {
+          "0": 0,
+          "3": 1
+        },
+        "S": [
+          [
+            0.948,
+            0.237
+          ],
+          [
+            0.425,
+            0.373
+          ],
+          [
+            0.33,
+            0.574
+          ],
+          [
+            0.287,
+            0.713
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.011
+          ],
+          [
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.004
+          ],
+          [
+            0.0,
+            0.873
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p25",
+        "tags": [
+          "one_contradiction",
+          "negative_teacher"
+        ],
+        "teacher": [
+          "Every relation in a relational database has a schema.",
+          "A view is a virtual table defined by a query.",
+          "Views do not store data themselves."
+        ],
+        "student": [
+          "A view is a virtual table built from a query.",
+          "Views store their own copy of the data.",
+          "Each relation has a schema."
+        ],
+        "gold": [
+          "covered",
+          "covered",
+          "contradicted"
+        ],
+        "pred": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "match": {
+          "0": 2,
+          "1": 0,
+          "2": 1
+        },
+        "S": [
+          [
+            0.347,
+            0.29,
+            0.857
+          ],
+          [
+            0.986,
+            0.576,
+            0.368
+          ],
+          [
+            0.57,
+            0.867,
+            0.258
+          ]
+        ],
+        "probs": [
+          [
+            0.002,
+            0.001,
+            0.0
+          ],
+          [
+            0.017,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.093,
+            0.003
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p28",
+        "tags": [
+          "reworded"
+        ],
+        "teacher": [
+          "The OSI model has seven layers.",
+          "The physical layer transmits raw bits.",
+          "The network layer handles routing.",
+          "The transport layer provides end-to-end communication.",
+          "The application layer is closest to the user.",
+          "Each layer provides services to the layer above it."
+        ],
+        "student": [
+          "Services flow upward: each layer serves the one above.",
+          "Routing is the job of the network layer.",
+          "Seven layers make up the OSI reference model.",
+          "Raw bits are sent over the medium by the physical layer.",
+          "End-to-end delivery between processes is provided by the transport layer.",
+          "The layer nearest to the user is the application layer."
+        ],
+        "gold": [
+          "covered",
+          "covered",
+          "covered",
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred": [
+          "contradicted",
+          "covered",
+          "covered",
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "match": {
+          "0": 2,
+          "1": 3,
+          "2": 1,
+          "3": 4,
+          "4": 5,
+          "5": 0
+        },
+        "S": [
+          [
+            0.411,
+            0.313,
+            0.913,
+            0.208,
+            0.37,
+            0.41
+          ],
+          [
+            0.275,
+            0.346,
+            0.342,
+            0.934,
+            0.531,
+            0.372
+          ],
+          [
+            0.473,
+            0.9,
+            0.396,
+            0.398,
+            0.54,
+            0.494
+          ],
+          [
+            0.467,
+            0.575,
+            0.431,
+            0.562,
+            0.837,
+            0.443
+          ],
+          [
+            0.488,
+            0.468,
+            0.454,
+            0.271,
+            0.478,
+            0.907
+          ],
+          [
+            0.754,
+            0.607,
+            0.523,
+            0.383,
+            0.543,
+            0.59
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.0,
+            0.85,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.001,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            0.001,
+            0.001,
+            0.0,
+            0.0,
+            0.0,
+            0.002
+          ],
+          [
+            0.001,
+            0.002,
+            0.001,
+            0.001,
+            0.001,
+            0.002
+          ],
+          [
+            0.001,
+            0.0,
+            0.0,
+            0.002,
+            0.001,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      }
+    ],
+    "items": [
+      {
+        "id": "p01",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 1,
+          "1": 3,
+          "2": 2,
+          "3": 0
+        },
+        "S": [
+          [
+            0.573,
+            0.876,
+            0.665,
+            0.532
+          ],
+          [
+            0.478,
+            0.553,
+            0.661,
+            0.957
+          ],
+          [
+            0.678,
+            0.637,
+            0.957,
+            0.575
+          ],
+          [
+            0.731,
+            0.508,
+            0.572,
+            0.382
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.001,
+            0.001,
+            0.005
+          ],
+          [
+            0.001,
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            0.0,
+            0.001,
+            0.001,
+            0.001
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p02",
+        "pred_teacher": [
+          "covered",
+          "contradicted",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 2,
+          "1": 1,
+          "2": 0
+        },
+        "S": [
+          [
+            0.623,
+            0.622,
+            0.702
+          ],
+          [
+            0.464,
+            0.827,
+            0.587
+          ],
+          [
+            0.776,
+            0.569,
+            0.541
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.001,
+            0.004,
+            0.0
+          ],
+          [
+            0.0,
+            0.712,
+            0.0
+          ],
+          [
+            0.002,
+            0.002,
+            0.006
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p03",
+        "pred_teacher": [
+          "covered",
+          "missing",
+          "covered",
+          "missing"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 1,
+          "2": 0
+        },
+        "S": [
+          [
+            0.49,
+            0.905
+          ],
+          [
+            0.515,
+            0.832
+          ],
+          [
+            0.834,
+            0.562
+          ],
+          [
+            0.684,
+            0.649
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.003,
+            0.021
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.001
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p04",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 1,
+          "1": 0,
+          "2": 2
+        },
+        "S": [
+          [
+            0.725,
+            0.836,
+            0.53
+          ],
+          [
+            0.804,
+            0.879,
+            0.572
+          ],
+          [
+            0.624,
+            0.545,
+            0.868
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.098,
+            0.0,
+            0.001
+          ],
+          [
+            0.16,
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.001,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p05",
+        "pred_teacher": [
+          "covered",
+          "missing",
+          "covered"
+        ],
+        "pred_extra": [
+          1
+        ],
+        "match": {
+          "0": 0,
+          "2": 2
+        },
+        "S": [
+          [
+            0.908,
+            0.529,
+            0.768
+          ],
+          [
+            0.331,
+            0.531,
+            0.369
+          ],
+          [
+            0.668,
+            0.541,
+            0.804
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.003,
+            0.0
+          ],
+          [
+            0.001,
+            0.001,
+            0.0
+          ],
+          [
+            0.001,
+            0.002,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "cancellation override",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "cancellation override",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "cancellation override",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p06",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "missing"
+        ],
+        "pred_extra": [
+          2,
+          3
+        ],
+        "match": {
+          "0": 0,
+          "1": 1
+        },
+        "S": [
+          [
+            0.894,
+            0.371,
+            0.157,
+            0.697
+          ],
+          [
+            0.452,
+            0.687,
+            0.296,
+            0.413
+          ],
+          [
+            0.22,
+            0.279,
+            0.366,
+            0.185
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.001,
+            0.001,
+            0.0,
+            0.001
+          ],
+          [
+            0.001,
+            0.001,
+            0.001,
+            0.001
+          ],
+          [
+            0.0,
+            0.001,
+            0.0,
+            0.001
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p07",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 1,
+          "1": 2,
+          "2": 0
+        },
+        "S": [
+          [
+            0.67,
+            0.919,
+            0.578
+          ],
+          [
+            0.574,
+            0.58,
+            0.895
+          ],
+          [
+            0.951,
+            0.608,
+            0.56
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.003,
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.0,
+            0.001
+          ],
+          [
+            0.003,
+            0.007,
+            0.001
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p08",
+        "pred_teacher": [
+          "missing",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [
+          0,
+          3
+        ],
+        "match": {
+          "1": 1,
+          "2": 2
+        },
+        "S": [
+          [
+            0.245,
+            0.443,
+            0.415,
+            0.396
+          ],
+          [
+            0.223,
+            0.943,
+            0.491,
+            0.258
+          ],
+          [
+            0.257,
+            0.549,
+            0.679,
+            0.456
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.084,
+            0.011,
+            0.003,
+            0.008
+          ],
+          [
+            0.002,
+            0.003,
+            0.0,
+            0.001
+          ],
+          [
+            0.001,
+            0.0,
+            0.005,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p09",
+        "pred_teacher": [
+          "missing",
+          "covered",
+          "missing"
+        ],
+        "pred_extra": [
+          1,
+          2
+        ],
+        "match": {
+          "1": 0
+        },
+        "S": [
+          [
+            0.803,
+            0.656,
+            0.202
+          ],
+          [
+            0.897,
+            0.434,
+            0.143
+          ],
+          [
+            0.526,
+            0.418,
+            0.093
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.003,
+            0.001,
+            0.003
+          ],
+          [
+            0.001,
+            0.001,
+            0.002
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p10",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 1,
+          "1": 2,
+          "2": 0,
+          "3": 3
+        },
+        "S": [
+          [
+            0.599,
+            0.714,
+            0.577,
+            0.623
+          ],
+          [
+            0.4,
+            0.422,
+            0.791,
+            0.618
+          ],
+          [
+            0.674,
+            0.774,
+            0.527,
+            0.623
+          ],
+          [
+            0.487,
+            0.547,
+            0.614,
+            0.889
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.002
+          ],
+          [
+            0.001,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p11",
+        "pred_teacher": [
+          "covered",
+          "missing",
+          "covered"
+        ],
+        "pred_extra": [
+          0
+        ],
+        "match": {
+          "0": 1,
+          "2": 2
+        },
+        "S": [
+          [
+            0.639,
+            0.72,
+            0.638
+          ],
+          [
+            0.591,
+            0.645,
+            0.53
+          ],
+          [
+            0.538,
+            0.573,
+            0.937
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.005,
+            0.001,
+            0.0
+          ],
+          [
+            0.045,
+            0.041,
+            0.001
+          ],
+          [
+            0.0,
+            0.001,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p12",
+        "pred_teacher": [
+          "missing",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [
+          1
+        ],
+        "match": {
+          "1": 0,
+          "2": 2
+        },
+        "S": [
+          [
+            0.392,
+            0.622,
+            0.419
+          ],
+          [
+            0.759,
+            0.705,
+            0.543
+          ],
+          [
+            0.527,
+            0.588,
+            0.904
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.002,
+            0.0,
+            0.0
+          ],
+          [
+            0.003,
+            0.001,
+            0.002
+          ],
+          [
+            0.006,
+            0.002,
+            0.001
+          ]
+        ],
+        "stages": [
+          [
+            "cancellation override",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "cancellation override",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "cancellation override",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p13",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 2,
+          "1": 0,
+          "2": 1
+        },
+        "S": [
+          [
+            0.556,
+            0.488,
+            0.887
+          ],
+          [
+            0.876,
+            0.637,
+            0.529
+          ],
+          [
+            0.562,
+            0.841,
+            0.352
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.002,
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.075,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p14",
+        "pred_teacher": [
+          "missing",
+          "covered",
+          "covered",
+          "missing"
+        ],
+        "pred_extra": [],
+        "match": {
+          "1": 1,
+          "2": 0
+        },
+        "S": [
+          [
+            0.47,
+            0.399
+          ],
+          [
+            0.493,
+            0.923
+          ],
+          [
+            0.786,
+            0.449
+          ],
+          [
+            0.25,
+            0.341
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.001,
+            0.001
+          ],
+          [
+            0.001,
+            0.001
+          ],
+          [
+            0.001,
+            0.0
+          ],
+          [
+            0.001,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p15",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [
+          3,
+          4
+        ],
+        "match": {
+          "0": 0,
+          "1": 1,
+          "2": 2
+        },
+        "S": [
+          [
+            0.852,
+            0.645,
+            0.66,
+            0.333,
+            0.397
+          ],
+          [
+            0.673,
+            0.733,
+            0.727,
+            0.291,
+            0.321
+          ],
+          [
+            0.385,
+            0.531,
+            0.833,
+            0.297,
+            0.423
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.001,
+            0.001,
+            0.0,
+            0.0
+          ],
+          [
+            0.002,
+            0.001,
+            0.0,
+            0.0,
+            0.002
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p16",
+        "pred_teacher": [
+          "covered",
+          "contradicted",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 2,
+          "1": 1,
+          "2": 0
+        },
+        "S": [
+          [
+            0.427,
+            0.536,
+            0.92
+          ],
+          [
+            0.482,
+            0.944,
+            0.54
+          ],
+          [
+            0.701,
+            0.286,
+            0.099
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.002,
+            0.0,
+            0.004
+          ],
+          [
+            0.0,
+            0.855,
+            0.0
+          ],
+          [
+            0.005,
+            0.006,
+            0.004
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p17",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 2,
+          "1": 1,
+          "2": 0
+        },
+        "S": [
+          [
+            0.665,
+            0.388,
+            0.758
+          ],
+          [
+            0.269,
+            0.911,
+            0.372
+          ],
+          [
+            0.881,
+            0.318,
+            0.581
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            0.0,
+            0.002,
+            0.0
+          ],
+          [
+            0.001,
+            0.001,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p18",
+        "pred_teacher": [
+          "contradicted",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 2,
+          "1": 0,
+          "2": 1
+        },
+        "S": [
+          [
+            0.473,
+            0.324,
+            0.826
+          ],
+          [
+            0.698,
+            0.33,
+            0.442
+          ],
+          [
+            0.285,
+            0.905,
+            0.271
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.001,
+            0.894
+          ],
+          [
+            0.001,
+            0.0,
+            0.002
+          ],
+          [
+            0.001,
+            0.0,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p19",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 0,
+          "1": 1,
+          "2": 2
+        },
+        "S": [
+          [
+            0.927,
+            0.397,
+            0.523
+          ],
+          [
+            0.36,
+            0.921,
+            0.497
+          ],
+          [
+            0.553,
+            0.422,
+            0.857
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.002,
+            0.009,
+            0.006
+          ],
+          [
+            0.002,
+            0.002,
+            0.001
+          ],
+          [
+            0.004,
+            0.002,
+            0.011
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p20",
+        "pred_teacher": [
+          "covered",
+          "contradicted",
+          "missing"
+        ],
+        "pred_extra": [
+          0
+        ],
+        "match": {
+          "0": 1,
+          "1": 2
+        },
+        "S": [
+          [
+            0.4,
+            0.968,
+            0.728
+          ],
+          [
+            0.465,
+            0.651,
+            0.951
+          ],
+          [
+            0.526,
+            0.337,
+            0.384
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.002,
+            0.002
+          ],
+          [
+            0.002,
+            0.008,
+            0.975
+          ],
+          [
+            0.0,
+            0.001,
+            0.001
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p21",
+        "pred_teacher": [
+          "covered",
+          "missing",
+          "missing",
+          "contradicted"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 0,
+          "3": 1
+        },
+        "S": [
+          [
+            0.948,
+            0.237
+          ],
+          [
+            0.425,
+            0.373
+          ],
+          [
+            0.33,
+            0.574
+          ],
+          [
+            0.287,
+            0.713
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.011
+          ],
+          [
+            0.0,
+            0.001
+          ],
+          [
+            0.0,
+            0.004
+          ],
+          [
+            0.0,
+            0.873
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p22",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [
+          3
+        ],
+        "match": {
+          "0": 0,
+          "1": 2,
+          "2": 1
+        },
+        "S": [
+          [
+            0.869,
+            0.678,
+            0.497,
+            0.36
+          ],
+          [
+            0.494,
+            0.411,
+            0.71,
+            0.13
+          ],
+          [
+            0.442,
+            0.741,
+            0.269,
+            0.293
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.002,
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            0.003,
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.002,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p23",
+        "pred_teacher": [
+          "contradicted",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 0,
+          "1": 2,
+          "2": 1
+        },
+        "S": [
+          [
+            0.841,
+            0.294,
+            0.209
+          ],
+          [
+            0.356,
+            0.534,
+            0.867
+          ],
+          [
+            0.235,
+            0.908,
+            0.514
+          ]
+        ],
+        "NEG": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.75,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.001,
+            0.001
+          ],
+          [
+            0.001,
+            0.001,
+            0.002
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p24",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 0,
+          "1": 1,
+          "2": 2
+        },
+        "S": [
+          [
+            0.934,
+            0.525,
+            0.402
+          ],
+          [
+            0.482,
+            0.914,
+            0.521
+          ],
+          [
+            0.478,
+            0.74,
+            0.728
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.019,
+            0.028,
+            0.009
+          ],
+          [
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            0.0,
+            0.003,
+            0.001
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p25",
+        "pred_teacher": [
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 2,
+          "1": 0,
+          "2": 1
+        },
+        "S": [
+          [
+            0.347,
+            0.29,
+            0.857
+          ],
+          [
+            0.986,
+            0.576,
+            0.368
+          ],
+          [
+            0.57,
+            0.867,
+            0.258
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.002,
+            0.001,
+            0.0
+          ],
+          [
+            0.017,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.093,
+            0.003
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p26",
+        "pred_teacher": [
+          "missing",
+          "covered",
+          "covered",
+          "missing"
+        ],
+        "pred_extra": [
+          2
+        ],
+        "match": {
+          "1": 1,
+          "2": 0
+        },
+        "S": [
+          [
+            0.65,
+            0.563,
+            0.659
+          ],
+          [
+            0.567,
+            0.849,
+            0.373
+          ],
+          [
+            0.81,
+            0.6,
+            0.526
+          ],
+          [
+            0.637,
+            0.6,
+            0.514
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.003,
+            0.0
+          ],
+          [
+            0.0,
+            0.003,
+            0.0
+          ],
+          [
+            0.0,
+            0.013,
+            0.0
+          ],
+          [
+            0.0,
+            0.004,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p27",
+        "pred_teacher": [
+          "contradicted",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 1,
+          "1": 0,
+          "2": 2
+        },
+        "S": [
+          [
+            0.359,
+            0.945,
+            0.511
+          ],
+          [
+            0.721,
+            0.315,
+            0.537
+          ],
+          [
+            0.517,
+            0.208,
+            0.689
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.003,
+            0.995,
+            0.0
+          ],
+          [
+            0.0,
+            0.009,
+            0.001
+          ],
+          [
+            0.005,
+            0.002,
+            0.001
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      },
+      {
+        "id": "p28",
+        "pred_teacher": [
+          "contradicted",
+          "covered",
+          "covered",
+          "covered",
+          "covered",
+          "covered"
+        ],
+        "pred_extra": [],
+        "match": {
+          "0": 2,
+          "1": 3,
+          "2": 1,
+          "3": 4,
+          "4": 5,
+          "5": 0
+        },
+        "S": [
+          [
+            0.411,
+            0.313,
+            0.913,
+            0.208,
+            0.37,
+            0.41
+          ],
+          [
+            0.275,
+            0.346,
+            0.342,
+            0.934,
+            0.531,
+            0.372
+          ],
+          [
+            0.473,
+            0.9,
+            0.396,
+            0.398,
+            0.54,
+            0.494
+          ],
+          [
+            0.467,
+            0.575,
+            0.431,
+            0.562,
+            0.837,
+            0.443
+          ],
+          [
+            0.488,
+            0.468,
+            0.454,
+            0.271,
+            0.478,
+            0.907
+          ],
+          [
+            0.754,
+            0.607,
+            0.523,
+            0.383,
+            0.543,
+            0.59
+          ]
+        ],
+        "NEG": [
+          [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "probs": [
+          [
+            0.0,
+            0.0,
+            0.85,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.001,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            0.001,
+            0.001,
+            0.0,
+            0.0,
+            0.0,
+            0.002
+          ],
+          [
+            0.001,
+            0.002,
+            0.001,
+            0.001,
+            0.001,
+            0.002
+          ],
+          [
+            0.001,
+            0.0,
+            0.0,
+            0.002,
+            0.001,
+            0.0
+          ]
+        ],
+        "stages": [
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ],
+          [
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner",
+            "combiner"
+          ]
+        ]
+      }
+    ]
+  },
+  "human": {
+    "n_items": 0,
+    "note": "no items yet (stub awaiting human-written paragraphs)"
+  },
+  "alternative_nli_alone": {
+    "threshold": 0.9753316640853882,
+    "teacher_sentences": 93,
+    "teacher_verdict_accuracy": 0.9247,
+    "confusion_teacher": {
+      "contradicted->contradicted": 9,
+      "contradicted->missing": 2,
+      "covered->contradicted": 1,
+      "covered->covered": 67,
+      "covered->missing": 4,
+      "missing->missing": 10
+    },
+    "extra": {
+      "tp": 8,
+      "fp": 6,
+      "fn": 0
+    },
+    "all_units": 184,
+    "all_unit_accuracy": 0.9293,
+    "assignment_accuracy": 0.9036,
+    "assignment_n": 83,
+    "contradiction": {
+      "gold": 11,
+      "caught": 9,
+      "false_alarms": 1
+    },
+    "note": "side by side, not selected: no paragraph DEV set exists"
+  },
+  "summary": {
+    "machine": {
+      "n_items": 28,
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.8817,
+      "all_unit_accuracy": 0.9076,
+      "assignment_accuracy": 0.9036,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 2
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 6,
+        "fn": 0
+      }
+    },
+    "human": {
+      "n_items": 0,
+      "teacher_sentences": null,
+      "teacher_verdict_accuracy": null,
+      "all_unit_accuracy": null,
+      "assignment_accuracy": null,
+      "contradiction": null,
+      "extra": null
+    }
+  }
+}
