@@ -1,0 +1,332 @@
+{
+  "tau_fit_on": "clean DEV (see module docstring)",
+  "taus": {
+    "cos": 0.661388099193573,
+    "jaccard": 0.5625,
+    "mix": 0.5972211956977844
+  },
+  "n_items": 28,
+  "n_teacher_sentences": 93,
+  "variants": {
+    "optimal, cos cells, threshold before assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.8817,
+      "confusion_teacher": {
+        "contradicted->contradicted": 6,
+        "contradicted->covered": 3,
+        "contradicted->missing": 2,
+        "covered->contradicted": 2,
+        "covered->covered": 66,
+        "covered->missing": 4,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 6,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.9076,
+      "assignment_accuracy": 0.9036,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 2
+      }
+    },
+    "optimal, cos cells, threshold after assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.8817,
+      "confusion_teacher": {
+        "contradicted->contradicted": 6,
+        "contradicted->covered": 3,
+        "contradicted->missing": 2,
+        "covered->contradicted": 2,
+        "covered->covered": 66,
+        "covered->missing": 4,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 6,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.9076,
+      "assignment_accuracy": 0.9639,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 2
+      }
+    },
+    "greedy, cos cells, threshold before assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.871,
+      "confusion_teacher": {
+        "contradicted->contradicted": 6,
+        "contradicted->covered": 3,
+        "contradicted->missing": 2,
+        "covered->contradicted": 2,
+        "covered->covered": 65,
+        "covered->missing": 5,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 7,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.8967,
+      "assignment_accuracy": 0.8916,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 2
+      }
+    },
+    "greedy, cos cells, threshold after assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.871,
+      "confusion_teacher": {
+        "contradicted->contradicted": 6,
+        "contradicted->covered": 3,
+        "contradicted->missing": 2,
+        "covered->contradicted": 2,
+        "covered->covered": 65,
+        "covered->missing": 5,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 7,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.8967,
+      "assignment_accuracy": 0.9639,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 2
+      }
+    },
+    "optimal, jaccard cells, threshold before assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.2258,
+      "confusion_teacher": {
+        "contradicted->contradicted": 5,
+        "contradicted->missing": 6,
+        "covered->covered": 6,
+        "covered->missing": 66,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 72,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.2174,
+      "assignment_accuracy": 0.1325,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 5,
+        "false_alarms": 0
+      }
+    },
+    "optimal, jaccard cells, threshold after assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.2258,
+      "confusion_teacher": {
+        "contradicted->contradicted": 5,
+        "contradicted->missing": 6,
+        "covered->covered": 6,
+        "covered->missing": 66,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 72,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.2174,
+      "assignment_accuracy": 0.9277,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 5,
+        "false_alarms": 0
+      }
+    },
+    "greedy, jaccard cells, threshold before assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.2258,
+      "confusion_teacher": {
+        "contradicted->contradicted": 5,
+        "contradicted->missing": 6,
+        "covered->covered": 6,
+        "covered->missing": 66,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 72,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.2174,
+      "assignment_accuracy": 0.1325,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 5,
+        "false_alarms": 0
+      }
+    },
+    "greedy, jaccard cells, threshold after assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.2258,
+      "confusion_teacher": {
+        "contradicted->contradicted": 5,
+        "contradicted->missing": 6,
+        "covered->covered": 6,
+        "covered->missing": 66,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 72,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.2174,
+      "assignment_accuracy": 0.9157,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 5,
+        "false_alarms": 0
+      }
+    },
+    "optimal, mix cells, threshold before assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.5376,
+      "confusion_teacher": {
+        "contradicted->contradicted": 6,
+        "contradicted->missing": 5,
+        "covered->contradicted": 1,
+        "covered->covered": 34,
+        "covered->missing": 37,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 42,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.538,
+      "assignment_accuracy": 0.494,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 1
+      }
+    },
+    "optimal, mix cells, threshold after assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.5376,
+      "confusion_teacher": {
+        "contradicted->contradicted": 6,
+        "contradicted->missing": 5,
+        "covered->contradicted": 1,
+        "covered->covered": 34,
+        "covered->missing": 37,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 42,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.538,
+      "assignment_accuracy": 0.9759,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 1
+      }
+    },
+    "greedy, mix cells, threshold before assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.5376,
+      "confusion_teacher": {
+        "contradicted->contradicted": 6,
+        "contradicted->missing": 5,
+        "covered->contradicted": 1,
+        "covered->covered": 34,
+        "covered->missing": 37,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 42,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.538,
+      "assignment_accuracy": 0.494,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 1
+      }
+    },
+    "greedy, mix cells, threshold after assignment": {
+      "teacher_sentences": 93,
+      "teacher_verdict_accuracy": 0.5376,
+      "confusion_teacher": {
+        "contradicted->contradicted": 6,
+        "contradicted->missing": 5,
+        "covered->contradicted": 1,
+        "covered->covered": 34,
+        "covered->missing": 37,
+        "missing->missing": 10
+      },
+      "extra": {
+        "tp": 8,
+        "fp": 42,
+        "fn": 0
+      },
+      "all_units": 184,
+      "all_unit_accuracy": 0.538,
+      "assignment_accuracy": 0.9759,
+      "assignment_n": 83,
+      "contradiction": {
+        "gold": 11,
+        "caught": 6,
+        "false_alarms": 1
+      }
+    }
+  },
+  "greedy_vs_optimal": {
+    "items_where_assignment_differs": [
+      "p04",
+      "p10"
+    ],
+    "teacher_sentences_assigned_differently": 4
+  },
+  "default": "optimal, cos cells, threshold before assignment"
+}

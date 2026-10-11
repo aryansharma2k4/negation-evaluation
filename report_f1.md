@@ -837,3 +837,54 @@ reported separately.
 ```sh
 ./venv/bin/python experiments/f1/make_paragraphs.py
 ```
+
+### 4.2 Matching: optimal vs greedy, and what goes in the cells (machine-authored items, n = 28 paragraphs)
+
+`experiments/f1/paragraphs.py --step 4.2` → `results/4_2_matching.json`. For each paragraph pair, an
+m × n matrix (93 teacher × 91 student sentences over all 28 items) holds the similarity and the adopted
+detector's verdict for each (teacher, student) cell. Assignment is then made two ways:
+
+- **greedy:** repeatedly take the highest unassigned cell;
+- **optimal:** `scipy.optimize.linear_sum_assignment`, the Hungarian method, in one call.
+
+Alternatives compared:
+
+- cell content: mpnet cosine, word-set Jaccard, or their mean;
+- the coverage threshold τ applied before assignment (cells below τ cannot match) or after it.
+
+τ is fit on **clean DEV**, never on the paragraph set (`results/4_2_tau.json`). It is Youden's J of the
+similarity, separating "same claim or its negation" pairs (CANNOT negations, paraphrases, SemAntoNeg)
+from "different claim" pairs (random, STS-low, SNLI neutral, hard negatives). τ is cosine 0.661,
+Jaccard 0.563, mixed 0.597.
+
+**Selection:** there is no DEV paragraph set, so nothing could be chosen on held-out data. The default
+(optimal, cosine, threshold before) was fixed before the run, and the alternatives are reported beside
+it, not chosen from. **Machine-authored data; n printed throughout.**
+
+| assignment, cells, threshold | teacher-verdict accuracy (n = 93) | all-unit accuracy (n = 184) | contradictions caught / false alarms (gold 11) | extra: TP / FP / FN (gold 8) |
+| --- | ---: | ---: | --- | --- |
+| **optimal, cosine, before (default)** | **88.2%** | **90.8%** | 6 / 2 | 8 / 6 / 0 |
+| optimal, cosine, after | 88.2% | 90.8% | 6 / 2 | 8 / 6 / 0 |
+| greedy, cosine, before | 87.1% | 89.7% | 6 / 2 | 8 / 7 / 0 |
+| greedy, cosine, after | 87.1% | 89.7% | 6 / 2 | 8 / 7 / 0 |
+| optimal or greedy, Jaccard, either | 22.6% | 21.7% | 5 / 0 | — |
+| optimal or greedy, mixed, either | 53.8% | 53.8% | 6 / 1 | — |
+
+*All-unit accuracy* counts teacher sentences (verdict right) plus student sentences (extra / not extra right).
+
+- **Greedy and optimal disagree on 2 of 28 items (p04, p10) and 4 of 93 teacher sentences.** Optimal is
+  right on one more sentence (88.2% vs 87.1%) and makes one fewer false "extra". It stays the default:
+  same cost, and slightly better.
+- **Thresholding before or after assignment** gives identical verdicts at this τ. Before is kept,
+  because it never forces a weak match.
+- **Jaccard and mixed cells collapse**, and that is a finding about τ, not about the cells. τ was fit on
+  clean DEV, where same-claim pairs share most of their words (CANNOT negations are near copies). Reworded
+  student paragraphs share far fewer words, so with Jaccard τ = 0.563 almost every teacher sentence becomes
+  "missing". A DEV built from near copies cannot set a similarity bar for rewording. Cosine survives
+  because mpnet is robust to rewording.
+- **Not tried:** many-to-one matching (one student sentence covering two teacher sentences). The data has
+  no gold case of it, so it could not be measured.
+
+```sh
+./venv/bin/python experiments/f1/paragraphs.py --step 4.2
+```
