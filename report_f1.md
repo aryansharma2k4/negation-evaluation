@@ -269,7 +269,7 @@ one-cue-per-variant contract of the existing generators.
 gets the approximate reading, e.g. *I'm not imperfect.* → *I'm perfect.*, *That's not incorrect.*
 → *That's correct.*. All are tagged `approximate: true, polarity_flip: false`.
 
-**Exception blocklist** (`negation/affixes.AFFIXAL_BLOCKLIST`). I scanned all 86 affixal (word, stem)
+**Exception blocklist** (`negation/affixes.AFFIXAL_BLOCKLIST`). I scanned all 75 affixal (word, stem)
 pairs the stripper produces over clean DEV, listed with counts in the JSON, and checked them by hand
 for lexicalised words that are not the negation of their stem:
 
@@ -343,4 +343,48 @@ within one word.** What the misses are:
 ```sh
 ./venv/bin/python -m pytest tests/test_affirmation.py -q
 ./venv/bin/python experiments/f1/phase1.py --step 1.2
+```
+
+### 1.3 Affirmation inventory
+
+`experiments/f1/phase1.py --step 1.3` → `experiments/f1/results/1_3_inventory.json`. The table counts
+the 960 negative clean-DEV sentences by the type of their first main-clause cue (first cue
+overall, if none is in the main clause). Spot-check column: verdicts from step 1.2 (30 items in all,
+machine-judged), so most rows have a tiny or zero sample. **Every spot-check cell is n < 50.**
+
+| cue type | count in clean DEV | affirmation produced | spot-check correct |
+| --- | ---: | ---: | ---: |
+| be + not (copula) | 238 | 200 (84%) | 9 / 10 |
+| affixal prefix (un- / in- / non- / dis- …) | 171 | 90 (53%) | 3 / 3 |
+| implicit (refuse / deny / fail / lack / unable …) | 112 | 93 (83%) | 4 / 5 |
+| negative quantifier (no / none / nobody / nothing / neither / nor) | 97 | 72 (74%) | 2 / 2 |
+| *not*, other position (not + NP / adverb / fronted) | 58 | 1 (2%) | — (none sampled) |
+| be + not (aux / passive / progressive) | 47 | 38 (81%) | 1 / 2 |
+| did not V | 39 | 32 (82%) | 0 / 1 |
+| do not V | 37 | 24 (65%) | — |
+| never | 33 | 24 (73%) | 3 / 3 |
+| does not V | 26 | 24 (92%) | 3 / 3 |
+| has / have / had not (perfect) | 23 | 15 (65%) | — |
+| other modal + not (would / should / could / must / may …) | 22 | 16 (73%) | — |
+| can + not / can't / cannot | 18 | 12 (67%) | — |
+| without | 12 | 0 (0%) | — |
+| will not / won't | 10 | 9 (90%) | 0 / 1 |
+| rarely / seldom / hardly / barely | 9 | 6 (67%) | — |
+| -less suffix | 4 | 2 (50%) | — |
+| other (*absence*, curly-quote *n’t*, *nt*) | 4 | 1 (25%) | — |
+| **total** | **960** | **659 (68.6%)** | **25 / 30** |
+
+The *did not V* failure in the sample is the *not … until* NPI case and the *will not* failure is
+*anyone* (step 1.2), so neither row's 0 / 1 is a morphology error. Where coverage is weakest, the
+cue is outside what a one-cue removal can express:
+
+- *not* in another position: 2% (*Not often do we …*);
+- *without*: 0%, because no rule exists;
+- affixal: 53%, because most remaining affixal cues are attributive (*an incomplete solution*) and the
+  step-0.1 rule refuses them on purpose.
+
+The failure buckets and the blocklist are in step 1.2.
+
+```sh
+./venv/bin/python experiments/f1/phase1.py --step 1.3
 ```

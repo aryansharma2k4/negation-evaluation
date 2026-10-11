@@ -1,0 +1,166 @@
+{
+  "rows": [
+    {
+      "cue_type": "be + not (copula)",
+      "count": 238,
+      "affirmation_produced": 200,
+      "produced_rate": 0.8403,
+      "spotcheck_correct": 9,
+      "spotcheck_n": 10
+    },
+    {
+      "cue_type": "affixal prefix (un- / in- / non- / dis- ...)",
+      "count": 171,
+      "affirmation_produced": 90,
+      "produced_rate": 0.5263,
+      "spotcheck_correct": 3,
+      "spotcheck_n": 3
+    },
+    {
+      "cue_type": "implicit (refuse / deny / fail / lack / unable ...)",
+      "count": 112,
+      "affirmation_produced": 93,
+      "produced_rate": 0.8304,
+      "spotcheck_correct": 4,
+      "spotcheck_n": 5
+    },
+    {
+      "cue_type": "negative quantifier (no / none / nobody / nothing / neither / nor)",
+      "count": 97,
+      "affirmation_produced": 72,
+      "produced_rate": 0.7423,
+      "spotcheck_correct": 2,
+      "spotcheck_n": 2
+    },
+    {
+      "cue_type": "not, other position (e.g. not + NP / adverb)",
+      "count": 58,
+      "affirmation_produced": 1,
+      "produced_rate": 0.0172,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "be + not (aux / passive / progressive)",
+      "count": 47,
+      "affirmation_produced": 38,
+      "produced_rate": 0.8085,
+      "spotcheck_correct": 1,
+      "spotcheck_n": 2
+    },
+    {
+      "cue_type": "did not V",
+      "count": 39,
+      "affirmation_produced": 32,
+      "produced_rate": 0.8205,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 1
+    },
+    {
+      "cue_type": "do not V",
+      "count": 37,
+      "affirmation_produced": 24,
+      "produced_rate": 0.6486,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "never",
+      "count": 33,
+      "affirmation_produced": 24,
+      "produced_rate": 0.7273,
+      "spotcheck_correct": 3,
+      "spotcheck_n": 3
+    },
+    {
+      "cue_type": "does not V",
+      "count": 26,
+      "affirmation_produced": 24,
+      "produced_rate": 0.9231,
+      "spotcheck_correct": 3,
+      "spotcheck_n": 3
+    },
+    {
+      "cue_type": "has / have / had not (perfect)",
+      "count": 23,
+      "affirmation_produced": 15,
+      "produced_rate": 0.6522,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "other modal + not",
+      "count": 22,
+      "affirmation_produced": 16,
+      "produced_rate": 0.7273,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "can + not / can't / cannot",
+      "count": 18,
+      "affirmation_produced": 12,
+      "produced_rate": 0.6667,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "without",
+      "count": 12,
+      "affirmation_produced": 0,
+      "produced_rate": 0.0,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "will not / won't",
+      "count": 10,
+      "affirmation_produced": 9,
+      "produced_rate": 0.9,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 1
+    },
+    {
+      "cue_type": "rarely / seldom / hardly / barely",
+      "count": 9,
+      "affirmation_produced": 6,
+      "produced_rate": 0.6667,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "-less suffix",
+      "count": 4,
+      "affirmation_produced": 2,
+      "produced_rate": 0.5,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "other (absence)",
+      "count": 2,
+      "affirmation_produced": 0,
+      "produced_rate": 0.0,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "other (n\u2019t)",
+      "count": 1,
+      "affirmation_produced": 0,
+      "produced_rate": 0.0,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    },
+    {
+      "cue_type": "other (nt)",
+      "count": 1,
+      "affirmation_produced": 1,
+      "produced_rate": 1.0,
+      "spotcheck_correct": 0,
+      "spotcheck_n": 0
+    }
+  ],
+  "spotcheck_correct": 25,
+  "spotcheck_n": 30
+}
