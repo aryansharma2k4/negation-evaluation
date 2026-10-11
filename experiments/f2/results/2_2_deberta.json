@@ -1,0 +1,1155 @@
+{
+  "current_adopted": {
+    "threshold": 0.42790607868433017,
+    "all": {
+      "n": 1760,
+      "accuracy": 0.9307,
+      "auc": 0.9453,
+      "precision": 0.9018,
+      "recall": 0.9672,
+      "f1": 0.9333,
+      "ci95": [
+        0.9182,
+        0.942
+      ]
+    },
+    "cannot_phase2": {
+      "n": 1400,
+      "accuracy": 0.9736,
+      "auc": 0.9858,
+      "precision": 0.9757,
+      "recall": 0.9716,
+      "f1": 0.9736,
+      "ci95": [
+        0.9643,
+        0.9814
+      ]
+    },
+    "xnot360": {
+      "n": 360,
+      "accuracy": 0.7639,
+      "auc": 0.8035,
+      "precision": 0.6923,
+      "recall": 0.95,
+      "f1": 0.8009,
+      "ci95": [
+        0.7194,
+        0.8083
+      ]
+    },
+    "fpr_by_kind": {
+      "paraphrase": {
+        "n": 307,
+        "fpr": 0.0228
+      },
+      "SemAntoNeg": {
+        "n": 27,
+        "fpr": 0.0
+      },
+      "sts_low": {
+        "n": 127,
+        "fpr": 0.0787
+      },
+      "snli_neutral": {
+        "n": 117,
+        "fpr": 0.0
+      },
+      "random_pair": {
+        "n": 119,
+        "fpr": 0.0
+      },
+      "xnot360_not_negation": {
+        "n": 180,
+        "fpr": 0.4222
+      }
+    },
+    "recall_by_type": {
+      "verbal": {
+        "n": 290,
+        "recall": 0.9828
+      },
+      "antonym": {
+        "n": 95,
+        "recall": 0.9368
+      },
+      "other": {
+        "n": 318,
+        "recall": 0.9717
+      },
+      "xnot360_negation": {
+        "n": 180,
+        "recall": 0.95
+      }
+    },
+    "validation": {
+      "n": 601,
+      "accuracy": 0.9784,
+      "auc": 0.9941,
+      "precision": 0.9863,
+      "recall": 0.9697,
+      "f1": 0.9779,
+      "ci95": [
+        0.9667,
+        0.99
+      ]
+    },
+    "dev_clean": {
+      "n": 3402,
+      "accuracy": 0.9915,
+      "auc": 0.988,
+      "precision": 0.9836,
+      "recall": 0.9973,
+      "f1": 0.9904,
+      "ci95": [
+        0.9882,
+        0.9944
+      ]
+    },
+    "k1_fpr": 0.022,
+    "k1_n": 91,
+    "semantoneg_phase2_fpr": 0.0,
+    "lowov_neg_recall": {
+      "n": 129,
+      "recall": 0.876
+    },
+    "lowov_non_fpr": {
+      "n": 396,
+      "fpr": 0.0556
+    },
+    "val_ood_select": {
+      "n": 383,
+      "accuracy": 0.9426,
+      "recall": 0.8953,
+      "fpr": 0.0104
+    },
+    "val_ood_fit": {
+      "n": 417,
+      "accuracy": 0.9233,
+      "recall": 0.8612,
+      "fpr": 0.0144
+    },
+    "val_ood_all": {
+      "n": 800,
+      "accuracy": 0.9325,
+      "recall": 0.8775,
+      "fpr": 0.0125
+    },
+    "val_ood_by_dataset": {
+      "val_ood_mnli": {
+        "n": 383,
+        "accuracy": 0.9426
+      }
+    }
+  },
+  "rows": {
+    "A \u2014 replace: DeBERTa-anli's probabilities only (17 features)": {
+      "threshold": 0.23871019816747024,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8966,
+        "auc": 0.9776,
+        "precision": 0.8474,
+        "recall": 0.9683,
+        "f1": 0.9038,
+        "ci95": [
+          0.8818,
+          0.9114
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.98,
+        "auc": 0.9944,
+        "precision": 0.9787,
+        "recall": 0.9815,
+        "f1": 0.9801,
+        "ci95": [
+          0.9721,
+          0.9871
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.5722,
+        "auc": 0.8637,
+        "precision": 0.5428,
+        "recall": 0.9167,
+        "f1": 0.6818,
+        "ci95": [
+          0.5167,
+          0.6222
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0195
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0709
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.7722
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9897
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9474
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9843
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9167
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9784,
+        "auc": 0.9973,
+        "precision": 0.9765,
+        "recall": 0.9798,
+        "f1": 0.9782,
+        "ci95": [
+          0.9667,
+          0.99
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9765,
+        "auc": 0.9965,
+        "precision": 0.9528,
+        "recall": 0.996,
+        "f1": 0.9739,
+        "ci95": [
+          0.9715,
+          0.9815
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.8527
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0152
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.5822,
+        "recall": 0.1675,
+        "fpr": 0.0052
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.5923,
+        "recall": 0.1866,
+        "fpr": 0.0
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.5875,
+        "recall": 0.1775,
+        "fpr": 0.0025
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.5822
+        }
+      },
+      "oof_dev_accuracy": 0.9641,
+      "oof_minus_test_pts": 6.75,
+      "overfit_flag": true,
+      "passes_rule": false,
+      "nli_ms_per_pair": 48.0,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.042,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0029,
+          "p_permutation": 0.54435
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.2167,
+          "p_permutation": 0.0001
+        }
+      },
+      "chosen": "depth=2,lr=0.1"
+    },
+    "A \u2014 replace: DeBERTa-anli's probabilities only (17 features) + override": {
+      "threshold": 0.23871019816747024,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8869,
+        "auc": 0.9445,
+        "precision": 0.8276,
+        "recall": 0.9785,
+        "f1": 0.8967,
+        "ci95": [
+          0.8716,
+          0.9011
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9736,
+        "auc": 0.9816,
+        "precision": 0.9664,
+        "recall": 0.9815,
+        "f1": 0.9739,
+        "ci95": [
+          0.9643,
+          0.9814
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.55,
+        "auc": 0.8088,
+        "precision": 0.5273,
+        "recall": 0.9667,
+        "f1": 0.6824,
+        "ci95": [
+          0.4999,
+          0.6
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0228
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.1181
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0171
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.8667
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9897
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9474
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9843
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9667
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9734,
+        "auc": 0.9876,
+        "precision": 0.9668,
+        "recall": 0.9798,
+        "f1": 0.9732,
+        "ci95": [
+          0.9601,
+          0.985
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9724,
+        "auc": 0.9887,
+        "precision": 0.9444,
+        "recall": 0.996,
+        "f1": 0.9695,
+        "ci95": [
+          0.9668,
+          0.978
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.9225
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0606
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.9426,
+        "recall": 0.9058,
+        "fpr": 0.0208
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.9137,
+        "recall": 0.8373,
+        "fpr": 0.0096
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.9275,
+        "recall": 0.87,
+        "fpr": 0.015
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9426
+        }
+      },
+      "oof_dev_accuracy": 0.9641,
+      "oof_minus_test_pts": 7.72,
+      "overfit_flag": true,
+      "passes_rule": false,
+      "nli_ms_per_pair": 48.0,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0517,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.0036,
+          "p_permutation": 0.48065
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.2389,
+          "p_permutation": 0.0001
+        }
+      },
+      "chosen": "depth=2,lr=0.1"
+    },
+    "B \u2014 alongside: reference + DeBERTa-anli (20 features)": {
+      "threshold": 0.4188262595050191,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9398,
+        "auc": 0.9753,
+        "precision": 0.9255,
+        "recall": 0.957,
+        "f1": 0.941,
+        "ci95": [
+          0.9284,
+          0.9506
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.98,
+        "auc": 0.9946,
+        "precision": 0.9856,
+        "recall": 0.9744,
+        "f1": 0.98,
+        "ci95": [
+          0.9721,
+          0.9871
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7833,
+        "auc": 0.8688,
+        "precision": 0.7339,
+        "recall": 0.8889,
+        "f1": 0.804,
+        "ci95": [
+          0.7361,
+          0.8251
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0163
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0394
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.3222
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9897
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9263
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9748
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.8889
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.975,
+        "auc": 0.997,
+        "precision": 0.9862,
+        "recall": 0.963,
+        "f1": 0.9744,
+        "ci95": [
+          0.9617,
+          0.9867
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9982,
+        "auc": 0.9974,
+        "precision": 0.9987,
+        "recall": 0.9973,
+        "f1": 0.998,
+        "ci95": [
+          0.9968,
+          0.9994
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.7907
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0025
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.6005,
+        "recall": 0.199,
+        "fpr": 0.0
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.5971,
+        "recall": 0.1962,
+        "fpr": 0.0
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.5988,
+        "recall": 0.1975,
+        "fpr": 0.0
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.6005
+        }
+      },
+      "oof_dev_accuracy": 0.968,
+      "oof_minus_test_pts": 2.82,
+      "overfit_flag": true,
+      "passes_rule": false,
+      "nli_ms_per_pair": 93.2,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": 0.0011,
+          "p_permutation": 0.85331
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0029,
+          "p_permutation": 0.45285
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.0056,
+          "p_permutation": 0.78552
+        }
+      },
+      "chosen": "depth=3,lr=0.1"
+    },
+    "B \u2014 alongside: reference + DeBERTa-anli (20 features) + override": {
+      "threshold": 0.4188262595050191,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9301,
+        "auc": 0.9432,
+        "precision": 0.8967,
+        "recall": 0.9728,
+        "f1": 0.9332,
+        "ci95": [
+          0.917,
+          0.942
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9764,
+        "auc": 0.9861,
+        "precision": 0.9772,
+        "recall": 0.9758,
+        "f1": 0.9765,
+        "ci95": [
+          0.9686,
+          0.9843
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.75,
+        "auc": 0.7996,
+        "precision": 0.6758,
+        "recall": 0.9611,
+        "f1": 0.7936,
+        "ci95": [
+          0.7028,
+          0.7944
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0195
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0787
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.4611
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9897
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9368
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9748
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9611
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.975,
+        "auc": 0.9937,
+        "precision": 0.9829,
+        "recall": 0.9663,
+        "f1": 0.9745,
+        "ci95": [
+          0.9617,
+          0.9867
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9929,
+        "auc": 0.988,
+        "precision": 0.9868,
+        "recall": 0.9973,
+        "f1": 0.992,
+        "ci95": [
+          0.99,
+          0.9956
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.8992
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0556
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.9452,
+        "recall": 0.9005,
+        "fpr": 0.0104
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.9233,
+        "recall": 0.8612,
+        "fpr": 0.0144
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.9337,
+        "recall": 0.88,
+        "fpr": 0.0125
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9452
+        }
+      },
+      "oof_dev_accuracy": 0.968,
+      "oof_minus_test_pts": 3.79,
+      "overfit_flag": true,
+      "passes_rule": false,
+      "nli_ms_per_pair": 93.2,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0085,
+          "p_permutation": 0.10479
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.0007,
+          "p_permutation": 1.0
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.0389,
+          "p_permutation": 0.06119
+        }
+      },
+      "chosen": "depth=3,lr=0.1"
+    },
+    "C \u2014 pruned ensemble: 4 models (26 features)": {
+      "threshold": 0.40604142238562824,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9455,
+        "auc": 0.9834,
+        "precision": 0.9358,
+        "recall": 0.957,
+        "f1": 0.9462,
+        "ci95": [
+          0.9347,
+          0.9557
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9836,
+        "auc": 0.9948,
+        "precision": 0.9942,
+        "recall": 0.973,
+        "f1": 0.9835,
+        "ci95": [
+          0.9764,
+          0.99
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7972,
+        "auc": 0.8938,
+        "precision": 0.7488,
+        "recall": 0.8944,
+        "f1": 0.8152,
+        "ci95": [
+          0.7528,
+          0.8389
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0098
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0079
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.3
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9862
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9263
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9748
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.8944
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9817,
+        "auc": 0.9977,
+        "precision": 0.9897,
+        "recall": 0.9731,
+        "f1": 0.9813,
+        "ci95": [
+          0.9717,
+          0.9917
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9985,
+        "auc": 0.9974,
+        "precision": 0.9993,
+        "recall": 0.9973,
+        "f1": 0.9983,
+        "ci95": [
+          0.9971,
+          0.9997
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.7907
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0051
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.6214,
+        "recall": 0.2408,
+        "fpr": 0.0
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.6187,
+        "recall": 0.2392,
+        "fpr": 0.0
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.62,
+        "recall": 0.24,
+        "fpr": 0.0
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.6214
+        }
+      },
+      "oof_dev_accuracy": 0.9697,
+      "oof_minus_test_pts": 2.42,
+      "overfit_flag": true,
+      "passes_rule": false,
+      "nli_ms_per_pair": 275.0,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": 0.0068,
+          "p_permutation": 0.0422
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0064,
+          "p_permutation": 0.05179
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.0083,
+          "p_permutation": 0.58444
+        }
+      },
+      "chosen": "depth=3,lr=0.1"
+    },
+    "C \u2014 pruned ensemble: 4 models (26 features) + override": {
+      "threshold": 0.40604142238562824,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9369,
+        "auc": 0.9512,
+        "precision": 0.9072,
+        "recall": 0.974,
+        "f1": 0.9394,
+        "ci95": [
+          0.925,
+          0.9477
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.98,
+        "auc": 0.9863,
+        "precision": 0.9856,
+        "recall": 0.9744,
+        "f1": 0.98,
+        "ci95": [
+          0.9721,
+          0.9871
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.7694,
+        "auc": 0.8223,
+        "precision": 0.6917,
+        "recall": 0.9722,
+        "f1": 0.8083,
+        "ci95": [
+          0.725,
+          0.8112
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.013
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0472
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.4333
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9862
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9368
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9748
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9722
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.98,
+        "auc": 0.9945,
+        "precision": 0.9863,
+        "recall": 0.9731,
+        "f1": 0.9797,
+        "ci95": [
+          0.9684,
+          0.99
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9932,
+        "auc": 0.988,
+        "precision": 0.9875,
+        "recall": 0.9973,
+        "f1": 0.9924,
+        "ci95": [
+          0.9903,
+          0.9959
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.907
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0556
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.9426,
+        "recall": 0.8953,
+        "fpr": 0.0104
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.9233,
+        "recall": 0.8612,
+        "fpr": 0.0144
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.9325,
+        "recall": 0.8775,
+        "fpr": 0.0125
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9426
+        }
+      },
+      "oof_dev_accuracy": 0.9697,
+      "oof_minus_test_pts": 3.28,
+      "overfit_flag": true,
+      "passes_rule": true,
+      "nli_ms_per_pair": 275.0,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0017,
+          "p_permutation": 0.81922
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0029,
+          "p_permutation": 0.54205
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.0194,
+          "p_permutation": 0.37186
+        }
+      },
+      "chosen": "depth=3,lr=0.1"
+    }
+  },
+  "selected": "C \u2014 pruned ensemble: 4 models (26 features) + override"
+}

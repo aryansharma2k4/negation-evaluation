@@ -23,5 +23,10 @@
     "step": "2.1",
     "what": "P(contradiction) distributions on xNot360 conditional pairs (diagnosis)",
     "time": "2026-10-11 21:35"
+  },
+  {
+    "step": "2.2",
+    "what": "DeBERTa configs A/B/C retrained, with and without the override",
+    "time": "2026-10-11 21:40"
   }
 ]

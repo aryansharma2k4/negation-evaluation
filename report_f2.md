@@ -451,3 +451,40 @@ split at 0.014. It was not tried; see next steps.
 ```sh
 ./venv/bin/python experiments/f2/deberta.py --step 2.1
 ```
+
+### 2.2 Three DeBERTa configurations, each retrained from scratch
+
+`experiments/f2/deberta.py --step 2.2` → `results/2_2_deberta.json`.
+
+- **Protocol:** every combiner is retrained exactly as in nli2 step 4.2, with the cancellation override in
+  front.
+- **"+ override":** applies step 1.3's rule (θ 0.5, ρ 0.9, κ 0.6). The rule reads P(contradiction) from the
+  configuration's primary model: DeBERTa-anli in A, the reference in B and C.
+- **Comparison:** each row is compared with the **currently adopted** configuration (Phase 0 + override),
+  in the first row.
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| current: Phase 0 + override | 97.4% (96.4–98.1) | 93.1% | 76.4% | 90.2% | 96.7% | 93.3% | 2.3% | 7.9% | 0.0% | 0.0% | 42.2% | 93.7% | 2.2% | 87.6% | 5.6% | 97.8% | 94.3% |
+| A — replace (17 features) | 98.0% (97.2–98.7) | 89.7% | **57.2%** | 84.7% | 96.8% | 90.4% | 1.9% | 7.1% | 0.0% | 0.0% | **77.2%** | 94.7% | 2.2% | 85.3% | 1.5% | 97.8% | 58.2% |
+| A + override | 97.4% (96.4–98.1) | 88.7% | 55.0% | 82.8% | 97.9% | 89.7% | 2.3% | 11.8% | 1.7% | 0.0% | 86.7% | 94.7% | 2.2% | **92.2%** | 6.1% | 97.3% | 94.3% |
+| B — alongside (20 features) | 98.0% (97.2–98.7) | 94.0% | 78.3% | 92.5% | 95.7% | 94.1% | 1.6% | 3.9% | 0.0% | 0.0% | 32.2% | 92.6% | 2.2% | 79.1% | 0.2% | 97.5% | 60.1% |
+| B + override | 97.6% (96.9–98.4) | 93.0% | 75.0% | 89.7% | 97.3% | 93.3% | 1.9% | 7.9% | 0.0% | 0.0% | 46.1% | 93.7% | 2.2% | 89.9% | 5.6% | 97.5% | 94.5% |
+| C — pruned ensemble, 4 models (26 features) | **98.4% (97.6–99.0)** | **94.5%** | **79.7%** | 93.6% | 95.7% | 94.6% | 1.0% | 0.8% | 0.0% | 0.0% | 30.0% | 92.6% | 2.2% | 79.1% | 0.5% | 98.2% | 62.1% |
+| **C + override ← adopted** | 98.0% (97.2–98.7) | 93.7% | 76.9% | 90.7% | 97.4% | 93.9% | 1.3% | 4.7% | 0.0% | 0.0% | 43.3% | 93.7% | 2.2% | **90.7%** | 5.6% | **98.0%** | **94.3%** |
+
+Paired permutation against the **Phase 0 baseline** (uncorrected):
+
+| configuration | phase 2 | all TEST | xNot360 |
+| --- | --- | --- | --- |
+| A | +0.3 pts (p = 0.54) | **−4.2 pts (p = 0.0001)** | **−21.7 pts (p = 0.0001)** |
+| B | +0.3 pts (p = 0.45) | +0.1 pts (p = 0.85) | −0.6 pts (p = 0.79) |
+| C | +0.6 pts (p = 0.052) | +0.7 pts (p = 0.042) | +0.8 pts (p = 0.58) |
+| C + override | +0.3 pts (p = 0.54) | −0.2 pts (p = 0.82) | −1.9 pts (p = 0.37) |
+
+The brief expected a well-executed swap to make nothing worse. **It does: config A collapses xNot360 to
+57.2% again, retrained from scratch**, for the reason step 2.1 found (trees splitting on DeBERTa-anli's
+near-zero tail). Adding the reference model's probabilities alongside (B) neutralises it: xNot360 78.3%, but
+there is no gain either. The pruned ensemble (C) is the best combiner on TEST, as `report_f1.md` saw. **Its
+low-overlap recall is no better than the baseline's (79.1% vs 75.2%)**, so on its own it does not address
+this round's problem. With the override it does.
