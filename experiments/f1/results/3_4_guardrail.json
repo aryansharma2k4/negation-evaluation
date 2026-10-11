@@ -1,0 +1,1992 @@
+{
+  "base_system": "Phase 0 baseline",
+  "rule": "highest VALIDATION accuracy among \"no guardrail\" and every\nvariant; tie -> higher clean-DEV accuracy.",
+  "rows": {
+    "no guardrail": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9386,
+          "auc": 0.9775,
+          "precision": 0.9301,
+          "recall": 0.949,
+          "f1": 0.9395,
+          "ci95": [
+            0.9273,
+            0.95
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9771,
+          "auc": 0.9942,
+          "precision": 0.9841,
+          "recall": 0.9701,
+          "f1": 0.9771,
+          "ci95": [
+            0.9693,
+            0.985
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7889,
+          "auc": 0.8878,
+          "precision": 0.75,
+          "recall": 0.8667,
+          "f1": 0.8041,
+          "ci95": [
+            0.7472,
+            0.8333
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0195
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0394
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.2889
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9828
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9263
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9717
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8667
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.9784,
+          "auc": 0.9973,
+          "precision": 0.9897,
+          "recall": 0.9663,
+          "f1": 0.9779,
+          "ci95": [
+            0.9667,
+            0.99
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.9968,
+          "auc": 0.9974,
+          "precision": 0.9953,
+          "recall": 0.9973,
+          "f1": 0.9963,
+          "ci95": [
+            0.9947,
+            0.9985
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.6642,
+        "fpr": 0.3308
+      }
+    },
+    "guardrail: sim=cos, agg=max, delta fit on all DEV": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8165,
+          "auc": 0.7046,
+          "precision": 0.9778,
+          "recall": 0.6489,
+          "f1": 0.7801,
+          "ci95": [
+            0.7994,
+            0.8341
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8164,
+          "auc": 0.6719,
+          "precision": 0.9934,
+          "recall": 0.6387,
+          "f1": 0.7775,
+          "ci95": [
+            0.7957,
+            0.8371
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8167,
+          "auc": 0.8026,
+          "precision": 0.9254,
+          "recall": 0.6889,
+          "f1": 0.7898,
+          "ci95": [
+            0.775,
+            0.8556
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0236
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.0556
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.8172
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6421
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.4748
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.6889
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.822,
+          "auc": 0.6814,
+          "precision": 1.0,
+          "recall": 0.6397,
+          "f1": 0.7803,
+          "ci95": [
+            0.7903,
+            0.8519
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.833,
+          "auc": 0.6346,
+          "precision": 0.9989,
+          "recall": 0.6223,
+          "f1": 0.7668,
+          "ci95": [
+            0.821,
+            0.8451
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 315,
+          "test_wrong (were real negations)": 265,
+          "validation": 100,
+          "dev_clean": 569
+        },
+        "delta": 0.04786550998587744,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.1222,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.1607,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0278,
+            "p_permutation": 0.29377
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.9403,
+        "fpr": 0.0526
+      }
+    },
+    "guardrail: sim=cos, agg=max, delta fit on DEV pairs called negation (out-of-fold)": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8511,
+          "auc": 0.7773,
+          "precision": 0.9669,
+          "recall": 0.7282,
+          "f1": 0.8307,
+          "ci95": [
+            0.8352,
+            0.8682
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8536,
+          "auc": 0.7452,
+          "precision": 0.9921,
+          "recall": 0.7141,
+          "f1": 0.8304,
+          "ci95": [
+            0.835,
+            0.8714
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8417,
+          "auc": 0.8712,
+          "precision": 0.8868,
+          "recall": 0.7833,
+          "f1": 0.8319,
+          "ci95": [
+            0.8028,
+            0.8806
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0315
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.1
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.8828
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6632
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.5755
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.7833
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8669,
+          "auc": 0.7696,
+          "precision": 1.0,
+          "recall": 0.7306,
+          "f1": 0.8444,
+          "ci95": [
+            0.8403,
+            0.8918
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.871,
+          "auc": 0.7177,
+          "precision": 0.9991,
+          "recall": 0.7082,
+          "f1": 0.8288,
+          "ci95": [
+            0.8595,
+            0.8821
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 236,
+          "test_wrong (were real negations)": 195,
+          "validation": 73,
+          "dev_clean": 440
+        },
+        "delta": 0.015953004359198976,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.0875,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.1236,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0528,
+            "p_permutation": 0.0088
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.903,
+        "fpr": 0.0902
+      }
+    },
+    "guardrail: sim=cos, agg=top3, delta fit on all DEV": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8114,
+          "auc": 0.6963,
+          "precision": 0.9742,
+          "recall": 0.641,
+          "f1": 0.7732,
+          "ci95": [
+            0.7937,
+            0.8295
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8086,
+          "auc": 0.6567,
+          "precision": 0.9932,
+          "recall": 0.623,
+          "f1": 0.7657,
+          "ci95": [
+            0.7871,
+            0.8286
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8222,
+          "auc": 0.8181,
+          "precision": 0.9143,
+          "recall": 0.7111,
+          "f1": 0.8,
+          "ci95": [
+            0.7806,
+            0.8611
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0236
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.0667
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.831
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6316
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.4308
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.7111
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.817,
+          "auc": 0.6716,
+          "precision": 1.0,
+          "recall": 0.6296,
+          "f1": 0.7727,
+          "ci95": [
+            0.7854,
+            0.8469
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8236,
+          "auc": 0.6139,
+          "precision": 0.9989,
+          "recall": 0.6009,
+          "f1": 0.7504,
+          "ci95": [
+            0.8116,
+            0.836
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 320,
+          "test_wrong (were real negations)": 272,
+          "validation": 103,
+          "dev_clean": 601
+        },
+        "delta": 0.03377445538738708,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.1273,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.1686,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0333,
+            "p_permutation": 0.17838
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.9328,
+        "fpr": 0.0602
+      }
+    },
+    "guardrail: sim=cos, agg=top3, delta fit on DEV pairs called negation (out-of-fold)": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8585,
+          "auc": 0.7968,
+          "precision": 0.9581,
+          "recall": 0.7508,
+          "f1": 0.8419,
+          "ci95": [
+            0.842,
+            0.8744
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8629,
+          "auc": 0.7632,
+          "precision": 0.9923,
+          "recall": 0.7326,
+          "f1": 0.8429,
+          "ci95": [
+            0.845,
+            0.8814
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8417,
+          "auc": 0.8948,
+          "precision": 0.8555,
+          "recall": 0.8222,
+          "f1": 0.8385,
+          "ci95": [
+            0.8056,
+            0.8778
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0315
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.1389
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9172
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6842
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.5786
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8222
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8719,
+          "auc": 0.7822,
+          "precision": 0.9955,
+          "recall": 0.7441,
+          "f1": 0.8516,
+          "ci95": [
+            0.8453,
+            0.8985
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.878,
+          "auc": 0.7332,
+          "precision": 0.9991,
+          "recall": 0.7242,
+          "f1": 0.8397,
+          "ci95": [
+            0.8663,
+            0.8886
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 209,
+          "test_wrong (were real negations)": 175,
+          "validation": 68,
+          "dev_clean": 416
+        },
+        "delta": -0.006430387497948243,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.0801,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.1143,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0528,
+            "p_permutation": 0.002
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.8582,
+        "fpr": 0.1353
+      }
+    },
+    "guardrail: sim=jaccard, agg=max, delta fit on all DEV": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.7102,
+          "auc": 0.5204,
+          "precision": 0.9117,
+          "recall": 0.4677,
+          "f1": 0.6183,
+          "ci95": [
+            0.6892,
+            0.7318
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.6929,
+          "auc": 0.4302,
+          "precision": 0.9964,
+          "recall": 0.3898,
+          "f1": 0.5603,
+          "ci95": [
+            0.6671,
+            0.7164
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7778,
+          "auc": 0.832,
+          "precision": 0.7809,
+          "recall": 0.7722,
+          "f1": 0.7765,
+          "ci95": [
+            0.7333,
+            0.8194
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0079
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.2167
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.5483
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.5579
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.195
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.7722
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.7072,
+          "auc": 0.4559,
+          "precision": 1.0,
+          "recall": 0.4074,
+          "f1": 0.5789,
+          "ci95": [
+            0.6705,
+            0.7438
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.724,
+          "auc": 0.3955,
+          "precision": 0.9982,
+          "recall": 0.3751,
+          "f1": 0.5453,
+          "ci95": [
+            0.7093,
+            0.739
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 448,
+          "test_wrong (were real negations)": 425,
+          "validation": 169,
+          "dev_clean": 940
+        },
+        "delta": 0.05494505494405497,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.2284,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.2843,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": -0.0111,
+            "p_permutation": 0.58504
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.7239,
+        "fpr": 0.2707
+      }
+    },
+    "guardrail: sim=jaccard, agg=max, delta fit on DEV pairs called negation (out-of-fold)": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8733,
+          "auc": 0.842,
+          "precision": 0.9331,
+          "recall": 0.8052,
+          "f1": 0.8644,
+          "ci95": [
+            0.8574,
+            0.8881
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8929,
+          "auc": 0.8238,
+          "precision": 0.9894,
+          "recall": 0.7952,
+          "f1": 0.8817,
+          "ci95": [
+            0.8757,
+            0.9093
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7972,
+          "auc": 0.8797,
+          "precision": 0.7716,
+          "recall": 0.8444,
+          "f1": 0.8064,
+          "ci95": [
+            0.7528,
+            0.8389
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0163
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0079
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.25
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.869
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6211
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.7799
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8444
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8935,
+          "auc": 0.8218,
+          "precision": 1.0,
+          "recall": 0.7845,
+          "f1": 0.8792,
+          "ci95": [
+            0.8686,
+            0.9185
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.908,
+          "auc": 0.8007,
+          "precision": 0.9967,
+          "recall": 0.7941,
+          "f1": 0.8839,
+          "ci95": [
+            0.898,
+            0.9174
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 139,
+          "test_wrong (were real negations)": 127,
+          "validation": 57,
+          "dev_clean": 308
+        },
+        "delta": -0.052380952381952416,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.0653,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.0843,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0083,
+            "p_permutation": 0.55524
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.6866,
+        "fpr": 0.3083
+      }
+    },
+    "guardrail: sim=jaccard, agg=top3, delta fit on all DEV": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.6534,
+          "auc": 0.4105,
+          "precision": 0.8867,
+          "recall": 0.3545,
+          "f1": 0.5065,
+          "ci95": [
+            0.6307,
+            0.675
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.6721,
+          "auc": 0.39,
+          "precision": 0.9959,
+          "recall": 0.3485,
+          "f1": 0.5163,
+          "ci95": [
+            0.6464,
+            0.6971
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.5806,
+          "auc": 0.45,
+          "precision": 0.6355,
+          "recall": 0.3778,
+          "f1": 0.4739,
+          "ci95": [
+            0.5278,
+            0.6333
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0079
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.2167
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.5172
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.5579
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.1321
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.3778
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.6739,
+          "auc": 0.3906,
+          "precision": 1.0,
+          "recall": 0.3401,
+          "f1": 0.5075,
+          "ci95": [
+            0.6373,
+            0.7105
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.7087,
+          "auc": 0.362,
+          "precision": 0.998,
+          "recall": 0.3404,
+          "f1": 0.5077,
+          "ci95": [
+            0.6928,
+            0.7237
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 548,
+          "test_wrong (were real negations)": 525,
+          "validation": 189,
+          "dev_clean": 992
+        },
+        "delta": 0.018065268064267982,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.2852,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.305,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": -0.2083,
+            "p_permutation": 0.0001
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.7239,
+        "fpr": 0.2707
+      }
+    },
+    "guardrail: sim=jaccard, agg=top3, delta fit on DEV pairs called negation (out-of-fold)": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8693,
+          "auc": 0.8345,
+          "precision": 0.9325,
+          "recall": 0.7973,
+          "f1": 0.8596,
+          "ci95": [
+            0.8534,
+            0.8841
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8886,
+          "auc": 0.8154,
+          "precision": 0.9893,
+          "recall": 0.7866,
+          "f1": 0.8764,
+          "ci95": [
+            0.8714,
+            0.905
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7944,
+          "auc": 0.8756,
+          "precision": 0.7704,
+          "recall": 0.8389,
+          "f1": 0.8032,
+          "ci95": [
+            0.75,
+            0.8361
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0163
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0079
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.25
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.8621
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.7736
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8389
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8902,
+          "auc": 0.8153,
+          "precision": 1.0,
+          "recall": 0.7778,
+          "f1": 0.875,
+          "ci95": [
+            0.8636,
+            0.9151
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.9021,
+          "auc": 0.7878,
+          "precision": 0.9966,
+          "recall": 0.7808,
+          "f1": 0.8756,
+          "ci95": [
+            0.8921,
+            0.9118
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 146,
+          "test_wrong (were real negations)": 134,
+          "validation": 59,
+          "dev_clean": 328
+        },
+        "delta": -0.052380952381952416,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.0693,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.0886,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0056,
+            "p_permutation": 0.77822
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.6866,
+        "fpr": 0.3083
+      }
+    },
+    "guardrail: sim=mix, agg=max, delta fit on all DEV": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8045,
+          "auc": 0.6861,
+          "precision": 0.9671,
+          "recall": 0.6319,
+          "f1": 0.7644,
+          "ci95": [
+            0.7875,
+            0.8233
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.7957,
+          "auc": 0.6296,
+          "precision": 0.9976,
+          "recall": 0.5946,
+          "f1": 0.7451,
+          "ci95": [
+            0.7743,
+            0.8171
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8389,
+          "auc": 0.8687,
+          "precision": 0.8861,
+          "recall": 0.7778,
+          "f1": 0.8284,
+          "ci95": [
+            0.7972,
+            0.8778
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0079
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.1
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.7724
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.4308
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.7778
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.7987,
+          "auc": 0.6356,
+          "precision": 1.0,
+          "recall": 0.5926,
+          "f1": 0.7442,
+          "ci95": [
+            0.7671,
+            0.8286
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8063,
+          "auc": 0.5759,
+          "precision": 0.9988,
+          "recall": 0.5616,
+          "f1": 0.719,
+          "ci95": [
+            0.7931,
+            0.8195
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 324,
+          "test_wrong (were real negations)": 280,
+          "validation": 114,
+          "dev_clean": 660
+        },
+        "delta": 0.03276911829357152,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.1341,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.1814,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.05,
+            "p_permutation": 0.0146
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.8881,
+        "fpr": 0.1053
+      }
+    },
+    "guardrail: sim=mix, agg=max, delta fit on DEV pairs called negation (out-of-fold)": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8636,
+          "auc": 0.8224,
+          "precision": 0.9327,
+          "recall": 0.7848,
+          "f1": 0.8524,
+          "ci95": [
+            0.8483,
+            0.879
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8814,
+          "auc": 0.7993,
+          "precision": 0.9927,
+          "recall": 0.7696,
+          "f1": 0.867,
+          "ci95": [
+            0.8636,
+            0.8986
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7944,
+          "auc": 0.8797,
+          "precision": 0.7677,
+          "recall": 0.8444,
+          "f1": 0.8042,
+          "ci95": [
+            0.7528,
+            0.8361
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0033
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0236
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.2556
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9069
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6316
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.6855
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8444
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8752,
+          "auc": 0.7859,
+          "precision": 1.0,
+          "recall": 0.7475,
+          "f1": 0.8555,
+          "ci95": [
+            0.8486,
+            0.9002
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8901,
+          "auc": 0.7608,
+          "precision": 0.9974,
+          "recall": 0.7528,
+          "f1": 0.858,
+          "ci95": [
+            0.8795,
+            0.9004
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 158,
+          "test_wrong (were real negations)": 145,
+          "validation": 68,
+          "dev_clean": 371
+        },
+        "delta": -0.029318274705964507,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.075,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.0957,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0056,
+            "p_permutation": 0.75632
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.6866,
+        "fpr": 0.3083
+      }
+    },
+    "guardrail: sim=mix, agg=top3, delta fit on all DEV": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.7795,
+          "auc": 0.6371,
+          "precision": 0.9679,
+          "recall": 0.5798,
+          "f1": 0.7252,
+          "ci95": [
+            0.7614,
+            0.7977
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.7693,
+          "auc": 0.5784,
+          "precision": 0.9974,
+          "recall": 0.542,
+          "f1": 0.7023,
+          "ci95": [
+            0.7464,
+            0.7907
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8194,
+          "auc": 0.8264,
+          "precision": 0.8912,
+          "recall": 0.7278,
+          "f1": 0.8012,
+          "ci95": [
+            0.775,
+            0.8583
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0079
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.0889
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.7552
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.5895
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.3333
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.7278
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.7687,
+          "auc": 0.5768,
+          "precision": 1.0,
+          "recall": 0.532,
+          "f1": 0.6945,
+          "ci95": [
+            0.7354,
+            0.802
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.7837,
+          "auc": 0.5263,
+          "precision": 0.9987,
+          "recall": 0.5103,
+          "f1": 0.6755,
+          "ci95": [
+            0.7704,
+            0.7972
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 372,
+          "test_wrong (were real negations)": 326,
+          "validation": 132,
+          "dev_clean": 737
+        },
+        "delta": 0.02115825461306329,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.1591,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.2079,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0306,
+            "p_permutation": 0.19838
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.903,
+        "fpr": 0.0902
+      }
+    },
+    "guardrail: sim=mix, agg=top3, delta fit on DEV pairs called negation (out-of-fold)": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8528,
+          "auc": 0.8014,
+          "precision": 0.9309,
+          "recall": 0.7633,
+          "f1": 0.8388,
+          "ci95": [
+            0.8358,
+            0.8688
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8664,
+          "auc": 0.7713,
+          "precision": 0.9905,
+          "recall": 0.7411,
+          "f1": 0.8478,
+          "ci95": [
+            0.8471,
+            0.8836
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8,
+          "auc": 0.8855,
+          "precision": 0.7727,
+          "recall": 0.85,
+          "f1": 0.8095,
+          "ci95": [
+            0.7583,
+            0.8417
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0065
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0236
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.25
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9069
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.6211
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.6258
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.85
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8652,
+          "auc": 0.7663,
+          "precision": 1.0,
+          "recall": 0.7273,
+          "f1": 0.8421,
+          "ci95": [
+            0.8386,
+            0.8902
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8739,
+          "auc": 0.7247,
+          "precision": 0.9981,
+          "recall": 0.7155,
+          "f1": 0.8335,
+          "ci95": [
+            0.8624,
+            0.8854
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "downgrades": {
+          "test": 177,
+          "test_wrong (were real negations)": 164,
+          "validation": 74,
+          "dev_clean": 428
+        },
+        "delta": -0.034426898049037556,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": -0.0858,
+            "p_permutation": 0.0001
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": -0.1107,
+            "p_permutation": 0.0001
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0111,
+            "p_permutation": 0.34197
+          }
+        }
+      },
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.694,
+        "fpr": 0.3008
+      }
+    },
+    "margin (cos, max) as an extra combiner feature": {
+      "row": {
+        "threshold": 0.4751131005124409,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9403,
+          "auc": 0.9797,
+          "precision": 0.9294,
+          "recall": 0.9536,
+          "f1": 0.9413,
+          "ci95": [
+            0.929,
+            0.9512
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9793,
+          "auc": 0.9946,
+          "precision": 0.9828,
+          "recall": 0.9758,
+          "f1": 0.9793,
+          "ci95": [
+            0.9714,
+            0.9864
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7889,
+          "auc": 0.8759,
+          "precision": 0.75,
+          "recall": 0.8667,
+          "f1": 0.8041,
+          "ci95": [
+            0.7472,
+            0.8306
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0195
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0394
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0084
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.2889
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9828
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9789
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9686
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8667
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.9734,
+          "auc": 0.9985,
+          "precision": 0.993,
+          "recall": 0.9529,
+          "f1": 0.9725,
+          "ci95": [
+            0.9601,
+            0.985
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.9982,
+          "auc": 0.9974,
+          "precision": 0.9987,
+          "recall": 0.9973,
+          "f1": 0.998,
+          "ci95": [
+            0.9968,
+            0.9994
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0,
+        "gain_vs_no_guardrail": {
+          "all": {
+            "part": "all",
+            "n": 1760,
+            "gain": 0.0017,
+            "p_permutation": 0.71263
+          },
+          "cannot_phase2": {
+            "part": "cannot_phase2",
+            "n": 1400,
+            "gain": 0.0021,
+            "p_permutation": 0.63074
+          },
+          "xnot360": {
+            "part": "xnot360",
+            "n": 360,
+            "gain": 0.0,
+            "p_permutation": 1.0
+          }
+        },
+        "importance_of_margin": 0.028
+      },
+      "oof_dev_accuracy": 0.9706,
+      "xnot360_both_conditional": {
+        "n": 134,
+        "accuracy": 0.6567,
+        "fpr": 0.3383
+      }
+    }
+  },
+  "selected": "no guardrail",
+  "selected_params": null
+}

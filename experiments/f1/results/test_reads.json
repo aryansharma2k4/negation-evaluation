@@ -28,5 +28,10 @@
     "step": "2.5",
     "what": "post-hoc: 17 features with the ANLI model swapped in",
     "time": "2026-10-11 19:57"
+  },
+  {
+    "step": "3.4",
+    "what": "guardrail variants on TEST",
+    "time": "2026-10-11 20:00"
   }
 ]
