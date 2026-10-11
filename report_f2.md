@@ -300,3 +300,16 @@ select half.
 ```sh
 ./venv/bin/python experiments/f2/override.py --step 1.1
 ```
+
+### 1.2 The variants
+
+All are implemented in `experiments/f2/override.py`, and all keep the cancellation override first.
+
+| variant | what changes | fitted on |
+| --- | --- | --- |
+| rule (the brief's) | overlap < θ and P_c > ρ → negation | clean DEV (out-of-fold) + `val_ood` fit half |
+| rule + topic floor (added, κ = 0.5 / 0.6 / 0.7) | … and cosine ≥ κ | same |
+| soft feature | the topic-floor rule's boolean, and the NLI margin P_c − P_e, as two extra combiner features; retrained (nli2 step 4.2 protocol) | clean DEV |
+| interaction feature | P_c × (1 − overlap) as an extra feature; retrained | clean DEV |
+| **drop the shortcut** | combiner retrained **without `token_overlap` and `len_diff`** (15 features) | clean DEV |
+| two-model routing | overlap < s → NLI alone at its clean-DEV threshold, else the combiner; s ∈ {0.3, …, 0.7} | clean DEV + `val_ood` fit half |
