@@ -253,3 +253,50 @@ independent check.
 ```sh
 ./venv/bin/python experiments/f2/eval2.py
 ```
+
+### 1.1 The low-overlap NLI override: the brief's rule fails; with a topic floor it works
+
+`experiments/f2/override.py --step 1.1` → `results/1_1_rule_grid.json`.
+
+- **The rule:** turn the combiner's "not a negation" into "negation" when `token_overlap < θ` and
+  `P_contradiction > ρ`. It runs after the cancellation override, which it never undoes.
+- **Fit:** θ and ρ maximise accuracy on clean DEV (combiner **out-of-fold**), pooled with the `val_ood`
+  **fit** half (3,402 + 417 pairs).
+- **Grid:** θ ∈ {0.3, 0.4, 0.5, 0.6, 0.7}, ρ ∈ {0.9, 0.95, 0.975, 0.99, 0.995, 0.999}.
+- With no rule, pooled accuracy is **92.35%**.
+
+**The brief's rule, as specified (no topic condition):** pooled accuracy, the whole surface.
+
+| θ \ ρ | 0.9 | 0.95 | 0.975 | 0.99 | 0.995 | 0.999 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0.3 | 86.5% | 86.6% | 86.8% | 87.3% | 87.5% | 88.2% |
+| 0.4 | 86.6% | 86.8% | 87.0% | 87.5% | 87.8% | 88.4% |
+| 0.5 | 86.8% | 87.0% | 87.1% | 87.7% | 88.0% | **88.5%** |
+| 0.6 | 86.1% | 86.3% | 86.5% | 87.2% | 87.6% | 88.2% |
+| 0.7 | 85.9% | 86.2% | 86.4% | 87.1% | 87.6% | 88.2% |
+
+**Every cell is below the no-rule 92.35%.** The rule as specified cannot help at any setting, which is
+what step 0.1 predicted. Below overlap 0.4, NLI gives P(contradiction) above threshold to 41–52% of
+unrelated pairs, so the override turns hundreds of clean-DEV random, STS-low and SNLI-neutral pairs into
+false positives.
+
+**The rule with a topic floor**, which this report adds: also require mpnet cosine(A, B) ≥ κ, so it fires
+only on same-topic rewordings. Best cell per κ:
+
+| κ | best θ, ρ | pooled accuracy | surface range |
+| --- | --- | ---: | --- |
+| none (the brief's rule) | 0.5, 0.999 | 88.5% | 85.9–88.5% |
+| 0.5 | 0.5, 0.9 | 95.3% | 93.9–95.3% |
+| **0.6** | **0.5, 0.9** | **95.65%** | 94.0–95.65% |
+| 0.7 | 0.5, 0.9 | 93.9% | 92.9–93.9% |
+
+Full surfaces for every κ are in the JSON. With the floor, the surface is flat in ρ (within 0.8 pts from
+0.9 to 0.995), peaked at θ = 0.5, and κ matters most. **Caveat on κ:** `val_ood` was built with a cosine ≥
+0.6 filter (step 0.3), so the κ = 0.6 floor never excludes a `val_ood` row. Part of κ = 0.6's advantage
+over 0.7 reflects that construction and not the data. On clean DEV alone the κ choice is driven by
+STS-low and SNLI-neutral pairs. Step 1.3 tests all four κ rows on TEST, VALIDATION and the `val_ood`
+select half.
+
+```sh
+./venv/bin/python experiments/f2/override.py --step 1.1
+```
