@@ -825,3 +825,79 @@ holds a lock, other processes wait.* / *A process holds a lock, but other proces
 **From this step on, `val_ood` = MNLI section + conditional section.** The select half is 383 + 262 = 645 pairs.
 Earlier selection decisions (Phases 1–3) were made on the MNLI section alone, which is labelled "val_ood
 (v1)" where it matters.
+
+### 5.2 `Report_NLI2.md`'s variant B, validated off TEST — not adopted, by one pair
+
+`experiments/f2/conditional_val.py --step 5.2` → `results/5_2_variant_b.json`.
+
+- **Variant B** (`Report_NLI2.md` 3.3): when both sides are conditionals and only the antecedent flips, or both
+  halves flip (inverse, contrapositive), the pair is *not a negation*. It is a veto that never forces a
+  negation.
+- **Applied on top of** the adopted configuration (C + override).
+- **Off-TEST criterion, written into the script before the run:** variant B must improve the synthetic
+  conditional set **and** must not lower accuracy on clean DEV's human-written conditional slice (36 pairs
+  with both sides conditional, combiner out-of-fold).
+
+**Per template row** (synthetic, **machine-generated**; n = 44 each, all 528 pairs, both `val_ood` halves):
+
+| row | current (C + override) | + variant B |
+| --- | ---: | ---: |
+| antecedent flip, preposed / postposed | 4.5% / 2.3% | **95.5% / 97.7%** |
+| inverse, preposed / postposed | 68.2% / 63.6% | **95.5% / 97.7%** |
+| contrapositive, preposed / postposed | 47.7% / 61.4% | 81.8% / 86.4% |
+| unless | 34.1% | **95.5%** |
+| consequent flip, preposed / postposed (label 1) | 100% / 100% | 100% / 100% |
+| logical negation, *P, but not Q* (label 1) | 95.5% | 95.5% |
+| even if | 20.5% | 20.5% |
+| only if | 100% | 100% |
+| **all 528** | **58.1%** | **88.8%** |
+
+On the synthetic set, variant B does what `Report_NLI2.md` saw post hoc on TEST. It fixes antecedent flips,
+inverses and *unless*, and never touches the label-1 rows. *Even if* stays at 20.5%, because the connective
+changes from *if* to *even if*, so variant B (correctly, by step 0.2 of `report_f1.md`) makes no decision,
+and the combiner calls most of them negations.
+
+On `val_ood` (select half, now 645 pairs, conditionals included), accuracy goes 80.8% → **91.5%**, with
+VALIDATION unchanged at 98.0%. **The step-0.3 rule alone would adopt it.**
+
+**But it fails the off-TEST check on human-written data.** On clean DEV's conditional slice (n = 36, a small
+slice), accuracy goes 94.4% → 91.7%. The veto fires on 2 of the 36 pairs, and one is a real negation by CANNOT's
+label:
+
+> *Maybe if they **weren't** cold they would have been somewhat edible.* / *Maybe if they **were** cold they would
+> have been somewhat edible.* (CANNOT: negation)
+
+That is one pair, and by the stated criterion it is enough. **Variant B is not adopted, and TEST was not read
+for it.** The rule was stated before the run and is followed. Its TEST effect remains unmeasured honestly;
+`Report_NLI2.md`'s post-hoc number still cannot be reported as a result.
+
+**Why that one pair matters more than its n.** It is a **counterfactual** (*would have been*). *If they
+weren't cold, they would have been edible* presupposes that they *were* cold. Flipping the antecedent
+therefore flips the implied fact, and the pair *is* a negation of what was presupposed. Variant B was designed
+on indicative conditionals (*If P, Q*), where an antecedent flip leaves the claim intact. **An honest version
+of variant B needs to exempt counterfactual conditionals** (a *would / could have* consequent, or a past-perfect
+antecedent). That is a small, testable change, listed in next steps. It was not added here, because adding it
+after seeing this pair would be fitting the rule to the validation data it failed on.
+
+### 5.3 The dataset conflict, row by row
+
+`Report_NLI2.md` caveat 9: CANNOT labels some antecedent and connective flips as negations, while xNot360 labels
+the inverse as not a negation. Which template row each convention disagrees with:
+
+| row | this report (logic) | xNot360's convention | CANNOT's convention |
+| --- | --- | --- | --- |
+| antecedent flip | 0 | 0 (agrees) | **sometimes 1**: counterfactual antecedent flips (the pair above) and *If you haven't choked … / If you have choked …* (`Report_NLI2.md` 3.3) |
+| inverse | 0 | 0 (agrees) | not observed in CANNOT |
+| consequent flip | 1 | 1 (agrees) | 1 (agrees) |
+| logical negation (*P, but not Q*) | 1 | 1 (agrees) | 1 (agrees) |
+| contrapositive | 0 | not observed | not observed |
+| unless (= antecedent flip) | 0 | 0 by its inverse convention | 1 if treated like an antecedent flip |
+| even if / only if (connective change) | 0 | not observed | **1**: *… even if all formats do not meet the chart rules* / *… only if all formats meet …* (VALIDATION) |
+
+**The convention followed here is logical incompatibility:** B negates A if they cannot both be true. That
+is xNot360's convention and the one a teacher needs. A student who writes *If you don't follow the signals,
+you won't avoid accidents* for *If you follow the signals, you will avoid accidents* has stated the inverse.
+It is a reasoning error, but it does not contradict the teacher. CANNOT's antecedent-flip labels are right on
+its own terms in the counterfactual case, where the antecedent carries a presupposed fact. The two conventions
+genuinely agree on indicative conditionals and disagree on counterfactuals. **No single rule can satisfy both
+without detecting the counterfactual**, which is why variant B is not adopted until it does.
