@@ -1,0 +1,185 @@
+{
+  "importances": {
+    "p_contradiction": 0.5371,
+    "token_overlap": 0.3268,
+    "cos_sim": 0.044,
+    "len_a": 0.0219,
+    "antonym_aligned": 0.0199,
+    "p_neutral": 0.0146,
+    "p_entailment": 0.0106,
+    "len_b": 0.0095,
+    "len_diff": 0.005,
+    "cue_count_a": 0.0039,
+    "cue_count_b": 0.0036,
+    "net_negation": 0.0017,
+    "cancellation_a": 0.0007,
+    "has_conditional_a": 0.0005,
+    "has_conditional_b": 0.0001,
+    "cancellation_b": 0.0,
+    "antecedent_only_flip": 0.0
+  },
+  "curves": {
+    "clean DEV (out-of-fold) negations": [
+      {
+        "bin_mid": 0.3,
+        "n": 23,
+        "mean_p": 0.7677,
+        "nli_mean_p": 0.9369
+      },
+      {
+        "bin_mid": 0.5,
+        "n": 157,
+        "mean_p": 0.8252,
+        "nli_mean_p": 0.9384
+      },
+      {
+        "bin_mid": 0.7,
+        "n": 1005,
+        "mean_p": 0.9611,
+        "nli_mean_p": 0.9345
+      },
+      {
+        "bin_mid": 0.9,
+        "n": 316,
+        "mean_p": 0.9735,
+        "nli_mean_p": 0.9584
+      }
+    ],
+    "clean DEV (out-of-fold) non-negations": [
+      {
+        "bin_mid": 0.1,
+        "n": 507,
+        "mean_p": 0.0019,
+        "nli_mean_p": 0.5468
+      },
+      {
+        "bin_mid": 0.3,
+        "n": 299,
+        "mean_p": 0.0045,
+        "nli_mean_p": 0.3027
+      },
+      {
+        "bin_mid": 0.5,
+        "n": 587,
+        "mean_p": 0.0343,
+        "nli_mean_p": 0.1337
+      },
+      {
+        "bin_mid": 0.7,
+        "n": 390,
+        "mean_p": 0.1175,
+        "nli_mean_p": 0.1123
+      },
+      {
+        "bin_mid": 0.9,
+        "n": 118,
+        "mean_p": 0.0463,
+        "nli_mean_p": 0.0099
+      }
+    ],
+    "TEST negations": [
+      {
+        "bin_mid": 0.3,
+        "n": 19,
+        "mean_p": 0.4188,
+        "nli_mean_p": 0.8925
+      },
+      {
+        "bin_mid": 0.5,
+        "n": 109,
+        "mean_p": 0.7739,
+        "nli_mean_p": 0.9764
+      },
+      {
+        "bin_mid": 0.7,
+        "n": 603,
+        "mean_p": 0.9688,
+        "nli_mean_p": 0.9541
+      },
+      {
+        "bin_mid": 0.9,
+        "n": 151,
+        "mean_p": 0.9781,
+        "nli_mean_p": 0.9299
+      }
+    ],
+    "TEST non-negations": [
+      {
+        "bin_mid": 0.1,
+        "n": 224,
+        "mean_p": 0.0038,
+        "nli_mean_p": 0.568
+      },
+      {
+        "bin_mid": 0.3,
+        "n": 172,
+        "mean_p": 0.0221,
+        "nli_mean_p": 0.4339
+      },
+      {
+        "bin_mid": 0.5,
+        "n": 185,
+        "mean_p": 0.0181,
+        "nli_mean_p": 0.1342
+      },
+      {
+        "bin_mid": 0.7,
+        "n": 134,
+        "mean_p": 0.1175,
+        "nli_mean_p": 0.0899
+      },
+      {
+        "bin_mid": 0.9,
+        "n": 162,
+        "mean_p": 0.2836,
+        "nli_mean_p": 0.2574
+      }
+    ]
+  },
+  "partial_dependence_token_overlap": {
+    "grid": [
+      0.038,
+      0.082,
+      0.125,
+      0.168,
+      0.211,
+      0.254,
+      0.297,
+      0.34,
+      0.383,
+      0.426,
+      0.469,
+      0.512,
+      0.556,
+      0.599,
+      0.642,
+      0.685,
+      0.728,
+      0.771,
+      0.814,
+      0.857
+    ],
+    "average": [
+      -4.3662,
+      -4.3662,
+      -4.3662,
+      -4.3662,
+      -4.3662,
+      -4.327,
+      -4.4167,
+      -4.1958,
+      -4.1958,
+      -3.8749,
+      -3.8893,
+      -3.517,
+      -0.2787,
+      0.802,
+      0.8342,
+      1.2817,
+      1.1838,
+      0.8896,
+      0.7979,
+      0.9546
+    ]
+  }
+}

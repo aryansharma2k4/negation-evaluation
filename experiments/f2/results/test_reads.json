@@ -3,5 +3,10 @@
     "step": "0.1",
     "what": "overlap bins: combiner vs NLI alone on TEST negations and non-negations",
     "time": "2026-10-11 20:59"
+  },
+  {
+    "step": "0.2",
+    "what": "binned P(negation) vs overlap on TEST, label held fixed",
+    "time": "2026-10-11 21:03"
   }
 ]

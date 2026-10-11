@@ -128,3 +128,44 @@ rewording claim rests on the TEST low-overlap negations: n = 129 below 0.6, n = 
 ```sh
 ./venv/bin/python experiments/f2/overlap.py --step 0.1
 ```
+
+### 0.2 The mechanism, visible in the model
+
+`experiments/f2/overlap.py --step 0.2` → `results/0_2_mechanism.json`, `docs/figures/overlap_mechanism.png`.
+
+Phase 0 baseline GBM importances (unchanged from `report_f1.md`):
+
+| feature | importance |
+| --- | ---: |
+| `p_contradiction` | 0.537 |
+| **`token_overlap`** | **0.327** |
+| `cos_sim` | 0.044 |
+| `len_a` | 0.022 |
+| `antonym_aligned` | 0.020 |
+
+Every other feature is at or below 0.015.
+
+**Partial dependence of the GBM on `token_overlap`** (log-odds, averaged over clean DEV): a step
+function. It is flat at about **−4.4 for overlap ≤ 0.47**, rises to −3.5 at 0.51, and then **jumps to −0.28 at
+0.556 and +0.80 at 0.60**, a swing of about 4.3 log-odds across one tenth of the overlap range. Above
+that it stays at +0.8 to +1.3. The model has, in effect, learned a hard cut near overlap 0.55.
+
+![overlap mechanism](docs/figures/overlap_mechanism.png)
+
+**Mean output by overlap bin, label held fixed** (combiner raw output vs NLI P(contradiction); n per bin):
+
+| | 0.2–0.4 | 0.4–0.6 | 0.6–0.8 | 0.8–1.0 |
+| --- | --- | --- | --- | --- |
+| TEST negations: combiner / NLI | **0.42** / 0.89 (n = 19) | **0.77** / 0.98 (n = 109) | 0.97 / 0.95 (n = 603) | 0.98 / 0.93 (n = 151) |
+| clean DEV negations, out-of-fold: combiner / NLI | 0.77 / 0.94 (n = 23) | 0.83 / 0.94 (n = 157) | 0.96 / 0.93 (n = 1,005) | 0.97 / 0.96 (n = 316) |
+| TEST non-negations: combiner / NLI | 0.02 / 0.43 (n = 172) | 0.02 / 0.13 (n = 185) | 0.12 / 0.09 (n = 134) | 0.28 / 0.26 (n = 162) |
+
+**Among true negations, the combiner's output rises with overlap while NLI's does not.** That is
+the shortcut made visible. On TEST negations, the combiner's mean falls from 0.98 to 0.42 as overlap drops,
+while NLI stays between 0.89 and 0.98. Among non-negations the picture reverses: NLI's output climbs as
+overlap falls (0.43 at 0.2–0.4, 0.57 below 0.2), and the combiner holds it near 0. The same cut that costs
+recall on reworded negations buys the precision on unrelated pairs (step 0.1).
+
+```sh
+./venv/bin/python experiments/f2/overlap.py --step 0.2
+```
