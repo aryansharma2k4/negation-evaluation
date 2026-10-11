@@ -761,8 +761,8 @@ Failure buckets:
 **79 more sentences get an affirmation** (+8.2 pts), 37 of them a true polarity flip. The other 42 are
 adverbial or complement flips, tagged as such. The "outside the main clause" bucket shrinks from 214 to 93. What
 remains is relative clauses (excluded on purpose) and *not* attached to a noun phrase (*… but not
-kennels*), which has no clause to affirm. The other buckets *grow*, because 121 sentences now reach a
-generator that fails on their shape. Those failures were hidden before by the scope check.
+kennels*), which has no clause to affirm. The other buckets *grow*, because some sentences now reach a
+generator that fails on their shape. That is 42 sentences (87 → 129 across those buckets), hidden before by the scope check.
 
 **Spot-check: 29 of 30 correct.** Thirty sentences that gained an affirmation under the new scope were
 sampled at random (seed 0). Verdicts are in the JSON, judged against four criteria:
