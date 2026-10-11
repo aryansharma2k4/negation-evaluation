@@ -1249,3 +1249,36 @@ view) renders one view directly, which is how the screenshots in 6.6 were taken.
 - A second measurement read 32 ms because its pairs had been cached by the first. The random token fixes
   the method, and only the third measurement is reported as the result.
 - Cold start, which loads models and computes the feature medians once, is about 50 s.
+
+### 6.2–6.5 Dashboard views
+
+`dashboard/app.py`, three tabs:
+
+**Tab 1, single pair**, in this order:
+
+- the verdict, large, with the combiner's raw output and threshold, labelled **uncalibrated** (no
+  probability here has been calibrated);
+- **which stage decided it**: cancellation override or combiner. The guardrail stage is shown only if
+  adopted (it was not), and conditionals are combiner features, not an override, which the page says;
+- the combiner's 17 features as a table, with the top contributors highlighted. "Contribution" is the
+  change in the raw GBM output when that feature is replaced by its clean-DEV median, labelled as a
+  local approximate attribution;
+- each NLI model's three probabilities side by side. Only the adopted configuration's models are shown,
+  i.e. the reference model, because the ensemble was not carried forward (step 2.5);
+- every negation cue with its clause scope highlighted (`clause_scope`, the same walk as everywhere else);
+- for a conditional, the antecedent and consequent with their polarities;
+- the generator's negations of T, sorted by similarity to S, with sim(S, T) and the margin. A banner says
+  this is not part of the decision (Phase 3 rejected the guardrail);
+- the Phase 1 affirmations of T when T is negative, with their primary / approximate / polarity_flip tags.
+
+**Tab 2, paragraph:** the m × n cosine heatmap with the assignment (■) and the detector's negation
+verdicts (¬) marked, τ and how it was fit, the per-sentence verdicts, and **coverage and contradiction
+count shown separately**.
+
+**Tab 3, results:** every table is read from the committed JSON files (`results/final_f1.json`,
+`2_2_standalone.json`, `2_3_disagreement.json`, `3_3_coverage.json`, `1_3_inventory.json`,
+`4_5_paragraphs.json`, `5_3_domain.json`), and nothing is hard-coded. Machine-generated data is labelled
+in the section titles.
+
+**6.5.** Nothing is shown that the report does not justify. There is no confidence bar: the only score
+shown is the raw combiner output, with its threshold, labelled uncalibrated.

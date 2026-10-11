@@ -33,5 +33,10 @@
     "step": "3.4",
     "what": "guardrail variants on TEST",
     "time": "2026-10-11 20:00"
+  },
+  {
+    "step": "final",
+    "what": "adopted configuration: ablation, per-family, error analysis",
+    "time": "2026-10-11 20:22"
   }
 ]

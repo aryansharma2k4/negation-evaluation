@@ -148,10 +148,13 @@ def tab_paragraph() -> None:
     from paragraphs import assign, cell, verdicts, fit_tau_cached
     c1, c2 = st.columns(2)
     T = c1.text_area("Teacher paragraph (one sentence per line)", "\n".join([
-        "UDP is a connectionless protocol.", "UDP does not guarantee delivery.", "UDP has lower overhead than TCP."]), height=180)
+        "Round-robin scheduling gives each process a fixed time quantum.", "Round-robin scheduling is preemptive.",
+        "A very large time quantum makes round-robin behave like first-come first-served.",
+        "Round-robin scheduling can cause frequent context switches."]), height=180)
     S = c2.text_area("Student paragraph (one sentence per line)", "\n".join([
-        "UDP guarantees that every datagram is delivered.", "No connection is set up before UDP sends a datagram.",
-        "UDP headers are smaller, so UDP has less overhead than TCP.", "TCP uses a three-way handshake."]), height=180)
+        "With a huge quantum, round robin degenerates into FCFS.", "Round robin is a non-preemptive scheduling algorithm.",
+        "Every process receives the same fixed slice of CPU time under round robin.", "SJF minimizes the average waiting time."]),
+        height=180)
     if not (st.button("Compare", type="primary") or st.query_params.get("view") == "paragraph"):
         return
     T = [x.strip() for x in T.splitlines() if x.strip()]
@@ -201,7 +204,9 @@ def tab_results() -> None:
     fin = load("final_f1.json")
     if fin:
         st.subheader("Ablation (TEST unless noted)")
-        st.dataframe(pd.DataFrame(fin["ablation_table"]), width="stretch", hide_index=True)
+        df = pd.DataFrame(fin["ablation_table"])
+        df["configuration"] = df["configuration"].str.replace("**", "", regex=False)
+        st.dataframe(df, width="stretch", hide_index=True)
         st.caption(fin.get("selection_note", ""))
     sa = load("2_2_standalone.json")
     if sa:
