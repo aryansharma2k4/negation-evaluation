@@ -1,0 +1,1871 @@
+{
+  "model_sets": {
+    "all": [
+      "deberta_base",
+      "roberta_base",
+      "distilroberta",
+      "ml_deberta_base_anli",
+      "bart_large"
+    ],
+    "pruned": [
+      "deberta_base",
+      "roberta_base",
+      "ml_deberta_base_anli",
+      "bart_large"
+    ]
+  },
+  "rows": {
+    "Phase 0 baseline": {
+      "row": {
+        "threshold": 0.42790607868433017,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9386,
+          "auc": 0.9775,
+          "precision": 0.9301,
+          "recall": 0.949,
+          "f1": 0.9395,
+          "ci95": [
+            0.9273,
+            0.95
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9771,
+          "auc": 0.9942,
+          "precision": 0.9841,
+          "recall": 0.9701,
+          "f1": 0.9771,
+          "ci95": [
+            0.9693,
+            0.985
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7889,
+          "auc": 0.8878,
+          "precision": 0.75,
+          "recall": 0.8667,
+          "f1": 0.8041,
+          "ci95": [
+            0.7472,
+            0.8333
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0195
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0394
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.2889
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9828
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9263
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9717
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8667
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.9784,
+          "auc": 0.9973,
+          "precision": 0.9897,
+          "recall": 0.9663,
+          "f1": 0.9779,
+          "ci95": [
+            0.9667,
+            0.99
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.9968,
+          "auc": 0.9974,
+          "precision": 0.9953,
+          "recall": 0.9973,
+          "f1": 0.9963,
+          "ci95": [
+            0.9947,
+            0.9985
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "oof_dev_accuracy": 0.9656
+    },
+    "(a) mean P(contradiction) [all: 5 models]": {
+      "row": {
+        "threshold": 0.788479970395565,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8386,
+          "auc": 0.8738,
+          "precision": 0.8028,
+          "recall": 0.8992,
+          "f1": 0.8483,
+          "ci95": [
+            0.8216,
+            0.8557
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8279,
+          "auc": 0.8567,
+          "precision": 0.7977,
+          "recall": 0.8805,
+          "f1": 0.8371,
+          "ci95": [
+            0.8079,
+            0.8464
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8806,
+          "auc": 0.973,
+          "precision": 0.8216,
+          "recall": 0.9722,
+          "f1": 0.8906,
+          "ci95": [
+            0.8444,
+            0.9139
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.6457
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0085
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.6218
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.2111
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9345
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.7789
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.8616
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9722
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8469,
+          "auc": 0.9106,
+          "precision": 0.8405,
+          "recall": 0.8519,
+          "f1": 0.8462,
+          "ci95": [
+            0.8186,
+            0.8752
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8454,
+          "auc": 0.8993,
+          "precision": 0.7978,
+          "recall": 0.8701,
+          "f1": 0.8324,
+          "ci95": [
+            0.8339,
+            0.8574
+          ]
+        },
+        "k1_fpr": 0.0,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.788479970395565,
+      "oof_dev_accuracy": 0.8454,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.1,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.1493,
+          "p_permutation": 0.0001
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.0917,
+          "p_permutation": 0.0006
+        }
+      }
+    },
+    "(a') median P(contradiction) [all: 5 models]": {
+      "row": {
+        "threshold": 0.7277650833129883,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8199,
+          "auc": 0.865,
+          "precision": 0.7592,
+          "recall": 0.9388,
+          "f1": 0.8395,
+          "ci95": [
+            0.8011,
+            0.8386
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8257,
+          "auc": 0.8489,
+          "precision": 0.7716,
+          "recall": 0.9275,
+          "f1": 0.8424,
+          "ci95": [
+            0.8057,
+            0.8436
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7972,
+          "auc": 0.9607,
+          "precision": 0.7166,
+          "recall": 0.9833,
+          "f1": 0.829,
+          "ci95": [
+            0.7528,
+            0.8389
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.7244
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0256
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.8235
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.3889
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9552
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.8947
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9119
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9833
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8636,
+          "auc": 0.8877,
+          "precision": 0.8228,
+          "recall": 0.9226,
+          "f1": 0.8698,
+          "ci95": [
+            0.8353,
+            0.8918
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8316,
+          "auc": 0.8896,
+          "precision": 0.7533,
+          "recall": 0.9194,
+          "f1": 0.8281,
+          "ci95": [
+            0.8192,
+            0.8439
+          ]
+        },
+        "k1_fpr": 0.0,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.7277650833129883,
+      "oof_dev_accuracy": 0.8316,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.1187,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.1514,
+          "p_permutation": 0.0001
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.0083,
+          "p_permutation": 0.80962
+        }
+      }
+    },
+    "(c) calibrated mean P(contradiction) [all: 5 models]": {
+      "row": {
+        "threshold": 0.518314851958294,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8415,
+          "auc": 0.8713,
+          "precision": 0.8026,
+          "recall": 0.9071,
+          "f1": 0.8517,
+          "ci95": [
+            0.8244,
+            0.8585
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8279,
+          "auc": 0.8535,
+          "precision": 0.7917,
+          "recall": 0.8919,
+          "f1": 0.8388,
+          "ci95": [
+            0.8079,
+            0.8464
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8944,
+          "auc": 0.9719,
+          "precision": 0.8447,
+          "recall": 0.9667,
+          "f1": 0.9016,
+          "ci95": [
+            0.8611,
+            0.925
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.6378
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0085
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.6975
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.1778
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9414
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.7895
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.8774
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9667
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8453,
+          "auc": 0.9023,
+          "precision": 0.8312,
+          "recall": 0.862,
+          "f1": 0.8463,
+          "ci95": [
+            0.817,
+            0.8735
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8424,
+          "auc": 0.8983,
+          "precision": 0.787,
+          "recall": 0.8814,
+          "f1": 0.8316,
+          "ci95": [
+            0.8304,
+            0.8548
+          ]
+        },
+        "k1_fpr": 0.0,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.518314851958294,
+      "oof_dev_accuracy": 0.8424,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0972,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.1493,
+          "p_permutation": 0.0001
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.1056,
+          "p_permutation": 0.0002
+        }
+      }
+    },
+    "(d) logistic stacker over model probabilities [all: 5 models]": {
+      "row": {
+        "threshold": 0.6746974234598117,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8432,
+          "auc": 0.8971,
+          "precision": 0.8008,
+          "recall": 0.9151,
+          "f1": 0.8541,
+          "ci95": [
+            0.8256,
+            0.8597
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8514,
+          "auc": 0.9144,
+          "precision": 0.8185,
+          "recall": 0.9047,
+          "f1": 0.8595,
+          "ci95": [
+            0.8329,
+            0.8693
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8111,
+          "auc": 0.8355,
+          "precision": 0.7414,
+          "recall": 0.9556,
+          "f1": 0.835,
+          "ci95": [
+            0.7694,
+            0.8501
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0033
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.622
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0256
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.4874
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.3333
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9172
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9053
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.8931
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9556
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8869,
+          "auc": 0.9485,
+          "precision": 0.8658,
+          "recall": 0.9125,
+          "f1": 0.8885,
+          "ci95": [
+            0.8619,
+            0.9118
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8795,
+          "auc": 0.9386,
+          "precision": 0.8316,
+          "recall": 0.9114,
+          "f1": 0.8697,
+          "ci95": [
+            0.8689,
+            0.8898
+          ]
+        },
+        "k1_fpr": 0.0,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.6746974234598117,
+      "oof_dev_accuracy": 0.8798,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0955,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.1257,
+          "p_permutation": 0.0001
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.0222,
+          "p_permutation": 0.40546
+        }
+      }
+    },
+    "(b) GBM, 17 features + every model's probabilities [all: 5 models]": {
+      "row": {
+        "threshold": 0.4203511116611803,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9261,
+          "auc": 0.9817,
+          "precision": 0.901,
+          "recall": 0.9581,
+          "f1": 0.9286,
+          "ci95": [
+            0.9142,
+            0.9381
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9857,
+          "auc": 0.9947,
+          "precision": 0.9956,
+          "recall": 0.9758,
+          "f1": 0.9856,
+          "ci95": [
+            0.9793,
+            0.9914
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.6944,
+          "auc": 0.8849,
+          "precision": 0.64,
+          "recall": 0.8889,
+          "f1": 0.7442,
+          "ci95": [
+            0.6444,
+            0.7417
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0065
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0079
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.5
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9862
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9474
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9748
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8889
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.985,
+          "auc": 0.9976,
+          "precision": 0.9898,
+          "recall": 0.9798,
+          "f1": 0.9848,
+          "ci95": [
+            0.975,
+            0.9933
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.9988,
+          "auc": 0.9974,
+          "precision": 1.0,
+          "recall": 0.9973,
+          "f1": 0.9987,
+          "ci95": [
+            0.9976,
+            0.9997
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.4203511116611803,
+      "oof_dev_accuracy": 0.9694,
+      "chosen": "depth=3,lr=0.1",
+      "cv_auc": {
+        "depth=2,lr=0.03": 0.9924,
+        "depth=2,lr=0.1": 0.9946,
+        "depth=3,lr=0.03": 0.9942,
+        "depth=3,lr=0.1": 0.9952
+      },
+      "n_features": 29,
+      "importances": {
+        "ml_deberta_base_anli:p_c": 0.6184,
+        "token_overlap": 0.229,
+        "len_b": 0.0185,
+        "cos_sim": 0.015,
+        "antonym_aligned": 0.015,
+        "p_contradiction": 0.013,
+        "len_a": 0.0108,
+        "p_neutral": 0.0105,
+        "ml_deberta_base_anli:p_e": 0.0068,
+        "roberta_base:p_c": 0.0062,
+        "distilroberta:p_n": 0.0058,
+        "bart_large:p_n": 0.0058,
+        "cue_count_b": 0.0053,
+        "p_entailment": 0.0051,
+        "bart_large:p_e": 0.0048,
+        "ml_deberta_base_anli:p_n": 0.0044,
+        "cue_count_a": 0.0043,
+        "roberta_base:p_n": 0.0043,
+        "bart_large:p_c": 0.0043,
+        "len_diff": 0.004,
+        "distilroberta:p_e": 0.0036,
+        "roberta_base:p_e": 0.0018,
+        "distilroberta:p_c": 0.0018,
+        "cancellation_a": 0.0006,
+        "has_conditional_a": 0.0004,
+        "net_negation": 0.0003,
+        "has_conditional_b": 0.0002,
+        "cancellation_b": 0.0,
+        "antecedent_only_flip": 0.0
+      },
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0125,
+          "p_permutation": 0.0121
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0086,
+          "p_permutation": 0.0182
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.0944,
+          "p_permutation": 0.0001
+        }
+      }
+    },
+    "(e) GBM, 17 features with NLI probabilities averaged across models [all: 5 models]": {
+      "row": {
+        "threshold": 0.263190123284044,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9062,
+          "auc": 0.9842,
+          "precision": 0.8604,
+          "recall": 0.9706,
+          "f1": 0.9122,
+          "ci95": [
+            0.892,
+            0.9205
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9807,
+          "auc": 0.9948,
+          "precision": 0.9801,
+          "recall": 0.9815,
+          "f1": 0.9808,
+          "ci95": [
+            0.9736,
+            0.9879
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.6167,
+          "auc": 0.8931,
+          "precision": 0.5719,
+          "recall": 0.9278,
+          "f1": 0.7076,
+          "ci95": [
+            0.5639,
+            0.6667
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0163
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0709
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.6944
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9862
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9579
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9843
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9278
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.9767,
+          "auc": 0.9975,
+          "precision": 0.9797,
+          "recall": 0.9731,
+          "f1": 0.9764,
+          "ci95": [
+            0.9651,
+            0.9884
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.9727,
+          "auc": 0.9956,
+          "precision": 0.9473,
+          "recall": 0.9933,
+          "f1": 0.9698,
+          "ci95": [
+            0.9674,
+            0.9782
+          ]
+        },
+        "k1_fpr": 0.011,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.263190123284044,
+      "oof_dev_accuracy": 0.9624,
+      "chosen": "depth=3,lr=0.03",
+      "cv_auc": {
+        "depth=2,lr=0.03": 0.9918,
+        "depth=2,lr=0.1": 0.9922,
+        "depth=3,lr=0.03": 0.9932,
+        "depth=3,lr=0.1": 0.9929
+      },
+      "n_features": 17,
+      "importances": {
+        "p_contradiction": 0.5693,
+        "token_overlap": 0.3248,
+        "cos_sim": 0.0199,
+        "antonym_aligned": 0.019,
+        "p_neutral": 0.0155,
+        "len_a": 0.0152,
+        "len_b": 0.015,
+        "cue_count_b": 0.005,
+        "p_entailment": 0.0049,
+        "cue_count_a": 0.0039,
+        "len_diff": 0.0037,
+        "net_negation": 0.0013,
+        "cancellation_a": 0.0013,
+        "has_conditional_a": 0.001,
+        "has_conditional_b": 0.0001,
+        "cancellation_b": 0.0,
+        "antecedent_only_flip": 0.0
+      },
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0324,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0036,
+          "p_permutation": 0.41416
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.1722,
+          "p_permutation": 0.0001
+        }
+      }
+    },
+    "(a) mean P(contradiction) [pruned: 4 models]": {
+      "row": {
+        "threshold": 0.8735147416591644,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8415,
+          "auc": 0.8871,
+          "precision": 0.8094,
+          "recall": 0.8947,
+          "f1": 0.8499,
+          "ci95": [
+            0.8244,
+            0.8591
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.835,
+          "auc": 0.8721,
+          "precision": 0.8097,
+          "recall": 0.8777,
+          "f1": 0.8423,
+          "ci95": [
+            0.8157,
+            0.8536
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8667,
+          "auc": 0.9743,
+          "precision": 0.8084,
+          "recall": 0.9611,
+          "f1": 0.8782,
+          "ci95": [
+            0.8278,
+            0.9028
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.622
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0085
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.5462
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.2278
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9241
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.8
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.8585
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9611
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8569,
+          "auc": 0.9212,
+          "precision": 0.8528,
+          "recall": 0.8586,
+          "f1": 0.8557,
+          "ci95": [
+            0.8286,
+            0.8835
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8601,
+          "auc": 0.9137,
+          "precision": 0.8229,
+          "recall": 0.8701,
+          "f1": 0.8459,
+          "ci95": [
+            0.8489,
+            0.8718
+          ]
+        },
+        "k1_fpr": 0.0,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.8735147416591644,
+      "oof_dev_accuracy": 0.8601,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0972,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.1421,
+          "p_permutation": 0.0001
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.0778,
+          "p_permutation": 0.0025
+        }
+      }
+    },
+    "(a') median P(contradiction) [pruned: 4 models]": {
+      "row": {
+        "threshold": 0.9646183848381042,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8494,
+          "auc": 0.8739,
+          "precision": 0.8186,
+          "recall": 0.8992,
+          "f1": 0.857,
+          "ci95": [
+            0.8324,
+            0.8665
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8371,
+          "auc": 0.8588,
+          "precision": 0.8088,
+          "recall": 0.8848,
+          "f1": 0.8451,
+          "ci95": [
+            0.8179,
+            0.8557
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8972,
+          "auc": 0.9651,
+          "precision": 0.8557,
+          "recall": 0.9556,
+          "f1": 0.9029,
+          "ci95": [
+            0.8639,
+            0.9278
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.6142
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0085
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.5714
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.1611
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.931
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.7474
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.8836
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9556
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8536,
+          "auc": 0.8982,
+          "precision": 0.8426,
+          "recall": 0.8653,
+          "f1": 0.8538,
+          "ci95": [
+            0.8253,
+            0.8819
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8519,
+          "auc": 0.9017,
+          "precision": 0.8075,
+          "recall": 0.8721,
+          "f1": 0.8386,
+          "ci95": [
+            0.8401,
+            0.8639
+          ]
+        },
+        "k1_fpr": 0.0,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.9646183848381042,
+      "oof_dev_accuracy": 0.8519,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0892,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.14,
+          "p_permutation": 0.0001
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.1083,
+          "p_permutation": 0.0001
+        }
+      }
+    },
+    "(c) calibrated mean P(contradiction) [pruned: 4 models]": {
+      "row": {
+        "threshold": 0.5572190747142414,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8472,
+          "auc": 0.88,
+          "precision": 0.8145,
+          "recall": 0.9003,
+          "f1": 0.8553,
+          "ci95": [
+            0.8301,
+            0.8642
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8329,
+          "auc": 0.8636,
+          "precision": 0.8034,
+          "recall": 0.8834,
+          "f1": 0.8415,
+          "ci95": [
+            0.8136,
+            0.8514
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.9028,
+          "auc": 0.9732,
+          "precision": 0.8571,
+          "recall": 0.9667,
+          "f1": 0.9086,
+          "ci95": [
+            0.8722,
+            0.9333
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.6299
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0085
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.5966
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.1611
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.931
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.7684
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.8742
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9667
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8552,
+          "auc": 0.9114,
+          "precision": 0.8409,
+          "recall": 0.8721,
+          "f1": 0.8562,
+          "ci95": [
+            0.827,
+            0.8835
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8533,
+          "auc": 0.9075,
+          "precision": 0.8059,
+          "recall": 0.8794,
+          "f1": 0.841,
+          "ci95": [
+            0.8416,
+            0.8651
+          ]
+        },
+        "k1_fpr": 0.0,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.5572190747142414,
+      "oof_dev_accuracy": 0.8533,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0915,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.1443,
+          "p_permutation": 0.0001
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.1139,
+          "p_permutation": 0.0001
+        }
+      }
+    },
+    "(d) logistic stacker over model probabilities [pruned: 4 models]": {
+      "row": {
+        "threshold": 0.5969400018027028,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.8438,
+          "auc": 0.9028,
+          "precision": 0.794,
+          "recall": 0.9298,
+          "f1": 0.8565,
+          "ci95": [
+            0.8261,
+            0.8614
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.8493,
+          "auc": 0.8889,
+          "precision": 0.8067,
+          "recall": 0.9203,
+          "f1": 0.8598,
+          "ci95": [
+            0.8307,
+            0.8671
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.8222,
+          "auc": 0.9697,
+          "precision": 0.75,
+          "recall": 0.9667,
+          "f1": 0.8447,
+          "ci95": [
+            0.7833,
+            0.8611
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0033
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.685
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0171
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.5462
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.3222
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.931
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9263
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9088
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9667
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.8869,
+          "auc": 0.9348,
+          "precision": 0.8589,
+          "recall": 0.9226,
+          "f1": 0.8896,
+          "ci95": [
+            0.8619,
+            0.9119
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.8754,
+          "auc": 0.9244,
+          "precision": 0.8177,
+          "recall": 0.9234,
+          "f1": 0.8673,
+          "ci95": [
+            0.8645,
+            0.8859
+          ]
+        },
+        "k1_fpr": 0.0,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.5969400018027028,
+      "oof_dev_accuracy": 0.8751,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0949,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.1279,
+          "p_permutation": 0.0001
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.0333,
+          "p_permutation": 0.19328
+        }
+      }
+    },
+    "(b) GBM, 17 features + every model's probabilities [pruned: 4 models]": {
+      "row": {
+        "threshold": 0.40604142238562824,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9455,
+          "auc": 0.9834,
+          "precision": 0.9358,
+          "recall": 0.957,
+          "f1": 0.9462,
+          "ci95": [
+            0.9347,
+            0.9557
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9836,
+          "auc": 0.9948,
+          "precision": 0.9942,
+          "recall": 0.973,
+          "f1": 0.9835,
+          "ci95": [
+            0.9764,
+            0.99
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7972,
+          "auc": 0.8938,
+          "precision": 0.7488,
+          "recall": 0.8944,
+          "f1": 0.8152,
+          "ci95": [
+            0.7528,
+            0.8389
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.0098
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0079
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.3
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9862
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9263
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9748
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.8944
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.9817,
+          "auc": 0.9977,
+          "precision": 0.9897,
+          "recall": 0.9731,
+          "f1": 0.9813,
+          "ci95": [
+            0.9717,
+            0.9917
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.9985,
+          "auc": 0.9974,
+          "precision": 0.9993,
+          "recall": 0.9973,
+          "f1": 0.9983,
+          "ci95": [
+            0.9971,
+            0.9997
+          ]
+        },
+        "k1_fpr": 0.022,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.40604142238562824,
+      "oof_dev_accuracy": 0.9697,
+      "chosen": "depth=3,lr=0.1",
+      "cv_auc": {
+        "depth=2,lr=0.03": 0.9926,
+        "depth=2,lr=0.1": 0.9942,
+        "depth=3,lr=0.03": 0.994,
+        "depth=3,lr=0.1": 0.9948
+      },
+      "n_features": 26,
+      "importances": {
+        "ml_deberta_base_anli:p_c": 0.6214,
+        "token_overlap": 0.2305,
+        "len_b": 0.0184,
+        "cos_sim": 0.0149,
+        "antonym_aligned": 0.0146,
+        "p_contradiction": 0.0131,
+        "len_a": 0.0118,
+        "p_neutral": 0.0106,
+        "ml_deberta_base_anli:p_e": 0.0082,
+        "bart_large:p_n": 0.007,
+        "bart_large:p_e": 0.0063,
+        "cue_count_b": 0.0058,
+        "cue_count_a": 0.0057,
+        "roberta_base:p_n": 0.0054,
+        "roberta_base:p_c": 0.0049,
+        "len_diff": 0.0046,
+        "ml_deberta_base_anli:p_n": 0.0046,
+        "p_entailment": 0.0045,
+        "bart_large:p_c": 0.0038,
+        "roberta_base:p_e": 0.0025,
+        "net_negation": 0.0008,
+        "cancellation_a": 0.0004,
+        "has_conditional_a": 0.0002,
+        "has_conditional_b": 0.0001,
+        "cancellation_b": 0.0,
+        "antecedent_only_flip": 0.0
+      },
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": 0.0068,
+          "p_permutation": 0.0422
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0064,
+          "p_permutation": 0.05179
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.0083,
+          "p_permutation": 0.58444
+        }
+      }
+    },
+    "(e) GBM, 17 features with NLI probabilities averaged across models [pruned: 4 models]": {
+      "row": {
+        "threshold": 0.35936386092376216,
+        "all": {
+          "n": 1760,
+          "accuracy": 0.9432,
+          "auc": 0.9839,
+          "precision": 0.9297,
+          "recall": 0.9592,
+          "f1": 0.9443,
+          "ci95": [
+            0.9318,
+            0.9545
+          ]
+        },
+        "cannot_phase2": {
+          "n": 1400,
+          "accuracy": 0.9807,
+          "auc": 0.9943,
+          "precision": 0.987,
+          "recall": 0.9744,
+          "f1": 0.9807,
+          "ci95": [
+            0.9729,
+            0.9871
+          ]
+        },
+        "xnot360": {
+          "n": 360,
+          "accuracy": 0.7972,
+          "auc": 0.9016,
+          "precision": 0.7465,
+          "recall": 0.9,
+          "f1": 0.8161,
+          "ci95": [
+            0.7556,
+            0.8389
+          ]
+        },
+        "fpr_by_kind": {
+          "paraphrase": {
+            "n": 307,
+            "fpr": 0.013
+          },
+          "SemAntoNeg": {
+            "n": 27,
+            "fpr": 0.0
+          },
+          "sts_low": {
+            "n": 127,
+            "fpr": 0.0394
+          },
+          "snli_neutral": {
+            "n": 117,
+            "fpr": 0.0
+          },
+          "random_pair": {
+            "n": 119,
+            "fpr": 0.0
+          },
+          "xnot360_not_negation": {
+            "n": 180,
+            "fpr": 0.3056
+          }
+        },
+        "recall_by_type": {
+          "verbal": {
+            "n": 290,
+            "recall": 0.9828
+          },
+          "antonym": {
+            "n": 95,
+            "recall": 0.9684
+          },
+          "other": {
+            "n": 318,
+            "recall": 0.9686
+          },
+          "xnot360_negation": {
+            "n": 180,
+            "recall": 0.9
+          }
+        },
+        "validation": {
+          "n": 601,
+          "accuracy": 0.98,
+          "auc": 0.996,
+          "precision": 0.9863,
+          "recall": 0.9731,
+          "f1": 0.9797,
+          "ci95": [
+            0.9684,
+            0.99
+          ]
+        },
+        "dev_clean": {
+          "n": 3402,
+          "accuracy": 0.9927,
+          "auc": 0.9974,
+          "precision": 0.9862,
+          "recall": 0.9973,
+          "f1": 0.9917,
+          "ci95": [
+            0.9897,
+            0.9953
+          ]
+        },
+        "k1_fpr": 0.011,
+        "k1_n": 91,
+        "semantoneg_phase2_fpr": 0.0
+      },
+      "threshold": 0.35936386092376216,
+      "oof_dev_accuracy": 0.9662,
+      "chosen": "depth=3,lr=0.1",
+      "cv_auc": {
+        "depth=2,lr=0.03": 0.9927,
+        "depth=2,lr=0.1": 0.994,
+        "depth=3,lr=0.03": 0.994,
+        "depth=3,lr=0.1": 0.9943
+      },
+      "n_features": 17,
+      "importances": {
+        "p_contradiction": 0.5966,
+        "token_overlap": 0.2668,
+        "cos_sim": 0.0273,
+        "p_neutral": 0.0269,
+        "len_b": 0.0195,
+        "antonym_aligned": 0.017,
+        "p_entailment": 0.0141,
+        "len_a": 0.0117,
+        "len_diff": 0.007,
+        "cue_count_a": 0.0061,
+        "cue_count_b": 0.0033,
+        "cancellation_a": 0.0013,
+        "net_negation": 0.0012,
+        "has_conditional_a": 0.0009,
+        "has_conditional_b": 0.0002,
+        "cancellation_b": 0.0,
+        "antecedent_only_flip": 0.0
+      },
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": 0.0045,
+          "p_permutation": 0.24208
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0036,
+          "p_permutation": 0.43146
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": 0.0083,
+          "p_permutation": 0.54565
+        }
+      }
+    }
+  },
+  "rule": "* Model sets. \"all\" = every scored model. \"pruned\" = drop models whose standalone VALIDATION\n  accuracy is more than 3 pts below the reference's; then, for any pair whose binary decisions\n  agree on > 95% of clean-DEV pairs, drop the one with lower standalone VALIDATION accuracy.\n  (The brief asks for the disagreement matrix on TEST; it is reported, but choosing models on TEST\n  disagreement would be selection on TEST, so pruning uses clean DEV.)\n* Configuration: highest VALIDATION accuracy among the Phase 0 baseline and every (method, set);\n  tie -> higher out-of-fold clean-DEV accuracy (threshold-only methods: clean-DEV accuracy at the\n  DEV-fit threshold).",
+  "selected": "(b) GBM, 17 features + every model's probabilities [all: 5 models]"
+}

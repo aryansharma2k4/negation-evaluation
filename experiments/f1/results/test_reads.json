@@ -18,5 +18,15 @@
     "step": "2.3",
     "what": "pairwise disagreement of NLI models on TEST",
     "time": "2026-10-11 19:48"
+  },
+  {
+    "step": "2.4",
+    "what": "NLI ensembles on TEST",
+    "time": "2026-10-11 19:50"
+  },
+  {
+    "step": "2.5",
+    "what": "post-hoc: 17 features with the ANLI model swapped in",
+    "time": "2026-10-11 19:57"
   }
 ]

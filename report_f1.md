@@ -498,3 +498,66 @@ pruned set.
 ```sh
 ./venv/bin/python experiments/f1/ensemble.py --step 2.3
 ```
+
+### 2.4 Ensembling methods
+
+`experiments/f1/ensemble.py --step 2.4` → `results/2_4_ensembles.json`. Every configuration keeps the
+Phase 0 cancellation override in front. Methods, each on the full set (5 models) and the pruned
+set (4 models; step 2.3):
+
+- **(a) mean P(contradiction)**, one Youden threshold (the brief's baseline method);
+  **(a') median**, a robustness variant.
+- **(b) GBM on the 17 features plus each extra model's three probabilities** (17 + 3 × 4 = 29 features for
+  5 models; 26 for 4). Retrained exactly as nli2 step 4.2: grouped 5-fold CV over connected components,
+  grid by CV AUC, Youden on out-of-fold predictions, refit on all clean DEV.
+- **(c) calibrated mean.** Each model's P(contradiction) is Platt-calibrated on clean DEV (logistic on
+  its logit), then averaged. This is the first calibration of any probability in this project.
+- **(d) logistic stacker** over all models' probabilities alone (no other features), with threshold from
+  out-of-fold predictions.
+- **(e) GBM on the same 17 features**, with the three NLI features replaced by their mean across models
+  (no extra features).
+
+**Rule, stated in the script before the run:** highest VALIDATION accuracy among the Phase 0 baseline
+and every (method, set); tie → higher out-of-fold clean-DEV accuracy.
+
+| configuration | phase-2 acc (95% CI) | all-TEST acc | AUC | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91) | VAL acc | out-of-fold DEV |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 0 baseline | 97.7% (96.9–98.5) | 93.9% | 0.978 | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | 97.8% | 96.6% |
+| (a) mean, 5 models | 82.8% (80.8–84.6) | 83.9% | 0.874 | 80.3% | 89.9% | 84.8% | 0.0% | 64.6% | 0.9% | 62.2% | 21.1% | 77.9% | 0.0% | 84.7% | 84.5%* |
+| (a') median, 5 models | 82.6% (80.6–84.4) | 82.0% | 0.865 | 75.9% | 93.9% | 84.0% | 0.0% | 72.4% | 2.6% | 82.3% | 38.9% | 89.5% | 0.0% | 86.4% | 83.2%* |
+| (c) calibrated mean, 5 models | 82.8% (80.8–84.6) | 84.2% | 0.871 | 80.3% | 90.7% | 85.2% | 0.0% | 63.8% | 0.9% | 69.8% | 17.8% | 79.0% | 0.0% | 84.5% | 84.2%* |
+| (d) logistic stacker, 5 models | 85.1% (83.3–86.9) | 84.3% | 0.897 | 80.1% | 91.5% | 85.4% | 0.3% | 62.2% | 2.6% | 48.7% | 33.3% | 90.5% | 0.0% | 88.7% | 88.0% |
+| **(b) GBM 29 features, 5 models ← VALIDATION pick** | **98.6% (97.9–99.1)** | 92.6% | 0.982 | 90.1% | 95.8% | 92.9% | 0.7% | 0.8% | 0.0% | 0.0% | **50.0%** | 94.7% | 2.2% | **98.5%** | 96.9% |
+| (e) GBM 17, averaged probs, 5 models | 98.1% (97.4–98.8) | 90.6% | 0.984 | 86.0% | 97.1% | 91.2% | 1.6% | 7.1% | 0.0% | 0.0% | 69.4% | 95.8% | 1.1% | 97.7% | 96.2% |
+| (a) mean, 4 models | 83.5% (81.6–85.4) | 84.2% | 0.887 | 80.9% | 89.5% | 85.0% | 0.0% | 62.2% | 0.9% | 54.6% | 22.8% | 80.0% | 0.0% | 85.7% | 86.0%* |
+| (a') median, 4 models | 83.7% (81.8–85.6) | 84.9% | 0.874 | 81.9% | 89.9% | 85.7% | 0.0% | 61.4% | 0.9% | 57.1% | 16.1% | 74.7% | 0.0% | 85.4% | 85.2%* |
+| (c) calibrated mean, 4 models | 83.3% (81.4–85.1) | 84.7% | 0.880 | 81.5% | 90.0% | 85.5% | 0.0% | 63.0% | 0.9% | 59.7% | 16.1% | 76.8% | 0.0% | 85.5% | 85.3%* |
+| (d) logistic stacker, 4 models | 84.9% (83.1–86.7) | 84.4% | 0.903 | 79.4% | 93.0% | 85.7% | 0.3% | 68.5% | 1.7% | 54.6% | 32.2% | 92.6% | 0.0% | 88.7% | 87.5% |
+| (b) GBM 26 features, 4 models | 98.4% (97.6–99.0) | 94.5% | 0.983 | 93.6% | 95.7% | 94.6% | 1.0% | 0.8% | 0.0% | 0.0% | 30.0% | 92.6% | 2.2% | 98.2% | 97.0% |
+| (e) GBM 17, averaged probs, 4 models | 98.1% (97.3–98.7) | 94.3% | 0.984 | 93.0% | 95.9% | 94.4% | 1.3% | 3.9% | 0.0% | 0.0% | 30.6% | 96.8% | 1.1% | 98.0% | 96.6% |
+
+\* threshold-only methods: clean-DEV accuracy at the DEV-fit threshold (one fitted parameter), not out-of-fold.
+
+**The VALIDATION rule selects (b) with all 5 models** (98.5%; next, (b) on 4 models at 98.2%). Its gains
+over the Phase 0 baseline, paired permutation, uncorrected:
+
+- CANNOT phase 2: **+0.9 pts (p = 0.018)**, mostly sts_low FPR 3.9% → 0.8% and paraphrase FPR 1.9% → 0.7%.
+- **The cost, in the same sentence:** xNot360 −9.4 pts (78.9% → 69.4%, p = 0.0001), because conditional-inverse
+  FPR rises 28.9% → 50.0%. All of TEST therefore falls **−1.25 pts (93.9% → 92.6%, p = 0.012)**.
+
+The gain is in-distribution and the loss is out-of-distribution, the same pattern as `Report_NLI2.md`'s
+main caveat, now larger.
+
+**Ensembling NLI scores without the other features is far worse.** Methods (a), (a'), (c) and (d) land at
+82–85% on phase 2. Calibration (c) changes almost nothing (84.5% VALIDATION vs 84.7% uncalibrated), because
+Youden's threshold is invariant to monotone rescaling of one model, and averaging calibrated
+probabilities barely reorders pairs. Every one of these methods is at least 12.6 pts below the
+baseline on phase 2 (p = 0.0001). The GBM's other features carry the decision.
+
+Not reported as a selection, because TEST must not choose: on TEST the pruned 4-model (b) is better than the
+5-model one, at all-TEST 94.5% (+0.7 pts, p = 0.042) and xNot360 79.7%. VALIDATION (98.2% vs 98.5%) could
+not see that, because VALIDATION contains no xNot360-like data.
+
+```sh
+./venv/bin/python experiments/f1/ensemble.py --step 2.4
+```
