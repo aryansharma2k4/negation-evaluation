@@ -625,3 +625,54 @@ independent check of rewording.
 ```sh
 ./venv/bin/python experiments/f2/rebalance.py --step 3.2
 ```
+
+### 3.3 Retraining on each augmentation: the shortcut can be removed, and xNot360 pays for it
+
+`experiments/f2/rebalance.py --step 3.3` → `results/3_3_rebalance.json`.
+
+- **Architecture:** the adopted one (C: 4-model pruned ensemble, 26 features), retrained with nli2's
+  protocol on clean DEV + each augmentation. The CV folds stay grouped by shared sentences across original
+  and added pairs. Each is reported with and without the override.
+- **Comparison:** every row is compared with the **current** configuration (C + override), in the first row.
+- **Not re-run on the paragraph set:** no configuration was adopted, and this round's rules allow the
+  paragraph set to support matching claims only.
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood | `token_overlap` importance |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| current: C + override | 98.0% (97.2–98.7) | 93.7% | 76.9% | 90.7% | 97.4% | 93.9% | 1.3% | 4.7% | 0.0% | 0.0% | 43.3% | 93.7% | 2.2% | 90.7% | 5.6% | 98.0% | 94.3% | 0.256* |
+| + natural (1,100) | 97.9% (97.1–98.6) | 92.0% | 69.4% | 87.9% | 97.5% | 92.5% | 1.6% | 3.9% | 0.9% | 0.0% | 59.4% | 95.8% | 2.2% | **94.6%** | 6.6% | 97.0% | 94.5% | **0.042** |
+| + natural + override | 97.7% (96.9–98.4) | 91.8% | 68.6% | 87.5% | 97.5% | 92.2% | 1.6% | 5.5% | 0.9% | 0.0% | 61.1% | 95.8% | 2.2% | 94.6% | 6.8% | 97.0% | 95.3% | 0.042 |
+| + generated (1,200, **machine-gen.**) | 98.1% (97.4–98.8) | 89.7% | **56.7%** | 84.5% | 97.3% | 90.4% | 1.0% | 3.1% | 0.0% | 0.0% | 83.9% | 94.7% | 4.4% | 91.5% | 1.5% | 97.8% | 60.8% | 0.221 |
+| + generated + override | 97.7% (96.9–98.4) | 88.5% | 52.5% | 82.6% | 97.6% | 89.5% | 1.3% | 7.1% | 0.0% | 0.0% | 93.9% | 94.7% | 4.4% | 93.8% | 5.8% | 97.7% | 94.3% | 0.221 |
+| + mixed (2,300) | 97.3% (96.4–98.1) | 87.7% | **50.6%** | 81.5% | 97.7% | 88.9% | 2.6% | 7.9% | 0.9% | 0.0% | 98.3% | 96.8% | 4.4% | 96.9% | 8.1% | 96.5% | 95.0% | 0.108 |
+| + mixed + override | identical to the row above | | | | | | | | | | | | | | | | | |
+
+\* `token_overlap` importance in the current C model (from the 2.2 fit); the Phase 0 GBM's is 0.327.
+
+Paired permutation against the Phase 0 baseline (uncorrected), without / with override:
+
+- **natural:** phase 2 +0.1 / 0.0 pts (p = 0.86 / 1.0), all TEST −1.8 / −2.1 pts (p = 0.003 / 0.0009), xNot360 **−9.4 / −10.3
+  pts** (p = 0.0001);
+- **generated:** all TEST −4.2 / −5.4 pts, xNot360 −22.2 / −26.4 pts (p = 0.0001);
+- **mixed:** all TEST −6.1 pts, xNot360 −28.3 pts (p = 0.0001).
+
+**Selection: none is adopted.**
+
+- **natural:** VALIDATION 98.0% → 97.0%.
+- **generated:** VALIDATION falls (97.8% / 97.7%).
+- **mixed:** both columns that the rule needs non-decreasing go the wrong way or tie: VALIDATION 96.5%, and
+  `val_ood` up only because MNLI-train is in it.
+
+The current configuration stays.
+
+**What the numbers say, in plain language.** **Natural augmentation does exactly what this round set out to do
+to the shortcut.** `token_overlap`'s importance drops from 0.256 to **0.042**, and low-overlap negation recall
+reaches **94.6% without any override** (n = 129). The combiner now leaves rewordings to NLI, as intended.
+The bill comes from xNot360's conditional inverses: FPR 43.3% → 59.4%. MNLI and SNLI contradictions teach
+"high P(contradiction) at moderate overlap means negation", and xNot360's inverses look exactly like that. CANNOT
+phase 2 does not move (97.9% vs 98.0%), and VALIDATION, which is CANNOT, falls 1 pt.
+
+The generated augmentation fails differently. Its 600 random re-pairings reinforce "very low overlap ⇒
+unrelated" (importance stays 0.221), and its 600 hedged and intensified negations at moderate overlap teach
+the trees to call moderate-overlap, single-cue edits negations. That is precisely xNot360's inverse shape
+(*If P, Q* / *If not P, not Q*), so xNot360 collapses to 56.7%.

@@ -1,0 +1,1143 @@
+{
+  "current_adopted (C + override)": {
+    "threshold": 0.40604142238562824,
+    "all": {
+      "n": 1760,
+      "accuracy": 0.9369,
+      "auc": 0.9512,
+      "precision": 0.9072,
+      "recall": 0.974,
+      "f1": 0.9394,
+      "ci95": [
+        0.925,
+        0.9477
+      ]
+    },
+    "cannot_phase2": {
+      "n": 1400,
+      "accuracy": 0.98,
+      "auc": 0.9863,
+      "precision": 0.9856,
+      "recall": 0.9744,
+      "f1": 0.98,
+      "ci95": [
+        0.9721,
+        0.9871
+      ]
+    },
+    "xnot360": {
+      "n": 360,
+      "accuracy": 0.7694,
+      "auc": 0.8223,
+      "precision": 0.6917,
+      "recall": 0.9722,
+      "f1": 0.8083,
+      "ci95": [
+        0.725,
+        0.8112
+      ]
+    },
+    "fpr_by_kind": {
+      "paraphrase": {
+        "n": 307,
+        "fpr": 0.013
+      },
+      "SemAntoNeg": {
+        "n": 27,
+        "fpr": 0.0
+      },
+      "sts_low": {
+        "n": 127,
+        "fpr": 0.0472
+      },
+      "snli_neutral": {
+        "n": 117,
+        "fpr": 0.0
+      },
+      "random_pair": {
+        "n": 119,
+        "fpr": 0.0
+      },
+      "xnot360_not_negation": {
+        "n": 180,
+        "fpr": 0.4333
+      }
+    },
+    "recall_by_type": {
+      "verbal": {
+        "n": 290,
+        "recall": 0.9862
+      },
+      "antonym": {
+        "n": 95,
+        "recall": 0.9368
+      },
+      "other": {
+        "n": 318,
+        "recall": 0.9748
+      },
+      "xnot360_negation": {
+        "n": 180,
+        "recall": 0.9722
+      }
+    },
+    "validation": {
+      "n": 601,
+      "accuracy": 0.98,
+      "auc": 0.9945,
+      "precision": 0.9863,
+      "recall": 0.9731,
+      "f1": 0.9797,
+      "ci95": [
+        0.9684,
+        0.99
+      ]
+    },
+    "dev_clean": {
+      "n": 3402,
+      "accuracy": 0.9932,
+      "auc": 0.988,
+      "precision": 0.9875,
+      "recall": 0.9973,
+      "f1": 0.9924,
+      "ci95": [
+        0.9903,
+        0.9959
+      ]
+    },
+    "k1_fpr": 0.022,
+    "k1_n": 91,
+    "semantoneg_phase2_fpr": 0.0,
+    "lowov_neg_recall": {
+      "n": 129,
+      "recall": 0.907
+    },
+    "lowov_non_fpr": {
+      "n": 396,
+      "fpr": 0.0556
+    },
+    "val_ood_select": {
+      "n": 383,
+      "accuracy": 0.9426,
+      "recall": 0.8953,
+      "fpr": 0.0104
+    },
+    "val_ood_fit": {
+      "n": 417,
+      "accuracy": 0.9233,
+      "recall": 0.8612,
+      "fpr": 0.0144
+    },
+    "val_ood_all": {
+      "n": 800,
+      "accuracy": 0.9325,
+      "recall": 0.8775,
+      "fpr": 0.0125
+    },
+    "val_ood_by_dataset": {
+      "val_ood_mnli": {
+        "n": 383,
+        "accuracy": 0.9426
+      }
+    }
+  },
+  "rows": {
+    "C retrained on clean DEV + natural (1100 pairs)": {
+      "threshold": 0.5545387943653429,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9205,
+        "auc": 0.9717,
+        "precision": 0.8795,
+        "recall": 0.9751,
+        "f1": 0.9248,
+        "ci95": [
+          0.9074,
+          0.933
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9786,
+        "auc": 0.9932,
+        "precision": 0.9842,
+        "recall": 0.973,
+        "f1": 0.9785,
+        "ci95": [
+          0.9707,
+          0.9857
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.6944,
+        "auc": 0.9101,
+        "precision": 0.6232,
+        "recall": 0.9833,
+        "f1": 0.7629,
+        "ci95": [
+          0.6472,
+          0.7444
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0163
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0394
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0085
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.5944
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9828
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9579
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9686
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9833
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.97,
+        "auc": 0.9962,
+        "precision": 0.9761,
+        "recall": 0.963,
+        "f1": 0.9695,
+        "ci95": [
+          0.9567,
+          0.9834
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9971,
+        "auc": 0.9974,
+        "precision": 0.9973,
+        "recall": 0.996,
+        "f1": 0.9967,
+        "ci95": [
+          0.995,
+          0.9988
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.9457
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0657
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.9452,
+        "recall": 0.9005,
+        "fpr": 0.0104
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.9329,
+        "recall": 0.89,
+        "fpr": 0.024
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.9387,
+        "recall": 0.895,
+        "fpr": 0.0175
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9452
+        }
+      },
+      "oof_dev_accuracy_with_augmentation": 0.9629,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0182,
+          "p_permutation": 0.0027
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0014,
+          "p_permutation": 0.85781
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.0944,
+          "p_permutation": 0.0001
+        }
+      },
+      "passes_rule": false,
+      "n_augmented": 1100,
+      "importance_token_overlap": 0.0422
+    },
+    "C retrained on clean DEV + natural (1100 pairs) + override": {
+      "threshold": 0.5545387943653429,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.9176,
+        "auc": 0.9421,
+        "precision": 0.875,
+        "recall": 0.9751,
+        "f1": 0.9223,
+        "ci95": [
+          0.9045,
+          0.9301
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9771,
+        "auc": 0.9857,
+        "precision": 0.9813,
+        "recall": 0.973,
+        "f1": 0.9771,
+        "ci95": [
+          0.9693,
+          0.9843
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.6861,
+        "auc": 0.814,
+        "precision": 0.6167,
+        "recall": 0.9833,
+        "f1": 0.758,
+        "ci95": [
+          0.6389,
+          0.7361
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0163
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0551
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0085
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.6111
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9828
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9579
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9686
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9833
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.97,
+        "auc": 0.9933,
+        "precision": 0.9761,
+        "recall": 0.963,
+        "f1": 0.9695,
+        "ci95": [
+          0.9567,
+          0.9834
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9927,
+        "auc": 0.988,
+        "precision": 0.9875,
+        "recall": 0.996,
+        "f1": 0.9917,
+        "ci95": [
+          0.9897,
+          0.9956
+        ]
+      },
+      "k1_fpr": 0.022,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.9457
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0682
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.953,
+        "recall": 0.9162,
+        "fpr": 0.0104
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.9496,
+        "recall": 0.9234,
+        "fpr": 0.024
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.9513,
+        "recall": 0.92,
+        "fpr": 0.0175
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.953
+        }
+      },
+      "oof_dev_accuracy_with_augmentation": 0.9629,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.021,
+          "p_permutation": 0.0009
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0,
+          "p_permutation": 1.0
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.1028,
+          "p_permutation": 0.0001
+        }
+      },
+      "passes_rule": false,
+      "n_augmented": 1100,
+      "importance_token_overlap": 0.0422
+    },
+    "C retrained on clean DEV + generated (1200 pairs)": {
+      "threshold": 0.4959209620163619,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8966,
+        "auc": 0.9571,
+        "precision": 0.8446,
+        "recall": 0.9728,
+        "f1": 0.9042,
+        "ci95": [
+          0.8824,
+          0.9102
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9814,
+        "auc": 0.9946,
+        "precision": 0.9899,
+        "recall": 0.973,
+        "f1": 0.9813,
+        "ci95": [
+          0.9743,
+          0.9879
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.5667,
+        "auc": 0.8391,
+        "precision": 0.5368,
+        "recall": 0.9722,
+        "f1": 0.6917,
+        "ci95": [
+          0.5138,
+          0.6167
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0098
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0315
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.8389
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9862
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9474
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9686
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9722
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9784,
+        "auc": 0.9972,
+        "precision": 0.9863,
+        "recall": 0.9697,
+        "f1": 0.9779,
+        "ci95": [
+          0.9667,
+          0.9884
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9985,
+        "auc": 0.9974,
+        "precision": 0.9993,
+        "recall": 0.9973,
+        "f1": 0.9983,
+        "ci95": [
+          0.9971,
+          0.9997
+        ]
+      },
+      "k1_fpr": 0.044,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.9147
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0152
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.6084,
+        "recall": 0.2147,
+        "fpr": 0.0
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.6139,
+        "recall": 0.2297,
+        "fpr": 0.0
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.6112,
+        "recall": 0.2225,
+        "fpr": 0.0
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.6084
+        }
+      },
+      "oof_dev_accuracy_with_augmentation": 0.9752,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.042,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0043,
+          "p_permutation": 0.27057
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.2222,
+          "p_permutation": 0.0001
+        }
+      },
+      "passes_rule": false,
+      "n_augmented": 1200,
+      "importance_token_overlap": 0.2212
+    },
+    "C retrained on clean DEV + generated (1200 pairs) + override": {
+      "threshold": 0.4959209620163619,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8847,
+        "auc": 0.9255,
+        "precision": 0.8257,
+        "recall": 0.9762,
+        "f1": 0.8947,
+        "ci95": [
+          0.8693,
+          0.8989
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9771,
+        "auc": 0.9861,
+        "precision": 0.9813,
+        "recall": 0.973,
+        "f1": 0.9771,
+        "ci95": [
+          0.9693,
+          0.9843
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.525,
+        "auc": 0.7798,
+        "precision": 0.513,
+        "recall": 0.9889,
+        "f1": 0.6755,
+        "ci95": [
+          0.4722,
+          0.575
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.013
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0709
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.9389
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9862
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9474
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9686
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9889
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9767,
+        "auc": 0.994,
+        "precision": 0.9829,
+        "recall": 0.9697,
+        "f1": 0.9763,
+        "ci95": [
+          0.9651,
+          0.9884
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9932,
+        "auc": 0.988,
+        "precision": 0.9875,
+        "recall": 0.9973,
+        "f1": 0.9924,
+        "ci95": [
+          0.9903,
+          0.9959
+        ]
+      },
+      "k1_fpr": 0.044,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.938
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0581
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.9426,
+        "recall": 0.8953,
+        "fpr": 0.0104
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.9233,
+        "recall": 0.8612,
+        "fpr": 0.0144
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.9325,
+        "recall": 0.8775,
+        "fpr": 0.0125
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9426
+        }
+      },
+      "oof_dev_accuracy_with_augmentation": 0.9752,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.054,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": 0.0,
+          "p_permutation": 1.0
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.2639,
+          "p_permutation": 0.0001
+        }
+      },
+      "passes_rule": false,
+      "n_augmented": 1200,
+      "importance_token_overlap": 0.2212
+    },
+    "C retrained on clean DEV + mixed (2300 pairs)": {
+      "threshold": 0.4558905074342092,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8773,
+        "auc": 0.9505,
+        "precision": 0.8149,
+        "recall": 0.9773,
+        "f1": 0.8888,
+        "ci95": [
+          0.8619,
+          0.892
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9729,
+        "auc": 0.9927,
+        "precision": 0.973,
+        "recall": 0.973,
+        "f1": 0.973,
+        "ci95": [
+          0.9643,
+          0.9807
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.5056,
+        "auc": 0.8769,
+        "precision": 0.5028,
+        "recall": 0.9944,
+        "f1": 0.6679,
+        "ci95": [
+          0.4528,
+          0.5556
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0261
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0787
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0085
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.9833
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9793
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9684
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9686
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9944
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9651,
+        "auc": 0.9952,
+        "precision": 0.96,
+        "recall": 0.9697,
+        "f1": 0.9648,
+        "ci95": [
+          0.9501,
+          0.9784
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9888,
+        "auc": 0.9973,
+        "precision": 0.979,
+        "recall": 0.996,
+        "f1": 0.9875,
+        "ci95": [
+          0.9853,
+          0.9924
+        ]
+      },
+      "k1_fpr": 0.044,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.969
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0808
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.9504,
+        "recall": 0.9267,
+        "fpr": 0.026
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.9448,
+        "recall": 0.9187,
+        "fpr": 0.0288
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.9475,
+        "recall": 0.9225,
+        "fpr": 0.0275
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9504
+        }
+      },
+      "oof_dev_accuracy_with_augmentation": 0.9663,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0614,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.0043,
+          "p_permutation": 0.39666
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.2833,
+          "p_permutation": 0.0001
+        }
+      },
+      "passes_rule": false,
+      "n_augmented": 2300,
+      "importance_token_overlap": 0.1076
+    },
+    "C retrained on clean DEV + mixed (2300 pairs) + override": {
+      "threshold": 0.4558905074342092,
+      "all": {
+        "n": 1760,
+        "accuracy": 0.8773,
+        "auc": 0.9222,
+        "precision": 0.8149,
+        "recall": 0.9773,
+        "f1": 0.8888,
+        "ci95": [
+          0.8619,
+          0.892
+        ]
+      },
+      "cannot_phase2": {
+        "n": 1400,
+        "accuracy": 0.9729,
+        "auc": 0.9854,
+        "precision": 0.973,
+        "recall": 0.973,
+        "f1": 0.973,
+        "ci95": [
+          0.9643,
+          0.9807
+        ]
+      },
+      "xnot360": {
+        "n": 360,
+        "accuracy": 0.5056,
+        "auc": 0.7841,
+        "precision": 0.5028,
+        "recall": 0.9944,
+        "f1": 0.6679,
+        "ci95": [
+          0.4528,
+          0.5556
+        ]
+      },
+      "fpr_by_kind": {
+        "paraphrase": {
+          "n": 307,
+          "fpr": 0.0261
+        },
+        "SemAntoNeg": {
+          "n": 27,
+          "fpr": 0.0
+        },
+        "sts_low": {
+          "n": 127,
+          "fpr": 0.0787
+        },
+        "snli_neutral": {
+          "n": 117,
+          "fpr": 0.0085
+        },
+        "random_pair": {
+          "n": 119,
+          "fpr": 0.0
+        },
+        "xnot360_not_negation": {
+          "n": 180,
+          "fpr": 0.9833
+        }
+      },
+      "recall_by_type": {
+        "verbal": {
+          "n": 290,
+          "recall": 0.9793
+        },
+        "antonym": {
+          "n": 95,
+          "recall": 0.9684
+        },
+        "other": {
+          "n": 318,
+          "recall": 0.9686
+        },
+        "xnot360_negation": {
+          "n": 180,
+          "recall": 0.9944
+        }
+      },
+      "validation": {
+        "n": 601,
+        "accuracy": 0.9651,
+        "auc": 0.9923,
+        "precision": 0.96,
+        "recall": 0.9697,
+        "f1": 0.9648,
+        "ci95": [
+          0.9501,
+          0.9784
+        ]
+      },
+      "dev_clean": {
+        "n": 3402,
+        "accuracy": 0.9859,
+        "auc": 0.988,
+        "precision": 0.9727,
+        "recall": 0.996,
+        "f1": 0.9842,
+        "ci95": [
+          0.9818,
+          0.9897
+        ]
+      },
+      "k1_fpr": 0.044,
+      "k1_n": 91,
+      "semantoneg_phase2_fpr": 0.0,
+      "lowov_neg_recall": {
+        "n": 129,
+        "recall": 0.969
+      },
+      "lowov_non_fpr": {
+        "n": 396,
+        "fpr": 0.0808
+      },
+      "val_ood_select": {
+        "n": 383,
+        "accuracy": 0.9504,
+        "recall": 0.9267,
+        "fpr": 0.026
+      },
+      "val_ood_fit": {
+        "n": 417,
+        "accuracy": 0.9496,
+        "recall": 0.9282,
+        "fpr": 0.0288
+      },
+      "val_ood_all": {
+        "n": 800,
+        "accuracy": 0.95,
+        "recall": 0.9275,
+        "fpr": 0.0275
+      },
+      "val_ood_by_dataset": {
+        "val_ood_mnli": {
+          "n": 383,
+          "accuracy": 0.9504
+        }
+      },
+      "oof_dev_accuracy_with_augmentation": 0.9663,
+      "gain_vs_phase0": {
+        "all": {
+          "part": "all",
+          "n": 1760,
+          "gain": -0.0614,
+          "p_permutation": 0.0001
+        },
+        "cannot_phase2": {
+          "part": "cannot_phase2",
+          "n": 1400,
+          "gain": -0.0043,
+          "p_permutation": 0.39666
+        },
+        "xnot360": {
+          "part": "xnot360",
+          "n": 360,
+          "gain": -0.2833,
+          "p_permutation": 0.0001
+        }
+      },
+      "passes_rule": false,
+      "n_augmented": 2300,
+      "importance_token_overlap": 0.1076
+    }
+  },
+  "selected": "keep current (C + override)"
+}

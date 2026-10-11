@@ -28,5 +28,10 @@
     "step": "2.2",
     "what": "DeBERTa configs A/B/C retrained, with and without the override",
     "time": "2026-10-11 21:40"
+  },
+  {
+    "step": "3.3",
+    "what": "adopted architecture retrained on clean DEV + augmentation",
+    "time": "2026-10-11 22:17"
   }
 ]
