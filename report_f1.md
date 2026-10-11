@@ -1060,3 +1060,52 @@ Why each one went wrong (P = combiner raw output, threshold 0.428):
 ```sh
 ./venv/bin/python experiments/f1/paragraphs.py --step 4.5
 ```
+
+### 5.1 500 definitions from a real source
+
+`experiments/f1/fetch_definitions.py` → `data/definitions.jsonl` and `results/5_1_definitions.json`.
+**All 500 come from English Wikipedia lead sentences. None was written for this project**, so the
+self-written column is empty, and every row has `authorship: real source`.
+
+The fixed concept categories per subject (listed in the JSON) were:
+
+- **OS:** OS technology, process, memory management, scheduling, file systems, virtual memory, IPC, kernels,
+  concurrency control;
+- **CN:** routing, transport / network / link-layer protocols, topology, error detection, network
+  architecture, internet and network protocols;
+- **DBMS:** database theory, relational model, transaction processing, SQL, database algorithms,
+  concurrency-control algorithms, index techniques.
+
+For each article, the first lead sentence was kept only if it passed all of these filters:
+
+- definition-shaped (*X is / are / refers to …*);
+- 8–45 words, and not a disambiguation page;
+- not a company / product / venue page (stated regex);
+- no year in the title.
+
+Then 167 OS, 167 CN and 166 DBMS were sampled at random (seed 0).
+
+| subject | articles in the categories | with a lead sentence | definition-shaped after filters | sampled |
+| --- | ---: | ---: | ---: | ---: |
+| OS | 532 | 517 | 441 | 167 |
+| CN | 1,019 | 1,005 | 839 | 167 |
+| DBMS | 306 | 296 | 236 | 166 |
+
+The only change to the source text is that parenthetical asides (pronunciations, abbreviations, dates)
+were removed from 268 of the 500. Each row keeps the raw lead sentence, the URL and the revision id
+(CC BY-SA 4.0 attribution).
+
+**Limits, stated now:**
+
+- The source is one encyclopedia, so the register is encyclopedic, not lecture-note.
+- Some product pages survive the filter. 50 of the 500 mention a vendor or "software"; examples are
+  *Tuxedo is a middleware platform …* and *IBM CICS is a family of mixed-language application servers …*.
+- A first run without the product filter and with broader DBMS categories pulled in *Interfolio* (a
+  company) and *facility condition index*; it was discarded and the filter added. This is reported here,
+  not hidden.
+- The 100 OS / CN sentences in `experiments/pattern` were checked first and not used. They are
+  "hand-written, textbook-style" with no recorded author, and contain no DBMS.
+
+```sh
+./venv/bin/python experiments/f1/fetch_definitions.py
+```

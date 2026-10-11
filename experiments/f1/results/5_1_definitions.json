@@ -1,0 +1,59 @@
+{
+  "source": "English Wikipedia, TextExtracts API (first lead sentence), fetched 2026-10-11",
+  "licence": "CC BY-SA 4.0 (attribution: url + revid per row)",
+  "filters": "definition-shaped (is/are/refers to ...), 8-45 words, not disambiguation, not a company / product / venue page (PRODUCT_RE), no year in the title; parentheticals removed",
+  "per_subject": {
+    "DBMS": {
+      "categories": [
+        "Database_theory",
+        "Relational_model",
+        "Transaction_processing",
+        "SQL",
+        "Database_algorithms",
+        "Concurrency_control_algorithms",
+        "Database_index_techniques"
+      ],
+      "articles": 306,
+      "with_lead": 296,
+      "definition_shaped": 236,
+      "sampled": 166
+    },
+    "OS": {
+      "categories": [
+        "Operating_system_technology",
+        "Process_(computing)",
+        "Memory_management",
+        "Processor_scheduling_algorithms",
+        "Scheduling_(computing)",
+        "Computer_file_systems",
+        "Virtual_memory",
+        "Inter-process_communication",
+        "Operating_system_kernels",
+        "Concurrency_control"
+      ],
+      "articles": 532,
+      "with_lead": 517,
+      "definition_shaped": 441,
+      "sampled": 167
+    },
+    "CN": {
+      "categories": [
+        "Routing",
+        "Transport_layer_protocols",
+        "Network_layer_protocols",
+        "Link_protocols",
+        "Network_topology",
+        "Error_detection_and_correction",
+        "Network_architecture",
+        "Internet_protocols",
+        "Network_protocols"
+      ],
+      "articles": 1019,
+      "with_lead": 1005,
+      "definition_shaped": 839,
+      "sampled": 167
+    }
+  },
+  "total": 500,
+  "self_written": 0
+}
