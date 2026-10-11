@@ -645,3 +645,75 @@ strong on.
     reported against 3.2's downgrade-only constraint, which it does not satisfy.
 
   **Rule:** highest VALIDATION accuracy among "no guardrail" and every variant; tie → clean-DEV accuracy.
+
+### 3.3 Generator coverage on clean DEV: the guardrail's precondition
+
+`experiments/f1/guardrail.py --step 3.3` → `results/3_3_coverage.json`. For each of the 1,501 real
+negation pairs (A, B) in clean DEV, all negations of A are generated, and the best mpnet cosine between B
+and any of them is recorded. No TEST is read.
+
+| gold negations | n | best sim ≥ 0.9 | ≥ 0.8 | ≥ 0.7 | median best sim | exact string match |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **all** | **1,501** | **53.5%** | **77.3%** | **86.8%** | 0.923 | 221 (14.7%) |
+| verbal | 580 | 66.2% | 82.1% | 86.4% | 0.972 | |
+| antonym | 208 | 54.3% | 61.5% | 69.7% | 1.000 | |
+| other (lexical) | 713 | 42.9% | 78.0% | 92.2% | 0.888 | |
+
+104 of the 1,501 (6.9%) have **no** generated variant at all, which caps coverage at 93.1%. For
+comparison, sim(B, A), B against the original sentence, has a median of 0.808. So the generator
+moves the best match from 0.81 to 0.92 at the median.
+
+By generator family: the share of gold negations whose best variant *from that family* reaches ≥ 0.9,
+among bases where the family produced anything.
+
+| family | bases with the family | best ≥ 0.9 | family is the overall argmax |
+| --- | ---: | ---: | ---: |
+| **N_affirmation (Phase 1)** | 315 | **71.1%** | 302 |
+| L_scope_position | 17 (n < 50) | 58.8% | 9 |
+| E_antonym | 648 | 43.5% | 310 |
+| D_affixal | 65 | 41.5% | 20 |
+| K2_compound | 45 (n < 50) | 35.6% | 28 |
+| J_contrastive | 255 | 32.6% | 30 |
+| F_implicit | 343 | 32.4% | 78 |
+| K1_cancellation | 89 | 31.5% | 27 |
+| H_hedged | 988 | 27.9% | 200 |
+| G_prepositional | 112 | 27.7% | 18 |
+| A_syntactic | 988 | 27.6% | 177 |
+| C_neg_adverb | 977 | 27.1% | 119 |
+| B_quantifier | 68 | 25.0% | 11 |
+| I_intensified | 988 | 24.3% | 66 |
+
+**Phase 1's affirmation is the best-covering family.** When A is negative, the affirmation recovers the
+real B at cosine ≥ 0.9 for 71% of those pairs. *In 1973, Schilling was not a part of the … Commission* →
+affirmation *… was a part of …* against B *… was a member of …*: cosine 0.996.
+
+**The precondition, and the discriminative test.** Coverage says the generator can often produce
+something close to B. The guardrail also needs the *margin* (max sim to a negation minus sim to T) to
+separate negations from non-negations. On clean DEV:
+
+| similarity | AUC of the margin (n = 3,124 pairs with variants) | margin > 0: negations | paraphrase | SemAntoNeg | hard negative | sts_low | snli_neutral | random |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| mpnet cosine | 0.776 | 73.9% | 14.0% | 45.7% | 22.5% | 67.6% | 49.4% | 80.9% |
+| word Jaccard | 0.545 | 36.6% | 12.1% | 94.0% | 4.7% | 13.9% | 31.2% | 19.6% |
+| mean of both | 0.715 | 62.7% | 8.0% | 77.6% | 12.0% | 50.5% | 48.5% | 78.2% |
+
+**Verdict, in plain language: coverage is moderate, and the margin is a weak signal.**
+
+- Coverage: about half of real negations have a generated twin at ≥ 0.9, and three-quarters at ≥ 0.8.
+- The worst-covered type is antonym negation (61.5% at ≥ 0.8), where the student's antonym is often not
+  the one WordNet offers.
+- With cosine, the margin is positive for 74% of negations and 14% of paraphrases. That is a useful
+  separation on the pairs that matter, because the guardrail only sees pairs the combiner already
+  called negations, and those are paraphrase-like.
+- The margin cannot tell a negation from an unrelated sentence (random pairs: 81% positive). The
+  combiner already rejects those, so it does not need to.
+- Jaccard is almost useless (AUC 0.545) and flags SemAntoNeg in the wrong direction.
+
+The precondition is met well enough to test the guardrail. But an AUC of 0.776 sits far below the
+combiner's own ~0.98, which predicts the guardrail will remove more true negations than false
+positives. Step 3.4 measures that.
+
+```sh
+./venv/bin/python experiments/f1/variants.py
+./venv/bin/python experiments/f1/guardrail.py --step 3.3
+```

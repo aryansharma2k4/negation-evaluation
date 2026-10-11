@@ -1,0 +1,331 @@
+{
+  "by_split": {
+    "dev_clean": {
+      "gold_negations": 1501,
+      "with_no_variant": 104,
+      "exact_match_with_a_variant": 221,
+      "coverage": {
+        ">=0.9": 0.535,
+        ">=0.8": 0.7728,
+        ">=0.7": 0.8681
+      },
+      "best_similarity_quantiles": {
+        "0.1": 0.7447,
+        "0.25": 0.8385,
+        "0.5": 0.9232,
+        "0.75": 0.9862,
+        "0.9": 1.0
+      },
+      "sim_to_original_quantiles": {
+        "0.1": 0.5786,
+        "0.25": 0.6865,
+        "0.5": 0.8078,
+        "0.75": 0.9072,
+        "0.9": 0.9531
+      },
+      "by_gold_type": {
+        "verbal": {
+          "n": 580,
+          ">=0.9": 0.6621,
+          ">=0.8": 0.8207,
+          ">=0.7": 0.8638,
+          "median_best": 0.9717
+        },
+        "antonym": {
+          "n": 208,
+          ">=0.9": 0.5433,
+          ">=0.8": 0.6154,
+          ">=0.7": 0.6971,
+          "median_best": 1.0
+        },
+        "other": {
+          "n": 713,
+          ">=0.9": 0.4292,
+          ">=0.8": 0.7798,
+          ">=0.7": 0.9215,
+          "median_best": 0.8881
+        }
+      },
+      "argmax_family": {
+        "E_antonym": 310,
+        "N_affirmation": 302,
+        "H_hedged": 200,
+        "A_syntactic": 177,
+        "C_neg_adverb": 119,
+        "(no variants)": 104,
+        "F_implicit": 78,
+        "I_intensified": 66,
+        "J_contrastive": 30,
+        "K2_compound": 28,
+        "K1_cancellation": 27,
+        "D_affixal": 20,
+        "G_prepositional": 18,
+        "B_quantifier": 11,
+        "L_scope_position": 9,
+        "N_affirmation_approx": 2
+      },
+      "per_family_best_ge_0.9": {
+        "A_syntactic": {
+          "bases_with_family": 988,
+          "share_ge_0.9": 0.2763
+        },
+        "H_hedged": {
+          "bases_with_family": 988,
+          "share_ge_0.9": 0.2794
+        },
+        "I_intensified": {
+          "bases_with_family": 988,
+          "share_ge_0.9": 0.2429
+        },
+        "C_neg_adverb": {
+          "bases_with_family": 977,
+          "share_ge_0.9": 0.2712
+        },
+        "E_antonym": {
+          "bases_with_family": 648,
+          "share_ge_0.9": 0.4352
+        },
+        "F_implicit": {
+          "bases_with_family": 343,
+          "share_ge_0.9": 0.3236
+        },
+        "N_affirmation": {
+          "bases_with_family": 315,
+          "share_ge_0.9": 0.7111
+        },
+        "J_contrastive": {
+          "bases_with_family": 255,
+          "share_ge_0.9": 0.3255
+        },
+        "G_prepositional": {
+          "bases_with_family": 112,
+          "share_ge_0.9": 0.2768
+        },
+        "K1_cancellation": {
+          "bases_with_family": 89,
+          "share_ge_0.9": 0.3146
+        },
+        "B_quantifier": {
+          "bases_with_family": 68,
+          "share_ge_0.9": 0.25
+        },
+        "D_affixal": {
+          "bases_with_family": 65,
+          "share_ge_0.9": 0.4154
+        },
+        "K2_compound": {
+          "bases_with_family": 45,
+          "share_ge_0.9": 0.3556
+        },
+        "L_scope_position": {
+          "bases_with_family": 17,
+          "share_ge_0.9": 0.5882
+        },
+        "N_affirmation_approx": {
+          "bases_with_family": 2,
+          "share_ge_0.9": 0.0
+        }
+      },
+      "variants_per_teacher_median": 18.0
+    }
+  },
+  "margin_auc_dev": {
+    "cos": {
+      "auc": 0.7759,
+      "pairs_with_variants": 3124,
+      "n": 3402,
+      "share_margin_gt_0_negations": 0.7394,
+      "share_margin_gt_0_non_negations": 0.3775,
+      "share_margin_gt_0_by_kind": {
+        "paraphrase": {
+          "n": 602,
+          "share": 0.1395
+        },
+        "SemAntoNeg": {
+          "n": 116,
+          "share": 0.4569
+        },
+        "hard_negative": {
+          "n": 342,
+          "share": 0.2251
+        },
+        "sts_low": {
+          "n": 216,
+          "share": 0.6759
+        },
+        "snli_neutral": {
+          "n": 231,
+          "share": 0.4935
+        },
+        "random_pair": {
+          "n": 220,
+          "share": 0.8091
+        }
+      }
+    },
+    "jaccard": {
+      "auc": 0.5452,
+      "pairs_with_variants": 3124,
+      "n": 3402,
+      "share_margin_gt_0_negations": 0.3658,
+      "share_margin_gt_0_non_negations": 0.1986,
+      "share_margin_gt_0_by_kind": {
+        "paraphrase": {
+          "n": 602,
+          "share": 0.1213
+        },
+        "SemAntoNeg": {
+          "n": 116,
+          "share": 0.9397
+        },
+        "hard_negative": {
+          "n": 342,
+          "share": 0.0468
+        },
+        "sts_low": {
+          "n": 216,
+          "share": 0.1389
+        },
+        "snli_neutral": {
+          "n": 231,
+          "share": 0.3117
+        },
+        "random_pair": {
+          "n": 220,
+          "share": 0.1955
+        }
+      }
+    },
+    "mix": {
+      "auc": 0.7152,
+      "pairs_with_variants": 3124,
+      "n": 3402,
+      "share_margin_gt_0_negations": 0.6271,
+      "share_margin_gt_0_non_negations": 0.3312,
+      "share_margin_gt_0_by_kind": {
+        "paraphrase": {
+          "n": 602,
+          "share": 0.0797
+        },
+        "SemAntoNeg": {
+          "n": 116,
+          "share": 0.7759
+        },
+        "hard_negative": {
+          "n": 342,
+          "share": 0.1199
+        },
+        "sts_low": {
+          "n": 216,
+          "share": 0.5046
+        },
+        "snli_neutral": {
+          "n": 231,
+          "share": 0.4848
+        },
+        "random_pair": {
+          "n": 220,
+          "share": 0.7818
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "a": "The Christiansen choral tradition is a completely ignored feature of American choral music.",
+      "b": "The Christiansen choral tradition is a recognized feature of American choral music.",
+      "neg_type": "other",
+      "best_variant": "The Christiansen choral tradition is not a completely ignored feature of American choral music.",
+      "family": "A_syntactic",
+      "sim": 0.944
+    },
+    {
+      "a": "It was first developed as a telephony technology.",
+      "b": "It was first developed as a telescoping technology only.",
+      "neg_type": "other",
+      "best_variant": "It was not first developed as a telephony technology.",
+      "family": "A_syntactic",
+      "sim": 0.691
+    },
+    {
+      "a": "In 1973, Schilling was not a part of the Wayne County Interfaith Commission on Human Rights.",
+      "b": "In 1973, Schilling was a member of the Wayne County Interfaith Commission on Human Rights.",
+      "neg_type": "verbal",
+      "best_variant": "In 1973, Schilling was a part of the Wayne County Interfaith Commission on Human Rights.",
+      "family": "N_affirmation",
+      "sim": 0.996
+    },
+    {
+      "a": "Crop diversity offer little protection against crop failure, and can also offer higher returns.",
+      "b": "Crop diversity can protect against crop failure, and can also offer higher returns.",
+      "neg_type": "other",
+      "best_variant": "Crop diversity offer much protection against crop failure, and can also offer higher returns.",
+      "family": "E_antonym",
+      "sim": 0.986
+    },
+    {
+      "a": "Its natural habitat is plain regions, especially underneath Acacia trees and below ridges.",
+      "b": "Its natural habitat is rocky areas, especially underneath Acacia trees and below ridges.",
+      "neg_type": "other",
+      "best_variant": "Its natural habitat is possibly not plain regions, especially underneath Acacia trees and below ridges.",
+      "family": "H_hedged",
+      "sim": 0.917
+    },
+    {
+      "a": "His footage helped to determine the cause for the AFR 127-4.",
+      "b": "His footage was unhelpful to determine the cause for the AFR 127-4.",
+      "neg_type": "verbal",
+      "best_variant": "His footage failed to help to determine the cause for the AFR 127-4.",
+      "family": "F_implicit",
+      "sim": 0.942
+    },
+    {
+      "a": "Furthermore, it provides guidelines for natural disaster prevention, preparedness and mitigation.",
+      "b": "Furthermore, it fails to provide guidelines for natural disaster prevention, preparedness or mitigation.",
+      "neg_type": "verbal",
+      "best_variant": "Furthermore, it fails to provide guidelines for natural disaster prevention, preparedness and mitigation.",
+      "family": "F_implicit",
+      "sim": 0.993
+    },
+    {
+      "a": "It's safe for you.",
+      "b": "It's not safe for you.",
+      "neg_type": "antonym",
+      "best_variant": "It's not safe for you.",
+      "family": "A_syntactic",
+      "sim": 1.0
+    },
+    {
+      "a": "Y. martini was the size of a buffalo.",
+      "b": "Y. martini was the size of a chicken.",
+      "neg_type": "other",
+      "best_variant": "Y. martini was barely the size of a buffalo.",
+      "family": "C_neg_adverb",
+      "sim": 0.814
+    },
+    {
+      "a": "the food is not tasty at all, not to say its \"real traditional Hunan style\".",
+      "b": "The food is tasty at all, not to say its \"real traditional Hunan style\".",
+      "neg_type": "verbal",
+      "best_variant": "the food is not tasteless at all, not to say its \"real traditional Hunan style\".",
+      "family": "E_antonym",
+      "sim": 0.858
+    },
+    {
+      "a": "The seaweed crab is podean as it is nonexistent in New Zealand and south-east Australia.",
+      "b": "The seaweed crab is antipodean as it is native to New Zealand and south-east Australia.",
+      "neg_type": "verbal",
+      "best_variant": "The seaweed crab is not podean as it is not nonexistent in New Zealand and south-east Australia.",
+      "family": "K2_compound",
+      "sim": 0.806
+    },
+    {
+      "a": "That is good news.",
+      "b": "That is not good news.",
+      "neg_type": "antonym",
+      "best_variant": "That is not good news.",
+      "family": "A_syntactic",
+      "sim": 1.0
+    }
+  ]
+}
