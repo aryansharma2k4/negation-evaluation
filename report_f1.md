@@ -796,3 +796,44 @@ What would make the idea work, from 3.3 / 3.4:
 - or score S against N with the NLI model instead of an embedding, so the comparison can see negation.
 
 The second costs about 18 NLI calls per pair at the median and was not run (see "approaches considered").
+
+### 4.1 Paragraph evaluation set — **machine-authored**
+
+`experiments/f1/make_paragraphs.py` → `data/paragraph_eval.jsonl`. **All 28 items were written by the
+model (Claude) for this report, not by teachers or students**, and are labelled `authorship: machine`
+in the file. The gold labels were written by the same author. The script asserts that every teacher
+sentence has a verdict, and that every student sentence is either matched to exactly one teacher
+sentence or listed as extra. Student sentences are deliberately shuffled out of teacher order.
+
+| property | count |
+| --- | ---: |
+| teacher / student paragraph pairs | **28** (OS 10, CN 10, DBMS 8) |
+| teacher sentences | 93 (3–6 per paragraph) |
+| student sentences | 91 |
+| fully correct but reworded (`reworded`: all covered, nothing missing or extra) | 9 |
+| exactly one contradicted teacher sentence (`one_contradiction`) | 11 |
+| one or more teacher sentences missing (`missing`) | 5 (10 missing teacher sentences) |
+| extra student sentences (`extra`) | 6 (8 extra sentences) |
+| a teacher sentence that is itself negative (`negative_teacher`; tests Phase 1) | 8 |
+| a cancellation form that must not be flagged (`cancellation`: *not uncommon*, *not impossible*, *not untrue*, *not rare*) | 4 |
+| a conditional misstatement (`conditional`) / a quantifier-scope error (`scope`) | 1 / 1 |
+
+Gold per teacher sentence: 72 covered, 11 contradicted, 10 missing. Tags overlap. The contradictions
+cover the main shapes:
+
+- verbal negation, in either direction, including a negative teacher sentence contradicted by a
+  positive student one (*UDP does not guarantee delivery* / *UDP guarantees that every datagram is
+  delivered*);
+- antonym (*simple / difficult*, *declarative / procedural*, *distributed / central*, *reduces /
+  increases*);
+- quantifier scope (*All … are waiting* / *Not all … are waiting*);
+- *never → sometimes*;
+- a conditional consequent flip (*must stop sending* / *keeps sending even when …*).
+
+`data/paragraph_eval_human.jsonl` is an **empty stub with the same schema**. `data/README.md` documents the
+schema and asks Aryan, Clovis and Arush to add human-written items. Human and machine items are always
+reported separately.
+
+```sh
+./venv/bin/python experiments/f1/make_paragraphs.py
+```
