@@ -215,3 +215,41 @@ clean-DEV accuracy as tie-break.
 ./venv/bin/python experiments/f2/fetch_data.py
 ./venv/bin/python experiments/f2/val_ood.py
 ```
+
+### 0.4 The Phase 0 baseline, on TEST, VALIDATION and `val_ood`
+
+`experiments/f2/eval2.py` → `results/0_4_baseline.json`. Every later row is measured against the first
+row. Two columns are new:
+
+- **low-ov neg recall:** recall on the 129 TEST negations with overlap < 0.6 (step 0.1's reversal region,
+  human-written);
+- **low-ov non-neg FPR:** FPR on the 396 TEST non-negations with overlap < 0.4, the protection against
+  unrelated pairs that any fix must keep.
+
+| configuration | phase-2 acc (95% CI) | all-TEST | xNot360 | precision | recall | F1 | FPR paraphrase | sts_low | snli_neutral | random_pair | xNot360 not_neg | antonym recall (n=95) | K1 FPR (n=91, machine-gen.) | low-ov neg recall (n=129) | low-ov non-neg FPR (n=396) | VAL | val_ood (select, n=383) |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **Phase 0 baseline** | 97.7% (96.9–98.5) | 93.9% | 78.9% | 93.0% | 94.9% | 94.0% | 1.9% | 3.9% | 0.0% | 0.0% | 28.9% | 92.6% | 2.2% | **75.2%** | 0.5% | 97.8% | **59.8%** |
+| NLI alone (reference) | 82.8% (80.9–84.6) | 81.8% | 77.8% | 76.0% | 93.0% | 83.7% | 0.3% | 70.9% | 2.6% | 78.1% | 40.0% | 88.4% | 4.4% | 93.8% | **47.2%** | 86.0% | 95.0% |
+
+On `val_ood` (select half, n = 383: 191 contradictions, 192 entailment / neutral):
+
+- **Phase 0 baseline:** recall **19.4%**, FPR 0.0%.
+- **NLI alone:** recall 90.6%, FPR 0.5%.
+
+On the fit half (n = 417) the figures are 18.2% / 0.0% and 86.6% / 1.4%.
+
+**Out of distribution, the combiner misses four of every five reworded contradictions.** On
+`val_ood` the overlap cut (step 0.2) rejects almost every same-topic pair below overlap 0.5, whatever NLI
+says.
+
+**A confound to keep in view for every later `val_ood` number.** `val_ood` is MNLI validation, and every
+NLI cross-encoder in this project was trained on MNLI's *training* split (plus SNLI, and for DeBERTa-anli
+also FEVER and ANLI). The validation pairs are unseen, but they come from the training distribution, so
+NLI alone is close to its best here (95.0%). `val_ood` will reward any fix that trusts NLI more.
+That is why the selection rule also requires VALIDATION not to fall. It is also why the TEST low-overlap
+columns, CANNOT and xNot360 pairs that no model was trained on, are reported next to it as the
+independent check.
+
+```sh
+./venv/bin/python experiments/f2/eval2.py
+```
