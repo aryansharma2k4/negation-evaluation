@@ -14,6 +14,7 @@ from __future__ import annotations
 import pickle
 import sys
 import time
+from functools import lru_cache
 
 import numpy as np
 
@@ -70,26 +71,60 @@ def negations(sentences, save_every: int = 200) -> dict[str, list[tuple[str, str
             CACHE.mkdir(exist_ok=True)
             VPATH.write_bytes(pickle.dumps(cache))
             print(f"  variants {i + 1}/{len(todo)} {time.time() - t0:.0f}s", flush=True)
-    if todo:
+    if len(todo) >= BATCH:
         CACHE.mkdir(exist_ok=True)
         VPATH.write_bytes(pickle.dumps(cache))
     return {s: [x for x in cache[s] if x[1] != "GENERATOR_ERROR"] for s in sentences}
 
 
+_emb: dict | None = None
+BATCH = 32     # below this many new items, keep them in memory only (interactive use: no pickle rewrite)
+
+
+@lru_cache(maxsize=1)
+def _mpnet():
+    import torch
+    from transformers import AutoModel, AutoTokenizer
+    from experiment import MODELS
+    return AutoTokenizer.from_pretrained(MODELS["mpnet"]), AutoModel.from_pretrained(MODELS["mpnet"]).eval(), torch
+
+
+def _encode(sentences: list[str]) -> dict[str, np.ndarray]:
+    """negation_direction's embed(), with the model loaded once per process."""
+    tok, model, torch = _mpnet()
+    out = {}
+    for i in range(0, len(sentences), 32):
+        chunk = sentences[i:i + 32]
+        enc = tok(chunk, padding=True, truncation=True, max_length=256, return_tensors="pt")
+        with torch.no_grad():
+            hidden = model(**enc).last_hidden_state
+        mask = enc["attention_mask"].unsqueeze(-1).float()
+        pooled = torch.nn.functional.normalize((hidden * mask).sum(1) / mask.sum(1).clamp(min=1e-9), p=2, dim=1)
+        out.update({s: v.numpy().astype(np.float32) for s, v in zip(chunk, pooled)})
+    return out
+
+
 def embed(sentences) -> dict[str, np.ndarray]:
-    """mpnet (all-mpnet-base-v2, revision e8c3b32, as in Report_NLI2.md), L2-normalised; reads the
-    existing nli2 / negation_direction / polarity caches first."""
-    from experiment import embed as _embed
-    shared = {}
-    for path in (REPO / "experiments/negation_direction/cache/mpnet.pkl", REPO / "experiments/polarity/cache/mpnet_ours.pkl",
-                 REPO / "experiments/nli2/cache/mpnet.pkl"):
-        if path.exists():
-            shared.update(pickle.loads(path.read_bytes()))
+    """mpnet (all-mpnet-base-v2, revision e8c3b32, as in Report_NLI2.md), L2-normalised. Reads the
+    existing nli2 / negation_direction / polarity / f1 caches once per process."""
+    global _emb
+    if _emb is None:
+        _emb = {}
+        for path in (REPO / "experiments/negation_direction/cache/mpnet.pkl", REPO / "experiments/polarity/cache/mpnet_ours.pkl",
+                     REPO / "experiments/nli2/cache/mpnet.pkl", EPATH):
+            if path.exists():
+                _emb.update(pickle.loads(path.read_bytes()))
     sents = [s for s in dict.fromkeys(sentences) if s]
-    missing = [s for s in sents if s not in shared]
+    missing = [s for s in sents if s not in _emb]
     if missing:
-        shared.update(_embed(missing, "mpnet", cache_path=EPATH))
-    return {s: shared[s] for s in sents}
+        new = _encode(missing)
+        _emb.update(new)
+        if len(missing) >= BATCH:
+            own = pickle.loads(EPATH.read_bytes()) if EPATH.exists() else {}
+            own.update(new)
+            CACHE.mkdir(exist_ok=True)
+            EPATH.write_bytes(pickle.dumps(own))
+    return {s: _emb[s] for s in sents}
 
 
 def teacher_sentences() -> list[str]:

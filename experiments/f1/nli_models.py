@@ -79,11 +79,12 @@ class Scorer:
                 chunk = todo[i:i + batch]
                 for pair, row in zip(chunk, self._run(chunk)):
                     self.cache[pair] = dict(zip(self.labels, map(float, row)))
-                if n % save_every == 0:
+                if n % save_every == 0 and len(todo) >= 32:
                     print(f"  {self.key} {i + len(chunk)}/{len(todo)} {(time.time() - start) / (i + len(chunk)) * 1000:.0f} ms/pair",
                           flush=True)
                     self._flush()
-            self._flush()
+            if len(todo) >= 32:        # interactive single pairs stay in memory
+                self._flush()
         return {p: self.cache[p] for p in pairs}
 
     def _flush(self):
@@ -97,6 +98,16 @@ class Scorer:
         for i in range(0, len(pairs), batch):
             self._run(pairs[i:i + batch])
         return (time.perf_counter() - t) / len(pairs) * 1000
+
+
+_SCORERS: dict = {}
+
+
+def scorer(key: str) -> Scorer:
+    """One Scorer (and one loaded model) per key per process."""
+    if key not in _SCORERS:
+        _SCORERS[key] = Scorer(key)
+    return _SCORERS[key]
 
 
 def all_pairs() -> dict[str, list[tuple[str, str]]]:

@@ -1222,3 +1222,30 @@ what the combiner learned negation looks like, so it scores 95.6% on them. A wri
 own words gets caught 6 times in 10. This is the same failure Phase 4 found in paragraphs, on independent
 items, and it is the strongest reason not to trust the machine-set recall as an estimate for students.
 With n = 10, the 60% has a wide uncertainty: a 95% Wilson interval of roughly 31–83%.
+
+### 6.1 Dashboard: a local Streamlit app, under 2 s per pair
+
+`dashboard/app.py`. Start with one command:
+
+```sh
+./venv/bin/streamlit run dashboard/app.py        # http://localhost:8501, CPU only
+```
+
+**Streamlit**, the brief's default. No concrete reason to switch emerged: three views, tables, one
+heatmap, no auth or API needed. The adopted detector loads once (`@st.cache_resource`); per-sentence
+results are cached (`@st.cache_data`). `?view=pair|paragraph|results` (plus `t=` / `s=` for the pair
+view) renders one view directly, which is how the screenshots in 6.6 were taken.
+
+**Latency** (`experiments/f1/dashboard_latency.py` → `results/6_1_latency.json`):
+
+- Setup: everything tab 1 shows (verdict, features, contributions, NLI probabilities, cue scopes,
+  conditional split, generated negations with similarities, affirmations), for 20 unseen pairs. Each pair
+  carries a random token so that nothing is cached. One full warm-up pair runs first.
+- **Result: median 1.12 s, p90 1.16 s, max 1.17 s per pair** on the CPU.
+- The first measurement was **10.5 s per pair**. Profiling showed every call re-reading the shared
+  embedding pickles (~180k vectors, 1.4 s) and reloading the mpnet and NLI models. The fix keeps one
+  model and one cache per process in memory (`variants.embed`, `nli_models.scorer`), and writes caches
+  to disk only for batch jobs (≥ 32 new items).
+- A second measurement read 32 ms because its pairs had been cached by the first. The random token fixes
+  the method, and only the third measurement is reported as the result.
+- Cold start, which loads models and computes the feature medians once, is about 50 s.
